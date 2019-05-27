@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/base_navigation"
+            app:startDestination="@id/ticketListFragment">
+
+    <fragment android:id="@+id/ticketListFragment"
+              android:name="com.teknasyon.desk360.view.fragment.TicketListFragment"
+              android:label="fragment_ticket_list"
+              tools:layout="@layout/fragment_ticket_list">
+
+        <action android:id="@+id/action_ticketListFragment_to_ticketDetailFragment"
+                app:destination="@id/ticketDetailFragment"/>
+    </fragment>
+    <fragment android:id="@+id/ticketDetailFragment"
+              android:name="com.teknasyon.desk360.view.fragment.TicketDetailFragment"
+              android:label="TicketDetailFragment"
+              tools:layout="@layout/fragment_ticket_detail"/>
+</navigation>
