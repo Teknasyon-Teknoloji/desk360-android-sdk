@@ -1,21 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
 
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-        <TextView
-                android:text="TextView"
-                android:background="#000000"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/ticket_name" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.teknasyon.desk360.helper.Desk360ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginBottom="1dp"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <com.teknasyon.desk360.helper.Desk360TextTitle
+            android:id="@+id/ticket_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:letterSpacing="0.01"
+            android:singleLine="true"
+            android:text="TextView"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/ticket_date"
+            app:layout_constraintEnd_toStartOf="@+id/message_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="A paragraph of a support a message a support a message a support a message a support a message " />
+
+        <com.teknasyon.desk360.helper.Desk360TextViewInfo
+            android:id="@+id/ticket_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0.03"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/message_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ticket_name"
+            tools:text="13.11.2018 10:00" />
+
+        <ImageView
+            android:id="@+id/message_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ticket_name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/unread_icon_theme_light" />
+    </com.teknasyon.desk360.helper.Desk360ConstraintLayout>
 </layout>

@@ -8,4 +8,23 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="LightTextLabel" parent="TextAppearance.AppCompat">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@color/light_theme_hint_color</item>
+        <item name="android:textSize">16sp</item>
+        <item name="colorAccent">@color/light_theme_box_stroke_color</item>
+        <item name="colorControlNormal">@color/light_theme_text_color</item>
+        <item name="colorControlActivated">@color/light_theme_box_stroke_color</item>
+    </style>
+
+
+    <style name="DarkTextLabel" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/dark_theme_hint_color2</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+    </style>
+
 </resources>

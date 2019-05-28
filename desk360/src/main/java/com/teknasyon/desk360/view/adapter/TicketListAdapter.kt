@@ -10,7 +10,7 @@ import com.teknasyon.desk360.databinding.TicketListItemBinding
 import com.teknasyon.desk360.model.TicketResponce
 
 class TicketListAdapter(context: Context?, private val ticketList: ArrayList<TicketResponce>) :
-    RecyclerView.Adapter<TicketListAdapter.Holder>() {
+        RecyclerView.Adapter<TicketListAdapter.Holder>() {
     private var context: Context? = null
     private var binding: TicketListItemBinding? = null
     var clickItem: TicketOnClickListener? = null
@@ -22,6 +22,10 @@ class TicketListAdapter(context: Context?, private val ticketList: ArrayList<Tic
     override fun onBindViewHolder(holder: Holder, position: Int) {
         ticketList.let { list ->
             holder.binding.ticketName.text = list[position].name
+            holder.binding.ticketDate.text = list[position].created
+            if (list[position].status == "open") {
+
+            }
             holder.itemView.setOnClickListener {
                 clickItem?.selectTicket(list[position], position)
             }
@@ -30,7 +34,7 @@ class TicketListAdapter(context: Context?, private val ticketList: ArrayList<Tic
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): Holder {
         binding =
-            DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.ticket_list_item, parent, false)
+                DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.ticket_list_item, parent, false)
         return Holder(binding!!)
     }
 
