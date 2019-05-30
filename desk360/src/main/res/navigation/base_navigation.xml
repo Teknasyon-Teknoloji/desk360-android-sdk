@@ -12,9 +12,18 @@
 
         <action android:id="@+id/action_ticketListFragment_to_ticketDetailFragment"
                 app:destination="@id/ticketDetailFragment"/>
+        <action android:id="@+id/action_ticketListFragment_to_addNewTicketFragment"
+                app:destination="@id/addNewTicketFragment"/>
     </fragment>
     <fragment android:id="@+id/ticketDetailFragment"
               android:name="com.teknasyon.desk360.view.fragment.TicketDetailFragment"
               android:label="TicketDetailFragment"
-              tools:layout="@layout/fragment_ticket_detail"/>
+              tools:layout="@layout/fragment_ticket_detail">
+        <action android:id="@+id/action_ticketDetailFragment_to_addNewTicketFragment"
+                app:destination="@id/addNewTicketFragment"/>
+    </fragment>
+    <fragment android:id="@+id/addNewTicketFragment"
+              android:name="com.teknasyon.desk360.view.fragment.AddNewTicketFragment"
+              android:label="AddNewTicketFragment"
+              tools:layout="@layout/add_new_ticket_layout"/>
 </navigation>

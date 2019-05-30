@@ -11,7 +11,7 @@ import com.teknasyon.desk360.R
  * Created by seyfullah on 25,May,2019
  *
  */
-class BaseFragment : Fragment() {
+open class BaseFragment : Fragment() {
     //    var ticketDetailAdapter: TicketListAdapter? = null
 //    private var observer = Observer<ArrayList<TicketReq>> {
 //        if (it != null) {

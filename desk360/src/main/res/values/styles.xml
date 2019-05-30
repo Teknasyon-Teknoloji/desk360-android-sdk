@@ -27,4 +27,13 @@
         <item name="colorControlActivated">@color/white</item>
     </style>
 
+
+    <style name="LightAccent" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
+    <style name="DarkAccent" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/light_theme_text_color</item>
+    </style>
+
 </resources>
