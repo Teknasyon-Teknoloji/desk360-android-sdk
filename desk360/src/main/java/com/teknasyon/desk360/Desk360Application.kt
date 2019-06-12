@@ -1,7 +1,7 @@
 package com.teknasyon.desk360
 
 import android.app.Application
-import com.teknasyon.desk360.helper.AresPreferences
+import com.teknasyon.desk360.helper.Desk360Preferences
 
 /**
  * Created by seyfullah on 23,May,2019
@@ -12,15 +12,15 @@ class Desc360Application : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
-        aresPreferences = AresPreferences()
+        desk360Preferences = Desk360Preferences()
     }
-    fun getAresPreferences(): AresPreferences? {
-        return aresPreferences
+    fun getAresPreferences(): Desk360Preferences? {
+        return desk360Preferences
     }
 
     companion object {
         var INSTANCE: Desc360Application? = null
-        private var aresPreferences: AresPreferences? = null
+        private var desk360Preferences: Desk360Preferences? = null
 
         val instance: Desc360Application
             get() {
