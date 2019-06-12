@@ -16,7 +16,7 @@ import java.util.*
  */
 
 object Desk360Constants {
-    var currentTheme: String = "ligh t"
+    var currentTheme: String = "light"
     var app_key: String? = ""
 
     fun countryCode(): String {
@@ -30,31 +30,6 @@ object Desk360Constants {
             return
         }
 
-//        AsyncTask.execute {
-//            try {
-//                //val adInfo = AdvertisingIdClient.getAdvertisingIdInfo(SmartAlarm.instance)
-//                deviceId = ""//adInfo?.id
-//                if (BuildConfig.DEBUG && SmartAlarm.instance.getDesk360Preferences()?.adId.isNullOrEmpty()) {
-//                    SmartAlarm.instance.getDesk360Preferences()?.adId = Settings.Secure.getString(SmartAlarm.instance.contentResolver,
-//                            Settings.Secure.ANDROID_ID)
-//                    deviceId = SmartAlarm.instance.getDesk360Preferences()?.adId
-//                }
-//                SmartAlarm.instance.getDesk360Preferences()?.adId = (deviceId!!)
-//                Logger.log("AdvertisingId & DeviceID= " + deviceId!!)
-//                startFlow()
-//            } catch (exception: IOException) {
-//                Logger.log("Ad id alınamadı!")
-//            } catch (exception: GooglePlayServicesRepairableException) {
-//                Logger.log("Ad id alınamadı!")
-//            } catch (exception: GooglePlayServicesNotAvailableException) {
-//                Logger.log("Ad id alınamadı!")
-//                if (BuildConfig.DEBUG && SmartAlarm.instance.getDesk360Preferences()?.adId.isNullOrEmpty()) {
-//                    SmartAlarm.instance.getDesk360Preferences()?.adId = Settings.Secure.getString(SmartAlarm.instance.contentResolver,
-//                            Settings.Secure.ANDROID_ID)
-//                    startFlow()
-//                }
-//            }
-//        }
         AsyncTask.execute {
             try {
 
