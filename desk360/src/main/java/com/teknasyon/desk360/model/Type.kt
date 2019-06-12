@@ -5,7 +5,7 @@ package com.teknasyon.desk360.model
  *
  */
 
-class Type() {
+  class Type {
     var id: Int? = null
-    var title: Int? = null
+    var title: String? = null
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.widget.TextView
-import com.teknasyon.desk360.helper.AresConstants.currentTheme
+import com.teknasyon.desk360.helper.Desk360Constants.currentTheme
 
 class Desk360TextSendMessage : TextView {
     init {
@@ -12,7 +12,7 @@ class Desk360TextSendMessage : TextView {
             this.setBackgroundColor(Color.WHITE)
             this.setTextColor(Color.parseColor("#ffffff"))
         } else {
-            this.setBackgroundColor(Color.parseColor("#5b5b5b"))
+            this.setBackgroundColor(Color.parseColor("#2b2b2b"))
             this.setTextColor(Color.parseColor("#000000"))
         }
     }

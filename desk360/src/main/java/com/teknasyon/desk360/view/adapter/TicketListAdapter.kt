@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.TicketListItemBinding
 import com.teknasyon.desk360.model.TicketResponse
+import kotlinx.android.synthetic.main.ticket_list_item.view.*
 
 class TicketListAdapter(context: Context?, private val ticketList: ArrayList<TicketResponse>) :
     RecyclerView.Adapter<TicketListAdapter.Holder>() {
@@ -21,26 +22,25 @@ class TicketListAdapter(context: Context?, private val ticketList: ArrayList<Tic
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        ticketList.let { list ->
-            holder.binding.ticketName.text = list[position].name
-            holder.binding.ticketDate.text = list[position].created
-            holder.binding.ticketName.setTypeface(null, Typeface.NORMAL)
+        with(holder.itemView) {
+            ticket_subject.text = ticketList[position].subject
+            ticket_date.text = ticketList[position].created
+            ticket_subject.setTypeface(null, Typeface.NORMAL)
             when {
-                list[position].status == "open" -> {
+                ticketList[position].status == "read" -> {
+                    message_status.setImageResource(R.drawable.read_icon_theme_dark)
                 }
-                list[position].status == "read" -> {
-                    binding?.messageStatus?.setImageResource(R.drawable.read_icon_theme_dark)
-                }
-                list[position].status == "unread" -> {
-                    binding?.messageStatus?.setImageResource(R.drawable.unread_icon_theme_dark)
-                    holder.binding.ticketName.setTypeface(null, Typeface.BOLD)
+                ticketList[position].status == "unread" -> {
+                    message_status.setImageResource(R.drawable.unread_icon_theme_dark)
+                    ticket_subject.setTypeface(null, Typeface.BOLD)
                 }
                 else -> {
+                    message_status.setImageResource(android.R.color.transparent)
                 }
             }
 
-            holder.itemView.setOnClickListener {
-                clickItem?.selectTicket(list[position], position)
+            setOnClickListener {
+                clickItem?.selectTicket(ticketList[position], position)
             }
         }
     }
@@ -56,8 +56,7 @@ class TicketListAdapter(context: Context?, private val ticketList: ArrayList<Tic
         return ticketList.size
     }
 
-    class Holder(internal val binding: TicketListItemBinding) : RecyclerView.ViewHolder(binding.root.rootView)
-
+    class Holder(internal val binding: TicketListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     interface TicketOnClickListener {
         fun selectTicket(item: TicketResponse, position: Int)

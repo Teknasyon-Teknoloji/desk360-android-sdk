@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentTicketListBinding
 import com.teknasyon.desk360.model.TicketResponse
+import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.TicketListAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 
@@ -23,10 +24,10 @@ import com.teknasyon.desk360.viewmodel.TicketListViewModel
 
 class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListener {
 
-
     private var ticketAdapter: TicketListAdapter? = null
-    private var observer = Observer<ArrayList<TicketResponse>>
-    {
+    private var observer = Observer<ArrayList<TicketResponse>> {
+        binding?.loadingProgress?.visibility = View.INVISIBLE
+
         if (it != null) {
             ticketAdapter = TicketListAdapter(context, it)
             binding?.ticketList?.layoutManager = LinearLayoutManager(context)
@@ -34,6 +35,7 @@ class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListener {
             ticketAdapter?.clickItem = this
         } else {
             binding?.emptyListLayout?.visibility = View.VISIBLE
+            (activity as Desk360BaseActivity).title = "Bize Ulaşın"
         }
     }
 
@@ -45,9 +47,11 @@ class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListener {
             item.id?.let { it1 -> bundle.putInt("ticket_id", it1) }
             bundle.putString("ticket_status", item.status.toString())
 
+            (activity as Desk360BaseActivity).userRegistered = false
+
             Navigation
-                .findNavController(it)
-                .navigate(R.id.action_ticketListFragment_to_ticketDetailFragment, bundle)
+                    .findNavController(it)
+                    .navigate(R.id.action_ticketListFragment_to_ticketDetailFragment, bundle)
         }
     }
 
@@ -60,16 +64,22 @@ class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = TicketListViewModel()
+        binding?.loadingProgress?.visibility = View.VISIBLE
         viewModel?.ticketList?.observe(this, observer)
         binding?.emptyListLayout?.setOnClickListener {
             Navigation
-                .findNavController(it)
-                .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment, null)
+                    .findNavController(it)
+                    .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment, null)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel?.ticketList?.removeObserver(observer)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as Desk360BaseActivity).userRegistered = true
     }
 }
