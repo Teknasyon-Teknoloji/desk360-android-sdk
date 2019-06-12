@@ -7,6 +7,9 @@ import com.teknasyon.desk360.connection.RetrofitFactory
 import com.teknasyon.desk360.model.Message
 import com.teknasyon.desk360.model.MessageResponse
 import com.teknasyon.desk360.model.TickeMessage
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 
@@ -26,7 +29,10 @@ class TicketDetailViewModel(val ticketId: Int = -1) : ViewModel() {
     var addMessageItem: MutableLiveData<Message> = MutableLiveData()
 
     init {
-        getTicketById()
+        GlobalScope.launch {
+            delay(300)
+            getTicketById()
+        }
     }
 
     private fun getTicketById() {
