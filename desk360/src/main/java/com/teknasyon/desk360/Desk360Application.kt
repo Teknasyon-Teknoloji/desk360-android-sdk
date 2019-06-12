@@ -8,7 +8,7 @@ import com.teknasyon.desk360.helper.Desk360Preferences
  *
  */
 
-class Desc360Application : Application() {
+class Desk360Application : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
@@ -19,15 +19,15 @@ class Desc360Application : Application() {
     }
 
     companion object {
-        var INSTANCE: Desc360Application? = null
+        var INSTANCE: Desk360Application? = null
         private var desk360Preferences: Desk360Preferences? = null
 
-        val instance: Desc360Application
+        val instance: Desk360Application
             get() {
                 if (INSTANCE == null) {
-                    INSTANCE = Desc360Application()
+                    INSTANCE = Desk360Application()
                 }
-                return INSTANCE as Desc360Application
+                return INSTANCE as Desk360Application
             }
     }
 }
