@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.teknasyon.desk360.helper.AresConstants.currentTheme
+import com.teknasyon.desk360.helper.Desk360Constants.currentTheme
 
 /**
  * Created by seyfullah on 27,May,2019
@@ -16,7 +16,7 @@ class Desk360ConstraintLayout : ConstraintLayout {
         if (currentTheme == "light")
             this.setBackgroundColor(Color.WHITE)
         else
-            this.setBackgroundColor(Color.parseColor("#5b5b5b"))
+            this.setBackgroundColor(Color.parseColor("#2b2b2b"))
     }
 
     constructor(context: Context) : super(context)
