@@ -7,6 +7,7 @@
     <color name="light_theme_box_stroke_color">#58b0fa</color>
     <color name="light_theme_hint_color">#707070</color>
     <color name="light_theme_text_color">#de000000</color>
+    <color name="dark_theme_toolbar_bg_color">#000000</color>
     <color name="white">#ffffff</color>
     <color name="light_theme_send_bg_color">#436091</color>
     <color name="light_theme_incoming_bg_color">#F0EFEF</color>
