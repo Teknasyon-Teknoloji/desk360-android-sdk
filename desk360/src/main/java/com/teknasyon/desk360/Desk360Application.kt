@@ -14,7 +14,7 @@ class Desk360Application : Application() {
         INSTANCE = this
         desk360Preferences = Desk360Preferences()
     }
-    fun getAresPreferences(): Desk360Preferences? {
+    fun getDesk360Preferences(): Desk360Preferences? {
         return desk360Preferences
     }
 
