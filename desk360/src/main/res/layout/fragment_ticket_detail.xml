@@ -35,7 +35,7 @@
                 android:layout_marginBottom="24dp"
                 android:gravity="center"
                 android:text="YENİ TALEP EKLE"
-                android:visibility="visible"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
                 android:layout_marginBottom="0dp"
                 android:minHeight="80dp"
                 android:orientation="horizontal"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -65,18 +65,21 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:layout_marginStart="26dp"
+                    android:imeOptions="actionDone"
                     android:hint="Mesaj Yaz..."
                     android:inputType="textCapSentences|textMultiLine"
                     android:isScrollContainer="true"
-                    android:maxLines="3"
-                    android:textSize="18sp" android:layout_marginLeft="26dp"/>
+                    android:maxLines="6"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="26dp"/>
 
             <com.teknasyon.desk360.helper.Desk360SendMessageView
                     android:id="@+id/add_new_message_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_margin="16dp"
+                    android:layout_marginRight="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
         </com.teknasyon.desk360.helper.Desk360SendMessageLayoutView>

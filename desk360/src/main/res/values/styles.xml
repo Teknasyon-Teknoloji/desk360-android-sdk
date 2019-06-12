@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/white</item>
     </style>
 
     <style name="LightTextLabel" parent="TextAppearance.AppCompat">
@@ -17,7 +17,6 @@
         <item name="colorControlActivated">@color/light_theme_box_stroke_color</item>
     </style>
 
-
     <style name="DarkTextLabel" parent="TextAppearance.AppCompat">
         <item name="android:textColorHint">@color/dark_theme_hint_color2</item>
         <item name="android:textSize">16sp</item>
@@ -27,13 +26,25 @@
         <item name="colorControlActivated">@color/white</item>
     </style>
 
-
     <style name="LightAccent" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorAccent">@color/white</item>
     </style>
 
     <style name="DarkAccent" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorAccent">@color/light_theme_text_color</item>
+    </style>
+
+    <style name="LightThemeToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">#212121</item>
+    </style>
+
+    <style name="DarkThemeToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <item name="colorPrimary">@color/dark_theme_toolbar_bg_color</item>
+        <item name="colorAccent">@color/dark_theme_toolbar_bg_color</item>
+        <item name="colorControlNormal">#ffffff</item>
     </style>
 
 </resources>
