@@ -14,15 +14,13 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Desk360Constants.app_key = "123456"
-        Desk360Constants.currentTheme = "light "
         openContact = findViewById(R.id.openContactUs)
 
         openContact?.setOnClickListener { setupNavigation() }
-
     }
 
     private fun setupNavigation() {
+        Desk360Constants.desk360Config(current_theme = "dark", app_key = "123456" )
         startActivity(Intent(this, Desk360BaseActivity::class.java))
     }
 }
