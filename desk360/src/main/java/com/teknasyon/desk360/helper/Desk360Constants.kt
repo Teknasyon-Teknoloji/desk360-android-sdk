@@ -1,13 +1,9 @@
 package com.teknasyon.desk360.helper
 
 import android.content.Context
-import android.os.AsyncTask
+import android.os.Build
 import android.telephony.TelephonyManager
-import com.google.android.gms.ads.identifier.AdvertisingIdClient
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException
-import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.teknasyon.desk360.Desk360Application
-import java.io.IOException
 import java.util.*
 
 
@@ -17,32 +13,42 @@ import java.util.*
 
 object Desk360Constants {
     var currentTheme: String = "light"
-    var app_key: String? = ""
+    var appKeyLocaly: String? = ""
+
+    fun desk360Config(current_theme: String, app_key: String, device_token: String? = null): Boolean {
+        if (current_theme == "")
+            return false
+        if (app_key == "")
+            return false
+        if (device_token != null && device_token != "")
+            Desk360Application.instance.getDesk360Preferences()?.adId = device_token
+        this.currentTheme = current_theme
+        appKeyLocaly = app_key
+        return true
+    }
 
     fun countryCode(): String {
         val tm = Desk360Application.instance.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         return if (tm.networkCountryIso != null && tm.networkCountryIso != "") tm.networkCountryIso else Locale.getDefault().country
     }
 
+    /**
+     * Generated a unique [deviceId]
+     *
+     */
     fun getDeviceId() {
         val devicesId = Desk360Application.instance.getDesk360Preferences()?.adId
         if (devicesId != null && devicesId != "") {
             return
         }
 
-        AsyncTask.execute {
-            try {
+        val date = Date()
+        date.time
 
-                val adInfo = AdvertisingIdClient.getAdvertisingIdInfo(Desk360Application.instance)
-                val deviceId = adInfo?.id
-                deviceId.let {
-                    Desk360Application.instance.getDesk360Preferences()!!.adId = it!!
-                }
+        val deviceId = date.time.toString() + Build.VERSION.SDK_INT + "-" + Build.VERSION.INCREMENTAL + Build.MODEL
 
-            } catch (exception: IOException) {
-            } catch (exception: GooglePlayServicesRepairableException) {
-            } catch (exception: GooglePlayServicesNotAvailableException) {
-            }
+        deviceId.let {
+            Desk360Application.instance.getDesk360Preferences()!!.adId = it
         }
     }
 }
