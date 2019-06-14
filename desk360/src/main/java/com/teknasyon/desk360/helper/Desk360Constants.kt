@@ -13,7 +13,7 @@ import java.util.*
 
 object Desk360Constants {
     var currentTheme: String = "light"
-    var appKeyLocaly: String? = ""
+    var app_key: String? = ""
 
     fun desk360Config(current_theme: String, app_key: String, device_token: String? = null): Boolean {
         if (current_theme == "")
@@ -23,7 +23,7 @@ object Desk360Constants {
         if (device_token != null && device_token != "")
             Desk360Application.instance.getDesk360Preferences()?.adId = device_token
         this.currentTheme = current_theme
-        appKeyLocaly = app_key
+        this.app_key = app_key
         return true
     }
 
