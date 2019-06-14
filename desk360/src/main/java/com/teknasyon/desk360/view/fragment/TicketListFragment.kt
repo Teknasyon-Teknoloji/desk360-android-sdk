@@ -28,7 +28,7 @@ open class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListe
     private var observer = Observer<ArrayList<TicketResponse>> {
         binding?.loadingProgress?.visibility = View.INVISIBLE
 
-        if (it != null) {
+        if (it.size != 0) {
             ticketAdapter = TicketListAdapter(context, it)
             binding?.ticketList?.layoutManager = LinearLayoutManager(context)
             binding?.ticketList?.adapter = ticketAdapter
@@ -50,8 +50,8 @@ open class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListe
             (activity as Desk360BaseActivity).userRegistered = false
 
             Navigation
-                    .findNavController(it)
-                    .navigate(R.id.action_ticketListFragment_to_ticketDetailFragment, bundle)
+                .findNavController(it)
+                .navigate(R.id.action_ticketListFragment_to_ticketDetailFragment, bundle)
         }
     }
 
@@ -66,10 +66,10 @@ open class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListe
         viewModel = TicketListViewModel()
         binding?.loadingProgress?.visibility = View.VISIBLE
         viewModel?.ticketList?.observe(this, observer)
-        binding?.emptyListLayout?.setOnClickListener {
+        binding?.emptysAddNewTicketButton?.setOnClickListener {
             Navigation
-                    .findNavController(it)
-                    .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment, null)
+                .findNavController(it)
+                .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment, null)
         }
     }
 

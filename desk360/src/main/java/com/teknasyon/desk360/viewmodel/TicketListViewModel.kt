@@ -67,6 +67,4 @@ open class TicketListViewModel : ViewModel() {
                 }
             })
     }
-
-
 }
