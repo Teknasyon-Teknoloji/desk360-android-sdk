@@ -22,7 +22,7 @@ import java.util.*
  *
  */
 
-class TicketListViewModel : ViewModel() {
+open class TicketListViewModel : ViewModel() {
     var ticketList: MutableLiveData<ArrayList<TicketResponse>>? = MutableLiveData()
 
     init {

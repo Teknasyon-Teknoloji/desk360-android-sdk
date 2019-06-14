@@ -22,7 +22,7 @@ import com.teknasyon.desk360.viewmodel.TicketListViewModel
  *
  */
 
-class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListener {
+open class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListener {
 
     private var ticketAdapter: TicketListAdapter? = null
     private var observer = Observer<ArrayList<TicketResponse>> {

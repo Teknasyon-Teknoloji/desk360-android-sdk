@@ -29,7 +29,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by seyfullah on 25,May,2019
  *
  */
-class TicketDetailFragment : Fragment() {
+open class TicketDetailFragment : Fragment() {
     private var binding: FragmentTicketDetailBinding? = null
     private var ticketDetailAdapter: TicketDetailListAdapter? = null
 

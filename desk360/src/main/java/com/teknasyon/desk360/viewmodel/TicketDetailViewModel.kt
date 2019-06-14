@@ -20,10 +20,11 @@ import retrofit2.Response
 
 /**
  * Example local unit test, which will execute on the development machine (host).
- * @author seyfo
+ * @author seyfullah polat
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-class TicketDetailViewModel(val ticketId: Int = -1) : ViewModel() {
+
+open class TicketDetailViewModel(val ticketId: Int = -1) : ViewModel() {
 
     var ticketDetailList: MutableLiveData<ArrayList<Message>>? = MutableLiveData()
     var addMessageItem: MutableLiveData<Message> = MutableLiveData()

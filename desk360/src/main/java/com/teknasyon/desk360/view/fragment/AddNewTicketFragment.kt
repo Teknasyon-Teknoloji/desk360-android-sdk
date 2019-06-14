@@ -25,7 +25,7 @@ import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
  *
  */
 
-class AddNewTicketFragment : Fragment() {
+open class AddNewTicketFragment : Fragment() {
 
     private var viewModel: AddNewTicketViewModel? = null
 

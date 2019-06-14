@@ -24,7 +24,7 @@ import java.util.regex.Pattern
  *
  */
 
-class AddNewTicketViewModel : ViewModel() {
+open class AddNewTicketViewModel : ViewModel() {
     var typeList: MutableLiveData<ArrayList<Type>>? = MutableLiveData()
     var addedTicket: MutableLiveData<String> = MutableLiveData()
     private val ticketItem = TicketReq()
