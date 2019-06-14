@@ -18,7 +18,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
 import kotlinx.android.synthetic.main.fragment_main.*
 
 
-class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
+open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     private var localMenu: Menu? = null
     var userRegistered = true
