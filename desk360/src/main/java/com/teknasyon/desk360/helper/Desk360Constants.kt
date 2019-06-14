@@ -3,7 +3,6 @@ package com.teknasyon.desk360.helper
 import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
-import com.teknasyon.desk360.Desk360Application
 import java.util.*
 
 
@@ -21,14 +20,14 @@ object Desk360Constants {
         if (app_key == "")
             return false
         if (device_token != null && device_token != "")
-            Desk360Application.instance.getDesk360Preferences()?.adId = device_token
+            Desk360Config.instance.getDesk360Preferences()?.adId = device_token
         this.currentTheme = current_theme
         this.app_key = app_key
         return true
     }
 
     fun countryCode(): String {
-        val tm = Desk360Application.instance.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val tm = Desk360Config.instance.context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         return if (tm.networkCountryIso != null && tm.networkCountryIso != "") tm.networkCountryIso else Locale.getDefault().country
     }
 
@@ -37,7 +36,7 @@ object Desk360Constants {
      *
      */
     fun getDeviceId() {
-        val devicesId = Desk360Application.instance.getDesk360Preferences()?.adId
+        val devicesId = Desk360Config.instance.getDesk360Preferences()?.adId
         if (devicesId != null && devicesId != "") {
             return
         }
@@ -48,7 +47,8 @@ object Desk360Constants {
         val deviceId = date.time.toString() + Build.VERSION.SDK_INT + "-" + Build.VERSION.INCREMENTAL + Build.MODEL
 
         deviceId.let {
-            Desk360Application.instance.getDesk360Preferences()!!.adId = it
+            Desk360Config.instance.getDesk360Preferences()!!.adId = it
         }
     }
+
 }

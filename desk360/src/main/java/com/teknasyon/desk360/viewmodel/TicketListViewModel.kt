@@ -2,9 +2,9 @@ package com.teknasyon.desk360.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.teknasyon.desk360.Desk360Application
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.RetrofitFactory
+import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.model.Register
 import com.teknasyon.desk360.model.RegisterResponse
@@ -52,7 +52,7 @@ class TicketListViewModel : ViewModel() {
     private fun register() {
         val register = Register()
         register.app_key = Desk360Constants.app_key
-        register.device_id = Desk360Application.instance.getDesk360Preferences()?.adId
+        register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId
         RetrofitFactory.instance.sslService.register(register)
             .enqueue(object : BaseCallback<RegisterResponse>() {
                 override fun onResponseSuccess(
@@ -60,8 +60,8 @@ class TicketListViewModel : ViewModel() {
                     response: Response<RegisterResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
-                        Desk360Application.instance.getDesk360Preferences()?.data = response.body()!!.data
-                        Desk360Application.instance.getDesk360Preferences()?.meta = response.body()!!.meta
+                        Desk360Config.instance.getDesk360Preferences()?.data = response.body()!!.data
+                        Desk360Config.instance.getDesk360Preferences()?.meta = response.body()!!.meta
                         getTicketList()
                     }
                 }

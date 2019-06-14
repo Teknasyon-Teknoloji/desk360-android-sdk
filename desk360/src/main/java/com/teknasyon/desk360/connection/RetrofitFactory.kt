@@ -1,7 +1,7 @@
 package com.teknasyon.desk360.connection
 
 import com.teknasyon.desk360.BuildConfig
-import com.teknasyon.desk360.Desk360Application
+import com.teknasyon.desk360.helper.Desk360Config
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -30,7 +30,7 @@ class RetrofitFactory private constructor() {
         httpClientWithHeader.addInterceptor { chain ->
             var request = chain.request()
             request = request.newBuilder().apply {
-                Desk360Application.instance.getDesk360Preferences()?.data?.access_token.let {
+                Desk360Config.instance.getDesk360Preferences()?.data?.access_token.let {
                     addHeader("Authorization", "Bearer $it")
                 }
             }.build()

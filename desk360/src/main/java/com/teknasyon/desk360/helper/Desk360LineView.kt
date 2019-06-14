@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.widget.TextView
-import com.teknasyon.desk360.R
 import com.teknasyon.desk360.helper.Desk360Constants.currentTheme
 
 class Desk360LineView: TextView {

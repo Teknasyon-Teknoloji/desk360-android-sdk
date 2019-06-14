@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
+import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 
@@ -20,7 +21,8 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     private fun setupNavigation() {
-        Desk360Constants.desk360Config(current_theme = "dark", app_key = "123456" )
+        Desk360Config().context = this
+        Desk360Constants.desk360Config(current_theme = "dark", app_key = "123456")
         startActivity(Intent(this, Desk360BaseActivity::class.java))
     }
 }

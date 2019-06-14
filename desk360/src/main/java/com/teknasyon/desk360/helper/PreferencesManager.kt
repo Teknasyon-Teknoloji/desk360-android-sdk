@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.teknasyon.desk360.Desk360Application
 import java.lang.reflect.Type
 
 open class PreferencesManager {
@@ -12,7 +11,7 @@ open class PreferencesManager {
     private val gson: Gson
 
     init {
-        preferences = Desk360Application.instance.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+        preferences = Desk360Config.instance.context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)!!
         gson = Gson()
     }
 
