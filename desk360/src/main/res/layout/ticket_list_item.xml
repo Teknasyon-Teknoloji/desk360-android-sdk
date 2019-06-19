@@ -24,13 +24,12 @@
                 android:letterSpacing="0.01"
                 android:singleLine="true"
                 android:textStyle="bold"
-                android:text="TextView"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/ticket_date"
                 app:layout_constraintEnd_toStartOf="@+id/message_status"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="A paragraph of a support a message a support a message a support a message a support a message "/>
+                />
 
         <com.teknasyon.desk360.helper.Desk360TextViewInfo
                 android:id="@+id/ticket_date"
@@ -47,7 +46,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/message_status"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ticket_subject"
-                tools:text="13.11.2018 10:00"/>
+                />
 
         <ImageView
                 android:id="@+id/message_status"

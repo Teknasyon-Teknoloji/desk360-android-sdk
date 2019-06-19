@@ -5,8 +5,10 @@ import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.BR
+import com.teknasyon.desk360.R
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.RetrofitFactory
+import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.model.NewSupportResponse
 import com.teknasyon.desk360.model.TicketReq
@@ -107,13 +109,6 @@ open class AddNewTicketViewModel : ViewModel() {
     }
 
     inner class NewSupportObservable : BaseObservable() {
-        val nameHintText: String?
-            @Bindable
-            get() = "İsim Soyisim"
-
-        val mailHintText: String?
-            @Bindable
-            get() = "E-Mail"
 
         val subjectHintText: String?
             @Bindable
