@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">OK</string>
+    <string name="CANCEL_BUTTON">Annuler</string>
+    <string name="UPDATE_BUTTON">Mettre à jour</string>
+    <string name="DELETE_BUTTON">Supprimer</string>
+    <string name="TRY_AGAIN_BUTTON">Recommencez</string>
+    <string name="MAINTENACE_ALERT_TITLE">En maintenance. Veuillez réessayer plus tard</string>
+    <string name="CONTACT_US_TITLE">Contactez-nous</string>
+    <string name="NAME_FIELD">Votre nom complet</string>
+    <string name="EMAIL_FIELD">Votre adresse email</string>
+    <string name="USER_MESSAGE">Votre message</string>
+    <string name="SEND_MESSAGE">Message envoyé</string>
+    <string name="SEND_BUTTON">Envoyer</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">Vous n\'avez encore effectué aucun appel d\'assistance.</string>
+    <string name="CREATE_SUPPORT">Créer une tâche de support</string>
+    <string name="CONTINUE_BUTTON">Continuer</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Perte de connexion réseau, veuillez réessayer plus tard.</string>
+    <string name="SUPPORT_TYPE">Sorte</string>
+    <string name="SUBSCRIPTION_TITLE">Abonnement</string>
+    <string name="FEATURES_TITLE">Fonctions</string>
+    <string name="REPORT_ISSUE">Signaler un problème</string>
+    <string name="COMMENTS_TITLE">Commentaire/Suggestion</string>
+    <string name="OTHERS_TITLE">Autre</string>
+    <string name="FIELD_REGEX_MESSAGE">Veuillez remplir les champs vides</string>
+    <string name="SUPPORT_TITLE">Mes tâches de support</string>
+    <string name="EMAIL_REGEX">Veuillez écrire une adresse e-mail valide.</string>
+</resources>

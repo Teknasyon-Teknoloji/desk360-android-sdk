@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">desk360</string>
+    <string name="ok_button">Ok</string>
+    <string name="CANCEL_BUTTON">Cancel</string>
+    <string name="UPDATE_BUTTON">Update</string>
+    <string name="DELETE_BUTTON">Delete</string>
+    <string name="TRY_AGAIN_BUTTON">Try Again</string>
+    <string name="MAINTENACE_ALERT_TITLE">Under Maintenance</string>
+    <string name="CONTACT_US_TITLE">Contact Us</string>
+    <string name="NAME_FIELD">Name Surname</string>
+    <string name="EMAIL_FIELD">Email Adress</string>
+    <string name="USER_MESSAGE">Your Message</string>
+    <string name="SEND_MESSAGE">Message Sent</string>
+    <string name="SEND_BUTTON">Send</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">You have made no support calls yet</string>
+    <string name="CREATE_SUPPORT">Create A Support Task</string>
+    <string name="CONTINUE_BUTTON">Continue</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Network connection failed, please try again.</string>
+    <string name="SUPPORT_TYPE">Type</string>
+    <string name="SUBSCRIPTION_TITLE">Subscription</string>
+    <string name="FEATURES_TITLE">Features</string>
+    <string name="REPORT_ISSUE">Report a problem</string>
+    <string name="COMMENTS_TITLE">Comment/Suggestion</string>
+    <string name="OTHERS_TITLE">Other</string>
+    <string name="FIELD_REGEX_MESSAGE">Please fill in the required fields</string>
+    <string name="SUPPORT_TITLE">My Support Tasks</string>
+    <string name="EMAIL_REGEX">Please enter a valid e-mail address</string>
+
+
 </resources>

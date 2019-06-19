@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">OK</string>
+    <string name="CANCEL_BUTTON">Annulla</string>
+    <string name="UPDATE_BUTTON">Aggiornare</string>
+    <string name="DELETE_BUTTON">Elimina</string>
+    <string name="TRY_AGAIN_BUTTON">Riprova</string>
+    <string name="MAINTENACE_ALERT_TITLE">In manutenzione. Riprova più tardi</string>
+    <string name="CONTACT_US_TITLE">Contattaci</string>
+    <string name="NAME_FIELD">Nome e cognome</string>
+    <string name="EMAIL_FIELD">Indirizzo email</string>
+    <string name="USER_MESSAGE">Il tuo messaggio</string>
+    <string name="SEND_MESSAGE">Messaggio inviato</string>
+    <string name="SEND_BUTTON">Invia</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">Non hai ancora effettuato una chiamata all\'assistenza.</string>
+    <string name="CREATE_SUPPORT">Crea un compito di assistenza</string>
+    <string name="CONTINUE_BUTTON">Continua</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Connessione di rete fallita, riprova.</string>
+    <string name="SUPPORT_TYPE">Tipo</string>
+    <string name="SUBSCRIPTION_TITLE">Iscrizione</string>
+    <string name="FEATURES_TITLE">Funzioni</string>
+    <string name="REPORT_ISSUE">Segnala un problema</string>
+    <string name="COMMENTS_TITLE">Commenti/Consigli</string>
+    <string name="OTHERS_TITLE">Altro</string>
+    <string name="FIELD_REGEX_MESSAGE">Riempi i campi</string>
+    <string name="SUPPORT_TITLE">I miei compiti di assistenza</string>
+    <string name="EMAIL_REGEX">Si prega di scrivere un indirizzo e-mail valido.</string>
+</resources>

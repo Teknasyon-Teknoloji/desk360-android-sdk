@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">OK</string>
+    <string name="CANCEL_BUTTON">Zrušit</string>
+    <string name="UPDATE_BUTTON">Aktualizovat</string>
+    <string name="DELETE_BUTTON">Odstranit</string>
+    <string name="TRY_AGAIN_BUTTON">Opakujte</string>
+    <string name="MAINTENACE_ALERT_TITLE">Probíhá údržba. Opakujte akci později</string>
+    <string name="CONTACT_US_TITLE">Kontaktujte nás</string>
+    <string name="NAME_FIELD">Vaše celé jméno</string>
+    <string name="EMAIL_FIELD">Vaše e-mailová adresa</string>
+    <string name="USER_MESSAGE">Vaše zpráva</string>
+    <string name="SEND_MESSAGE">Zpráva odeslána</string>
+    <string name="SEND_BUTTON">Odeslat</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">Doposud jste neprovedli žádný hovor pro podporu.</string>
+    <string name="CREATE_SUPPORT">Vytvořit úkol pro podporu</string>
+    <string name="CONTINUE_BUTTON">Pokračovat</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Připojení k síti selhalo, prosím, zkuste to znovu.</string>
+    <string name="SUPPORT_TYPE">Typ</string>
+    <string name="SUBSCRIPTION_TITLE">Předplatné</string>
+    <string name="FEATURES_TITLE">Funkce</string>
+    <string name="REPORT_ISSUE">Náhlásit problém</string>
+    <string name="COMMENTS_TITLE">Komentář/návrh</string>
+    <string name="OTHERS_TITLE">Ostatní</string>
+    <string name="FIELD_REGEX_MESSAGE">Vyplňte prosím prázdná místa</string>
+    <string name="SUPPORT_TITLE">Mé úkoly pro podporu</string>
+    <string name="EMAIL_REGEX">Uveďte platnou e-mailovou adresu.</string>
+</resources>

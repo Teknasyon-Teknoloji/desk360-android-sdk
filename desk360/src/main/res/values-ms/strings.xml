@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">OK</string>
+    <string name="CANCEL_BUTTON">Batal</string>
+    <string name="UPDATE_BUTTON">Untuk mengemaskini</string>
+    <string name="DELETE_BUTTON">Padam</string>
+    <string name="TRY_AGAIN_BUTTON">Cuba semula</string>
+    <string name="MAINTENACE_ALERT_TITLE">Dalam penyenggaraan. Sila cuba lagi kemudian</string>
+    <string name="CONTACT_US_TITLE">Hubungi Kami</string>
+    <string name="NAME_FIELD">Nama penuh anda</string>
+    <string name="EMAIL_FIELD">Alamat e-mel anda</string>
+    <string name="USER_MESSAGE">Pesanan anda</string>
+    <string name="SEND_MESSAGE">Pesanan dihantar</string>
+    <string name="SEND_BUTTON">Hantar</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">Anda masih belum melakukan apa-apa panggilan sokongan.</string>
+    <string name="CREATE_SUPPORT">Cipta tugasan sokongan</string>
+    <string name="CONTINUE_BUTTON">Teruskan</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Sambungan jaringan gagal, sila cuba lagi.</string>
+    <string name="SUPPORT_TYPE">Jenis</string>
+    <string name="SUBSCRIPTION_TITLE">Langganan</string>
+    <string name="FEATURES_TITLE">Ciri</string>
+    <string name="REPORT_ISSUE">Laporkan masalah</string>
+    <string name="COMMENTS_TITLE">Komen/Cadangan</string>
+    <string name="OTHERS_TITLE">Lain-lain</string>
+    <string name="FIELD_REGEX_MESSAGE">Sila isikan kekosongan</string>
+    <string name="SUPPORT_TITLE">Tugasan sokongan saya</string>
+    <string name="EMAIL_REGEX">Sila tulis alamat e-mel yang sah.</string>
+</resources>

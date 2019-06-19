@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">حسنًا</string>
+    <string name="CANCEL_BUTTON">إلغاء</string>
+    <string name="UPDATE_BUTTON">للتحديث</string>
+    <string name="DELETE_BUTTON">حذف</string>
+    <string name="TRY_AGAIN_BUTTON">إعادة المحاولة</string>
+    <string name="MAINTENACE_ALERT_TITLE">تحت الصيانة. يرجى إعادة المحاولة لاحقا</string>
+    <string name="CONTACT_US_TITLE">اتصل بنا</string>
+    <string name="NAME_FIELD">اسمك الكامل</string>
+    <string name="EMAIL_FIELD">عنوان بريدك الإلكتروني</string>
+    <string name="USER_MESSAGE">رسالتك</string>
+    <string name="SEND_MESSAGE">تم إرسال الرسالة</string>
+    <string name="SEND_BUTTON">إرسال</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">لم تتصل بالدعم بعد.</string>
+    <string name="CREATE_SUPPORT">إنشاء مهمة دعم</string>
+    <string name="CONTINUE_BUTTON">استمرار</string>
+    <string name="CONNECTION_ERROR_MESSAGE">فشل اتصال الشبكة ، يرجى المحاولة مرة أخرى.</string>
+    <string name="SUPPORT_TYPE">" نوع"</string>
+    <string name="SUBSCRIPTION_TITLE">" اشتراك"</string>
+    <string name="FEATURES_TITLE">" المميزات"</string>
+    <string name="REPORT_ISSUE">" الإبلاغ عن مشكلة"</string>
+    <string name="COMMENTS_TITLE">" تعليق / اقتراح"</string>
+    <string name="OTHERS_TITLE">" آخر"</string>
+    <string name="FIELD_REGEX_MESSAGE">يرجى ملئ الفراغات</string>
+    <string name="SUPPORT_TITLE">مهام الدعم الخاصة بي</string>
+    <string name="EMAIL_REGEX">يرجى كتابة عنوان بريد إلكتروني صالح</string>
+</resources>

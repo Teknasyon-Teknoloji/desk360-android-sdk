@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">ОК</string>
+    <string name="CANCEL_BUTTON">Отмена</string>
+    <string name="UPDATE_BUTTON">Обновить</string>
+    <string name="DELETE_BUTTON">Удалить</string>
+    <string name="TRY_AGAIN_BUTTON">снова пробовать</string>
+    <string name="MAINTENACE_ALERT_TITLE">Выполняется техобслуживание. Повторите попытку позже</string>
+    <string name="CONTACT_US_TITLE">Наши контакты</string>
+    <string name="NAME_FIELD">Ваше полное имя</string>
+    <string name="EMAIL_FIELD">Ваш адрес электронной почты</string>
+    <string name="USER_MESSAGE">Ваше сообщение</string>
+    <string name="SEND_MESSAGE">Сообщение отправлено</string>
+    <string name="SEND_BUTTON">Отправить</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">Вы пока еще не направляли запрос о поддержке.</string>
+    <string name="CREATE_SUPPORT">Создать задачу поддержки</string>
+    <string name="CONTINUE_BUTTON">Продолжить</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Произошла ошибка подключения, пожалуйста, попробуйте еще раз.</string>
+    <string name="SUPPORT_TYPE">Вид</string>
+    <string name="SUBSCRIPTION_TITLE">Подписка</string>
+    <string name="FEATURES_TITLE">Характеристики</string>
+    <string name="REPORT_ISSUE">Сообщить о проблеме</string>
+    <string name="COMMENTS_TITLE">Комментарии / Предложения</string>
+    <string name="OTHERS_TITLE">Другое</string>
+    <string name="FIELD_REGEX_MESSAGE">Заполните пустые поля</string>
+    <string name="SUPPORT_TITLE">Мои задачи поддержки</string>
+    <string name="EMAIL_REGEX">Укажите действительный адрес эл. почты.</string>
+</resources>

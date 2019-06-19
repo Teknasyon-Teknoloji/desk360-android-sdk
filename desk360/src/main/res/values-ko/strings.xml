@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">허용</string>
+    <string name="CANCEL_BUTTON">취소</string>
+    <string name="UPDATE_BUTTON">업데이트</string>
+    <string name="DELETE_BUTTON"> 삭제</string>
+    <string name="TRY_AGAIN_BUTTON">다시 해 보다</string>
+    <string name="MAINTENACE_ALERT_TITLE">점검중. 나중에 다시 시도해주십시오</string>
+    <string name="CONTACT_US_TITLE">문의하기</string>
+    <string name="NAME_FIELD">이름</string>
+    <string name="EMAIL_FIELD">전자메일 주소</string>
+    <string name="USER_MESSAGE">요청 내용</string>
+    <string name="SEND_MESSAGE">메시지 전송 완료</string>
+    <string name="SEND_BUTTON">보내기</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">아직 지원 요청을 하지 않으셨습니다.</string>
+    <string name="CREATE_SUPPORT">지원 요청하기</string>
+    <string name="CONTINUE_BUTTON">계속</string>
+    <string name="CONNECTION_ERROR_MESSAGE">네트워크 연결에 실패했습니다, 다시 시도해주세요.</string>
+    <string name="SUPPORT_TYPE">타입</string>
+    <string name="SUBSCRIPTION_TITLE">구독</string>
+    <string name="FEATURES_TITLE">기능</string>
+    <string name="REPORT_ISSUE">문제 보고</string>
+    <string name="COMMENTS_TITLE">의견/제안</string>
+    <string name="OTHERS_TITLE">기타</string>
+    <string name="FIELD_REGEX_MESSAGE">빈칸을 채워주십시오</string>
+    <string name="SUPPORT_TITLE">나의 지원 요청 목록</string>
+    <string name="EMAIL_REGEX">유효한 이메일을 적어주시기 바랍니다.</string>
+</resources>

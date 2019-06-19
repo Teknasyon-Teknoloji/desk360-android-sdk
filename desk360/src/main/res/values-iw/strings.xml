@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">אישור</string>
+    <string name="CANCEL_BUTTON">ביטול</string>
+    <string name="UPDATE_BUTTON">לעדכן</string>
+    <string name="DELETE_BUTTON">מחק</string>
+    <string name="TRY_AGAIN_BUTTON">נסה שוב</string>
+    <string name="MAINTENACE_ALERT_TITLE">מתבצעות עבודות תחזוקה. נסו שוב מאוחר יותר</string>
+    <string name="CONTACT_US_TITLE">פנו אלינו</string>
+    <string name="NAME_FIELD">השם המלא שלכם</string>
+    <string name="EMAIL_FIELD">כתובת האימייל שלכם</string>
+    <string name="USER_MESSAGE">ההודעה שלכם</string>
+    <string name="SEND_MESSAGE">ההודעה נשלחה</string>
+    <string name="SEND_BUTTON">שליחה</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">עדיין לא פניתם לתמיכה.</string>
+    <string name="CREATE_SUPPORT">פתחו פנייה לתמיכה</string>
+    <string name="CONTINUE_BUTTON">המשך</string>
+    <string name="CONNECTION_ERROR_MESSAGE">חיבור הרשת נכשל, אנא נסה שוב.</string>
+    <string name="SUPPORT_TYPE">סוג</string>
+    <string name="SUBSCRIPTION_TITLE">הרשמה</string>
+    <string name="FEATURES_TITLE">פיצ׳רים</string>
+    <string name="REPORT_ISSUE">דווח על בעייה</string>
+    <string name="COMMENTS_TITLE">הערה הצעה</string>
+    <string name="OTHERS_TITLE">אחר</string>
+    <string name="FIELD_REGEX_MESSAGE">נא למלא את השדות הריקים</string>
+    <string name="SUPPORT_TITLE">הפניות שלי לתמיכה</string>
+    <string name="EMAIL_REGEX">נא לרשום כתובת אימייל תקפה.</string>
+</resources>

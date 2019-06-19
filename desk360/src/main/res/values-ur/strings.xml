@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">ٹھیک ہے</string>
+    <string name="CANCEL_BUTTON">منسوخ کریں</string>
+    <string name="UPDATE_BUTTON">اپ ڈیٹ کرنے کے لئے</string>
+    <string name="DELETE_BUTTON">حذف کریں</string>
+    <string name="TRY_AGAIN_BUTTON">دوبارہ کوشش کریں</string>
+    <string name="MAINTENACE_ALERT_TITLE">زیر بحالی. براہ کرم کچھ دیر بعد دوبارہ کوشش کریں</string>
+    <string name="CONTACT_US_TITLE">ہم سے رابطہ کریں</string>
+    <string name="NAME_FIELD">آپ کا پورا نام</string>
+    <string name="EMAIL_FIELD">آپ کا ای میل پتہ</string>
+    <string name="USER_MESSAGE">آپ کا پیغام</string>
+    <string name="SEND_MESSAGE">پیغام بھیج دیا گیا</string>
+    <string name="SEND_BUTTON">بھیجیں</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">آپ نے ابھی تک کوئی سپورٹ طلب نہیں کی۔</string>
+    <string name="CREATE_SUPPORT">سپورٹ ٹاسک تخلیق کریں</string>
+    <string name="CONTINUE_BUTTON">جاری رکھیں</string>
+    <string name="CONNECTION_ERROR_MESSAGE">نیٹ ورک کنکشن ناکام، براہ مہربانی پھر سے کوشش کریں.</string>
+    <string name="SUPPORT_TYPE">قسم</string>
+    <string name="SUBSCRIPTION_TITLE">سبسکرپشن</string>
+    <string name="FEATURES_TITLE">خصوصیات</string>
+    <string name="REPORT_ISSUE">مسئلہ کی اطلاع دیں</string>
+    <string name="COMMENTS_TITLE">تبصرہ/مشورہ</string>
+    <string name="OTHERS_TITLE">دیگر</string>
+    <string name="FIELD_REGEX_MESSAGE">برائے مہربانی خالی جگہیں پر کریں</string>
+    <string name="SUPPORT_TITLE">میری سپورٹ ٹاسک</string>
+    <string name="EMAIL_REGEX">براہ کرم ایک درست ای میل ایڈریس لکھیں۔</string>
+</resources>

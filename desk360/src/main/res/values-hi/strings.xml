@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">ठीक है</string>
+    <string name="CANCEL_BUTTON">रद्द करें</string>
+    <string name="UPDATE_BUTTON">अद्यतन करने के लिए</string>
+    <string name="DELETE_BUTTON">हटाएँ</string>
+    <string name="TRY_AGAIN_BUTTON">पुन: प्रयास करें</string>
+    <string name="MAINTENACE_ALERT_TITLE">रखरखाव जारी है. बाद में पुन: प्रयास करें</string>
+    <string name="CONTACT_US_TITLE">हमसे संपर्क करें</string>
+    <string name="NAME_FIELD">आपका पूरा नाम</string>
+    <string name="EMAIL_FIELD">आपका ई-मेल का पता</string>
+    <string name="USER_MESSAGE">"आपका सन्देश "</string>
+    <string name="SEND_MESSAGE">संदेश भेज दिया गया है</string>
+    <string name="SEND_BUTTON">भेजें</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">अभी तक आपने कोई प्रोत्साहन कॉल नहीं किया है।</string>
+    <string name="CREATE_SUPPORT">एक प्रोत्साहन कार्य का निर्माण करें</string>
+    <string name="CONTINUE_BUTTON">जारी रखें</string>
+    <string name="CONNECTION_ERROR_MESSAGE">नेटवर्क कनेक्शन विफल हो गया, कृपया पुनः प्रयास करें।</string>
+    <string name="SUPPORT_TYPE">टाइप</string>
+    <string name="SUBSCRIPTION_TITLE">सब्सक्रिप्शन</string>
+    <string name="FEATURES_TITLE">विशेषताएं(फीचर्स)</string>
+    <string name="REPORT_ISSUE">समस्या के बारे में बताएं</string>
+    <string name="COMMENTS_TITLE">टिप्पणी / सुझाव</string>
+    <string name="OTHERS_TITLE">अन्य</string>
+    <string name="FIELD_REGEX_MESSAGE">कृपया रिक्त-स्थानों की पूर्ती करें</string>
+    <string name="SUPPORT_TITLE">मेरे प्रोत्साहन कार्य</string>
+    <string name="EMAIL_REGEX">कृपया एक वैध ई-मेल पता लिखें।</string>
+</resources>

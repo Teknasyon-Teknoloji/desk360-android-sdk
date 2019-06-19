@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">OK</string>
+    <string name="CANCEL_BUTTON">Afmeld</string>
+    <string name="UPDATE_BUTTON">At opdatere</string>
+    <string name="DELETE_BUTTON">Slet</string>
+    <string name="TRY_AGAIN_BUTTON">Prøve igen</string>
+    <string name="MAINTENACE_ALERT_TITLE">Under vedligeholdelse. Prøv igen senere</string>
+    <string name="CONTACT_US_TITLE">Kontakt os</string>
+    <string name="NAME_FIELD">Dit fulde navn</string>
+    <string name="EMAIL_FIELD">Din e-mailadresse</string>
+    <string name="USER_MESSAGE">Din besked</string>
+    <string name="SEND_MESSAGE">Besked sendt</string>
+    <string name="SEND_BUTTON">Send</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">Du har ikke ringet til supporten endnu.</string>
+    <string name="CREATE_SUPPORT">Opret en supportopgave</string>
+    <string name="CONTINUE_BUTTON">Fortsæt</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Netværksforbindelse mislykkedes. Prøv igen.</string>
+    <string name="SUPPORT_TYPE">Type</string>
+    <string name="SUBSCRIPTION_TITLE">Abonnement</string>
+    <string name="FEATURES_TITLE">Funktioner</string>
+    <string name="REPORT_ISSUE">Rapportér problem</string>
+    <string name="COMMENTS_TITLE">Kommentar/forslag</string>
+    <string name="OTHERS_TITLE">Andet</string>
+    <string name="FIELD_REGEX_MESSAGE">Udfyld venligst alle tomme felter</string>
+    <string name="SUPPORT_TITLE">Min supportopgave</string>
+    <string name="EMAIL_REGEX">Skriv venligst en gyldig e-mailadresse.</string>
+</resources>

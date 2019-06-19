@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">OK</string>
+    <string name="CANCEL_BUTTON">Hủy</string>
+    <string name="UPDATE_BUTTON">Cập nhật</string>
+    <string name="DELETE_BUTTON">Xóa</string>
+    <string name="TRY_AGAIN_BUTTON">Thử lại</string>
+    <string name="MAINTENACE_ALERT_TITLE">Đang bảo trì. Vui lòng thử lại sau</string>
+    <string name="CONTACT_US_TITLE">Liên hệ với Chúng tôi</string>
+    <string name="NAME_FIELD">Tên đầy đủ của bạn</string>
+    <string name="EMAIL_FIELD">Địa chỉ e-mail của bạn</string>
+    <string name="USER_MESSAGE">Tin nhắn của bạn</string>
+    <string name="SEND_MESSAGE">Đã gửi tin nhắn</string>
+    <string name="SEND_BUTTON">Gửi</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">Bạn chưa thực hiện cuộc gọi hỗ trợ nào.</string>
+    <string name="CREATE_SUPPORT">Tạo một nhiệm vụ hỗ trợ</string>
+    <string name="CONTINUE_BUTTON">Tiếp tục</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Lỗi kết nối mạng, vui lòng thử lại</string>
+    <string name="SUPPORT_TYPE">Loại</string>
+    <string name="SUBSCRIPTION_TITLE">Thuê bao</string>
+    <string name="FEATURES_TITLE">Tính năng</string>
+    <string name="REPORT_ISSUE">Báo cáo lỗi</string>
+    <string name="COMMENTS_TITLE">Bình luận/Đề xuất</string>
+    <string name="OTHERS_TITLE">Khác</string>
+    <string name="FIELD_REGEX_MESSAGE">Vui lòng điền vào chỗ trống</string>
+    <string name="SUPPORT_TITLE">Nhiệm vụ hỗ trợ của tôi</string>
+    <string name="EMAIL_REGEX">Vui lòng điền địa chỉ e-mail hợp lệ.</string>
+</resources>

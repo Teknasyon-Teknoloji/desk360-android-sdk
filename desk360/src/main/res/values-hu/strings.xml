@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">OK</string>
+    <string name="CANCEL_BUTTON">Mégse</string>
+    <string name="UPDATE_BUTTON">Aktualizálni</string>
+    <string name="DELETE_BUTTON">Törlés</string>
+    <string name="TRY_AGAIN_BUTTON">Próbálja újra</string>
+    <string name="MAINTENACE_ALERT_TITLE">Karbantartás alatt. Kérjük, próbáld meg újra később</string>
+    <string name="CONTACT_US_TITLE">Vegye fel velünk a kapcsolatot</string>
+    <string name="NAME_FIELD">Az Ön teljes neve</string>
+    <string name="EMAIL_FIELD">Az Ön e-mail-címe</string>
+    <string name="USER_MESSAGE">Az Ön üzenete</string>
+    <string name="SEND_MESSAGE">Üzenet elküldve</string>
+    <string name="SEND_BUTTON">Küldés</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">Még nem indított hívást az ügyfélszolgálat irányába.</string>
+    <string name="CREATE_SUPPORT">Ügyfélszolgálati feladat létrehozása</string>
+    <string name="CONTINUE_BUTTON">Tovább</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Hálózat kapcsolódás sikertelen, kérjük próbálja újra.</string>
+    <string name="SUPPORT_TYPE">Típus</string>
+    <string name="SUBSCRIPTION_TITLE">Előfizetés</string>
+    <string name="FEATURES_TITLE">Tartalmak</string>
+    <string name="REPORT_ISSUE">Jelentsen egy problémát</string>
+    <string name="COMMENTS_TITLE">Komment/Javaslat</string>
+    <string name="OTHERS_TITLE">Egyéb</string>
+    <string name="FIELD_REGEX_MESSAGE">Kérjük, töltsd ki a mezőket</string>
+    <string name="SUPPORT_TITLE">Ügyfélszolgálati feladataim</string>
+    <string name="EMAIL_REGEX">Kérjük, adj meg egy érvényes e-mail-címet.</string>
+</resources>

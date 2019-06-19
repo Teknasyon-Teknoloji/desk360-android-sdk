@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">OK</string>
+    <string name="CANCEL_BUTTON">Anuluj</string>
+    <string name="UPDATE_BUTTON">Aktualizować</string>
+    <string name="DELETE_BUTTON">Usuń</string>
+    <string name="TRY_AGAIN_BUTTON">Spróbować ponownie</string>
+    <string name="MAINTENACE_ALERT_TITLE">Prowadzone są prace konserwacyjne. Spróbuj ponownie później</string>
+    <string name="CONTACT_US_TITLE">Kontakt</string>
+    <string name="NAME_FIELD">Pełne imię i nazwisko</string>
+    <string name="EMAIL_FIELD">Adres e-mail</string>
+    <string name="USER_MESSAGE">Twoja wiadomość</string>
+    <string name="SEND_MESSAGE">Wysłano wiadomość</string>
+    <string name="SEND_BUTTON">Wyślij</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">Nie zadzwoniłeś jeszcze po pomoc.</string>
+    <string name="CREATE_SUPPORT">Utwórz zadanie wsparcia</string>
+    <string name="CONTINUE_BUTTON">Kontynuuj</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Brak połączenia z siecią. Spróbuj ponownie.</string>
+    <string name="SUPPORT_TYPE">Typ</string>
+    <string name="SUBSCRIPTION_TITLE">Subskrypcja</string>
+    <string name="FEATURES_TITLE">Funkcjonalności</string>
+    <string name="REPORT_ISSUE">Zgłoś problem</string>
+    <string name="COMMENTS_TITLE">Komentarz/sugestia</string>
+    <string name="OTHERS_TITLE">Inne</string>
+    <string name="FIELD_REGEX_MESSAGE">Wypełnij puste pola</string>
+    <string name="SUPPORT_TITLE">Moje zadania wsparcia</string>
+    <string name="EMAIL_REGEX">Wpisz prawidłowy adres e-mail.</string>
+</resources>

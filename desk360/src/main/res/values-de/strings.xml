@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">desk360</string>
+    <string name="ok_button">OK</string>
+    <string name="CANCEL_BUTTON">Abbrechen</string>
+    <string name="UPDATE_BUTTON">Aktualisieren</string>
+    <string name="DELETE_BUTTON">Löschen</string>
+    <string name="TRY_AGAIN_BUTTON">Wiederholen</string>
+    <string name="MAINTENACE_ALERT_TITLE">Unter Wartung. Bitte versuchen Sie es später erneut</string>
+    <string name="CONTACT_US_TITLE">Kontaktieren Sie uns</string>
+    <string name="NAME_FIELD">Ihr vollständiger Name</string>
+    <string name="EMAIL_FIELD">Ihre E-Mail-Adresse</string>
+    <string name="USER_MESSAGE">Ihre Nachricht</string>
+    <string name="SEND_MESSAGE">Nachricht wurde gesendet</string>
+    <string name="SEND_BUTTON">Abschicken</string>
+    <string name="EMPTY_SUPPORT_MESSAGE">Sie haben den Support noch nicht angerufen.</string>
+    <string name="CREATE_SUPPORT">Eine Supportaufgabe erstellen</string>
+    <string name="CONTINUE_BUTTON">Fortfahren</string>
+    <string name="CONNECTION_ERROR_MESSAGE">Netzwerkverbindung fehlgeschlagen, versuchen sie es erneut</string>
+    <string name="SUPPORT_TYPE">Typ</string>
+    <string name="SUBSCRIPTION_TITLE">Abonnement</string>
+    <string name="FEATURES_TITLE">Merkmale</string>
+    <string name="REPORT_ISSUE">Melden ein Problem</string>
+    <string name="COMMENTS_TITLE">Bemerkung/Vorschlag</string>
+    <string name="OTHERS_TITLE">Anders</string>
+    <string name="FIELD_REGEX_MESSAGE">Bitte füllen Sie die leeren Felder aus</string>
+    <string name="SUPPORT_TITLE">Meine Supportaufgaben</string>
+    <string name="EMAIL_REGEX">Bitte geben Sie eine gültige E-Mail-Adresse ein.</string>
+</resources>
