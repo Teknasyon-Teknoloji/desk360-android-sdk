@@ -125,6 +125,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
+                    android:padding="0dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
@@ -133,7 +134,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textInputLayout22">
 
-
                 <com.teknasyon.desk360.helper.Desk360Spinner
                         android:id="@+id/subject_type"
                         android:layout_width="match_parent"
@@ -141,7 +141,10 @@
                         android:gravity="center_vertical"
                         android:paddingEnd="50dp"
                         android:paddingRight="50dp"
-                        android:paddingTop="16dp"
+                        android:prompt="@string/EMAIL_FIELD"
+                        android:popupBackground="@color/colorPrimary"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
                         android:spinnerMode="dropdown"
                         android:paddingStart="4dp"
                         app:layout_constraintEnd_toEndOf="parent"
