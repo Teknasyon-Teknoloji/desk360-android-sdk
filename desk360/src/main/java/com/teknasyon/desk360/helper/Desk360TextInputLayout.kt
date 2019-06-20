@@ -18,33 +18,35 @@ class Desk360TextInputLayout : TextInputLayout {
         if (currentTheme == "light") {
             this.boxBackgroundColor = Color.WHITE
             this.boxStrokeColor = Color.parseColor("#58b0fa")
+
         } else {
             this.boxStrokeColor = Color.WHITE
             this.boxBackgroundColor = Color.parseColor("#2b2b2b")
         }
+
     }
 
     constructor(context: Context) : super(
-        if (currentTheme == "light") {
-            ContextThemeWrapper(context, R.style.LightTextLabel)
-        } else {
-            ContextThemeWrapper(context, R.style.DarkTextLabel)
-        }
+            if (currentTheme == "light") {
+                ContextThemeWrapper(context, R.style.LightTextLabel)
+            } else {
+                ContextThemeWrapper(context, R.style.DarkTextLabel)
+            }
     )
 
     constructor(context: Context, attrs: AttributeSet) : super(
-        if (currentTheme == "light") {
-            ContextThemeWrapper(context, R.style.LightTextLabel)
-        } else {
-            ContextThemeWrapper(context, R.style.DarkTextLabel)
-        }, attrs
+            if (currentTheme == "light") {
+                ContextThemeWrapper(context, R.style.LightTextLabel)
+            } else {
+                ContextThemeWrapper(context, R.style.DarkTextLabel)
+            }, attrs
     )
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
-        if (currentTheme == "light") {
-            ContextThemeWrapper(context, R.style.LightTextLabel)
-        } else {
-            ContextThemeWrapper(context, R.style.DarkTextLabel)
-        }, attrs, defStyle
+            if (currentTheme == "light") {
+                ContextThemeWrapper(context, R.style.LightTextLabel)
+            } else {
+                ContextThemeWrapper(context, R.style.DarkTextLabel)
+            }, attrs, defStyle
     )
 }

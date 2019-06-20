@@ -13,12 +13,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Type
 import com.teknasyon.desk360.view.adapter.SupportTypeAdapter
 import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
+
 
 /**
  * Created by seyfullah on 30,May,2019
@@ -29,7 +29,6 @@ open class AddNewTicketFragment : Fragment() {
 
     private var viewModel: AddNewTicketViewModel? = null
 
-    private var typeListAdapter: SupportTypeAdapter? = null
     private var binding: AddNewTicketLayoutBinding? = null
     private var typeList: ArrayList<Type>? = null
 
@@ -39,11 +38,20 @@ open class AddNewTicketFragment : Fragment() {
         binding?.loadingProgress?.visibility = View.GONE
         if (it != null) {
             typeList = it
-            typeListAdapter = context?.let { it1 ->
-                SupportTypeAdapter(it1, it)
-            }
 
-            binding?.subjectType?.adapter = typeListAdapter
+            val listOfType: ArrayList<String> = arrayListOf()
+            for (i in 0 until it.size) {
+                listOfType.add(it[i].title.toString())
+            }
+            val myAdapter =
+                context?.let { it1 ->
+                    SupportTypeAdapter(
+                        it1,
+                        com.teknasyon.desk360.R.layout.type_dropdown,
+                        listOfType
+                    )
+                }
+            binding?.subjectType?.adapter = myAdapter
         }
     }
 
@@ -118,7 +126,7 @@ open class AddNewTicketFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.add_new_ticket_layout, container, false)
+            DataBindingUtil.inflate(inflater, com.teknasyon.desk360.R.layout.add_new_ticket_layout, container, false)
         return binding?.root
     }
 
@@ -132,6 +140,7 @@ open class AddNewTicketFragment : Fragment() {
         viewModel?.messageFieldFill?.observe(this, observerMessage)
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
 
+        binding?.subjectType?.prompt = "Gender"
         binding?.subjectType?.onItemSelectedListener = (object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 

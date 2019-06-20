@@ -6,10 +6,11 @@
                 <shape>
                     <stroke android:width="1dp" android:color="@android:color/black"/>
                     <corners android:radius="5dp"/>
+                    <solid android:color="#002B2B2B"/>
                 </shape>
             </item>
             <item android:end="12dp">
-                <bitmap android:gravity="right|center" android:src="@drawable/ic_add_dark_theme_icon"/>
+                <bitmap android:gravity="right|center" android:src="@drawable/dark_theme_dropdown_icon"/>
             </item>
         </layer-list>
     </item>

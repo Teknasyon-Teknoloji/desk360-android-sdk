@@ -17,7 +17,10 @@ class Desk360TextInputEditText : TextInputEditText {
         if (currentTheme == "light") {
             this.setTextColor(Color.BLACK)
             setBackgroundColor(Color.WHITE)
+            setHintTextColor(Color.parseColor("#2b2b2b"))
         } else {
+
+            setHintTextColor(Color.parseColor("#8a8a8a"))
             setBackgroundColor(Color.parseColor("#2b2b2b"))
             this.setTextColor(Color.WHITE)
         }
