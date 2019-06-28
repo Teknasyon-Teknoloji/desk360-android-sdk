@@ -1,1 +1,174 @@
-# desk360-android-sdk [WIP]
+# Desk360 -android-sdk
+
+ 
+
+[![img](https://camo.githubusercontent.com/383e4033d81b12128804ca3208b4ebdd6e00e5f0/68747470733a2f2f6a69747061636b2e696f2f762f6b6f6265756d75742f557064617465436865636b65722e737667)](https://jitpack.io/#kobeumut/UpdateChecker)
+
+# Table Of Content			
+
+- Project Title(#summary)
+- Features
+- Installation
+- Usage
+- Versioning
+- Contributing
+- Licence
+
+## Summary
+
+Desk360 is an Android SDK to help your embedding customer support in your mobile Android apps with ease.
+
+## Features
+
+The Desk360 SDK lets users do any of the following:
+
+Create new support tickets
+View and comment on existing tickets
+Interactively communicate with related support teams
+
+
+
+# Installation
+
+
+
+### Setup
+
+To integrate Desk360 into your Android project , add below parts to your  build.gradlle
+
+```
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
+Add the dependency
+
+```
+dependencies {
+        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.1.9'
+}
+```
+
+
+
+Or Maven
+
+**Step 1.** Add the JitPack repository to your build file
+
+```markup
+	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+```
+
+**Step 2.** Add the dependency
+
+
+
+```markup
+	<dependency>
+	    <groupId>com.github.Teknasyon-Teknoloji</groupId>
+	    <artifactId>desk360-android-sdk</artifactId>
+	    <version>Tag</version>
+	</dependency>
+```
+
+
+
+# Usage
+
+
+
+##### Start Desk360 with app_key -and an optinal device_token-.
+
+> Note: If no device_token is provided , Desk360 will generate random token which might cause your app to lose tickets when the app is deleted.
+
+
+
+```
+import com.teknasyon.desk360.helper.Desk360Config
+```
+
+
+
+Desk360Config().context = yourContext
+
+Desk360.start(app_key= “123456”)
+
+Or 
+
+Desk360Config().context = yourContext
+
+Desk360Constants.desk360Config(app_key = "123456" ,device_token="yourDeviceToken" )
+
+
+
+##### fun desk360Config(app_key: String, device_token: String?= null)
+
+| Parameters   | Description                                                  |
+| ------------ | ------------------------------------------------------------ |
+| app_key      | Uniqe token request from [http://desk360.com]                |
+| device_token | This parameters  values has a optionally ,  If you do not specify any value, the Desk360 sdksi generates a random deviceId.<br/>  *DeviceId created by Desk360; Resets when user uninstall and reinstall application* |
+
+####  
+
+##### Add below activiy to your AndroidManifest.xml file into application tag.
+
+```
+<application
+	...
+	<activity
+     android:name="com.teknasyon.desk360.view.activity.Desk360BaseActivity"
+     android:windowSoftInputMode="stateHidden|adjustResize"/>
+</application>
+```
+
+
+
+#### Customize Desk360 theme:
+
+Desk360Constants.currentTheme = "dark"
+
+or
+
+Desk360Constants.currentTheme = "light"
+
+
+
+### Use Desk 360
+
+```
+ startActivity(Intent(context, Desk360BaseActivity::class.java))
+```
+
+
+
+# Versioning
+
+We use [SemVer](http://semver.org/) for versioning.
+
+
+
+# Support
+
+If you have any questions or feature requests, please create an issue.
+
+
+
+# Licence
+
+Copyright 2017 Gri Software Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+Collapse
