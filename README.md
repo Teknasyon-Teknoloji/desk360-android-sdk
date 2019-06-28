@@ -6,7 +6,7 @@
 
 # Table Of Content			
 
-- [Project Title](#Summery)
+- [Project Title](#summery)
 - Features
 - Installation
 - Usage
