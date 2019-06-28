@@ -6,7 +6,7 @@
 
 # Table Of Content			
 
-- Project Title(#summary)
+- Project Title(#Summary)
 - Features
 - Installation
 - Usage
