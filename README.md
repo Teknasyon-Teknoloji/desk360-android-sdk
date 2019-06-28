@@ -6,13 +6,12 @@
 
 # Table Of Content			
 
-- [Project Title](##summery)
-- Features
-- Installation
-- Usage
-- Versioning
-- Contributing
-- Licence
+- [Project Title](#Summary)
+- [Features](#Features)
+- [Installation](#Installation)
+- [Usage](#Usage)
+- [Versioning](#Versioning) 
+- [Licence](#Licence)
 
 ## Summary
 
