@@ -165,4 +165,4 @@ If you have any questions or feature requests, please create an issue.
 
 Copyright Teknasyon 2019.
 
-Desk360 is released under the MIT license. [See LICENSE for more information.](https://mit-license.org/)
+Desk360 is released under the MIT license. See [LICENSE](https://github.com/Teknasyon-Teknoloji/desk360-android-sdk/blob/master/LICENSE)  for more information.
