@@ -1,14 +1,14 @@
 package com.teknasyon.desk360.connection
 
 import com.teknasyon.desk360.helper.Desk360Config
-import com.teknasyon.desk360.helper.Desk360ServerManager
+import com.teknasyon.desk360.helper.Desk360Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class RetrofitFactory private constructor() {
+class Desk360RetrofitFactory private constructor() {
 
     val sslService: SslService
     private var secureRetrofitInstance: Retrofit? = null
@@ -47,7 +47,7 @@ class RetrofitFactory private constructor() {
             unSecureRetrofitInstance = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
-                .baseUrl(Desk360ServerManager.INSTANCE?.desk360BasePath!!)
+                .baseUrl(Desk360Constants.baseURL)
                 .build()
 
         val client1 = httpClientWithoutHeader.build()
@@ -55,7 +55,7 @@ class RetrofitFactory private constructor() {
             secureRetrofitInstance = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client1)
-                .baseUrl(Desk360ServerManager.INSTANCE?.desk360BasePath!!)
+                .baseUrl(Desk360Constants.baseURL)
                 .build()
 
         sslService = secureRetrofitInstance!!.create(SslService::class.java)
@@ -63,11 +63,11 @@ class RetrofitFactory private constructor() {
     }
 
     companion object {
-        private var INSTANCE: RetrofitFactory? = null
-        val instance: RetrofitFactory
+        private var INSTANCE: Desk360RetrofitFactory? = null
+        val instance: Desk360RetrofitFactory
             get() {
                 if (INSTANCE == null) {
-                    INSTANCE = RetrofitFactory()
+                    INSTANCE = Desk360RetrofitFactory()
                 }
                 return INSTANCE!!
             }
