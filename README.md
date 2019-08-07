@@ -1,6 +1,6 @@
 # Desk360 -android-sdk
 
- ![img](https://img.shields.io/badge/kotlin-v1.3.11-brightgreen.svg?logoColor=orange&logo=kotlin)   [![img](https://camo.githubusercontent.com/383e4033d81b12128804ca3208b4ebdd6e00e5f0/68747470733a2f2f6a69747061636b2e696f2f762f6b6f6265756d75742f557064617465436865636b65722e737667)](https://jitpack.io/#kobeumut/UpdateChecker)  ![img](https://img.shields.io/badge/Sdk-14+-brightgreen.svg?logoColor=orange)
+ ![img](https://img.shields.io/badge/kotlin-v1.3.11-brightgreen.svg?logoColor=orange&logo=kotlin)   [![](https://jitpack.io/v/Teknasyon-Teknoloji/desk360-android-sdk.svg)](https://jitpack.io/#Teknasyon-Teknoloji/desk360-android-sdk) ![img](https://img.shields.io/badge/Sdk-14+-brightgreen.svg?logoColor=orange)
 
 
 
@@ -48,7 +48,7 @@ Add the dependency
 
 ```
 dependencies {
-        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.1.9'
+        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.2.1'
 }
 ```
 
