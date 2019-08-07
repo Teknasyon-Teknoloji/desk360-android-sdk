@@ -100,6 +100,8 @@ import com.teknasyon.desk360.helper.Desk360Config
  ```
 Desk360Config().context = yourContext
 
+Desk360Constants.desk360CurrentTheme("light")
+
 Desk360Constants.desk360Config(
             BuildConfig.APP_KEY,
             "your_device_token",
