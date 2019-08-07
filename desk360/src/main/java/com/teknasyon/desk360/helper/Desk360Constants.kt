@@ -19,10 +19,10 @@ object Desk360Constants {
     var baseURL: String? = null
 
     fun desk360Config(
-        app_key_by_debug: String, device_token: String? = null, app_version: String?, baseURL: String
+        app_key: String, app_version: String, baseURL: String, device_token: String? = null
     ): Boolean {
 
-        if (app_key_by_debug == "")
+        if (app_key == "")
             return false
 
         if (app_version == "")
@@ -40,7 +40,7 @@ object Desk360Constants {
         if (device_token != null && device_token != "")
             Desk360Config.instance.getDesk360Preferences()?.adId = device_token
 
-        this.app_key = app_key_by_debug
+        this.app_key = app_key
         this.app_version = app_version
         this.language_code = Locale.getDefault().language
         this.time_zone = TimeZone.getDefault().id

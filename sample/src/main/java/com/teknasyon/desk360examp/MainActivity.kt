@@ -24,10 +24,9 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
         Desk360Config().context = this
         Desk360Constants.desk360CurrentTheme("light")
         Desk360Constants.desk360Config(
-            BuildConfig.APP_KEY,
-            "android_device_id",
-            BuildConfig.VERSION_NAME,
-            BuildConfig.DESK360_BASE_URL
+            app_key = BuildConfig.APP_KEY,
+            app_version = BuildConfig.VERSION_NAME,
+            baseURL = BuildConfig.DESK360_BASE_URL
         )
         startActivity(Intent(this, Desk360BaseActivity::class.java))
     }
