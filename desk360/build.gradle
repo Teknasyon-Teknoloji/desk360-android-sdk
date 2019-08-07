@@ -21,12 +21,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "SSL_BASE_URL", '"http://52.59.142.138:10380/"'
         }
 
         debug {
             minifyEnabled false
-            buildConfigField "String", "SSL_BASE_URL", '"http://52.59.142.138:10380/"'
         }
     }
     dataBinding {

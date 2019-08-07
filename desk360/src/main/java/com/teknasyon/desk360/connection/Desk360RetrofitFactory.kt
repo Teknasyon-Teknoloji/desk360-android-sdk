@@ -1,7 +1,7 @@
 package com.teknasyon.desk360.connection
 
-import com.teknasyon.desk360.BuildConfig
 import com.teknasyon.desk360.helper.Desk360Config
+import com.teknasyon.desk360.helper.Desk360ServerManager
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -47,7 +47,7 @@ class RetrofitFactory private constructor() {
             unSecureRetrofitInstance = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
-                .baseUrl(BuildConfig.SSL_BASE_URL)
+                .baseUrl(Desk360ServerManager.INSTANCE?.desk360BasePath!!)
                 .build()
 
         val client1 = httpClientWithoutHeader.build()
@@ -55,7 +55,7 @@ class RetrofitFactory private constructor() {
             secureRetrofitInstance = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client1)
-                .baseUrl(BuildConfig.SSL_BASE_URL)
+                .baseUrl(Desk360ServerManager.INSTANCE?.desk360BasePath!!)
                 .build()
 
         sslService = secureRetrofitInstance!!.create(SslService::class.java)
