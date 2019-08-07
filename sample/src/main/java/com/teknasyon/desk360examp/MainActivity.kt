@@ -22,7 +22,13 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
 
     private fun setupNavigation() {
         Desk360Config().context = this
-        Desk360Constants.desk360Config(current_theme = "dark", app_key = "123456")
+        Desk360Constants.desk360CurrentTheme("light")
+        Desk360Constants.desk360Config(
+            BuildConfig.APP_KEY,
+            "android_device_id",
+            BuildConfig.VERSION_NAME,
+            BuildConfig.DESK360_BASE_URL
+        )
         startActivity(Intent(this, Desk360BaseActivity::class.java))
     }
 }
