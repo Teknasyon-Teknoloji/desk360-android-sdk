@@ -95,17 +95,36 @@ Or Maven
 import com.teknasyon.desk360.helper.Desk360Config
 ```
 
-
-
+```
 Desk360Config().context = yourContext
 
-Desk360.start(app_key= “123456”)
+Desk360Constants.desk360CurrentTheme("light")
+
+Desk360Constants.desk360Config(
+            app_key = BuildConfig.APP_KEY,
+            app_version = BuildConfig.VERSION_NAME,
+            baseURL = BuildConfig.DESK360_BASE_URL
+        ) 
+```
+
+
 
 Or 
 
+
+
+```
 Desk360Config().context = yourContext
 
-Desk360Constants.desk360Config(app_key = "123456" ,device_token="yourDeviceToken" )
+Desk360Constants.desk360CurrentTheme("light")
+
+Desk360Constants.desk360Config(
+            app_key = BuildConfig.APP_KEY,
+            app_version = BuildConfig.VERSION_NAME,
+            baseURL = BuildConfig.DESK360_BASE_URL,
+            device_token = "your_device_token"
+        ) 	
+```
 
 
 
