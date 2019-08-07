@@ -5,10 +5,8 @@ import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.BR
-import com.teknasyon.desk360.R
 import com.teknasyon.desk360.connection.BaseCallback
-import com.teknasyon.desk360.connection.RetrofitFactory
-import com.teknasyon.desk360.helper.Desk360Config
+import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.model.NewSupportResponse
 import com.teknasyon.desk360.model.TicketReq
@@ -55,7 +53,7 @@ open class AddNewTicketViewModel : ViewModel() {
     }
 
     private fun getTypeList() {
-        RetrofitFactory.instance.httpService.getTypeList()
+        Desk360RetrofitFactory.instance.httpService.getTypeList()
             .enqueue(object : BaseCallback<TypeResponse>() {
                 override fun onResponseSuccess(
                     call: Call<TypeResponse>,
@@ -71,7 +69,7 @@ open class AddNewTicketViewModel : ViewModel() {
     }
 
     private fun addSupportTicket() {
-        RetrofitFactory.instance.httpService.addTicket(ticketItem)
+        Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem)
             .enqueue(object : BaseCallback<NewSupportResponse>() {
                 override fun onResponseSuccess(
                     call: Call<NewSupportResponse>,
@@ -114,9 +112,6 @@ open class AddNewTicketViewModel : ViewModel() {
             @Bindable
             get() = "Subject"
 
-        val messageHintText: String?
-            @Bindable
-            get() = "Mesajınız"
 
         val messageLengthData: String?
             @Bindable

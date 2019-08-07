@@ -3,7 +3,7 @@ package com.teknasyon.desk360.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
-import com.teknasyon.desk360.connection.RetrofitFactory
+import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.model.Message
 import com.teknasyon.desk360.model.MessageResponse
 import com.teknasyon.desk360.model.TickeMessage
@@ -39,7 +39,7 @@ open class TicketDetailViewModel(val ticketId: Int = -1) : ViewModel() {
     private fun getTicketById() {
         if (ticketId == -1)
             return
-        RetrofitFactory.instance.httpService.getMessages(ticketId)
+        Desk360RetrofitFactory.instance.httpService.getMessages(ticketId)
             .enqueue(object : BaseCallback<TickeMessage>() {
                 override fun onResponseSuccess(call: Call<TickeMessage>, response: Response<TickeMessage>) {
                     if (response.isSuccessful && response.body() != null) {
@@ -52,7 +52,7 @@ open class TicketDetailViewModel(val ticketId: Int = -1) : ViewModel() {
     }
 
     fun addMessage(id: Int, message: String) {
-        RetrofitFactory.instance.httpService.addMessage(id, message)
+        Desk360RetrofitFactory.instance.httpService.addMessage(id, message)
             .enqueue(object : BaseCallback<MessageResponse>() {
                 override fun onResponseSuccess(call: Call<MessageResponse>, response: Response<MessageResponse>) {
                     if (response.isSuccessful && response.body() != null) {

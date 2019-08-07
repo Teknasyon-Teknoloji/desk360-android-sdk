@@ -3,7 +3,7 @@ package com.teknasyon.desk360.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
-import com.teknasyon.desk360.connection.RetrofitFactory
+import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.model.Register
@@ -34,8 +34,9 @@ open class TicketListViewModel : ViewModel() {
     }
 
     fun getTicketList() {
-        RetrofitFactory.instance.httpService.getTicket()
+        Desk360RetrofitFactory.instance.httpService.getTicket()
             .enqueue(object : BaseCallback<TicketListResponse>() {
+
                 override fun onResponseSuccess(
                     call: Call<TicketListResponse>,
                     response: Response<TicketListResponse>
@@ -53,7 +54,12 @@ open class TicketListViewModel : ViewModel() {
         val register = Register()
         register.app_key = Desk360Constants.app_key
         register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId
-        RetrofitFactory.instance.sslService.register(register)
+        register.app_platform = "Android"
+        register.app_version = Desk360Constants.app_version
+        register.language_code = Desk360Constants.language_code
+        register.time_zone = Desk360Constants.time_zone
+
+        Desk360RetrofitFactory.instance.sslService.register(register)
             .enqueue(object : BaseCallback<RegisterResponse>() {
                 override fun onResponseSuccess(
                     call: Call<RegisterResponse>,
