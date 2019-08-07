@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">Wypełnij puste pola</string>
     <string name="SUPPORT_TITLE">Moje zadania wsparcia</string>
     <string name="EMAIL_REGEX">Wpisz prawidłowy adres e-mail.</string>
+    <string name="BUTTON_ADD_NEW_TICKET">Utwórz nowy numer</string>
 </resources>

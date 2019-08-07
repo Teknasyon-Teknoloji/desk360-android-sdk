@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">請填寫空格</string>
     <string name="SUPPORT_TITLE">我的支援任務</string>
     <string name="EMAIL_REGEX">請輸入有效的電子郵件地址。</string>
+    <string name="BUTTON_ADD_NEW_TICKET">新建任务单</string>
 </resources>

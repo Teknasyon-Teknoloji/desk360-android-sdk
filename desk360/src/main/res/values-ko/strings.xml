@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">빈칸을 채워주십시오</string>
     <string name="SUPPORT_TITLE">나의 지원 요청 목록</string>
     <string name="EMAIL_REGEX">유효한 이메일을 적어주시기 바랍니다.</string>
+    <string name="BUTTON_ADD_NEW_TICKET">새 티켓 만들기</string>
 </resources>

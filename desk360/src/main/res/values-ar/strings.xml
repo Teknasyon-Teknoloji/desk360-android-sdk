@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">يرجى ملئ الفراغات</string>
     <string name="SUPPORT_TITLE">مهام الدعم الخاصة بي</string>
     <string name="EMAIL_REGEX">يرجى كتابة عنوان بريد إلكتروني صالح</string>
+    <string name="BUTTON_ADD_NEW_TICKET">إنشاء تذكرة جديدة</string>
 </resources>

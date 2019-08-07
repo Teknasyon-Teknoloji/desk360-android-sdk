@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">Vui lòng điền vào chỗ trống</string>
     <string name="SUPPORT_TITLE">Nhiệm vụ hỗ trợ của tôi</string>
     <string name="EMAIL_REGEX">Vui lòng điền địa chỉ e-mail hợp lệ.</string>
+    <string name="BUTTON_ADD_NEW_TICKET">Tạo Thẻ Mới</string>
 </resources>

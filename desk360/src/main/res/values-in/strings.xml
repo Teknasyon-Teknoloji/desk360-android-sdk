@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">Harap mengisi blangko</string>
     <string name="SUPPORT_TITLE">Tugas dukungan saya</string>
     <string name="EMAIL_REGEX">Mohon masukkan alamat e-mail yang valid.</string>
+    <string name="BUTTON_ADD_NEW_TICKET">Buat Tiket Baru</string>
 </resources>

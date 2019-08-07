@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">נא למלא את השדות הריקים</string>
     <string name="SUPPORT_TITLE">הפניות שלי לתמיכה</string>
     <string name="EMAIL_REGEX">נא לרשום כתובת אימייל תקפה.</string>
+    <string name="BUTTON_ADD_NEW_TICKET">צור כרטיסייה חדשה</string>
 </resources>

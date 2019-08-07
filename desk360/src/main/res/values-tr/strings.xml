@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">Lütfen zorunlu alanları doldurunuz</string>
     <string name="SUPPORT_TITLE">Destek Taleplerim</string>
     <string name="EMAIL_REGEX">Geçersiz email adresi girdiniz.</string>
+    <string name="BUTTON_ADD_NEW_TICKET">Yeni Talep Ekle</string>
 </resources>

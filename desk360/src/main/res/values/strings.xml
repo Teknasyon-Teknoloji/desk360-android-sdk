@@ -25,6 +25,7 @@
     <string name="FIELD_REGEX_MESSAGE">Please fill in the required fields</string>
     <string name="SUPPORT_TITLE">My Support Tasks</string>
     <string name="EMAIL_REGEX">Please enter a valid e-mail address</string>
+    <string name="BUTTON_ADD_NEW_TICKET">Create New Ticket</string>
 
 
 </resources>

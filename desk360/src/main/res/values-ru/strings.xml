@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">Заполните пустые поля</string>
     <string name="SUPPORT_TITLE">Мои задачи поддержки</string>
     <string name="EMAIL_REGEX">Укажите действительный адрес эл. почты.</string>
+    <string name="BUTTON_ADD_NEW_TICKET">Добавить новый запрос</string>
 </resources>

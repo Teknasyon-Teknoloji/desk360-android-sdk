@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">Kérjük, töltsd ki a mezőket</string>
     <string name="SUPPORT_TITLE">Ügyfélszolgálati feladataim</string>
     <string name="EMAIL_REGEX">Kérjük, adj meg egy érvényes e-mail-címet.</string>
+    <string name="BUTTON_ADD_NEW_TICKET">Új jegy létrehozása</string>
 </resources>

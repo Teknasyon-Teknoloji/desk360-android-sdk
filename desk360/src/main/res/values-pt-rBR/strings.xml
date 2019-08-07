@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">Favor preencher os espaços em branco</string>
     <string name="SUPPORT_TITLE">Minhas tarefas de suporte</string>
     <string name="EMAIL_REGEX">Por favor, digite um endereço de e-mail válido.</string>
+    <string name="BUTTON_ADD_NEW_TICKET">Criar Nova Senha</string>
 </resources>

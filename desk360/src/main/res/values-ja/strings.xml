@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">空白に入力してください</string>
     <string name="SUPPORT_TITLE">マイサポートタスク</string>
     <string name="EMAIL_REGEX">有効なeメールアドレスを記入して下さい。</string>
+    <string name="BUTTON_ADD_NEW_TICKET">新規チケットを作成</string>
 </resources>

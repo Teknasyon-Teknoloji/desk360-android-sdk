@@ -26,4 +26,5 @@
     <string name="FIELD_REGEX_MESSAGE">Vul de lege plekken in</string>
     <string name="SUPPORT_TITLE">Mijn ondersteuningstaken</string>
     <string name="EMAIL_REGEX">Voer een geldig e-mailadres in.</string>
+    <string name="BUTTON_ADD_NEW_TICKET">Maak een nieuw ticket aan</string>
 </resources>
