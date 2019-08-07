@@ -104,8 +104,12 @@ Desk360.start(app_key= “123456”)
 Or 
 
 Desk360Config().context = yourContext
-
-Desk360Constants.desk360Config(app_key = "123456" ,device_token="yourDeviceToken" )
+Desk360Constants.desk360Config(
+            BuildConfig.APP_KEY,
+            "your_device_token",
+            BuildConfig.VERSION_NAME,
+            BuildConfig.DESK360_BASE_URL
+        ) 
 
 
 
