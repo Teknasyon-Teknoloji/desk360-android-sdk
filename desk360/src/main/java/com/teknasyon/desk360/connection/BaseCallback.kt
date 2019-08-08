@@ -83,7 +83,7 @@ abstract class BaseCallback<T> : Callback<T> {
     abstract fun onResponseSuccess(call: Call<T>, response: Response<T>)
 
     override fun onFailure(call: Call<T>, t: Throwable) {
-        t.message?.let { Log.e("", it) }
+        t.message?.let { Log.e("desk360-Failure", it) }
         listener?.let {
             listener!!.connectionError("", 123)
         }
