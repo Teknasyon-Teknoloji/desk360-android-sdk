@@ -20,9 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-                android:name="com.teknasyon.desk360.view.activity.Desk360BaseActivity"
-                android:windowSoftInputMode="stateHidden|adjustResize"/>
     </application>
 
 </manifest>

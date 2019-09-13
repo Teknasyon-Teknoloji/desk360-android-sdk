@@ -17,7 +17,6 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentTicketDetailBinding
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Message
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.TicketDetailListAdapter
 import com.teknasyon.desk360.viewmodel.TicketDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -59,15 +58,19 @@ open class TicketDetailFragment : Fragment() {
             viewModel?.ticketDetailList?.value?.add(it)
             ticketDetailAdapter?.notifyDataSetChanged()
             viewModel?.ticketDetailList?.value?.size?.minus(1)
-                    ?.let { it1 -> binding?.messageDetailRecyclerView?.scrollToPosition(it1) }
+                ?.let { it1 -> binding?.messageDetailRecyclerView?.scrollToPosition(it1) }
             binding?.messageEditText?.setText("")
         }
     }
 
     private var viewModel: TicketDetailViewModel? = null
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_ticket_detail, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_ticket_detail, container, false)
         return binding?.root
     }
 
@@ -78,18 +81,24 @@ open class TicketDetailFragment : Fragment() {
         viewModel?.ticketDetailList?.observe(this, observer)
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
         binding?.addNewMessageButton?.setOnClickListener {
-            if (binding?.messageEditText?.text?.isNotEmpty() == true) {
+            binding?.messageEditText?.text?.trim()?.apply {
+                if (isNotEmpty() && toString().isNotEmpty()) {
 
-                ticketId?.let { it1 -> viewModel?.addMessage(it1, binding?.messageEditText?.text.toString()) }
-                binding?.loadingProgress?.visibility = View.VISIBLE
-
+                    ticketId?.let { it1 ->
+                        viewModel?.addMessage(
+                            it1,
+                            binding?.messageEditText?.text.toString()
+                        )
+                    }
+                    binding?.loadingProgress?.visibility = View.VISIBLE
+                }
             }
         }
 
         binding?.addNewTicketButton?.setOnClickListener {
             Navigation
-                    .findNavController(it)
-                    .navigate(R.id.action_ticketDetailFragment_to_addNewTicketFragment, null)
+                .findNavController(it)
+                .navigate(R.id.action_ticketDetailFragment_to_addNewTicketFragment, null)
         }
         expireControl()
     }
@@ -99,19 +108,23 @@ open class TicketDetailFragment : Fragment() {
             binding?.layoutSendNewMessageNormal?.visibility = View.GONE
             binding?.addNewTicketButton?.visibility = View.VISIBLE
             backButtonAction =
-                    RxBus.listen(String::class.java).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ iti ->
-                                when (iti) {
-                                    "backButtonActionKey" -> {
-                                        view?.let { it1 ->
-                                            Navigation.findNavController(it1).popBackStack(R.id.action_ticketListFragment_to_ticketDetailFragment, true)
+                RxBus.listen(String::class.java).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ iti ->
+                        when (iti) {
+                            "backButtonActionKey" -> {
+                                view?.let { it1 ->
+                                    Navigation.findNavController(it1).popBackStack(
+                                        R.id.action_ticketListFragment_to_ticketDetailFragment,
+                                        true
+                                    )
 
-                                        }
-                                    }
                                 }
-                            }, { t ->
-                                Log.d("Test", "")
-                            })
+                            }
+                        }
+                    }, { t ->
+                        Log.d("Test", "$t.")
+                    })
         } else {
             binding?.layoutSendNewMessageNormal?.visibility = View.VISIBLE
             binding?.addNewTicketButton?.visibility = View.GONE
@@ -139,7 +152,8 @@ open class TicketDetailFragment : Fragment() {
         activity?.let {
             val view = activity!!.currentFocus
             if (view != null) {
-                val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm =
+                    activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(view.windowToken, 0)
             }
         }
