@@ -10,9 +10,6 @@ import com.teknasyon.desk360.model.Register
 import com.teknasyon.desk360.model.RegisterResponse
 import com.teknasyon.desk360.model.TicketListResponse
 import com.teknasyon.desk360.model.TicketResponse
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 import java.util.*
@@ -27,10 +24,7 @@ open class TicketListViewModel : ViewModel() {
 
     init {
         Desk360Constants.getDeviceId()
-        GlobalScope.launch {
-            delay(300)
-            register()
-        }
+        register()
     }
 
     fun getTicketList() {
@@ -66,8 +60,10 @@ open class TicketListViewModel : ViewModel() {
                     response: Response<RegisterResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
-                        Desk360Config.instance.getDesk360Preferences()?.data = response.body()!!.data
-                        Desk360Config.instance.getDesk360Preferences()?.meta = response.body()!!.meta
+                        Desk360Config.instance.getDesk360Preferences()?.data =
+                            response.body()!!.data
+                        Desk360Config.instance.getDesk360Preferences()?.meta =
+                            response.body()!!.meta
                         getTicketList()
                     }
                 }

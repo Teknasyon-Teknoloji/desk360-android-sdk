@@ -12,9 +12,6 @@ import com.teknasyon.desk360.model.NewSupportResponse
 import com.teknasyon.desk360.model.TicketReq
 import com.teknasyon.desk360.model.Type
 import com.teknasyon.desk360.model.TypeResponse
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 import java.util.regex.Pattern
@@ -46,10 +43,8 @@ open class AddNewTicketViewModel : ViewModel() {
         subjectFieldFill.postValue(false)
         emailFieldFill.postValue(false)
         nameFieldFill.postValue(false)
-        GlobalScope.launch {
-            delay(300)
+
             getTypeList()
-        }
     }
 
     private fun getTypeList() {

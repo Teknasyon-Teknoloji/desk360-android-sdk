@@ -7,9 +7,6 @@ import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.model.Message
 import com.teknasyon.desk360.model.MessageResponse
 import com.teknasyon.desk360.model.TickeMessage
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
 
@@ -30,10 +27,7 @@ open class TicketDetailViewModel(val ticketId: Int = -1) : ViewModel() {
     var addMessageItem: MutableLiveData<Message> = MutableLiveData()
 
     init {
-        GlobalScope.launch {
-            delay(300)
-            getTicketById()
-        }
+        getTicketById()
     }
 
     private fun getTicketById() {
@@ -41,7 +35,10 @@ open class TicketDetailViewModel(val ticketId: Int = -1) : ViewModel() {
             return
         Desk360RetrofitFactory.instance.httpService.getMessages(ticketId)
             .enqueue(object : BaseCallback<TickeMessage>() {
-                override fun onResponseSuccess(call: Call<TickeMessage>, response: Response<TickeMessage>) {
+                override fun onResponseSuccess(
+                    call: Call<TickeMessage>,
+                    response: Response<TickeMessage>
+                ) {
                     if (response.isSuccessful && response.body() != null) {
                         ticketDetailList?.value = response.body()!!.data?.messages
                     } else {
@@ -51,10 +48,14 @@ open class TicketDetailViewModel(val ticketId: Int = -1) : ViewModel() {
             })
     }
 
+
     fun addMessage(id: Int, message: String) {
         Desk360RetrofitFactory.instance.httpService.addMessage(id, message)
             .enqueue(object : BaseCallback<MessageResponse>() {
-                override fun onResponseSuccess(call: Call<MessageResponse>, response: Response<MessageResponse>) {
+                override fun onResponseSuccess(
+                    call: Call<MessageResponse>,
+                    response: Response<MessageResponse>
+                ) {
                     if (response.isSuccessful && response.body() != null) {
                         if (response.body()!!.meta?.success == true) {
                             addMessageItem.postValue(response.body()!!.data)
