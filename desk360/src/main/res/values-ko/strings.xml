@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">desk360</string>
     <string name="ok_button">허용</string>
     <string name="CANCEL_BUTTON">취소</string>
     <string name="UPDATE_BUTTON">업데이트</string>

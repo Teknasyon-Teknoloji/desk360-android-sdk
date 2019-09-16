@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">desk360</string>
     <string name="ok_button">Ok</string>
     <string name="CANCEL_BUTTON">Cancel</string>
     <string name="UPDATE_BUTTON">Update</string>
