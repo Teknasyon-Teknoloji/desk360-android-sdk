@@ -4,12 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
-import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360Preferences
 import com.teknasyon.desk360.model.Register
 import com.teknasyon.desk360.model.RegisterResponse
 import com.teknasyon.desk360.model.TicketListResponse
 import com.teknasyon.desk360.model.TicketResponse
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import retrofit2.Call
 import retrofit2.Response
 import java.util.*
@@ -19,7 +21,8 @@ import java.util.*
  *
  */
 
-open class TicketListViewModel : ViewModel() {
+open class TicketListViewModel : ViewModel(), KoinComponent {
+    private val desk360Preferences: Desk360Preferences by inject()
     var ticketList: MutableLiveData<ArrayList<TicketResponse>>? = MutableLiveData()
 
     init {
@@ -47,7 +50,7 @@ open class TicketListViewModel : ViewModel() {
     private fun register() {
         val register = Register()
         register.app_key = Desk360Constants.app_key
-        register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId
+        register.device_id = desk360Preferences.adId
         register.app_platform = "Android"
         register.app_version = Desk360Constants.app_version
         register.language_code = Desk360Constants.language_code
@@ -60,9 +63,9 @@ open class TicketListViewModel : ViewModel() {
                     response: Response<RegisterResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
-                        Desk360Config.instance.getDesk360Preferences()?.data =
+                        desk360Preferences.data =
                             response.body()!!.data
-                        Desk360Config.instance.getDesk360Preferences()?.meta =
+                        desk360Preferences.meta =
                             response.body()!!.meta
                         getTicketList()
                     }

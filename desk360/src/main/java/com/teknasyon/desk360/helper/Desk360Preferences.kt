@@ -1,9 +1,10 @@
 package com.teknasyon.desk360.helper
 
+import android.content.Context
 import com.teknasyon.desk360.model.Data
 import com.teknasyon.desk360.model.Meta
 
-open class Desk360Preferences : PreferencesManager() {
+open class Desk360Preferences(context: Context) : PreferencesManager(context) {
     var meta: Meta?
         get() = getObject<Meta>(META, Meta::class.java)
         set(meta) = putObject(META, meta!!)

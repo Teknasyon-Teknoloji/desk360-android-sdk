@@ -1,19 +1,22 @@
 package com.teknasyon.desk360.connection
 
 import android.util.Log
-import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360Preferences
 import com.teknasyon.desk360.helper.ResponseListener
 import com.teknasyon.desk360.model.Register
 import com.teknasyon.desk360.model.RegisterResponse
 import org.json.JSONException
 import org.json.JSONObject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-abstract class BaseCallback<T> : Callback<T> {
+abstract class BaseCallback<T> : Callback<T>, KoinComponent {
+    private val desk360Preferences: Desk360Preferences by inject()
 
     private var cloneRequest: Call<T>? = null
     private val call: Call<T>? = null
@@ -28,13 +31,15 @@ abstract class BaseCallback<T> : Callback<T> {
                     val jsonObject = JSONObject(response.errorBody()?.string())
 
                     val errorCode: String =
-                        JSONObject(JSONObject(jsonObject.getString("meta")).getString("error")).getString("code")
+                        JSONObject(JSONObject(jsonObject.getString("meta")).getString("error")).getString(
+                            "code"
+                        )
 
                     if (errorCode == "expired_at") {
                         cloneRequest = call.clone()
                         val register = Register()
                         register.app_key = Desk360Constants.app_key
-                        register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId
+                        register.device_id = desk360Preferences.adId
                         register.app_platform = "Android"
                         register.app_version = Desk360Constants.app_version
                         register.language_code = Desk360Constants.language_code
@@ -53,9 +58,9 @@ abstract class BaseCallback<T> : Callback<T> {
                                 ) {
 
                                     if (response.isSuccessful && response.body() != null) {
-                                        Desk360Config.instance.getDesk360Preferences()?.data =
+                                        desk360Preferences.data =
                                             response.body()!!.data
-                                        Desk360Config.instance.getDesk360Preferences()?.meta =
+                                        desk360Preferences.meta =
                                             response.body()!!.meta
 
                                         cloneRequest?.enqueue(this@BaseCallback)

@@ -6,12 +6,15 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import java.lang.reflect.Type
 
-open class PreferencesManager {
+open class PreferencesManager(context: Context) {
     private val preferences: SharedPreferences
     private val gson: Gson
 
     init {
-        preferences = Desk360Config.instance.context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)!!
+        preferences = context.getSharedPreferences(
+            PREFERENCE_NAME,
+            Context.MODE_PRIVATE
+        )!!
         gson = Gson()
     }
 
@@ -25,7 +28,6 @@ open class PreferencesManager {
     internal fun getString(tag: String): String? {
         return preferences.getString(tag, null)
     }
-
 
 
     internal fun putObject(tag: String, targetObject: Any) {

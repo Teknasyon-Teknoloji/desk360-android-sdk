@@ -31,11 +31,12 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         navController =
-                findNavController(this, R.id.my_nav_host_fragment)
+            findNavController(this, R.id.my_nav_host_fragment)
         navController?.addOnDestinationChangedListener { _, _, _ ->
 
             userRegistered = false
-            val currentNav = (navController?.currentDestination as FragmentNavigator.Destination).className
+            val currentNav =
+                (navController?.currentDestination as FragmentNavigator.Destination).className
 
             if (currentNav == "com.teknasyon.desk360.view.fragment.TicketListFragment") {
                 userRegistered = true

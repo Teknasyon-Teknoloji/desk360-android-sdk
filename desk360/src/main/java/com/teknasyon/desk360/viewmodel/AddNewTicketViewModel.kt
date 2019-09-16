@@ -44,7 +44,7 @@ open class AddNewTicketViewModel : ViewModel() {
         emailFieldFill.postValue(false)
         nameFieldFill.postValue(false)
 
-            getTypeList()
+        getTypeList()
     }
 
     private fun getTypeList() {

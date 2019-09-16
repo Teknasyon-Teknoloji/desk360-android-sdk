@@ -1,14 +1,17 @@
 package com.teknasyon.desk360.connection
 
-import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360Preferences
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class Desk360RetrofitFactory private constructor() {
+class Desk360RetrofitFactory private constructor() : KoinComponent {
+    private val desk360Preferences: Desk360Preferences by inject()
 
     val sslService: SslService
     private var secureRetrofitInstance: Retrofit? = null
@@ -30,7 +33,7 @@ class Desk360RetrofitFactory private constructor() {
         httpClientWithHeader.addInterceptor { chain ->
             var request = chain.request()
             request = request.newBuilder().apply {
-                Desk360Config.instance.getDesk360Preferences()?.data?.access_token.let {
+                desk360Preferences.data?.access_token.let {
                     addHeader("Authorization", "Bearer $it")
                 }
             }.build()
