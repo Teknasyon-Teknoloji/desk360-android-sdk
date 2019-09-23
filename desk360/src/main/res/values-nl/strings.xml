@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">desk360</string>
+    <string name="desk360_app_name">Desk360</string>
     <string name="ok_button">Ok</string>
     <string name="CANCEL_BUTTON">Annuleren</string>
     <string name="UPDATE_BUTTON">Updaten</string>
@@ -27,4 +27,5 @@
     <string name="SUPPORT_TITLE">Mijn ondersteuningstaken</string>
     <string name="EMAIL_REGEX">Voer een geldig e-mailadres in.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Maak een nieuw ticket aan</string>
+    <string name="SUBJECT">Subject</string>
 </resources>

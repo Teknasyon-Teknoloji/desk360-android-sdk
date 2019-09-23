@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">desk360</string>
+    <string name="desk360_app_name">Desk360</string>
     <string name="ok_button">Tamam</string>
     <string name="CANCEL_BUTTON">İptal</string>
     <string name="UPDATE_BUTTON">Güncelle</string>
@@ -27,4 +27,5 @@
     <string name="SUPPORT_TITLE">Destek Taleplerim</string>
     <string name="EMAIL_REGEX">Geçersiz email adresi girdiniz.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Yeni Talep Ekle</string>
+    <string name="SUBJECT">Başlık</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">desk360</string>
+    <string name="desk360_app_name">Desk360</string>
     <string name="ok_button">허용</string>
     <string name="CANCEL_BUTTON">취소</string>
     <string name="UPDATE_BUTTON">업데이트</string>
@@ -27,4 +27,5 @@
     <string name="SUPPORT_TITLE">나의 지원 요청 목록</string>
     <string name="EMAIL_REGEX">유효한 이메일을 적어주시기 바랍니다.</string>
     <string name="BUTTON_ADD_NEW_TICKET">새 티켓 만들기</string>
+    <string name="SUBJECT">Subject</string>
 </resources>

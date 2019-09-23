@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">desk360</string>
+    <string name="desk360_app_name">Desk360</string>
     <string name="ok_button">ठीक है</string>
     <string name="CANCEL_BUTTON">रद्द करें</string>
     <string name="UPDATE_BUTTON">अद्यतन करने के लिए</string>
@@ -27,4 +27,5 @@
     <string name="SUPPORT_TITLE">मेरे प्रोत्साहन कार्य</string>
     <string name="EMAIL_REGEX">कृपया एक वैध ई-मेल पता लिखें।</string>
     <string name="BUTTON_ADD_NEW_TICKET">नया टिकट बनाएं</string>
+    <string name="SUBJECT">Subject</string>
 </resources>

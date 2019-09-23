@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">desk360</string>
+    <string name="desk360_app_name">Desk360</string>
     <string name="ok_button">OK</string>
     <string name="CANCEL_BUTTON">Cancelar</string>
     <string name="UPDATE_BUTTON">Actualizar</string>
@@ -27,4 +27,5 @@
     <string name="SUPPORT_TITLE">Mis tareas de asistencia</string>
     <string name="EMAIL_REGEX">Por favor, escribe una dirección de e-mail válida.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Crear un nuevo tique</string>
+    <string name="SUBJECT">Subject</string>
 </resources>
