@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
 
     private fun setupNavigation() {
         Desk360Config().context = this
-        Desk360Constants.desk360CurrentTheme("light")
+        Desk360Constants.desk360CurrentTheme("dark")
         Desk360Constants.desk360Config(
             app_key = BuildConfig.APP_KEY,
             app_version = BuildConfig.VERSION_NAME,
