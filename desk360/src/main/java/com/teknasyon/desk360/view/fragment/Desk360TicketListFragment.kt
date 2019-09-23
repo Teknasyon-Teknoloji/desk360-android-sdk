@@ -10,10 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.databinding.FragmentTicketListBinding
-import com.teknasyon.desk360.model.TicketResponse
+import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
+import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
-import com.teknasyon.desk360.view.adapter.TicketListAdapter
+import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 
 
@@ -22,26 +22,27 @@ import com.teknasyon.desk360.viewmodel.TicketListViewModel
  *
  */
 
-open class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListener {
+open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.TicketOnClickListener {
 
-    private var ticketAdapter: TicketListAdapter? = null
-    private var observer = Observer<ArrayList<TicketResponse>> {
+    private var ticketAdapter: Desk360TicketListAdapter? = null
+    private var observer = Observer<ArrayList<Desk360TicketResponse>> {
         binding?.loadingProgress?.visibility = View.INVISIBLE
-
-        if (it.size != 0) {
-            ticketAdapter = TicketListAdapter(context, it)
-            binding?.ticketList?.layoutManager = LinearLayoutManager(context)
-            binding?.ticketList?.adapter = ticketAdapter
-            ticketAdapter?.clickItem = this
-        } else {
-            binding?.emptyListLayout?.visibility = View.VISIBLE
-            (activity as Desk360BaseActivity).title = "Bize Ulaşın"
+        it?.let {
+            if (it.size != 0) {
+                ticketAdapter = Desk360TicketListAdapter(context, it)
+                binding?.ticketList?.layoutManager = LinearLayoutManager(context)
+                binding?.ticketList?.adapter = ticketAdapter
+                ticketAdapter?.clickItem = this
+            } else {
+                binding?.emptyListLayout?.visibility = View.VISIBLE
+                (activity as Desk360BaseActivity).title = "Bize Ulaşın"
+            }
         }
     }
 
-    var binding: FragmentTicketListBinding? = null
+    var binding: Desk360FragmentTicketListBinding? = null
 
-    override fun selectTicket(item: TicketResponse, position: Int) {
+    override fun selectTicket(item: Desk360TicketResponse, position: Int) {
         view?.let {
             val bundle = Bundle()
             item.id?.let { it1 -> bundle.putInt("ticket_id", it1) }
@@ -56,8 +57,17 @@ open class TicketListFragment : Fragment(), TicketListAdapter.TicketOnClickListe
     }
 
     private var viewModel: TicketListViewModel? = null
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ticket_list, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.desk360_fragment_ticket_list,
+            container,
+            false
+        )
         return binding?.root
     }
 

@@ -13,10 +13,9 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.databinding.FragmentMainBinding
+import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360Constants
-import kotlinx.android.synthetic.main.fragment_main.*
-
+import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
 open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
@@ -24,10 +23,10 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     var userRegistered = true
     private var navController: NavController? = null
 
-    private var binding: FragmentMainBinding? = null
+    private var binding: Desk360FragmentMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.fragment_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.desk360_fragment_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
         navController =
@@ -37,7 +36,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             userRegistered = false
             val currentNav = (navController?.currentDestination as FragmentNavigator.Destination).className
 
-            if (currentNav == "com.teknasyon.desk360.view.fragment.TicketListFragment") {
+            if (currentNav == "com.teknasyon.desk360.view.fragment.Desk360TicketListFragment") {
                 userRegistered = true
             }
 

@@ -5,6 +5,6 @@ package com.teknasyon.desk360.model
  *
  */
 
-  class TypeResponse {
-    val data: ArrayList<Type>? = null
+  class Desk360TypeResponse {
+    val data: ArrayList<Desk360Type>? = null
 }

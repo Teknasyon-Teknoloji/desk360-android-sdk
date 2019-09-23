@@ -8,10 +8,10 @@ import com.teknasyon.desk360.BR
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.model.NewSupportResponse
-import com.teknasyon.desk360.model.TicketReq
-import com.teknasyon.desk360.model.Type
-import com.teknasyon.desk360.model.TypeResponse
+import com.teknasyon.desk360.model.Desk360NewSupportResponse
+import com.teknasyon.desk360.model.Desk360TicketReq
+import com.teknasyon.desk360.model.Desk360Type
+import com.teknasyon.desk360.model.Desk360TypeResponse
 import retrofit2.Call
 import retrofit2.Response
 import java.util.regex.Pattern
@@ -22,9 +22,9 @@ import java.util.regex.Pattern
  */
 
 open class AddNewTicketViewModel : ViewModel() {
-    var typeList: MutableLiveData<ArrayList<Type>>? = MutableLiveData()
+    var typeList: MutableLiveData<ArrayList<Desk360Type>>? = MutableLiveData()
     var addedTicket: MutableLiveData<String> = MutableLiveData()
-    private val ticketItem = TicketReq()
+    private val ticketItem = Desk360TicketReq()
 
     var observable = NewSupportObservable()
     val nameFieldFill: MutableLiveData<Boolean> = MutableLiveData()
@@ -49,10 +49,10 @@ open class AddNewTicketViewModel : ViewModel() {
 
     private fun getTypeList() {
         Desk360RetrofitFactory.instance.httpService.getTypeList()
-            .enqueue(object : BaseCallback<TypeResponse>() {
+            .enqueue(object : BaseCallback<Desk360TypeResponse>() {
                 override fun onResponseSuccess(
-                    call: Call<TypeResponse>,
-                    response: Response<TypeResponse>
+                    call: Call<Desk360TypeResponse>,
+                    response: Response<Desk360TypeResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
                         typeList?.value = response.body()!!.data
@@ -65,10 +65,10 @@ open class AddNewTicketViewModel : ViewModel() {
 
     private fun addSupportTicket() {
         Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem)
-            .enqueue(object : BaseCallback<NewSupportResponse>() {
+            .enqueue(object : BaseCallback<Desk360NewSupportResponse>() {
                 override fun onResponseSuccess(
-                    call: Call<NewSupportResponse>,
-                    response: Response<NewSupportResponse>
+                    call: Call<Desk360NewSupportResponse>,
+                    response: Response<Desk360NewSupportResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
                         addedTicket.value =
@@ -102,11 +102,6 @@ open class AddNewTicketViewModel : ViewModel() {
     }
 
     inner class NewSupportObservable : BaseObservable() {
-
-        val subjectHintText: String?
-            @Bindable
-            get() = "Subject"
-
 
         val messageLengthData: String?
             @Bindable

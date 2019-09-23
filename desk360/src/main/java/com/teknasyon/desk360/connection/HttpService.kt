@@ -6,17 +6,17 @@ import retrofit2.http.*
 
 interface HttpService {
     @POST("api/v1/tickets")
-    fun addTicket(@Body ticketItem: TicketReq): Call<NewSupportResponse>
+    fun addTicket(@Body ticketItem: Desk360TicketReq): Call<Desk360NewSupportResponse>
 
     @GET("api/v1/tickets")
-    fun getTicket(): Call<TicketListResponse>
+    fun getTicket(): Call<Desk360TicketListResponse>
 
     @GET("api/v1/tickets/{ticket_id}")
-    fun getMessages(@Path("ticket_id") ticket_id: Int): Call<TickeMessage>
+    fun getMessages(@Path("ticket_id") ticket_id: Int): Call<Desk360TickeMessage>
 
     @POST("api/v1/tickets/{ticket_id}/messages")
-    fun addMessage(@Path("ticket_id") ticket_id: Int, @Query("message") message: String): Call<MessageResponse>
+    fun addMessage(@Path("ticket_id") ticket_id: Int, @Query("message") message: String): Call<Desk360MessageResponse>
 
     @GET("api/v1/tickets/types/list")
-    fun getTypeList(): Call<TypeResponse>
+    fun getTypeList(): Call<Desk360TypeResponse>
 }

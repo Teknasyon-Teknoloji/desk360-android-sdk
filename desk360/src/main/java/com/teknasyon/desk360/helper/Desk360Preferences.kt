@@ -1,15 +1,15 @@
 package com.teknasyon.desk360.helper
 
-import com.teknasyon.desk360.model.Data
-import com.teknasyon.desk360.model.Meta
+import com.teknasyon.desk360.model.Desk360Data
+import com.teknasyon.desk360.model.Desk360Meta
 
 open class Desk360Preferences : PreferencesManager() {
-    var meta: Meta?
-        get() = getObject<Meta>(META, Meta::class.java)
+    var meta: Desk360Meta?
+        get() = getObject<Desk360Meta>(META, Desk360Meta::class.java)
         set(meta) = putObject(META, meta!!)
 
-    var data: Data?
-        get() = getObject<Data>(DATA, Data::class.java)
+    var data: Desk360Data?
+        get() = getObject<Desk360Data>(DATA, Desk360Data::class.java)
         set(meta) = putObject(DATA, meta!!)
 
     var adId: String?

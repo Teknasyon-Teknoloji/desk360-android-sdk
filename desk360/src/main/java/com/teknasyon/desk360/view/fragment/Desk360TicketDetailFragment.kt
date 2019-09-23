@@ -14,10 +14,10 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.databinding.FragmentTicketDetailBinding
+import com.teknasyon.desk360.databinding.Desk360FragmentTicketDetailBinding
 import com.teknasyon.desk360.helper.RxBus
-import com.teknasyon.desk360.model.Message
-import com.teknasyon.desk360.view.adapter.TicketDetailListAdapter
+import com.teknasyon.desk360.model.Desk360Message
+import com.teknasyon.desk360.view.adapter.Desk360TicketDetailListAdapter
 import com.teknasyon.desk360.viewmodel.TicketDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -28,20 +28,20 @@ import io.reactivex.schedulers.Schedulers
  * Created by seyfullah on 25,May,2019
  *
  */
-open class TicketDetailFragment : Fragment() {
-    private var binding: FragmentTicketDetailBinding? = null
-    private var ticketDetailAdapter: TicketDetailListAdapter? = null
+open class Desk360TicketDetailFragment : Fragment() {
+    private var binding: Desk360FragmentTicketDetailBinding? = null
+    private var ticketDetailAdapter: Desk360TicketDetailListAdapter? = null
 
     private var ticketId: Int? = null
     private var ticketStatus: String? = null
 
     private var backButtonAction: Disposable? = null
 
-    private var observer = Observer<ArrayList<Message>> {
+    private var observer = Observer<ArrayList<Desk360Message>> {
         binding?.loadingProgress?.visibility = View.INVISIBLE
 
         if (it != null) {
-            ticketDetailAdapter = TicketDetailListAdapter(it)
+            ticketDetailAdapter = Desk360TicketDetailListAdapter(it)
             val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             binding?.messageDetailRecyclerView?.apply {
                 this.layoutManager = layoutManager
@@ -51,7 +51,7 @@ open class TicketDetailFragment : Fragment() {
         }
     }
 
-    private var addMessageObserver = Observer<Message> {
+    private var addMessageObserver = Observer<Desk360Message> {
         binding?.loadingProgress?.visibility = View.INVISIBLE
 
         if (it != null) {
@@ -70,7 +70,7 @@ open class TicketDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_ticket_detail, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.desk360_fragment_ticket_detail, container, false)
         return binding?.root
     }
 

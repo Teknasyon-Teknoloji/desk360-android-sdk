@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.databinding.TicketListItemBinding
-import com.teknasyon.desk360.model.TicketResponse
-import kotlinx.android.synthetic.main.ticket_list_item.view.*
+import com.teknasyon.desk360.databinding.Desk360TicketListItemBinding
+import com.teknasyon.desk360.model.Desk360TicketResponse
+import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
 
-class TicketListAdapter(context: Context?, private val ticketList: ArrayList<TicketResponse>) :
-    RecyclerView.Adapter<TicketListAdapter.Holder>() {
+class Desk360TicketListAdapter(context: Context?, private val ticketList: ArrayList<Desk360TicketResponse>) :
+    RecyclerView.Adapter<Desk360TicketListAdapter.Holder>() {
     private var context: Context? = null
-    private var binding: TicketListItemBinding? = null
+    private var binding: Desk360TicketListItemBinding? = null
     var clickItem: TicketOnClickListener? = null
 
     init {
@@ -48,7 +48,7 @@ class TicketListAdapter(context: Context?, private val ticketList: ArrayList<Tic
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): Holder {
         binding =
-            DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.ticket_list_item, parent, false)
+            DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.desk360_ticket_list_item, parent, false)
         return Holder(binding!!)
     }
 
@@ -56,9 +56,9 @@ class TicketListAdapter(context: Context?, private val ticketList: ArrayList<Tic
         return ticketList.size
     }
 
-    class Holder(internal val binding: TicketListItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class Holder(internal val binding: Desk360TicketListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     interface TicketOnClickListener {
-        fun selectTicket(item: TicketResponse, position: Int)
+        fun selectTicket(item: Desk360TicketResponse, position: Int)
     }
 }

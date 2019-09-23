@@ -5,7 +5,7 @@ package com.teknasyon.desk360.model
  *
  */
 
-class Register {
+class Desk360Register {
     var app_key: String? = null
     var device_id: String? = null
     var app_platform: String? = null

@@ -5,7 +5,7 @@ package com.teknasyon.desk360.model
  *
  */
 
-class Message {
+class Desk360Message {
     var id: Int? = null
     var message: String? = null
     var created: String? = null

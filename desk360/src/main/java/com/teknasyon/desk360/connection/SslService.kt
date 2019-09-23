@@ -1,8 +1,8 @@
 package com.teknasyon.desk360.connection
 
 
-import com.teknasyon.desk360.model.Register
-import com.teknasyon.desk360.model.RegisterResponse
+import com.teknasyon.desk360.model.Desk360Register
+import com.teknasyon.desk360.model.Desk360RegisterResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -12,5 +12,5 @@ import retrofit2.http.POST
  */
 interface SslService {
     @POST("api/v1/devices/register")
-    fun register(@Body register: Register): Call<RegisterResponse>
+    fun register(@Body register: Desk360Register): Call<Desk360RegisterResponse>
 }

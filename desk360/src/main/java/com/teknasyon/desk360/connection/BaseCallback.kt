@@ -4,8 +4,8 @@ import android.util.Log
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.ResponseListener
-import com.teknasyon.desk360.model.Register
-import com.teknasyon.desk360.model.RegisterResponse
+import com.teknasyon.desk360.model.Desk360Register
+import com.teknasyon.desk360.model.Desk360RegisterResponse
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
@@ -32,7 +32,7 @@ abstract class BaseCallback<T> : Callback<T> {
 
                     if (errorCode == "expired_at") {
                         cloneRequest = call.clone()
-                        val register = Register()
+                        val register = Desk360Register()
                         register.app_key = Desk360Constants.app_key
                         register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId
                         register.app_platform = "Android"
@@ -41,15 +41,15 @@ abstract class BaseCallback<T> : Callback<T> {
                         register.time_zone = Desk360Constants.time_zone
 
                         Desk360RetrofitFactory.instance.sslService.register(register)
-                            .enqueue(object : Callback<RegisterResponse> {
+                            .enqueue(object : Callback<Desk360RegisterResponse> {
 
-                                override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                                override fun onFailure(call: Call<Desk360RegisterResponse>, t: Throwable) {
 
                                 }
 
                                 override fun onResponse(
-                                    callRegister: Call<RegisterResponse>,
-                                    response: Response<RegisterResponse>
+                                    callRegister: Call<Desk360RegisterResponse>,
+                                    response: Response<Desk360RegisterResponse>
                                 ) {
 
                                     if (response.isSuccessful && response.body() != null) {

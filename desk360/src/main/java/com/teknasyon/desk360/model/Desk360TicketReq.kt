@@ -5,7 +5,7 @@ package com.teknasyon.desk360.model
  *
  */
 
-data class TicketReq(
+data class Desk360TicketReq(
     var name: String? = null,
     var email: String? = null,
     var subject: String? = null,

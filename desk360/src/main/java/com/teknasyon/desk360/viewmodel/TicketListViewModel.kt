@@ -6,10 +6,10 @@ import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.model.Register
-import com.teknasyon.desk360.model.RegisterResponse
-import com.teknasyon.desk360.model.TicketListResponse
-import com.teknasyon.desk360.model.TicketResponse
+import com.teknasyon.desk360.model.Desk360Register
+import com.teknasyon.desk360.model.Desk360RegisterResponse
+import com.teknasyon.desk360.model.Desk360TicketListResponse
+import com.teknasyon.desk360.model.Desk360TicketResponse
 import retrofit2.Call
 import retrofit2.Response
 import java.util.*
@@ -20,7 +20,7 @@ import java.util.*
  */
 
 open class TicketListViewModel : ViewModel() {
-    var ticketList: MutableLiveData<ArrayList<TicketResponse>>? = MutableLiveData()
+    var ticketList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
 
     init {
         Desk360Constants.getDeviceId()
@@ -29,11 +29,11 @@ open class TicketListViewModel : ViewModel() {
 
     fun getTicketList() {
         Desk360RetrofitFactory.instance.httpService.getTicket()
-            .enqueue(object : BaseCallback<TicketListResponse>() {
+            .enqueue(object : BaseCallback<Desk360TicketListResponse>() {
 
                 override fun onResponseSuccess(
-                    call: Call<TicketListResponse>,
-                    response: Response<TicketListResponse>
+                    call: Call<Desk360TicketListResponse>,
+                    response: Response<Desk360TicketListResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
                         ticketList?.value = response.body()!!.data
@@ -45,7 +45,7 @@ open class TicketListViewModel : ViewModel() {
     }
 
     private fun register() {
-        val register = Register()
+        val register = Desk360Register()
         register.app_key = Desk360Constants.app_key
         register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId
         register.app_platform = "Android"
@@ -54,10 +54,10 @@ open class TicketListViewModel : ViewModel() {
         register.time_zone = Desk360Constants.time_zone
 
         Desk360RetrofitFactory.instance.sslService.register(register)
-            .enqueue(object : BaseCallback<RegisterResponse>() {
+            .enqueue(object : BaseCallback<Desk360RegisterResponse>() {
                 override fun onResponseSuccess(
-                    call: Call<RegisterResponse>,
-                    response: Response<RegisterResponse>
+                    call: Call<Desk360RegisterResponse>,
+                    response: Response<Desk360RegisterResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
                         Desk360Config.instance.getDesk360Preferences()?.data =

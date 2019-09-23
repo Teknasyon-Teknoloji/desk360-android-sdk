@@ -56,7 +56,8 @@ object Desk360Constants {
 
     fun countryCode(): String {
 
-        val tm = Desk360Config.instance.context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val tm =
+            Desk360Config.instance.context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         return if (tm.networkCountryIso != null && tm.networkCountryIso != "") tm.networkCountryIso else Locale.getDefault().country
     }
 
@@ -73,7 +74,8 @@ object Desk360Constants {
         val date = Date()
         date.time
 
-        val deviceId = date.time.toString() + Build.VERSION.SDK_INT + "-" + Build.VERSION.INCREMENTAL + Build.MODEL
+        val deviceId =
+            date.time.toString() + Build.VERSION.SDK_INT + "-" + Build.VERSION.INCREMENTAL + Build.MODEL
 
         deviceId.let {
             Desk360Config.instance.getDesk360Preferences()!!.adId = it

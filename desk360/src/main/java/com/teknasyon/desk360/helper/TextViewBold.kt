@@ -1,4 +1,4 @@
-package com.smartalarm.sleeptic.helper
+package com.teknasyon.desk360.helper
 
 import android.content.Context
 import android.graphics.Typeface
@@ -8,7 +8,7 @@ import android.widget.TextView
 class TextViewBold : TextView {
 
     constructor(context: Context) : super(context) {
-        val face = Typeface.createFromAsset(context.assets, "ProximaNova-Bold.otf")
+        val face = Typeface.createFromAsset(context.assets, "ProximaNova")
         this.typeface = face
     }
 

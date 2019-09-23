@@ -13,10 +13,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import com.teknasyon.desk360.databinding.AddNewTicketLayoutBinding
+import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.RxBus
-import com.teknasyon.desk360.model.Type
-import com.teknasyon.desk360.view.adapter.SupportTypeAdapter
+import com.teknasyon.desk360.model.Desk360Type
+import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
 import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
 
 
@@ -25,16 +25,16 @@ import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
  *
  */
 
-open class AddNewTicketFragment : Fragment() {
+open class Desk360AddNewTicketFragment : Fragment() {
 
     private var viewModel: AddNewTicketViewModel? = null
 
-    private var binding: AddNewTicketLayoutBinding? = null
-    private var typeList: ArrayList<Type>? = null
+    private var binding: Desk360AddNewTicketLayoutBinding? = null
+    private var typeList: ArrayList<Desk360Type>? = null
 
     private var selectedTypeId: Int = 1
 
-    private var observer = Observer<ArrayList<Type>> {
+    private var observer = Observer<ArrayList<Desk360Type>> {
         binding?.loadingProgress?.visibility = View.GONE
         if (it != null) {
             typeList = it
@@ -45,9 +45,9 @@ open class AddNewTicketFragment : Fragment() {
             }
             val myAdapter =
                 context?.let { it1 ->
-                    SupportTypeAdapter(
+                    Desk360SupportTypeAdapter(
                         it1,
-                        com.teknasyon.desk360.R.layout.type_dropdown,
+                        com.teknasyon.desk360.R.layout.desk360_type_dropdown,
                         listOfType
                     )
                 }
@@ -126,7 +126,7 @@ open class AddNewTicketFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding =
-            DataBindingUtil.inflate(inflater, com.teknasyon.desk360.R.layout.add_new_ticket_layout, container, false)
+            DataBindingUtil.inflate(inflater, com.teknasyon.desk360.R.layout.desk360_add_new_ticket_layout, container, false)
         return binding?.root
     }
 
