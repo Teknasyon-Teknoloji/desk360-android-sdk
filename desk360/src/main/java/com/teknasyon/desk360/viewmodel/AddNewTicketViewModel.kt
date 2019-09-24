@@ -44,7 +44,7 @@ open class AddNewTicketViewModel : ViewModel() {
         emailFieldFill.postValue(false)
         nameFieldFill.postValue(false)
 
-            getTypeList()
+        getTypeList()
     }
 
     private fun getTypeList() {
@@ -81,10 +81,10 @@ open class AddNewTicketViewModel : ViewModel() {
     }
 
     fun validateAllField(selectedTypeId: Int) {
-        if (nameFieldFill.value == true && emailFieldFill.value == true && subjectFieldFill.value == true && messageLength > 0) {
+        if (nameFieldFill.value == true && emailFieldFill.value == true && messageLength > 0) {
             ticketItem.email = emailData
             ticketItem.name = nameData
-            ticketItem.subject = subjectData
+//            ticketItem.subject = subjectData
             ticketItem.message = messageData
             ticketItem.type_id = selectedTypeId.toString()
             ticketItem.source = "App"
@@ -105,7 +105,7 @@ open class AddNewTicketViewModel : ViewModel() {
 
         val messageLengthData: String?
             @Bindable
-            get() = "$messageLength/120"
+            get() = "$messageLength/350"
 
         fun nameQuality(s: CharSequence) {
             nameData = s.toString()
