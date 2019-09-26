@@ -60,28 +60,22 @@ open class Desk360AddNewTicketFragment : Fragment() {
             if (!it) {
                 binding?.nameEditText!!.isEnabled = true
                 binding?.nameEditText!!.requestFocus()
-                binding?.nameEditText!!.onKeyUp(KEYCODE_DPAD_CENTER, KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER))
+                binding?.nameEditText!!.onKeyUp(
+                    KEYCODE_DPAD_CENTER,
+                    KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER)
+                )
             }
         }
     }
 
     private var observerEMail = Observer<Boolean> {
-        if (it != null) {
+        it?.let {
             if (!it) {
                 binding?.emailEditText!!.isEnabled = true
                 binding?.emailEditText!!.requestFocus()
-                binding?.emailEditText!!.onKeyUp(KEYCODE_DPAD_CENTER, KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER))
-
-            }
-        }
-    }
-    private var observerSubject = Observer<Boolean> {
-        if (it != null) {
-            if (!it) {
-                binding?.subjectEditText!!.isEnabled = true
-                binding?.subjectEditText!!.requestFocus()
-                binding?.subjectEditText!!.onKeyUp(
-                    KEYCODE_DPAD_CENTER, KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER)
+                binding?.emailEditText!!.onKeyUp(
+                    KEYCODE_DPAD_CENTER,
+                    KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER)
                 )
             }
         }
@@ -98,7 +92,12 @@ open class Desk360AddNewTicketFragment : Fragment() {
             }
             binding?.messageEditText?.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    binding?.baseLayout?.bottom?.let { it1 -> binding?.baseLayout?.scrollTo(0, it1) }
+                    binding?.baseLayout?.bottom?.let { it1 ->
+                        binding?.baseLayout?.scrollTo(
+                            0,
+                            it1
+                        )
+                    }
                 }
             }
         }
@@ -124,9 +123,18 @@ open class Desk360AddNewTicketFragment : Fragment() {
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding =
-            DataBindingUtil.inflate(inflater, com.teknasyon.desk360.R.layout.desk360_add_new_ticket_layout, container, false)
+            DataBindingUtil.inflate(
+                inflater,
+                com.teknasyon.desk360.R.layout.desk360_add_new_ticket_layout,
+                container,
+                false
+            )
         return binding?.root
     }
 
@@ -136,20 +144,25 @@ open class Desk360AddNewTicketFragment : Fragment() {
         viewModel?.typeList?.observe(this, observer)
         viewModel?.nameFieldFill?.observe(this, observerName)
         viewModel?.emailFieldFill?.observe(this, observerEMail)
-        viewModel?.subjectFieldFill?.observe(this, observerSubject)
         viewModel?.messageFieldFill?.observe(this, observerMessage)
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
 
         binding?.subjectType?.prompt = "Gender"
-        binding?.subjectType?.onItemSelectedListener = (object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+        binding?.subjectType?.onItemSelectedListener =
+            (object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
 
-            }
+                }
 
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                typeList?.let { it[position].let { it1 -> selectedTypeId = it1.id!! } }
-            }
-        })
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    typeList?.let { it[position].let { it1 -> selectedTypeId = it1.id!! } }
+                }
+            })
 
         binding?.sendButton?.setOnClickListener {
             viewModel?.validateAllField(selectedTypeId)
@@ -165,7 +178,7 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 typeList?.removeObserver(observer)
                 nameFieldFill.removeObserver(observerName)
                 emailFieldFill.removeObserver(observerEMail)
-                subjectFieldFill.removeObserver(observerSubject)
+//                subjectFieldFill.removeObserver(observerSubject)
                 messageFieldFill.removeObserver(observerMessage)
                 addedTicket.removeObserver(observerAddedTicket)
             }

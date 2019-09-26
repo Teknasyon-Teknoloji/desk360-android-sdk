@@ -29,18 +29,15 @@ open class AddNewTicketViewModel : ViewModel() {
     var observable = NewSupportObservable()
     val nameFieldFill: MutableLiveData<Boolean> = MutableLiveData()
     val emailFieldFill: MutableLiveData<Boolean> = MutableLiveData()
-    var subjectFieldFill: MutableLiveData<Boolean> = MutableLiveData()
     var messageFieldFill: MutableLiveData<Boolean> = MutableLiveData()
 
     var nameData: String? = null
     var emailData: String? = null
-    var subjectData: String? = null
     var messageData: String? = null
     var messageLength: Int = 0
 
     init {
         messageFieldFill.postValue(false)
-        subjectFieldFill.postValue(false)
         emailFieldFill.postValue(false)
         nameFieldFill.postValue(false)
 
@@ -95,7 +92,6 @@ open class AddNewTicketViewModel : ViewModel() {
             when {
                 nameFieldFill.value == false -> nameFieldFill.postValue(false)
                 emailFieldFill.value == false -> emailFieldFill.postValue(false)
-                subjectFieldFill.value == false -> subjectFieldFill.postValue(false)
                 messageLength <= 0 -> messageFieldFill.postValue(false)
             }
         }
@@ -134,17 +130,17 @@ open class AddNewTicketViewModel : ViewModel() {
             )
         }
 
-        fun subjectQuality(s: CharSequence) {
-            subjectData = s.toString()
-            subjectFieldFill.postValue(
-                when {
-                    s.isEmpty() -> false
-                    else -> {
-                        true
-                    }
-                }
-            )
-        }
+//        fun subjectQuality(s: CharSequence) {
+//            subjectData = s.toString()
+//            subjectFieldFill.postValue(
+//                when {
+//                    s.isEmpty() -> false
+//                    else -> {
+//                        true
+//                    }
+//                }
+//            )
+//        }
 
         fun messageQuality(s: CharSequence) {
             messageData = s.toString()
@@ -153,6 +149,7 @@ open class AddNewTicketViewModel : ViewModel() {
             messageFieldFill.postValue(
                 when {
                     s.isEmpty() -> false
+                    s.length < 3 -> false
                     else -> {
                         true
                     }

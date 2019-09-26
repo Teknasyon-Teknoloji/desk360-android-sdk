@@ -11,7 +11,10 @@ import com.teknasyon.desk360.databinding.Desk360TicketListItemBinding
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
 
-class Desk360TicketListAdapter(context: Context?, private val ticketList: ArrayList<Desk360TicketResponse>) :
+class Desk360TicketListAdapter(
+    context: Context?,
+    private val ticketList: ArrayList<Desk360TicketResponse>
+) :
     RecyclerView.Adapter<Desk360TicketListAdapter.Holder>() {
     private var context: Context? = null
     private var binding: Desk360TicketListItemBinding? = null
@@ -23,7 +26,7 @@ class Desk360TicketListAdapter(context: Context?, private val ticketList: ArrayL
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         with(holder.itemView) {
-            ticket_subject.text = ticketList[position].subject
+            ticket_subject.text = ticketList[position].email
             ticket_date.text = ticketList[position].created
             ticket_subject.setTypeface(null, Typeface.NORMAL)
             when {
@@ -48,7 +51,12 @@ class Desk360TicketListAdapter(context: Context?, private val ticketList: ArrayL
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): Holder {
         binding =
-            DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.desk360_ticket_list_item, parent, false)
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.desk360_ticket_list_item,
+                parent,
+                false
+            )
         return Holder(binding!!)
     }
 
@@ -56,7 +64,8 @@ class Desk360TicketListAdapter(context: Context?, private val ticketList: ArrayL
         return ticketList.size
     }
 
-    class Holder(internal val binding: Desk360TicketListItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class Holder(internal val binding: Desk360TicketListItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     interface TicketOnClickListener {
         fun selectTicket(item: Desk360TicketResponse, position: Int)
