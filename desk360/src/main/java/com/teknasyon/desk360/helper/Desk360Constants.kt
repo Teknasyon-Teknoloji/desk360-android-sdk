@@ -19,7 +19,7 @@ object Desk360Constants {
     var baseURL: String? = null
 
     fun desk360Config(
-        app_key: String, app_version: String, baseURL: String, device_token: String? = null
+        app_key: String, app_version: String, baseURL: String? = "http://teknasyon.desk360.com/", device_token: String? = null
     ): Boolean {
 
         if (app_key == "")
