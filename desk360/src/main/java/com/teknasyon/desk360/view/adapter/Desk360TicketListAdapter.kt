@@ -26,7 +26,7 @@ class Desk360TicketListAdapter(
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         with(holder.itemView) {
-            ticket_subject.text = ticketList[position].email
+            ticket_subject.text = ticketList[position].message
             ticket_date.text = ticketList[position].created
             ticket_subject.setTypeface(null, Typeface.NORMAL)
             when {

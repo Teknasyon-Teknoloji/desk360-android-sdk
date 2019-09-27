@@ -10,6 +10,7 @@ class Desk360TicketResponse {
     var status: String? = null
     var name: String? = null
     var email: String? = null
+    var message: String? = null
     var created: String? = null
     var messages: ArrayList<Desk360Message>? = null
 }

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/footer_area"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/footer_area"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -94,5 +94,28 @@
             app:layout_constraintStart_toStartOf="@+id/ticket_list"
             app:layout_constraintTop_toTopOf="@+id/ticket_list" />
 
+
+        <com.teknasyon.desk360.helper.TextViewFooter
+            android:id="@+id/footer_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="#5E5D67"
+            android:drawableEnd="@drawable/footer_desk360_logo"
+            android:drawableRight="@drawable/footer_desk360_logo"
+            android:drawablePadding="8dp"
+            android:gravity="center|end"
+            android:paddingTop="4dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="2dp"
+            android:text="powered by"
+            android:textColor="#E8E8E9"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_nav_host_fragment" />
     </com.teknasyon.desk360.helper.Desk360ConstraintLayout>
 </layout>
