@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/ticketListFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360TicketListFragment"
-        android:label="Destek Taleplerim"
+        android:label="@string/SUPPORT_TITLE"
         tools:layout="@layout/desk360_fragment_ticket_list">
 
         <action
@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/ticketDetailFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360TicketDetailFragment"
-        android:label="Destek Taleplerim"
+        android:label="@string/SUPPORT_TITLE"
         tools:layout="@layout/desk360_fragment_ticket_detail">
         <action
             android:id="@+id/action_ticketDetailFragment_to_addNewTicketFragment"
@@ -46,6 +46,6 @@
     <fragment
         android:id="@+id/addNewTicketFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360AddNewTicketFragment"
-        android:label="Bize Ulaşın"
+        android:label="@string/CONTACT_US_TITLE"
         tools:layout="@layout/desk360_add_new_ticket_layout" />
 </navigation>
