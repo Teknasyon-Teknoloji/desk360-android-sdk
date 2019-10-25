@@ -1,10 +1,8 @@
 package com.teknasyon.desk360.view.activity
 
-import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
@@ -46,12 +44,12 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         setupActionBarWithNavController(this, navController!!)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
-
-        return findNavController(this, R.id.my_nav_host_fragment).navigateUp()
-    }
+//    override fun onSupportNavigateUp(): Boolean {
+//        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
+//
+//        return findNavController(this, R.id.my_nav_host_fragment).navigateUp()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         localMenu = menu
