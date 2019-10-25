@@ -1,10 +1,12 @@
 package com.teknasyon.desk360.view.activity
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
@@ -28,11 +30,12 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         navController =
-                findNavController(this, R.id.my_nav_host_fragment)
+            findNavController(this, R.id.my_nav_host_fragment)
         navController?.addOnDestinationChangedListener { _, _, _ ->
 
             userRegistered = false
-            val currentNav = (navController?.currentDestination as FragmentNavigator.Destination).className
+            val currentNav =
+                (navController?.currentDestination as FragmentNavigator.Destination).className
 
             if (currentNav == "com.teknasyon.desk360.view.fragment.Desk360TicketListFragment") {
                 userRegistered = true
@@ -44,12 +47,12 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         setupActionBarWithNavController(this, navController!!)
     }
 
-//    override fun onSupportNavigateUp(): Boolean {
-//        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
-//
-//        return findNavController(this, R.id.my_nav_host_fragment).navigateUp()
-//    }
+    override fun onSupportNavigateUp(): Boolean {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
+
+        return findNavController(this, R.id.my_nav_host_fragment).navigateUp()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         localMenu = menu
@@ -76,6 +79,13 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if (userRegistered)
+            super.onBackPressed()
+        else
+            onSupportNavigateUp()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
