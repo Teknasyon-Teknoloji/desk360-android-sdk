@@ -14,12 +14,12 @@ class Desk360InputLayout : TextInputLayout {
         when (Desk360Constants.currentTheme) {
             1 -> {
                 this.setBoxBackgroundMode(BOX_BACKGROUND_NONE)
-                context.setTheme(R.style.DarkTextLabel)
+                context.setTheme(R.style.input_type1)
                 invalidate()
             }
             2 -> {
                 this.setBoxBackgroundMode(BOX_BACKGROUND_OUTLINE)
-                context.setTheme(R.style.DarkTextLabel)
+                context.setTheme(R.style.input_type1)
                 invalidate()
             }
             3 -> {
@@ -30,12 +30,12 @@ class Desk360InputLayout : TextInputLayout {
                 else
                     this.background = resources.getDrawable(R.drawable.type_3_bg_with_shadow)
 
-                context.setTheme(R.style.DarkTextLabel)
+                context.setTheme(R.style.input_type1)
                 invalidate()
             }
             4 -> {
                 this.setBoxBackgroundMode(BOX_BACKGROUND_NONE)
-                context.setTheme(R.style.DarkTextLabel)
+                context.setTheme(R.style.input_type1)
                 invalidate()
             }
             5 -> {
@@ -47,7 +47,7 @@ class Desk360InputLayout : TextInputLayout {
                 else
                     this.background = resources.getDrawable(R.drawable.type_3_bg_with_shadow)
 
-                context.setTheme(R.style.DarkTextLabel)
+                context.setTheme(R.style.input_type1)
                 invalidate()
             }
             else -> {

@@ -58,6 +58,8 @@
         <item name="colorControlActivated">@color/light_theme_box_stroke_color</item>
     </style>
 
+
+
     <style name="input_type2" parent="Widget.Design.TextInputLayout">
         <item name="android:colorAccent">@color/light_theme_box_stroke_color</item>
         <item name="colorAccent">@color/light_theme_box_stroke_color</item>

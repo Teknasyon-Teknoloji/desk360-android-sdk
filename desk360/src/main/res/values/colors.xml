@@ -29,6 +29,8 @@
     <color name="colorDesk360TextHint">#a6a6a8</color>
     <color name="colorDesk360Transparent">#00A6A6A8</color>
     <color name="colorDesk360Type4Progress">#3f4b60</color>
+    <color name="spinnerBgGray">#f7f7f7</color>
+
 
 
 </resources>

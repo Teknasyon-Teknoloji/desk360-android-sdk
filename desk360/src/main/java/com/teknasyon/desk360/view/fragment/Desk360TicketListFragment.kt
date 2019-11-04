@@ -28,7 +28,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
 
     private var ticketAdapter: Desk360TicketListAdapter? = null
     private var observer = Observer<ArrayList<Desk360TicketResponse>> {
-        binding?.loadingProgress?.visibility = View.INVISIBLE
+        binding?.loadingProgressMain?.visibility = View.VISIBLE
         it?.let {
             if (it.size != 0) {
                 ticketAdapter = Desk360TicketListAdapter(context, it)
@@ -45,6 +45,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
                 RxBus.publish("ticketListIsEmpty")
             }
         }
+        binding?.loadingProgressMain?.visibility = View.INVISIBLE
     }
 
     var binding: Desk360FragmentTicketListBinding? = null
@@ -81,7 +82,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = TicketListViewModel()
-        binding?.loadingProgress?.visibility = View.VISIBLE
+        binding?.loadingProgressMain?.visibility = View.VISIBLE
         viewModel?.ticketList?.observe(this, observer)
         binding?.emptysAddNewTicketButton?.setOnClickListener {
             Navigation

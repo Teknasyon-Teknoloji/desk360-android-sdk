@@ -13,33 +13,26 @@ class Desk360Spinner : Spinner {
 
         when (Desk360Constants.currentTheme) {
             1 -> {
-
-                this.setBackgroundColor(Color.TRANSPARENT)
                 this.setBackgroundResource(R.drawable.spinner_bg_desk360_transparent)
                 context.setTheme(R.style.spinnerTheme)
             }
             2 -> {
-                this.setBackgroundColor(Color.WHITE)
                 this.setBackgroundResource(R.drawable.spinner_bg_desk360)
                 context.setTheme(R.style.spinnerTheme)
             }
             3 -> {
-                this.setBackgroundColor(Color.WHITE)
                 this.setBackgroundResource(R.drawable.spinner_bg_desk360)
                 context.setTheme(R.style.spinnerTheme)
             }
             4 -> {
-                this.setBackgroundColor(Color.WHITE)
                 this.setBackgroundResource(R.drawable.spinner_bg_desk360_transparent_white_icon)
                 context.setTheme(R.style.spinnerTheme)
             }
             5 -> {
-                this.setBackgroundColor(Color.WHITE)
                 this.setBackgroundResource(R.drawable.spinner_bg_desk360)
                 context.setTheme(R.style.spinnerTheme)
             }
             else -> {
-                this.setBackgroundColor(Color.WHITE)
                 this.setBackgroundResource(R.drawable.spinner_bg_desk360)
                 context.setTheme(R.style.spinnerTheme)
 

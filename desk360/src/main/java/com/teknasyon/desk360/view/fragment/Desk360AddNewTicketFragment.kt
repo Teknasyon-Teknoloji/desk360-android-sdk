@@ -50,7 +50,7 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 context?.let { it1 ->
                     Desk360SupportTypeAdapter(
                         it1,
-                        com.teknasyon.desk360.R.layout.desk360_type_dropdown,
+                        R.layout.desk360_type_dropdown,
                         listOfType
                     )
                 }
