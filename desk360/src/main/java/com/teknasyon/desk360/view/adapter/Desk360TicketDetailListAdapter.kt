@@ -5,21 +5,21 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.databinding.Desk360LightThemeIncomingMessageItemBinding
-import com.teknasyon.desk360.databinding.Desk360LightThemeSendMessageItemBinding
+import com.teknasyon.desk360.databinding.Desk360IncomingMessageItemLayoutBinding
+import com.teknasyon.desk360.databinding.Desk360SendMessageItemLayoutBinding
 import com.teknasyon.desk360.model.Desk360Message
-import kotlinx.android.synthetic.main.desk360_light_theme_incoming_message_item.view.*
-import kotlinx.android.synthetic.main.desk360_light_theme_send_message_item.view.*
+import kotlinx.android.synthetic.main.desk360_incoming_message_item_layout.view.*
+import kotlinx.android.synthetic.main.desk360_send_message_item_layout.view.*
 
 class Desk360TicketDetailListAdapter(private val ticketList: ArrayList<Desk360Message>) : RecyclerView.Adapter<Desk360TicketDetailListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         if (viewType == 0) {
-            val binding = DataBindingUtil.inflate<Desk360LightThemeIncomingMessageItemBinding>(LayoutInflater.from(parent.context), R.layout.desk360_light_theme_incoming_message_item, parent, false)
+            val binding = DataBindingUtil.inflate<Desk360IncomingMessageItemLayoutBinding>(LayoutInflater.from(parent.context), R.layout.desk360_incoming_message_item_layout, parent, false)
             return ViewHolder(binding, 0)
         } else {
-            val binding = DataBindingUtil.inflate<Desk360LightThemeSendMessageItemBinding>(LayoutInflater.from(parent.context), R.layout.desk360_light_theme_send_message_item, parent, false)
+            val binding = DataBindingUtil.inflate<Desk360SendMessageItemLayoutBinding>(LayoutInflater.from(parent.context), R.layout.desk360_send_message_item_layout, parent, false)
             return ViewHolder(binding, 1)
         }
     }
@@ -46,5 +46,5 @@ class Desk360TicketDetailListAdapter(private val ticketList: ArrayList<Desk360Me
     }
 
     class ViewHolder(binding: Any?, viewType: Int) : RecyclerView.ViewHolder
-    (if (viewType == 0) (binding as Desk360LightThemeIncomingMessageItemBinding).root else (binding as Desk360LightThemeSendMessageItemBinding).root)
+    (if (viewType == 0) (binding as Desk360IncomingMessageItemLayoutBinding).root else (binding as Desk360SendMessageItemLayoutBinding).root)
 }

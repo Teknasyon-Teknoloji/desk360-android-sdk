@@ -6,13 +6,17 @@
 
     </data>
 
-    <com.teknasyon.desk360.helper.Desk360ConstraintLayout
+    <com.teknasyon.desk360.themev2.Desk360TicketItemsLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="#ffffff"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
-        <com.teknasyon.desk360.helper.Desk360TextTitle
+        <com.teknasyon.desk360.themev2.Desk360TicketListItemTitle
             android:id="@+id/ticket_subject"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -22,6 +26,7 @@
             android:gravity="left"
             android:letterSpacing="0.01"
             android:lines="1"
+            android:text="A paragraph of a support message…"
             android:singleLine="true"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -30,15 +35,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.teknasyon.desk360.helper.Desk360TextViewInfo
+        <com.teknasyon.desk360.themev2.Desk360TicketListItemsDate
             android:id="@+id/ticket_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginBottom="10dp"
+            android:text="3.11.2018 10:00"
             android:fontFamily="sans-serif"
             android:letterSpacing="0.03"
+            android:layout_marginTop="8dp"
             android:textSize="12sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -46,23 +53,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ticket_subject" />
 
-        <ImageView
+        <com.teknasyon.desk360.themev2.Desk360TicketListItemsImage
             android:id="@+id/message_status"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+            android:layout_width="20dp"
+            android:layout_height="15dp"
             android:padding="16dp"
+            android:layout_marginRight="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ticket_subject"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.teknasyon.desk360.helper.Desk360LineView
-            android:layout_width="match_parent"
-            android:layout_height="0.7dp"
-            android:layout_marginBottom="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
-    </com.teknasyon.desk360.helper.Desk360ConstraintLayout>
+    </com.teknasyon.desk360.themev2.Desk360TicketItemsLayout>
 </layout>

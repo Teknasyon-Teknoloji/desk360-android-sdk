@@ -2,6 +2,7 @@ package com.teknasyon.desk360.view.fragment
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.KeyEvent
 import android.view.KeyEvent.*
 import android.view.LayoutInflater
@@ -12,7 +13,9 @@ import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
+import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360Type
@@ -107,13 +110,15 @@ open class Desk360AddNewTicketFragment : Fragment() {
         if (it != null) {
             view?.let { it1 ->
 
-                RxBus.publish("backButtonActionKey")
-                Navigation
-                    .findNavController(it1)
-                    .navigateUp()
-                Navigation
-                    .findNavController(it1)
-                    .navigateUp()
+                //                RxBus.publish("backButtonActionKey")
+//                Navigation
+//                    .findNavController(it1)
+//                    .navigateUp()
+//                Navigation
+//                    .findNavController(it1)
+//                    .navigateUp()
+                Navigation.findNavController(it1)
+                    .navigate(R.id.action_addNewTicketFragment_to_thanksFragment,null,NavOptions.Builder().setPopUpTo(R.id.addNewTicketFragment,true).build())
 
             }
 
@@ -135,6 +140,8 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 container,
                 false
             )
+
+        RxBus.publish("transparentBackground")
         return binding?.root
     }
 
@@ -146,7 +153,6 @@ open class Desk360AddNewTicketFragment : Fragment() {
         viewModel?.emailFieldFill?.observe(this, observerEMail)
         viewModel?.messageFieldFill?.observe(this, observerMessage)
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
-
         binding?.subjectType?.prompt = "Gender"
         binding?.subjectType?.onItemSelectedListener =
             (object : AdapterView.OnItemSelectedListener {
@@ -164,6 +170,7 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 }
             })
 
+        binding?.txtBottomFooterMessageForm?.movementMethod = ScrollingMovementMethod()
         binding?.sendButton?.setOnClickListener {
             viewModel?.validateAllField(selectedTypeId)
         }

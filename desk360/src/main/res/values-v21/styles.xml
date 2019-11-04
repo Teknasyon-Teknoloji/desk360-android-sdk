@@ -39,4 +39,36 @@
         <item name="android:textColor">@color/light_theme_hint_color</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="spinnerTheme">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorDesk360TextHint</item>
+    </style>
+
+    <style name="input_type1" parent="Widget.Design.TextInputLayout">
+        <item name="android:colorAccent">@color/light_theme_box_stroke_color</item>
+        <item name="colorAccent">@color/light_theme_box_stroke_color</item>
+        <item name="android:textColorHint">@color/light_theme_hint_color</item>
+        <item name="android:textSize">16sp</item>
+        <item name="hintTextAppearance">@style/LightHintText</item>
+        <item name="colorControlNormal">@color/light_theme_text_color</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/light_theme_box_stroke_color</item>
+        <item name="colorControlActivated">@color/light_theme_box_stroke_color</item>
+    </style>
+
+    <style name="input_type2" parent="Widget.Design.TextInputLayout">
+        <item name="android:colorAccent">@color/light_theme_box_stroke_color</item>
+        <item name="colorAccent">@color/light_theme_box_stroke_color</item>
+        <item name="android:textColorHint">@color/light_theme_hint_color</item>
+        <item name="android:textSize">16sp</item>
+        <item name="hintTextAppearance">@style/LightHintText</item>
+        <item name="colorControlNormal">@color/light_theme_text_color</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/light_theme_box_stroke_color</item>
+        <item name="colorControlActivated">@color/light_theme_box_stroke_color</item>
+    </style>
+
 </resources>

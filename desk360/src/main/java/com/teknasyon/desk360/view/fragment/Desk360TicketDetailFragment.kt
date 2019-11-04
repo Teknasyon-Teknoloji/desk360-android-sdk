@@ -2,6 +2,7 @@ package com.teknasyon.desk360.view.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View

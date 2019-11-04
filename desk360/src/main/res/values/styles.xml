@@ -47,7 +47,7 @@
     </style>
 
     <style name="DarkAccent" parent="ThemeOverlay.AppCompat.Light">
-        <item name="colorAccent">@color/light_theme_text_color</item>
+        <item name="colorAccent">@color/colorDesk360Type4Progress</item>
     </style>
 
     <style name="LightThemeToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -59,6 +59,24 @@
     <style name="DarkThemeToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">@color/dark_theme_toolbar_bg_color</item>
         <item name="colorAccent">@color/dark_theme_toolbar_bg_color</item>
-        <item name="colorControlNormal">#ffffff</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
+
+    <style name="spinnerTheme">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorDesk360TextHint</item>
+    </style>
+
+    <style name="input_type1" parent="AppTheme">
+        <item name="android:textColorHint">@color/colorDesk360TextHint</item>
+        <item name="android:textSize">16sp</item>
+        <item name="colorControlActivated">@color/colorDesk360Line</item>
+    </style>
+
+    <style name="input_type2" parent="AppTheme">
+        <item name="android:textColorHint">@color/colorDesk360TextHint</item>
+        <item name="android:textSize">16sp</item>
+        <item name="colorControlActivated">@color/colorDesk360LineWhite</item>
+    </style>
+
 </resources>

@@ -9,7 +9,7 @@ import com.teknasyon.desk360.helper.Desk360Constants.currentTheme
 
 class Desk360Spinner : Spinner {
     init {
-        if (currentTheme == "light") {
+         if (currentTheme == 1) {
             this.setBackgroundColor(Color.WHITE)
             this.setBackgroundResource(R.drawable.light_theme_spinner_bg)
         } else {

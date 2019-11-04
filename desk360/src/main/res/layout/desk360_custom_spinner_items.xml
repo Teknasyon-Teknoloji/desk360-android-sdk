@@ -3,7 +3,7 @@
     <data>
 
     </data>
-    <com.teknasyon.desk360.helper.Desk360ConstraintLayout
+    <com.teknasyon.desk360.themev2.Desk360CommonButton
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
         <com.teknasyon.desk360.helper.Desk360TextTitle
@@ -12,5 +12,5 @@
                 android:id="@+id/type_text"
                 android:padding="16dp">
         </com.teknasyon.desk360.helper.Desk360TextTitle>
-    </com.teknasyon.desk360.helper.Desk360ConstraintLayout>
+    </com.teknasyon.desk360.themev2.Desk360CommonButton>
 </layout>

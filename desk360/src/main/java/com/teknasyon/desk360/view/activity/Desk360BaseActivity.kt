@@ -2,19 +2,24 @@ package com.teknasyon.desk360.view.activity
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavAction
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.RxBus
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
 open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
@@ -23,15 +28,23 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     var userRegistered = true
     private var navController: NavController? = null
 
+    private var disposable: Disposable? = null
+
     private var binding: Desk360FragmentMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.desk360_fragment_main)
+        binding = Desk360FragmentMainBinding.inflate(layoutInflater)
+        setContentView(binding!!.root)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
 
         navController =
             findNavController(this, R.id.my_nav_host_fragment)
-        navController?.addOnDestinationChangedListener { _, _, _ ->
+
+        navController?.addOnDestinationChangedListener { _, destination, _ ->
 
             userRegistered = false
             val currentNav =
@@ -41,29 +54,72 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                 userRegistered = true
             }
 
-            toolbar.title = navController?.currentDestination?.label
+            binding?.toolbarTitle?.text = navController?.currentDestination?.label
             localMenu?.let { onPrepareOptionsMenu(it) }
+
+            if (destination.id == R.id.ticketListFragment || destination.id == R.id.preNewTicketFragment || destination.id==R.id.thanksFragment) {
+                if (Desk360Constants.currentTheme in listOf(1, 2, 3, 5))
+                    toolbar.navigationIcon = resources.getDrawable(R.drawable.close_button_desk)
+                else
+                    toolbar.navigationIcon =
+                        resources.getDrawable(R.drawable.close_button_desk_white)
+
+            } else {
+                if (Desk360Constants.currentTheme in listOf(1, 2, 3, 5))
+                    toolbar.navigationIcon = resources.getDrawable(R.drawable.back_btn_dark_theme)
+                else
+                    toolbar.navigationIcon = resources.getDrawable(R.drawable.back_btn_light_theme)
+            }
+
         }
-        setupActionBarWithNavController(this, navController!!)
+//        setupActionBarWithNavController(this, navController!!, appBarConfiguration)
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
-
-        return findNavController(this, R.id.my_nav_host_fragment).navigateUp()
+        return if (userRegistered) {
+            super.onBackPressed()
+            true
+        } else
+            findNavController(this, R.id.my_nav_host_fragment).navigateUp()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         localMenu = menu
         menuInflater.inflate(R.menu.menu_main, menu)
         val register: MenuItem = menu.findItem(R.id.action_add_new_ticket)
+        disposable = RxBus.listen(String::class.java).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    "ticketListIsNotEmpty" -> {
 
-        if (Desk360Constants.currentTheme == "light") {
-            register.icon = resources.getDrawable(R.drawable.ic_add_light_theme_icon)
-        } else {
-            register.icon = resources.getDrawable(R.drawable.ic_add_dark_theme_icon)
-        }
+                        register.isVisible = true
+
+                        if (Desk360Constants.currentTheme in listOf(1, 2, 3, 5))
+                            register.icon =
+                                resources.getDrawable(R.drawable.add_new_message_icon_black)
+                        else
+                            register.icon =
+                                resources.getDrawable(R.drawable.add_new_message_icon_white)
+                    }
+
+//                    "transparentBackground" -> {
+//                        register.icon = resources.getDrawable(R.drawable.transparent_background)
+//                    }
+
+                    "ticketListIsEmpty" -> {
+                        register.isVisible = false
+                    }
+
+
+                }
+            }, { t ->
+                Log.d("Test", "$t.")
+            })
+
         return true
     }
 
@@ -74,9 +130,11 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
             userRegistered = false
 
-            findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
+            findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(R.id.action_ticketListFragment_to_preNewTicketFragment)
             return true
         }
+
+
 
         return super.onOptionsItemSelected(item)
     }
@@ -90,7 +148,13 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val register: MenuItem = menu.findItem(R.id.action_add_new_ticket)
-        register.isVisible = userRegistered
+        register.isVisible = false
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (disposable?.isDisposed == false)
+            disposable?.dispose()
     }
 }

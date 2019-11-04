@@ -8,7 +8,7 @@ import com.teknasyon.desk360.helper.Desk360Constants.currentTheme
 
 class Desk360TextTitle : TextView {
     init {
-        if (currentTheme == "light") {
+         if (currentTheme == 1) {
             this.setBackgroundColor(Color.WHITE)
             this.setTextColor(Color.parseColor("#de000000"))
         } else {

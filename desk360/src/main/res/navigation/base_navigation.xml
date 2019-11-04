@@ -26,7 +26,17 @@
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
+            app:popExitAnim="@anim/to_right"
+            app:popUpToInclusive="false"/>
+        <action
+            android:id="@+id/action_ticketListFragment_to_preNewTicketFragment"
+            app:destination="@id/preNewTicketFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/ticketDetailFragment"
@@ -47,5 +57,42 @@
         android:id="@+id/addNewTicketFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360AddNewTicketFragment"
         android:label="Bize Ulaşın"
-        tools:layout="@layout/desk360_add_new_ticket_layout" />
+        tools:layout="@layout/desk360_add_new_ticket_layout"
+        >
+        <action
+            android:id="@+id/action_addNewTicketFragment_to_thanksFragment"
+            app:destination="@id/thanksFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/preNewTicketFragment"
+        android:name="com.teknasyon.desk360.view.fragment.PreNewTicketFragment"
+        android:label="Bize Ulaşın"
+        tools:layout="@layout/fragment_pre_new_ticket">
+        <action
+            android:id="@+id/action_preNewTicketFragment_to_addNewTicketFragment"
+            app:destination="@id/addNewTicketFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/thanksFragment"
+        android:name="com.teknasyon.desk360.view.fragment.ThanksFragment"
+        android:label="Bize Ulaşın"
+        tools:layout="@layout/desk360_received_message_layout">
+        <action
+            android:id="@+id/action_thanksFragment_to_ticketListFragment"
+            app:destination="@id/ticketListFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
 </navigation>

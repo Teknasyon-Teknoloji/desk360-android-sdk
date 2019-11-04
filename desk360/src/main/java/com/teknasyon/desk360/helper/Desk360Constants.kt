@@ -11,7 +11,7 @@ import java.util.*
 
 object Desk360Constants {
 
-    var currentTheme: String = "light"
+    var currentTheme: Int = 1
     var app_key: String? = null
     var app_version: String? = null
     var language_code: String? = null
@@ -48,8 +48,8 @@ object Desk360Constants {
         return true
     }
 
-    fun desk360CurrentTheme(current_theme: String) {
-        if (current_theme == "")
+    fun desk360CurrentTheme(current_theme: Int) {
+        if (current_theme == 1)
             return
         this.currentTheme = current_theme
     }

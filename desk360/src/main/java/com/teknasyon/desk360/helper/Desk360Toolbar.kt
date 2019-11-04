@@ -10,30 +10,44 @@ import com.teknasyon.desk360.helper.Desk360Constants.currentTheme
 
 class Desk360Toolbar : Toolbar {
     init {
-        if (currentTheme == "light") {
-            this.setBackgroundColor(Color.WHITE)
-            this.setTitleTextColor(Color.parseColor("#212121"))
-        } else {
-            this.setBackgroundColor(Color.BLACK)
-            this.setTitleTextColor(Color.WHITE)
+
+        when (currentTheme) {
+            1, 2, 3, 5 -> {
+                this.setBackgroundColor(Color.parseColor("#f7f7f7"))
+                this.setTitleTextColor(Color.parseColor("#5c5c5c"))
+            }
+            4 -> {
+                this.setBackgroundColor(Color.parseColor("#3f4b60"))
+                this.setTitleTextColor(Color.parseColor("#ffffff"))
+            }
+            else -> {
+                this.setBackgroundColor(Color.parseColor("#f7f7f7"))
+                this.setTitleTextColor(Color.parseColor("#5c5c5c"))
+            }
         }
     }
 
-    constructor(context: Context) : super(if (currentTheme == "light") {
-        ContextThemeWrapper(context, R.style.LightThemeToolbar)
-    } else {
-        ContextThemeWrapper(context, R.style.DarkThemeToolbar)
-    })
+    constructor(context: Context) : super(
+        if (currentTheme == 1) {
+            ContextThemeWrapper(context, R.style.LightThemeToolbar)
+        } else {
+            ContextThemeWrapper(context, R.style.DarkThemeToolbar)
+        }
+    )
 
-    constructor(context: Context, attrs: AttributeSet) : super(if (currentTheme == "light") {
-        ContextThemeWrapper(context, R.style.LightThemeToolbar)
-    } else {
-        ContextThemeWrapper(context, R.style.DarkThemeToolbar)
-    }, attrs)
+    constructor(context: Context, attrs: AttributeSet) : super(
+        if (currentTheme == 1) {
+            ContextThemeWrapper(context, R.style.LightThemeToolbar)
+        } else {
+            ContextThemeWrapper(context, R.style.DarkThemeToolbar)
+        }, attrs
+    )
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(if (currentTheme == "light") {
-        ContextThemeWrapper(context, R.style.LightThemeToolbar)
-    } else {
-        ContextThemeWrapper(context, R.style.DarkThemeToolbar)
-    }, attrs, defStyle)
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        if (currentTheme == 1) {
+            ContextThemeWrapper(context, R.style.LightThemeToolbar)
+        } else {
+            ContextThemeWrapper(context, R.style.DarkThemeToolbar)
+        }, attrs, defStyle
+    )
 }

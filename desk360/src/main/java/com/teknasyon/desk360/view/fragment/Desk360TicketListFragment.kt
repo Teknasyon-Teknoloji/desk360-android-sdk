@@ -1,6 +1,7 @@
 package com.teknasyon.desk360.view.fragment
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
+import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
@@ -33,9 +35,14 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
                 binding?.ticketList?.layoutManager = LinearLayoutManager(context)
                 binding?.ticketList?.adapter = ticketAdapter
                 ticketAdapter?.clickItem = this
+                binding?.emptyListLayout?.visibility = View.INVISIBLE
+                binding?.fillListLayout?.visibility = View.VISIBLE
+                RxBus.publish("ticketListIsNotEmpty")
             } else {
                 binding?.emptyListLayout?.visibility = View.VISIBLE
+                binding?.fillListLayout?.visibility = View.INVISIBLE
                 (activity as Desk360BaseActivity).title = "Bize Ulaşın"
+                RxBus.publish("ticketListIsEmpty")
             }
         }
     }
@@ -81,6 +88,8 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
                 .findNavController(it)
                 .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment, null)
         }
+        binding?.txtBottomFooterMain?.movementMethod = ScrollingMovementMethod()
+
     }
 
     override fun onDestroy() {

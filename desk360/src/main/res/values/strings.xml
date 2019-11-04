@@ -28,4 +28,13 @@
     <string name="BUTTON_ADD_NEW_TICKET">Create New Ticket</string>
     <string name="SUBJECT">Subject</string>
 
+    <string-array name="array_name">
+        <item>Item One</item>
+        <item>Item Two</item>
+        <item>Item Three</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

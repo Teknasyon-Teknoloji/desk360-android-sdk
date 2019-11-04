@@ -34,7 +34,7 @@ class Desk360TicketListAdapter(
                     message_status.setImageResource(R.drawable.read_icon_theme_dark)
                 }
                 ticketList[position].status == "unread" -> {
-                    message_status.setImageResource(R.drawable.unread_icon_theme_dark)
+                    message_status.setImageResource(R.drawable.zarf)
                     ticket_subject.setTypeface(null, Typeface.BOLD)
                 }
                 else -> {

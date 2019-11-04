@@ -145,7 +145,7 @@ open class AddNewTicketViewModel : ViewModel() {
         fun messageQuality(s: CharSequence) {
             messageData = s.toString()
             messageLength = messageData!!.length
-            notifyPropertyChanged(BR.messageLengthData)
+            notifyPropertyChanged(BR._all)
             messageFieldFill.postValue(
                 when {
                     s.isEmpty() -> false
