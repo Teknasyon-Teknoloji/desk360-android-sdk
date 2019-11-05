@@ -11,7 +11,7 @@ import java.util.*
 
 object Desk360Constants {
 
-    var currentTheme: Int = 2
+    var currentTheme: Int = 1
     var app_key: String? = null
     var app_version: String? = null
     var language_code: String? = null

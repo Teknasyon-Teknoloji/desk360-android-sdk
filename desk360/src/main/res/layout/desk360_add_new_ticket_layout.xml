@@ -30,7 +30,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:hint="Adınız"
+                android:hint="İsim Soyisim"
                 app:boxCollapsedPaddingTop="4dp"
                 app:boxCornerRadiusBottomEnd="5dp"
                 app:boxCornerRadiusBottomStart="5dp"
@@ -65,7 +65,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:hint="Soyadınız"
+                android:hint="E-Mail"
                 app:boxCollapsedPaddingTop="1dp"
                 app:boxCornerRadiusBottomEnd="5dp"
                 app:boxCornerRadiusBottomStart="5dp"
@@ -167,10 +167,11 @@
                     tools:ignore="MissingConstraints">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/message_edit_text"
+                        android:id="@+id/message_edit_text_type1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="start"
+                        android:onTextChanged="@{(text, start, before, count) -> viewModel.observable.messageQuality(text)}"
                         android:imeOptions="actionDone"
                         android:maxLength="250"
                         android:maxLines="7"
@@ -209,7 +210,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.teknasyon.desk360.themev2.Desk360EditTextMessage
-                    android:id="@+id/message_edit_text2"
+                    android:id="@+id/message_edit_text_type2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

@@ -13,13 +13,13 @@ class Desk360TicketListItemTitle : TextView{
 
         when (Desk360Constants.currentTheme) {
             1, 2, 3, 5 -> {
-                this.setTextColor(Color.parseColor("#000000"))
+                this.setTextColor(Color.parseColor("#2d2d2d"))
             }
             4 -> {
                 this.setTextColor(Color.parseColor("#ffffff"))
             }
             else -> {
-                this.setTextColor(Color.parseColor("#000000"))
+                this.setTextColor(Color.parseColor("#2d2d2d"))
 
             }
         }

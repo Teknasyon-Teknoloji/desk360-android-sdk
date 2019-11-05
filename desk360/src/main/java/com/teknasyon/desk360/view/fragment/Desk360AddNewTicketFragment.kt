@@ -17,6 +17,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
+import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
@@ -86,21 +87,15 @@ open class Desk360AddNewTicketFragment : Fragment() {
 
     private var observerMessage = Observer<Boolean> {
         if (it != null) {
-            if (!it) {
-                binding?.messageEditText!!.isEnabled = true
-                binding?.messageEditText!!.requestFocus()
-                binding?.messageEditText?.onKeyUp(
-                    KEYCODE_DPAD_UP, KeyEvent(ACTION_UP, KEYCODE_DPAD_UP)
-                )
-            }
-            binding?.messageEditText?.setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    binding?.baseLayout?.bottom?.let { it1 ->
-                        binding?.baseLayout?.scrollTo(
-                            0,
-                            it1
-                        )
-                    }
+            when (Desk360Constants.currentTheme) {
+                1, 4 -> {
+                    setMessageTextTypeTwo(it)
+                }
+                2, 3, 5 -> {
+                    setMessageTextTypeOne(it)
+                }
+                else -> {
+                    setMessageTextTypeTwo(it)
                 }
             }
         }
@@ -109,8 +104,7 @@ open class Desk360AddNewTicketFragment : Fragment() {
     private var observerAddedTicket = Observer<String> {
         if (it != null) {
             view?.let { it1 ->
-
-                //                RxBus.publish("backButtonActionKey")
+//                RxBus.publish("backButtonActionKey")
 //                Navigation
 //                    .findNavController(it1)
 //                    .navigateUp()
@@ -118,15 +112,17 @@ open class Desk360AddNewTicketFragment : Fragment() {
 //                    .findNavController(it1)
 //                    .navigateUp()
                 Navigation.findNavController(it1)
-                    .navigate(R.id.action_addNewTicketFragment_to_thanksFragment,null,NavOptions.Builder().setPopUpTo(R.id.addNewTicketFragment,true).build())
-
+                    .navigate(
+                        R.id.action_addNewTicketFragment_to_thanksFragment,
+                        null,
+                        NavOptions.Builder().setPopUpTo(R.id.addNewTicketFragment, true).build()
+                    )
             }
 
             val imm = activity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view!!.windowToken, 0)
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -159,7 +155,6 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
                 }
-
                 override fun onItemSelected(
                     parent: AdapterView<*>,
                     view: View?,
@@ -176,6 +171,49 @@ open class Desk360AddNewTicketFragment : Fragment() {
         }
 
         binding?.viewModel = viewModel
+    }
+
+
+    private fun setMessageTextTypeTwo(it: Boolean) {
+        binding?.messageEditTextType1!!.isClickable = false
+        if (!it) {
+            binding?.messageEditTextType2!!.isEnabled = true
+            binding?.messageEditTextType2!!.requestFocus()
+            binding?.messageEditTextType2?.onKeyUp(
+                KEYCODE_DPAD_UP, KeyEvent(ACTION_UP, KEYCODE_DPAD_UP)
+            )
+        }
+        binding?.messageEditTextType2?.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding?.baseLayout?.bottom?.let { it1 ->
+                    binding?.baseLayout?.scrollTo(
+                        0,
+                        it1
+                    )
+                }
+            }
+        }
+    }
+
+    private fun setMessageTextTypeOne(it: Boolean) {
+        binding?.messageEditTextType2!!.isClickable = false
+        if (!it) {
+            binding?.messageEditTextType1!!.isEnabled = true
+            binding?.messageEditTextType1!!.requestFocus()
+            binding?.messageEditTextType1?.onKeyUp(
+                KEYCODE_DPAD_UP, KeyEvent(ACTION_UP, KEYCODE_DPAD_UP)
+            )
+        }
+        binding?.messageEditTextType1?.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding?.baseLayout?.bottom?.let { it1 ->
+                    binding?.baseLayout?.scrollTo(
+                        0,
+                        it1
+                    )
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
