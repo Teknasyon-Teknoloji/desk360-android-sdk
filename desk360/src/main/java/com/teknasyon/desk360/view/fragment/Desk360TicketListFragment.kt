@@ -8,15 +8,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
-import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
+import com.teknasyon.desk360.view.adapter.Desk360TicketPagerAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
+
+
 
 
 /**
@@ -24,19 +26,22 @@ import com.teknasyon.desk360.viewmodel.TicketListViewModel
  *
  */
 
-open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.TicketOnClickListener {
+open class Desk360TicketListFragment : Fragment() {
 
-    private var ticketAdapter: Desk360TicketListAdapter? = null
+    private lateinit var ticketListPagerAdapter: Desk360TicketPagerAdapter
+    private var currentTicketSize: Int = 0
+    private var pastTicketSize: Int = 0
+    private var binding: Desk360FragmentTicketListBinding? = null
+    private var viewModel: TicketListViewModel? = null
+
     private var observer = Observer<ArrayList<Desk360TicketResponse>> {
         binding?.loadingProgressMain?.visibility = View.VISIBLE
         it?.let {
             if (it.size != 0) {
-                ticketAdapter = Desk360TicketListAdapter(context, it)
-                binding?.ticketList?.layoutManager = LinearLayoutManager(context)
-                binding?.ticketList?.adapter = ticketAdapter
-                ticketAdapter?.clickItem = this
+                getCurrentAndPastTicketsize(it)
                 binding?.emptyListLayout?.visibility = View.INVISIBLE
                 binding?.fillListLayout?.visibility = View.VISIBLE
+                binding?.ticketsTabs?.setupWithViewPager(binding?.viewPager)
                 RxBus.publish("ticketListIsNotEmpty")
             } else {
                 binding?.emptyListLayout?.visibility = View.VISIBLE
@@ -48,23 +53,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
         binding?.loadingProgressMain?.visibility = View.INVISIBLE
     }
 
-    var binding: Desk360FragmentTicketListBinding? = null
 
-    override fun selectTicket(item: Desk360TicketResponse, position: Int) {
-        view?.let {
-            val bundle = Bundle()
-            item.id?.let { it1 -> bundle.putInt("ticket_id", it1) }
-            bundle.putString("ticket_status", item.status.toString())
-
-            (activity as Desk360BaseActivity).userRegistered = false
-
-            Navigation
-                .findNavController(it)
-                .navigate(R.id.action_ticketListFragment_to_ticketDetailFragment, bundle)
-        }
-    }
-
-    private var viewModel: TicketListViewModel? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,16 +70,51 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = TicketListViewModel()
+        viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
         binding?.loadingProgressMain?.visibility = View.VISIBLE
-        viewModel?.ticketList?.observe(this, observer)
+        viewModel?.ticketList?.observe(activity!!, observer)
+        viewModel?.register()
         binding?.emptysAddNewTicketButton?.setOnClickListener {
             Navigation
                 .findNavController(it)
                 .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment, null)
         }
+        ticketListPagerAdapter = fragmentManager?.let { Desk360TicketPagerAdapter(it) }!!
+        binding!!.viewPager.adapter = ticketListPagerAdapter
         binding?.txtBottomFooterMain?.movementMethod = ScrollingMovementMethod()
 
+
+    }
+
+
+    private fun getCurrentAndPastTicketsize(it: ArrayList<Desk360TicketResponse>) {
+        for (i in 0 until it.size) {
+            if (it[i].status != "expired") {
+                currentTicketSize++
+            }else{
+                pastTicketSize++
+            }
+        }
+        setTicketSize()
+        if(currentTicketSize==0) binding!!.textTicketsCurrentCount.visibility=View.INVISIBLE
+        else binding!!.textTicketsCurrentCount.visibility=View.VISIBLE
+
+        if(pastTicketSize==0) binding!!.textTicketsPastCount.visibility=View.INVISIBLE
+        else binding!!.textTicketsPastCount.visibility=View.VISIBLE
+    }
+
+    private fun setTicketSize(){
+        if(currentTicketSize>99){
+            binding!!.textTicketsCurrentCount.text= "$currentTicketSize+"
+        }else{
+            binding!!.textTicketsCurrentCount.text= "$currentTicketSize"
+        }
+
+        if(pastTicketSize>99){
+            binding!!.textTicketsPastCount.text= "$pastTicketSize+"
+        }else{
+            binding!!.textTicketsPastCount.text= "$pastTicketSize"
+        }
     }
 
     override fun onDestroy() {

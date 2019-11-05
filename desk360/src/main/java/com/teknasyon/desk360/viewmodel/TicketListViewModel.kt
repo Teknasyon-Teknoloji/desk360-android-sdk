@@ -24,10 +24,9 @@ open class TicketListViewModel : ViewModel() {
 
     init {
         Desk360Constants.getDeviceId()
-        register()
     }
 
-    fun getTicketList() {
+    private fun getTicketList() {
         Desk360RetrofitFactory.instance.httpService.getTicket()
             .enqueue(object : BaseCallback<Desk360TicketListResponse>() {
 
@@ -37,6 +36,7 @@ open class TicketListViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful && response.body() != null) {
                         ticketList?.value = response.body()!!.data
+
                     } else {
                         ticketList?.value = null
                     }
@@ -44,7 +44,7 @@ open class TicketListViewModel : ViewModel() {
             })
     }
 
-    private fun register() {
+     fun register() {
         val register = Desk360Register()
         register.app_key = Desk360Constants.app_key
         register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId

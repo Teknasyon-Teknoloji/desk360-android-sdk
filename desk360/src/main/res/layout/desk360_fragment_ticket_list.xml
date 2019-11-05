@@ -55,39 +55,39 @@
 
                 <TextView
                     android:id="@+id/text_tickets_current_count"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center|top"
                     android:layout_marginEnd="48dp"
                     android:layout_marginRight="48dp"
                     android:background="@drawable/desk360_circle_bg_blue"
                     android:gravity="center"
-                    android:text="4"
+                    android:text="0"
                     android:textColor="#ffffff"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:visibility="visible"
                     tools:ignore="MissingConstraints" />
 
                 <TextView
                     android:id="@+id/text_tickets_past_count"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="right|top"
                     android:layout_marginEnd="40dp"
                     android:layout_marginRight="40dp"
                     android:background="@drawable/desk360_circle_bg_blue"
                     android:gravity="center"
-                    android:text="4"
+                    android:text="0"
                     android:textColor="#ffffff"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:visibility="visible"
                     tools:ignore="MissingConstraints" />
 
             </FrameLayout>
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ticket_list"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:visibility="visible"
@@ -106,10 +106,10 @@
                 android:layout_marginBottom="8dp"
                 android:padding="16dp"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/ticket_list"
-                app:layout_constraintEnd_toEndOf="@+id/ticket_list"
-                app:layout_constraintStart_toStartOf="@+id/ticket_list"
-                app:layout_constraintTop_toTopOf="@+id/ticket_list" />
+                app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+                app:layout_constraintEnd_toEndOf="@+id/viewPager"
+                app:layout_constraintStart_toStartOf="@+id/viewPager"
+                app:layout_constraintTop_toTopOf="@+id/viewPager" />
 
 
         </com.teknasyon.desk360.themev2.Desk360LayoutTicket>

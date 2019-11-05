@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360TicketListItemBinding
+import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
 
@@ -33,9 +34,15 @@ class Desk360TicketListAdapter(
                 ticketList[position].status == "read" -> {
                     message_status.setImageResource(R.drawable.read_icon_theme_dark)
                 }
+
                 ticketList[position].status == "unread" -> {
-                    message_status.setImageResource(R.drawable.zarf)
+                    if (Desk360Constants.currentTheme in listOf(1, 2, 3, 5)) {
+                        message_status.setImageResource(R.drawable.mavi_zarf_icon)
+                    } else {
+                        message_status.setImageResource(R.drawable.zarf)
+                    }
                     ticket_subject.setTypeface(null, Typeface.BOLD)
+
                 }
                 else -> {
                     message_status.setImageResource(android.R.color.transparent)
