@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavAction
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -17,6 +18,7 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
+import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -25,6 +27,8 @@ import kotlinx.android.synthetic.main.desk360_fragment_main.*
 open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     private var localMenu: Menu? = null
+    private var vieeModelType:GetTypesViewModel?=null
+
     var userRegistered = true
     private var navController: NavController? = null
 
@@ -36,6 +40,10 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         binding = Desk360FragmentMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        vieeModelType=ViewModelProviders.of(this).get(GetTypesViewModel::class.java)
+
+        vieeModelType?.getTypes()
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)

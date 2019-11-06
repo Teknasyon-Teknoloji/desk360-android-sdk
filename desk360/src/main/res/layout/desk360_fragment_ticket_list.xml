@@ -68,21 +68,6 @@
                     android:visibility="visible"
                     tools:ignore="MissingConstraints" />
 
-                <TextView
-                    android:id="@+id/text_tickets_past_count"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="right|top"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginRight="40dp"
-                    android:background="@drawable/desk360_circle_bg_blue"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textColor="#ffffff"
-                    android:textSize="12sp"
-                    android:visibility="visible"
-                    tools:ignore="MissingConstraints" />
-
             </FrameLayout>
 
 

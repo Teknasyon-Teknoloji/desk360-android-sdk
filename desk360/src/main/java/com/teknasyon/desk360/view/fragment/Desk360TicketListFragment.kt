@@ -30,7 +30,6 @@ open class Desk360TicketListFragment : Fragment() {
 
     private lateinit var ticketListPagerAdapter: Desk360TicketPagerAdapter
     private var currentTicketSize: Int = 0
-    private var pastTicketSize: Int = 0
     private var binding: Desk360FragmentTicketListBinding? = null
     private var viewModel: TicketListViewModel? = null
 
@@ -89,18 +88,14 @@ open class Desk360TicketListFragment : Fragment() {
 
     private fun getCurrentAndPastTicketsize(it: ArrayList<Desk360TicketResponse>) {
         for (i in 0 until it.size) {
-            if (it[i].status != "expired") {
+            if (it[i].status == "unread") {
                 currentTicketSize++
-            }else{
-                pastTicketSize++
             }
         }
         setTicketSize()
         if(currentTicketSize==0) binding!!.textTicketsCurrentCount.visibility=View.INVISIBLE
         else binding!!.textTicketsCurrentCount.visibility=View.VISIBLE
 
-        if(pastTicketSize==0) binding!!.textTicketsPastCount.visibility=View.INVISIBLE
-        else binding!!.textTicketsPastCount.visibility=View.VISIBLE
     }
 
     private fun setTicketSize(){
@@ -110,11 +105,6 @@ open class Desk360TicketListFragment : Fragment() {
             binding!!.textTicketsCurrentCount.text= "$currentTicketSize"
         }
 
-        if(pastTicketSize>99){
-            binding!!.textTicketsPastCount.text= "$pastTicketSize+"
-        }else{
-            binding!!.textTicketsPastCount.text= "$pastTicketSize"
-        }
     }
 
     override fun onDestroy() {
