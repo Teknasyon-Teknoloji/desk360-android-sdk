@@ -78,7 +78,7 @@ open class Desk360TicketListFragment : Fragment() {
                 .findNavController(it)
                 .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment, null)
         }
-        ticketListPagerAdapter = fragmentManager?.let { Desk360TicketPagerAdapter(it) }!!
+        ticketListPagerAdapter = Desk360TicketPagerAdapter(childFragmentManager)
         binding!!.viewPager.adapter = ticketListPagerAdapter
         binding?.txtBottomFooterMain?.movementMethod = ScrollingMovementMethod()
 

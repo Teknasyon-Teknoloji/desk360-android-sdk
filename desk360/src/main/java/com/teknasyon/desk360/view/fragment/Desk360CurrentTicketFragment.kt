@@ -22,7 +22,6 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
     private var ticketAdapter: Desk360TicketListAdapter? = null
     private var binding: FragmentCurrentTicketListBinding? = null
     private var viewModel: TicketListViewModel? = null
-    private var currentTicketList: ArrayList<Desk360TicketResponse> = arrayListOf()
 
 
     override fun selectTicket(item: Desk360TicketResponse, position: Int) {
@@ -58,22 +57,14 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
-        viewModel?.ticketList?.observe(activity!!,Observer{
-            getCurrentTickets(it)
-            ticketAdapter = Desk360TicketListAdapter(context, currentTicketList)
+        viewModel?.ticketList?.observe(activity!!, Observer {
+            it.filter { items -> items.status != "expired" }
+            ticketAdapter = Desk360TicketListAdapter(context, it)
             binding?.currentTicketList?.layoutManager = LinearLayoutManager(context)
             binding?.currentTicketList?.adapter = ticketAdapter
             ticketAdapter?.clickItem = this
         })
 
-    }
-
-    private fun getCurrentTickets(list: ArrayList<Desk360TicketResponse>) {
-        for(i in 0 until list.size){
-            if(list[i].status != "expired"){
-                currentTicketList.add(list[i])
-            }
-        }
     }
 
     companion object {

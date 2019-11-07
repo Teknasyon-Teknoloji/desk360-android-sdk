@@ -21,7 +21,7 @@ import java.util.*
 
 open class TicketListViewModel : ViewModel() {
     var ticketList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
-
+    var expiredList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
     init {
         Desk360Constants.getDeviceId()
     }
@@ -35,8 +35,8 @@ open class TicketListViewModel : ViewModel() {
                     response: Response<Desk360TicketListResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
-                        ticketList?.value = response.body()!!.data
-
+                        ticketList?.value = response.body()!!.data?.filter { it.status != "expired" } as ArrayList<Desk360TicketResponse>
+                        expiredList?.value = response.body()!!.data?.filter { it.status == "expired" } as ArrayList<Desk360TicketResponse>
                     } else {
                         ticketList?.value = null
                     }
@@ -58,7 +58,7 @@ open class TicketListViewModel : ViewModel() {
                 override fun onResponseSuccess(
                     call: Call<Desk360RegisterResponse>,
                     response: Response<Desk360RegisterResponse>
-                ) {
+                    ) {
                     if (response.isSuccessful && response.body() != null) {
                         Desk360Config.instance.getDesk360Preferences()?.data =
                             response.body()!!.data
