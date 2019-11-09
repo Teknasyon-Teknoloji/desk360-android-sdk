@@ -5,86 +5,74 @@ import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
-import com.teknasyon.desk360.view.adapter.Desk360TicketPagerAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 
-
-
-
-/**
- * Created by seyfullah on 24,May,2019
- *
- */
 
 open class Desk360TicketListFragment : Fragment() {
 
     private lateinit var ticketListPagerAdapter: Desk360TicketPagerAdapter
     private var currentTicketSize: Int = 0
     private var binding: Desk360FragmentTicketListBinding? = null
-    private var viewModel: TicketListViewModel? = null
-
-    private var observer = Observer<ArrayList<Desk360TicketResponse>> {
-        binding?.loadingProgressMain?.visibility = View.VISIBLE
-        it?.let {
-            if (it.size != 0) {
-                getCurrentAndPastTicketsize(it)
-                binding?.emptyListLayout?.visibility = View.INVISIBLE
-                binding?.fillListLayout?.visibility = View.VISIBLE
-                binding?.ticketsTabs?.setupWithViewPager(binding?.viewPager)
-                RxBus.publish("ticketListIsNotEmpty")
-            } else {
-                binding?.emptyListLayout?.visibility = View.VISIBLE
-                binding?.fillListLayout?.visibility = View.INVISIBLE
-                (activity as Desk360BaseActivity).title = "Bize Ulaşın"
-                RxBus.publish("ticketListIsEmpty")
-            }
-        }
-        binding?.loadingProgressMain?.visibility = View.INVISIBLE
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.desk360_fragment_ticket_list,
-            container,
-            false
-        )
+        if (binding == null) {
+            binding = Desk360FragmentTicketListBinding.inflate(
+                inflater, container, false
+            )
+        } else {
+            container?.removeAllViews()
+        }
+
+        binding!!.ticketsTabs?.setupWithViewPager(binding?.viewPagerContainer)
+        ticketListPagerAdapter = Desk360TicketPagerAdapter(childFragmentManager)
+        binding!!.viewPagerContainer.adapter = ticketListPagerAdapter
+        binding!!.txtBottomFooterMain?.movementMethod = ScrollingMovementMethod()
+
+
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
-        binding?.loadingProgressMain?.visibility = View.VISIBLE
-        viewModel?.ticketList?.observe(activity!!, observer)
-        viewModel?.register()
         binding?.emptysAddNewTicketButton?.setOnClickListener {
             Navigation
-                .findNavController(it)
-                .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment, null)
+                .findNavController(binding!!.root)
+                .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
         }
-        ticketListPagerAdapter = Desk360TicketPagerAdapter(childFragmentManager)
-        binding!!.viewPager.adapter = ticketListPagerAdapter
-        binding?.txtBottomFooterMain?.movementMethod = ScrollingMovementMethod()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as Desk360BaseActivity).userRegistered = true
 
     }
 
+    private fun setViewFillLayout(it: ArrayList<Desk360TicketResponse>) {
+        getCurrentAndPastTicketsize(it)
+        binding!!.emptyListLayout?.visibility = View.INVISIBLE
+        binding!!.fillListLayout?.visibility = View.VISIBLE
+        RxBus.publish("ticketListIsNotEmpty")
+    }
+
+    private fun setViewEmptyLayout() {
+        binding!!.emptyListLayout?.visibility = View.VISIBLE
+        binding!!.fillListLayout?.visibility = View.INVISIBLE
+        (activity as Desk360BaseActivity).title = "Bize Ulaşın"
+        RxBus.publish("ticketListIsEmpty")
+    }
 
     private fun getCurrentAndPastTicketsize(it: ArrayList<Desk360TicketResponse>) {
         for (i in 0 until it.size) {
@@ -93,27 +81,39 @@ open class Desk360TicketListFragment : Fragment() {
             }
         }
         setTicketSize()
-        if(currentTicketSize==0) binding!!.textTicketsCurrentCount.visibility=View.INVISIBLE
-        else binding!!.textTicketsCurrentCount.visibility=View.VISIBLE
-
+        if (currentTicketSize == 0) binding!!.textTicketsCurrentCount.visibility = View.INVISIBLE
+        else binding!!.textTicketsCurrentCount.visibility = View.VISIBLE
     }
 
-    private fun setTicketSize(){
-        if(currentTicketSize>99){
-            binding!!.textTicketsCurrentCount.text= "$currentTicketSize+"
-        }else{
-            binding!!.textTicketsCurrentCount.text= "$currentTicketSize"
+    private fun setTicketSize() {
+        if (currentTicketSize > 99) {
+            binding!!.textTicketsCurrentCount.text = "$99+"
+        } else {
+            binding!!.textTicketsCurrentCount.text = "$currentTicketSize"
+        }
+    }
+
+
+    class Desk360TicketPagerAdapter(fm: FragmentManager) :
+        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        override fun getCount(): Int {
+            return 2
         }
 
+        override fun getItem(i: Int): Fragment {
+            return when (i) {
+                0 -> Desk360CurrentTicketFragment.newInstance()
+                1 -> Desk360PastTicketListFragment.newInstance()
+                else -> Desk360CurrentTicketFragment.newInstance()
+            }
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return when (position) {
+                0 -> "Current"
+                else -> "Past"
+            }
+        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel?.ticketList?.removeObserver(observer)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as Desk360BaseActivity).userRegistered = true
-    }
 }

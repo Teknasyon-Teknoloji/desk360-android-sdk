@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
+import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -23,6 +24,7 @@ class GetTypesViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         types.value = response.body()
+                        Desk360Constants.currentType=response.body()
                     }else{
                         Log.d("Desk360DataV2","Error")
                     }

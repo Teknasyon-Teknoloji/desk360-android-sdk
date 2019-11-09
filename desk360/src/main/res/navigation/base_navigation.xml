@@ -12,15 +12,6 @@
         tools:layout="@layout/desk360_fragment_ticket_list">
 
         <action
-            android:id="@+id/action_ticketListFragment_to_ticketDetailFragment"
-            app:destination="@id/ticketDetailFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:launchSingleTop="false"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"
-            app:popUpToInclusive="false" />
-        <action
             android:id="@+id/action_ticketListFragment_to_addNewTicketFragment"
             app:destination="@id/addNewTicketFragment"
             app:enterAnim="@anim/from_right"
@@ -52,6 +43,10 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"
             app:popUpToInclusive="false" />
+        <argument
+            android:name="ticket_status"
+            android:defaultValue="Expired"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/addNewTicketFragment"
@@ -95,4 +90,10 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
     </fragment>
+    <action
+        android:id="@+id/action_global_ticketDetailFragment"
+        app:destination="@id/ticketDetailFragment"
+        app:launchSingleTop="false"
+        app:popUpTo="@+id/ticketListFragment"
+        app:popUpToInclusive="false" />
 </navigation>

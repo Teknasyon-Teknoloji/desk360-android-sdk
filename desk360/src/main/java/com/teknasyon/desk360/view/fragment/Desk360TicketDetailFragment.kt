@@ -116,7 +116,7 @@ open class Desk360TicketDetailFragment : Fragment() {
                             "backButtonActionKey" -> {
                                 view?.let { it1 ->
                                     Navigation.findNavController(it1).popBackStack(
-                                        R.id.action_ticketListFragment_to_ticketDetailFragment,
+                                        R.id.action_global_ticketDetailFragment,
                                         true
                                     )
 
@@ -159,4 +159,5 @@ open class Desk360TicketDetailFragment : Fragment() {
             }
         }
     }
+
 }

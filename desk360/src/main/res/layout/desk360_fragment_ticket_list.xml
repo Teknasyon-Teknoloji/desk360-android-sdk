@@ -15,7 +15,7 @@
             android:id="@+id/fill_list_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +72,7 @@
 
 
             <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPager"
+                android:id="@+id/viewPagerContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:visibility="visible"
@@ -91,10 +91,10 @@
                 android:layout_marginBottom="8dp"
                 android:padding="16dp"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/viewPager"
-                app:layout_constraintEnd_toEndOf="@+id/viewPager"
-                app:layout_constraintStart_toStartOf="@+id/viewPager"
-                app:layout_constraintTop_toTopOf="@+id/viewPager" />
+                app:layout_constraintBottom_toBottomOf="@+id/viewPagerContainer"
+                app:layout_constraintEnd_toEndOf="@+id/viewPagerContainer"
+                app:layout_constraintStart_toStartOf="@+id/viewPagerContainer"
+                app:layout_constraintTop_toTopOf="@+id/viewPagerContainer" />
 
 
         </com.teknasyon.desk360.themev2.Desk360LayoutTicket>

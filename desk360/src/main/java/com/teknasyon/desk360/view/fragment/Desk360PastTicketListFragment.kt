@@ -10,19 +10,19 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.databinding.FragmentCurrentTicketListBinding
+import com.teknasyon.desk360.databinding.FragmentPastTicketListBinding
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 
+class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.TicketOnClickListener {
 
-class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.TicketOnClickListener {
 
+    private lateinit var binding: FragmentPastTicketListBinding
     private var ticketAdapter: Desk360TicketListAdapter? = null
     private var tickets: ArrayList<Desk360TicketResponse> = arrayListOf()
-    private lateinit var binding: FragmentCurrentTicketListBinding
     private var viewModel: TicketListViewModel? = null
 
 
@@ -48,7 +48,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        FragmentCurrentTicketListBinding.inflate(
+        FragmentPastTicketListBinding.inflate(
             inflater,
             container,
             true
@@ -62,12 +62,12 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ticketAdapter = Desk360TicketListAdapter(context, tickets)
-        binding.currentTicketList?.layoutManager =
+        binding.pastTicketList?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.currentTicketList?.adapter = ticketAdapter
+        binding.pastTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
         viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
-        viewModel?.ticketList?.observe(viewLifecycleOwner, Observer {
+        viewModel?.expiredList?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 tickets.clear()
                 tickets.addAll(it)
@@ -75,12 +75,13 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
                 RxBus.publish("ticketListIsNotEmpty")
             }
         })
+
     }
 
     companion object {
-        fun newInstance(): Desk360CurrentTicketFragment {
+        fun newInstance(): Desk360PastTicketListFragment {
             val args = Bundle()
-            val fragment = Desk360CurrentTicketFragment()
+            val fragment = Desk360PastTicketListFragment()
             fragment.arguments = args
             return fragment
         }

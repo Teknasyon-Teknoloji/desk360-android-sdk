@@ -3,6 +3,7 @@ package com.teknasyon.desk360.helper
 import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
+import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import java.util.*
 
 /**
@@ -17,6 +18,7 @@ object Desk360Constants {
     var language_code: String? = null
     var time_zone: String? = null
     var baseURL: String? = null
+    var currentType : Desk360ConfigResponse?=null
 
     fun desk360Config(
         app_key: String,
