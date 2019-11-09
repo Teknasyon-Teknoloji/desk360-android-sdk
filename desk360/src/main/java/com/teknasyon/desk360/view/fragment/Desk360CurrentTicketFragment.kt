@@ -85,4 +85,10 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel?.register()
+        ticketAdapter!!.notifyDataSetChanged()
+    }
+
 }

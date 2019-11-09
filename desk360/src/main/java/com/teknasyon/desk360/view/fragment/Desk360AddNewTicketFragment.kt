@@ -18,7 +18,6 @@ import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
 import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
@@ -137,7 +136,6 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 false
             )
 
-        RxBus.publish("transparentBackground")
         return binding?.root
     }
 

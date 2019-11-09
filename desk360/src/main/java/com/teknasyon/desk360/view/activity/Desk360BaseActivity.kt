@@ -9,9 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavAction
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import com.teknasyon.desk360.R
@@ -28,10 +26,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     private var localMenu: Menu? = null
     private var vieeModelType:GetTypesViewModel?=null
-
     var userRegistered = true
     private var navController: NavController? = null
-
     private var disposable: Disposable? = null
 
     private var binding: Desk360FragmentMainBinding? = null
@@ -81,7 +77,6 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         }
 //        setupActionBarWithNavController(this, navController!!, appBarConfiguration)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -114,15 +109,9 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                                 resources.getDrawable(R.drawable.add_new_message_icon_white)
                     }
 
-//                    "transparentBackground" -> {
-//                        register.icon = resources.getDrawable(R.drawable.transparent_background)
-//                    }
-
                     "ticketListIsEmpty" -> {
                         register.isVisible = false
                     }
-
-
                 }
             }, { t ->
                 Log.d("Test", "$t.")
@@ -135,15 +124,10 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         val id = item.itemId
 
         if (id == R.id.action_add_new_ticket) {
-
             userRegistered = false
-
             findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(R.id.action_ticketListFragment_to_preNewTicketFragment)
             return true
         }
-
-
-
         return super.onOptionsItemSelected(item)
     }
 

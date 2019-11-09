@@ -19,12 +19,10 @@ import com.teknasyon.desk360.viewmodel.TicketListViewModel
 
 class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.TicketOnClickListener {
 
-
     private lateinit var binding: FragmentPastTicketListBinding
     private var ticketAdapter: Desk360TicketListAdapter? = null
     private var tickets: ArrayList<Desk360TicketResponse> = arrayListOf()
     private var viewModel: TicketListViewModel? = null
-
 
     override fun selectTicket(item: Desk360TicketResponse, position: Int) {
         view?.let {

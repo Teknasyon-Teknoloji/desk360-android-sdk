@@ -38,10 +38,10 @@ class Desk360TicketListAdapter(
                         message_status.setImageResource(R.drawable.zarf)
                     }
                     ticket_subject.setTypeface(null, Typeface.BOLD)
-
                 }
                 else -> {
                     message_status.setImageResource(android.R.color.transparent)
+                    ticket_subject.setTypeface(null, Typeface.NORMAL)
                 }
             }
 
@@ -50,7 +50,6 @@ class Desk360TicketListAdapter(
             }
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): Holder {
         binding =
