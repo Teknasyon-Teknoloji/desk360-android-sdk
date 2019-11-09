@@ -6,6 +6,7 @@ import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360Register
 import com.teknasyon.desk360.model.Desk360RegisterResponse
 import com.teknasyon.desk360.model.Desk360TicketListResponse
@@ -13,6 +14,7 @@ import com.teknasyon.desk360.model.Desk360TicketResponse
 import retrofit2.Call
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Created by seyfullah on 24,May,2019
@@ -37,6 +39,13 @@ open class TicketListViewModel : ViewModel() {
                     response: Response<Desk360TicketListResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
+
+                        val unreadList =
+                            response.body()!!.data?.filter { unread -> unread.status == "unread" } as ArrayList<Desk360TicketResponse>
+
+                        RxBus.publish(hashMapOf("sizeTicketList" to response.body()!!.data?.size))
+                        RxBus.publish(hashMapOf("unReadSizeTicketList" to unreadList.size))
+
                         ticketList?.value =
                             response.body()!!.data?.filter { it.status != "expired" } as ArrayList<Desk360TicketResponse>
 

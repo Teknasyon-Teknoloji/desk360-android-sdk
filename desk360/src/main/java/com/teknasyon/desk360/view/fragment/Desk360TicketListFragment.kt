@@ -1,7 +1,9 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +14,17 @@ import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
 import com.teknasyon.desk360.helper.RxBus
-import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
-import com.teknasyon.desk360.viewmodel.TicketListViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 
 open class Desk360TicketListFragment : Fragment() {
 
     private lateinit var ticketListPagerAdapter: Desk360TicketPagerAdapter
-    private var currentTicketSize: Int = 0
     private var binding: Desk360FragmentTicketListBinding? = null
+    private var disposable: Disposable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,16 +38,15 @@ open class Desk360TicketListFragment : Fragment() {
         } else {
             container?.removeAllViews()
         }
-
         binding!!.ticketsTabs?.setupWithViewPager(binding?.viewPagerContainer)
         ticketListPagerAdapter = Desk360TicketPagerAdapter(childFragmentManager)
         binding!!.viewPagerContainer.adapter = ticketListPagerAdapter
         binding!!.txtBottomFooterMain?.movementMethod = ScrollingMovementMethod()
 
-
         return binding?.root
     }
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.emptysAddNewTicketButton?.setOnClickListener {
@@ -52,16 +54,42 @@ open class Desk360TicketListFragment : Fragment() {
                 .findNavController(binding!!.root)
                 .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
         }
+
+        disposable = RxBus.listen(HashMap<String, Int>()::class.java).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+
+                if (it.keys.contains("sizeTicketList")) {
+                    it["sizeTicketList"]?.let { sizeList ->
+                        if (sizeList > 0) {
+                            setViewFillLayout()
+                        } else {
+                            setViewEmptyLayout()
+                        }
+                    }
+                }
+                if (it.keys.contains("unReadSizeTicketList")) {
+                    it["unReadSizeTicketList"]?.let { sizeUnread ->
+                        setUnreadTicketSize(sizeUnread)
+                    }
+                }
+            }, { t ->
+                Log.d("dataSize", "$t")
+            })
     }
 
     override fun onResume() {
         super.onResume()
         (activity as Desk360BaseActivity).userRegistered = true
-
     }
 
-    private fun setViewFillLayout(it: ArrayList<Desk360TicketResponse>) {
-        getCurrentAndPastTicketsize(it)
+    override fun onDestroy() {
+        super.onDestroy()
+        if (disposable?.isDisposed == false)
+            disposable?.dispose()
+    }
+
+    private fun setViewFillLayout() {
         binding!!.emptyListLayout?.visibility = View.INVISIBLE
         binding!!.fillListLayout?.visibility = View.VISIBLE
         RxBus.publish("ticketListIsNotEmpty")
@@ -74,25 +102,16 @@ open class Desk360TicketListFragment : Fragment() {
         RxBus.publish("ticketListIsEmpty")
     }
 
-    private fun getCurrentAndPastTicketsize(it: ArrayList<Desk360TicketResponse>) {
-        for (i in 0 until it.size) {
-            if (it[i].status == "unread") {
-                currentTicketSize++
-            }
-        }
-        setTicketSize()
-        if (currentTicketSize == 0) binding!!.textTicketsCurrentCount.visibility = View.INVISIBLE
+    private fun setUnreadTicketSize(sizeUnread: Int) {
+        if (sizeUnread == 0) binding!!.textTicketsCurrentCount.visibility = View.INVISIBLE
         else binding!!.textTicketsCurrentCount.visibility = View.VISIBLE
-    }
 
-    private fun setTicketSize() {
-        if (currentTicketSize > 99) {
-            binding!!.textTicketsCurrentCount.text = "$99+"
+        if (sizeUnread > 99) {
+            binding!!.textTicketsCurrentCount.text = "99+"
         } else {
-            binding!!.textTicketsCurrentCount.text = "$currentTicketSize"
+            binding!!.textTicketsCurrentCount.text = "$sizeUnread"
         }
     }
-
 
     class Desk360TicketPagerAdapter(fm: FragmentManager) :
         FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

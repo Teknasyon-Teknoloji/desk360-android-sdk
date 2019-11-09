@@ -72,7 +72,6 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
                 tickets.clear()
                 tickets.addAll(it)
                 ticketAdapter!!.notifyDataSetChanged()
-                RxBus.publish("ticketListIsNotEmpty")
             }
         })
     }

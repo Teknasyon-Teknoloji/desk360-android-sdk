@@ -31,10 +31,6 @@ class Desk360TicketListAdapter(
             ticket_date.text = ticketList[position].created
             ticket_subject.setTypeface(null, Typeface.NORMAL)
             when {
-                ticketList[position].status == "read" -> {
-                    message_status.setImageResource(R.drawable.read_icon_theme_dark)
-                }
-
                 ticketList[position].status == "unread" -> {
                     if (Desk360Constants.currentTheme in listOf(1, 2, 3, 5)) {
                         message_status.setImageResource(R.drawable.mavi_zarf_icon)
