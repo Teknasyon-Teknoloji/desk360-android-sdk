@@ -18,6 +18,7 @@ import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.desk360_fragment_ticket_list.*
 
 
 open class Desk360TicketListFragment : Fragment() {
@@ -80,6 +81,7 @@ open class Desk360TicketListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewPagerContainer.currentItem = 0
         (activity as Desk360BaseActivity).userRegistered = true
     }
 

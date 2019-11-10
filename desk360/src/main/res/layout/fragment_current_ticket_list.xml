@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModelList"
+            type="com.teknasyon.desk360.viewmodel.TicketListViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -11,6 +20,19 @@
             android:layout_width="match_parent"
             android:visibility="visible"
             android:layout_height="match_parent" />
+
+        <com.teknasyon.desk360.helper.Desk360Loading
+            android:id="@+id/loading_current_ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:visibility="@{viewModelList.progress}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

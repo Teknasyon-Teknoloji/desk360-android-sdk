@@ -1,5 +1,7 @@
 package com.teknasyon.desk360.viewmodel
 
+import android.view.View
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
@@ -14,7 +16,6 @@ import com.teknasyon.desk360.model.Desk360TicketResponse
 import retrofit2.Call
 import retrofit2.Response
 import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * Created by seyfullah on 24,May,2019
@@ -24,8 +25,10 @@ import kotlin.collections.HashMap
 open class TicketListViewModel : ViewModel() {
     var ticketList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
     var expiredList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
+    var progress: ObservableInt? = null
 
     init {
+        progress= ObservableInt(View.GONE)
         Desk360Constants.getDeviceId()
         register()
     }
@@ -51,14 +54,22 @@ open class TicketListViewModel : ViewModel() {
 
                         expiredList?.value =
                             response.body()!!.data?.filter { it.status == "expired" } as ArrayList<Desk360TicketResponse>
+
                     } else {
                         ticketList?.value = null
                     }
+                    progress?.set(View.GONE)
+                }
+
+                override fun onFailure(call: Call<Desk360TicketListResponse>, t: Throwable) {
+                    super.onFailure(call, t)
+                    progress?.set(View.GONE)
                 }
             })
     }
 
     fun register() {
+        progress?.set(View.VISIBLE)
         val register = Desk360Register()
         register.app_key = Desk360Constants.app_key
         register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId
@@ -80,6 +91,11 @@ open class TicketListViewModel : ViewModel() {
                             response.body()!!.meta
                         getTicketList()
                     }
+                }
+
+                override fun onFailure(call: Call<Desk360RegisterResponse>, t: Throwable) {
+                    super.onFailure(call, t)
+                    progress?.set(View.GONE)
                 }
             })
     }

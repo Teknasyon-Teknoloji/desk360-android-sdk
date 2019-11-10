@@ -11,7 +11,6 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentCurrentTicketListBinding
-import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
@@ -67,6 +66,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         binding.currentTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
         viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
+        binding.viewModelList=viewModel
         viewModel?.ticketList?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 tickets.clear()
@@ -90,5 +90,4 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         viewModel?.register()
         ticketAdapter!!.notifyDataSetChanged()
     }
-
 }
