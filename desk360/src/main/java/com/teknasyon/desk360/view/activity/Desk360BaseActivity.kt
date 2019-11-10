@@ -39,8 +39,6 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         vieeModelType=ViewModelProviders.of(this).get(GetTypesViewModel::class.java)
 
-        vieeModelType?.getTypes()
-
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
