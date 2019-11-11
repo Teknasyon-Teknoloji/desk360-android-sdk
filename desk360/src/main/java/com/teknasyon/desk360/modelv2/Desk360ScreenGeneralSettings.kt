@@ -5,11 +5,14 @@ import java.io.Serializable
 
 class Desk360ScreenGeneralSettings : Serializable {
 
+    @SerializedName("font_type")
+    var font_type: String = "Arial"
+
     @SerializedName("header_background_color")
     var header_background_color: String = "#cecece"
 
     @SerializedName("header_shadow")
-    var header_shadow: String = "TEST_DATA"
+    var header_shadow: Boolean = false
 
     @SerializedName("header_icon_color")
     var header_icon_color: String = "#000000"

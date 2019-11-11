@@ -6,6 +6,6 @@ import java.io.Serializable
 class Desk360MetaV2 : Serializable{
 
     @SerializedName("success")
-    var success: Boolean? = true
+    var success: Boolean = true
 
 }

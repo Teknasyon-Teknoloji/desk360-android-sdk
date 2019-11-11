@@ -72,7 +72,6 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                 else
                     toolbar.navigationIcon = resources.getDrawable(R.drawable.back_btn_light_theme)
             }
-
         }
 //        setupActionBarWithNavController(this, navController!!, appBarConfiguration)
     }

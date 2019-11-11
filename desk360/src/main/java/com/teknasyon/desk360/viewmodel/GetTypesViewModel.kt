@@ -28,6 +28,11 @@ class GetTypesViewModel : ViewModel() {
                         Log.d("Desk360DataV2","Error")
                     }
                 }
+
+                override fun onFailure(call: Call<Desk360ConfigResponse>, t: Throwable) {
+                    super.onFailure(call, t)
+                    Log.d("asd",t.localizedMessage)
+                }
             })
     }
 }

@@ -14,6 +14,9 @@ class Desk360ScreenCreatePre : Serializable {
     @SerializedName("bottom_note_is_hidden")
     var bottom_note_is_hidden: Boolean = false
 
+    @SerializedName("button_icon_is_hidden")
+    var button_icon_is_hidden: Boolean = false
+
     @SerializedName("bottom_note_text")
     var bottom_note_text: String =
         "Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir." +

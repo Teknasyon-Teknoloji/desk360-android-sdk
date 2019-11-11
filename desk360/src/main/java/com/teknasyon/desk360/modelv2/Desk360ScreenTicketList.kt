@@ -20,6 +20,15 @@ class Desk360ScreenTicketList : Serializable {
     @SerializedName("tab_border_color")
     var tab_border_color: String = "#58b0fa"
 
+    @SerializedName("tab_active_border_color")
+    var tab_active_border_color: String = "#58b0fa"
+
+    @SerializedName("tab_current_text")
+    var tab_current_text: String = "Current"
+
+    @SerializedName("tab_past_text")
+    var tab_past_text: String = "Past"
+
     @SerializedName("tab_text_font_weight")
     var tab_text_font_weight: String = "regular"
 
@@ -29,11 +38,17 @@ class Desk360ScreenTicketList : Serializable {
     @SerializedName("tab_text_active_color")
     var tab_text_active_color: String = "#58b0fa"
 
+    @SerializedName("ticket_item_icon_color")
+    var ticket_item_icon_color: String = "#58b0fa"
+
     @SerializedName("ticket_list_type")
     var ticket_list_type: Int = 1
 
     @SerializedName("title")
     var title: String = "Destek Taleplerim"
+
+    @SerializedName("ticket_item_backgroud_color")
+    var ticket_item_backgroud_color: String = "#ffffff"
 
     @SerializedName("ticket_list_backgroud_color")
     var ticket_list_backgroud_color: String = "#ffffff"

@@ -11,6 +11,9 @@ class Desk360ScreenFirst : Serializable{
     @SerializedName("button_background_color")
     var button_background_color: String = "#58b0fa"
 
+    @SerializedName("button_icon_is_hidden")
+    var button_icon_is_hidden: Boolean = true
+
     @SerializedName("bottom_note_is_hidden")
     var bottom_note_is_hidden: Boolean = true
 
