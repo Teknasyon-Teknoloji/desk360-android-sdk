@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
         openContact = findViewById(R.id.openContactUs)
         Desk360Config.instance.context = this
 
+
         Desk360Constants.desk360CurrentTheme(1)
         Desk360Constants.desk360Config(
             app_key = BuildConfig.APP_KEY,
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
             device_token = "asd123566545"
         )
         Desk360Config.instance.callStyle()
+
         openContact?.setOnClickListener { setupNavigation() }
     }
 

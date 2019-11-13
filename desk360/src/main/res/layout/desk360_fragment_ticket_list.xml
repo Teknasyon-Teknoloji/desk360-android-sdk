@@ -39,13 +39,13 @@
                         android:id="@+id/current_tickets"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Current" />
+                        tools:text="Current" />
 
                     <com.google.android.material.tabs.TabItem
                         android:id="@+id/past_tickets"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Past" />
+                        tools:text="Past" />
 
                 </com.teknasyon.desk360.themev2.Desk360TicketListTabLayout>
 
@@ -168,8 +168,6 @@
                 android:maxLines="5"
                 android:padding="8dp"
                 android:scrollbars="vertical"
-                android:textColor="#868686"
-                android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

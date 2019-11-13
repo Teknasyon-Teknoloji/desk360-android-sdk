@@ -79,9 +79,9 @@
     </fragment>
     <fragment
         android:id="@+id/thanksFragment"
-        android:name="com.teknasyon.desk360.view.fragment.ThanksFragment"
+        android:name="com.teknasyon.desk360.view.fragment.Desk360SuccessScreen"
         android:label="Bize Ulaşın"
-        tools:layout="@layout/desk360_received_message_layout">
+        tools:layout="@layout/desk360_success_screen_layout">
         <action
             android:id="@+id/action_thanksFragment_to_ticketListFragment"
             app:destination="@id/ticketListFragment"

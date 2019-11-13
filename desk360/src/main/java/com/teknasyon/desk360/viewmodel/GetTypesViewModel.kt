@@ -6,8 +6,6 @@ import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360StylesRetrofitFactory
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.helper.Desk360Preferences
-import com.teknasyon.desk360.helper.PreferencesManager
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -28,14 +26,8 @@ class GetTypesViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
 
-                        Desk360Config.instance.getDesk360Preferences()?.types=response.body()
-
-                        if(Desk360Config.instance.getDesk360Preferences()?.types!=null){
-                            Desk360Constants.currentType = Desk360Config.instance.getDesk360Preferences()?.types
-                        }else{
-                            Desk360Constants.currentType=response.body()
-                        }
-
+                        Desk360Config.instance.getDesk360Preferences()?.types = response.body()
+                        Desk360Constants.currentType = Desk360Config.instance.getDesk360Preferences()?.types
 
                     } else {
                         Log.d("Desk360DataV2", "Error")

@@ -19,7 +19,7 @@ class Desk360CommonButtonImage : ImageView {
                 this.visibility = View.VISIBLE
             }
             2 -> {
-                this.setBackgroundColor(Color.parseColor("#58b0fa"))
+                this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_background_color))
                 this.visibility = View.GONE
             }
 

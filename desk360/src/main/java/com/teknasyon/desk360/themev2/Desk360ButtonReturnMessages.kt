@@ -32,8 +32,12 @@ class Desk360ButtonReturnMessages : TextView {
         }
 
         if (Desk360Constants.currentType?.data?.ticket_success_screen?.button_icon_is_hidden == true) {
-            //TODO sabir
-            this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.zarf, 0, 0, 0)
+            if (Desk360Constants.currentType?.data?.ticket_success_screen?.button_style_id == 5) {
+                this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mavi_zarf_icon, 0, 0, 0)
+
+            } else {
+                this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.zarf, 0, 0, 0)
+            }
         } else {
             this.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         }

@@ -11,8 +11,8 @@ class Desk360CommonBottomBar : ConstraintLayout {
 
     init {
 
-        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.copyright_background_color))
-
+//      this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.copyright_background_color))
+        this.setBackgroundColor(Color.parseColor("#71717b"))
     }
 
 

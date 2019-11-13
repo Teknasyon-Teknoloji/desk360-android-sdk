@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
+import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -131,8 +132,8 @@ open class Desk360TicketListFragment : Fragment() {
 
         override fun getPageTitle(position: Int): CharSequence? {
             return when (position) {
-                0 -> "Current"
-                else -> "Past"
+                0 -> Desk360Constants.currentType?.data?.ticket_list_screen?.tab_current_text
+                else -> Desk360Constants.currentType?.data?.ticket_list_screen?.tab_past_text
             }
         }
     }

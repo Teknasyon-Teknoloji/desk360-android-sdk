@@ -19,9 +19,12 @@ class Desk360SendFormButton : Button {
         this.text = Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text
         this.textSize =
             Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_font_size!!.toFloat()
-
+        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_background_color))
+        gradientDrawable.setStroke(
+            1,
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_border_color)
+        )
         when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_font_weight) {
-            //TODO sabir
             "regular" -> {
                 this.setTypeface(null, Typeface.NORMAL)
             }
@@ -35,11 +38,6 @@ class Desk360SendFormButton : Button {
                 this.setTypeface(null, Typeface.NORMAL)
             }
         }
-        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_background_color))
-        gradientDrawable.setStroke(
-            1,
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_border_color)
-        )
 
         when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
             1 -> {

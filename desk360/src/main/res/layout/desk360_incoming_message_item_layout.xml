@@ -32,8 +32,6 @@
                 android:paddingBottom="8dp"
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
-                android:textSize="14sp"
-                android:textColor="#525a7e"
                 tools:text="A paragraph of a support message
 paragraph of a support message"
                 android:gravity="center_vertical"
@@ -50,8 +48,7 @@ paragraph of a support message"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
-                android:text="13.11.2018 10:00"
-                android:textSize="12sp"
+                tools:text="13.11.2018 10:00"
                 app:layout_constraintStart_toStartOf="@+id/message_incoming"
                 app:layout_constraintTop_toBottomOf="@+id/message_incoming" />
         </androidx.constraintlayout.widget.ConstraintLayout>
