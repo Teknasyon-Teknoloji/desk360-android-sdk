@@ -1,6 +1,8 @@
 package com.teknasyon.desk360.view.adapter
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -32,11 +34,11 @@ class Desk360TicketListAdapter(
             ticket_subject.setTypeface(null, Typeface.NORMAL)
             when {
                 ticketList[position].status == "unread" -> {
-                    if (Desk360Constants.currentTheme in listOf(1, 2, 3, 5)) {
-                        message_status.setImageResource(R.drawable.mavi_zarf_icon)
-                    } else {
-                        message_status.setImageResource(R.drawable.zarf)
-                    }
+                    message_status.setImageResource(R.drawable.mavi_zarf_icon)
+                    message_status.setColorFilter(
+                        Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_icon_color),
+                        PorterDuff.Mode.SRC_ATOP
+                    )
                     ticket_subject.setTypeface(null, Typeface.BOLD)
                 }
                 else -> {

@@ -260,6 +260,7 @@
                 android:drawableEnd="@drawable/document_cancel_icon"
                 android:drawableRight="@drawable/document_cancel_icon"
                 android:drawablePadding="8dp"
+                android:visibility="invisible"
                 android:text="sabir..jpg"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -2,49 +2,54 @@ package com.teknasyon.desk360.themev2
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.widget.TextView
-
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360Constants.currentType
 
 class Desk360CommonButtonText : TextView {
 
     init {
-
-        when (Desk360Constants.currentTheme) {
-            1 -> {
-               this.setTextColor(Color.parseColor("#ffffff"))
-                this.setCompoundDrawablesWithIntrinsicBounds( R.drawable.zarf, 0, 0, 0)
+        this.setTextColor(Color.parseColor(currentType?.data?.first_screen?.button_text_color))
+        this.text = currentType?.data?.first_screen?.button_text
+        this.textSize = currentType?.data?.first_screen?.button_text_font_size!!.toFloat()
+        when (currentType?.data?.first_screen?.button_text_font_weight) {
+            "regular" -> {
+                this.setTypeface(null, Typeface.NORMAL)
             }
-            2 -> {
-                this.setTextColor(Color.parseColor("#ffffff"))
-                this.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            "bold" -> {
+                this.setTypeface(null, Typeface.BOLD)
             }
-            3 -> {
-                this.setTextColor(Color.parseColor("#ffffff"))
-                this.setCompoundDrawablesWithIntrinsicBounds( R.drawable.zarf, 0, 0, 0)
+            "normal" -> {
+                this.setTypeface(null, Typeface.NORMAL)
             }
-            4 -> {
-                this.setTextColor(Color.parseColor("#ffffff"))
-                this.setCompoundDrawablesWithIntrinsicBounds( R.drawable.zarf, 0, 0, 0)
-            }
-            5 -> {
-                this.setTextColor(Color.parseColor("#58b0fa"))
-                this.setCompoundDrawablesWithIntrinsicBounds( R.drawable.mavi_zarf_icon, 0, 0, 0)
-            }
-            else ->{
-                this.setTextColor(Color.parseColor("#ffffff"))
-                this.setCompoundDrawablesWithIntrinsicBounds( R.drawable.zarf, 0, 0, 0)
+            else -> {
+                this.setTypeface(null, Typeface.NORMAL)
             }
         }
-    }
 
+        if (currentType?.data?.first_screen?.button_icon_is_hidden != true) {
+            if (currentType?.data?.first_screen?.button_style_id == 5) {
+                this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mavi_zarf_icon, 0, 0, 0)
+
+            } else {
+                this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.zarf, 0, 0, 0)
+            }
+        } else {
+            this.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        }
+
+    }
 
 
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    )
 }

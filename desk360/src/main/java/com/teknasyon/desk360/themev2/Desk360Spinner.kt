@@ -11,7 +11,7 @@ class Desk360Spinner : Spinner {
 
     init {
 
-        when (Desk360Constants.currentTheme) {
+        when (1) {
             1 -> {
                 this.setBackgroundResource(R.drawable.spinner_bg_desk360_transparent)
                 context.setTheme(R.style.spinnerTheme)

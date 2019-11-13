@@ -16,7 +16,7 @@ class Desk360Loading(context: Context, attrs: AttributeSet) : ProgressBar(
 ) {
     init {
 
-        when (currentTheme) {
+        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
             1, 2, 3, 5 -> {
                 this.setBackgroundResource(R.drawable.light_theme_button_bg)
             }

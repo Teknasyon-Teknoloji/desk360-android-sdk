@@ -12,10 +12,6 @@ interface HttpService {
     @GET("api/v1/tickets")
     fun getTicket(): Call<Desk360TicketListResponse>
 
-
-    @GET("api/v1/sdk")
-    fun getTypes(): Call<Desk360ConfigResponse>
-
     @GET("api/v1/tickets/{ticket_id}")
     fun getMessages(@Path("ticket_id") ticket_id: Int): Call<Desk360TickeMessage>
 

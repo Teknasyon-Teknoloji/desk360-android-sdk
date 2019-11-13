@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.32999998" />
 
-        <com.teknasyon.desk360.themev2.Desk360FirstDescription
+        <com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenSubTitle
             android:id="@+id/txtMainFirstDesc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -29,15 +29,13 @@
             android:layout_marginEnd="32dp"
             android:gravity="center"
             android:padding="8dp"
-            android:text="Teşekkürler"
-            android:textSize="24sp"
-            android:textStyle="normal"
+            tools:text="Teşekkürler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageReceived"
             tools:ignore="MissingConstraints" />
 
-        <com.teknasyon.desk360.themev2.Desk360SecondDescription
+        <com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenDesc
             android:id="@+id/txtMainSecondDesc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -53,7 +51,7 @@
             app:layout_constraintTop_toBottomOf="@+id/txtMainFirstDesc" />
 
 
-        <com.teknasyon.desk360.themev2.Desk360CommonButton
+        <com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenButton
             android:id="@+id/btnOpenMessageForm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -76,20 +74,19 @@
                 android:gravity="center"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:text="Mesajlar Sayfasına Git"
-                android:textSize="18sp"
+                tools:text="Mesajlar Sayfasına Git"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
 
-        </com.teknasyon.desk360.themev2.Desk360CommonButton>
+        </com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenButton>
 
 
 
 
-        <com.teknasyon.desk360.themev2.Desk360CommonFooterText
+        <com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenFooter
             android:id="@+id/txtBottomFooter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -99,9 +96,7 @@
             android:maxLines="5"
             android:scrollbars="vertical"
             android:text="Bilgilendirme: Aynı koby ile ilgili birden fazla mesaj göndermemeye dikkat ediniz. Aynı konu ile ilgili birden fazla mesaj iletmeniz karışıklığa ve daha geç yanıt almanıza neden olabilir."
-            android:textColor="#868686"
             android:textSize="8sp"
-            android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

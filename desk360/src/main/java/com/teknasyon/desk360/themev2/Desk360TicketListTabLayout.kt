@@ -3,31 +3,20 @@ package com.teknasyon.desk360.themev2
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-
 import com.google.android.material.tabs.TabLayout
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360TicketListTabLayout  : TabLayout{
+class Desk360TicketListTabLayout : TabLayout {
 
     init {
 
-        when (Desk360Constants.currentTheme) {
-            1, 2, 3, 5 -> {
-                this.setBackgroundColor(Color.parseColor("#f7f7f7"))
-                this.setSelectedTabIndicatorColor(Color.parseColor("#58b0fa"))
-                this.setTabTextColors(Color.parseColor("#9298b1"),Color.parseColor("#58b0fa"))
-            }
-            4 -> {
-                this.setBackgroundColor(Color.parseColor("#3f4b60"))
-                this.setSelectedTabIndicatorColor(Color.parseColor("#58b0fa"))
-                this.setTabTextColors(Color.parseColor("#8794ac"),Color.parseColor("#58b0fa"))
-            }
-            else -> {
-                this.setBackgroundColor(Color.parseColor("#f7f7f7"))
-                this.setSelectedTabIndicatorColor(Color.parseColor("#58b0fa"))
-                this.setTabTextColors(Color.parseColor("#9298b1"),Color.parseColor("#58b0fa"))
-            }
-        }
+        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
+        this.setSelectedTabIndicatorColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_active_border_color))
+        this.setTabTextColors(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_color),
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color)
+        )
+
     }
 
     constructor(context: Context) : super(context)

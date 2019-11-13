@@ -33,28 +33,26 @@
                 android:textColor="#ffffff"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:textSize="14sp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="A paragraph of a support message paragraph of a support message"
+                tools:text="A paragraph of a support message paragraph of a support message"
                 app:layout_constraintBottom_toTopOf="@+id/date_send"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <com.teknasyon.desk360.themev2.Desk360DetailTicketDateText
                 android:id="@+id/date_send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="13.11.2018 10:00"
-                android:textColor="#9298b1"
-                android:layout_marginRight="16dp"
-                android:textSize="12sp"
+                tools:text="13.11.2018 10:00"
+                tools:layout_marginRight="16dp"
                 app:layout_constraintEnd_toEndOf="@+id/message_send"
-                app:layout_constraintTop_toBottomOf="@+id/message_send" />
+                app:layout_constraintTop_toBottomOf="@+id/message_send"
+                android:layout_marginRight="16dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

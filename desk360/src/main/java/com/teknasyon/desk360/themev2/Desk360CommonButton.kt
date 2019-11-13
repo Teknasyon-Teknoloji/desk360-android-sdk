@@ -2,43 +2,61 @@ package com.teknasyon.desk360.themev2
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.teknasyon.desk360.R
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360Constants.currentType
 
 
 class Desk360CommonButton : ConstraintLayout {
 
+    private val gradientDrawable = GradientDrawable()
+
     init {
 
-        when (Desk360Constants.currentTheme) {
+        gradientDrawable.setColor(Color.parseColor(currentType?.data?.first_screen?.button_background_color))
+        gradientDrawable.setStroke(
+            1,
+            Color.parseColor(currentType?.data?.first_screen?.button_border_color)
+        )
+
+        when (currentType?.data?.first_screen?.button_style_id) {
             1 -> {
-                this.setBackgroundResource(R.drawable.button_oval_blue)
+                gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
             }
             2 -> {
-                this.setBackgroundColor(Color.parseColor("#58b0fa"))
+                gradientDrawable.cornerRadius = convertDpToPixel(0f, context)
             }
             3 -> {
-                this.setBackgroundResource(R.drawable.button_oval_blue2)
+                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
             }
             4 -> {
-                this.setBackgroundColor(Color.parseColor("#58b0fa"))
+                gradientDrawable.cornerRadius = convertDpToPixel(2f, context)
             }
             5 -> {
-                this.setBackgroundResource(R.drawable.button_oval_white)
+                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
             }
-            else ->{
-                this.setBackgroundResource(R.drawable.button_oval_blue)
+            else -> {
+                gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
             }
         }
+
+        this.background = gradientDrawable
     }
 
-
+    private fun convertDpToPixel(dp: Float, context: Context): Float {
+        return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
 
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    )
 }

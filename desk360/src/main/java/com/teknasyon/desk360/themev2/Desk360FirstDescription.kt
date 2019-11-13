@@ -2,6 +2,7 @@ package com.teknasyon.desk360.themev2
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.widget.TextView
 import com.teknasyon.desk360.helper.Desk360Constants
@@ -11,19 +12,25 @@ class Desk360FirstDescription : TextView {
 
     init {
 
-        when (Desk360Constants.currentTheme) {
-            1, 2, 3, 5 -> {
+            this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.sub_title_color))
+            this.text= Desk360Constants.currentType?.data?.first_screen?.sub_title
+            this.textSize = Desk360Constants.currentType?.data?.first_screen?.sub_title_font_size!!.toFloat()
+            when(Desk360Constants.currentType?.data?.first_screen?.sub_title_font_weight){
+                //TODO sabir
+                "regular" ->{
+                    this.setTypeface(null,Typeface.NORMAL)
+                }
+                "bold" ->{
+                    this.setTypeface(null,Typeface.BOLD)
+                }
+                "normal" ->{
+                    this.setTypeface(null,Typeface.NORMAL)
+                }
+                else ->{
+                    this.setTypeface(null,Typeface.NORMAL)
+                }
+            }
 
-                this.setTextColor(Color.parseColor("#4d4d4d"))
-            }
-            4 -> {
-                this.setTextColor(Color.parseColor("#ffffff"))
-            }
-            else -> {
-                this.setTextColor(Color.parseColor("#4d4d4d"))
-
-            }
-        }
     }
 
 

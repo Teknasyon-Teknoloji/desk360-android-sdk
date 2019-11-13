@@ -4,18 +4,24 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
+import android.view.View
 import android.widget.TextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
-
-class Desk360MainTitle : TextView {
+class Desk360TicketSuccessScreenFooter : TextView {
 
     init {
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
-        this.textSize =
-            Desk360Constants.currentType?.data?.general_settings?.header_text_font_size!!.toFloat()
-        when (Desk360Constants.currentType?.data?.general_settings?.header_text_font_weight) {
+        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
+        this.textSize=Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
+
+        this.text = Desk360Constants.currentType?.data?.ticket_success_screen?.bottom_note_text
+        if (Desk360Constants.currentType?.data?.ticket_success_screen?.bottom_note_is_hidden!!) {
+            this.visibility = View.VISIBLE
+        } else {
+            this.visibility = View.INVISIBLE
+        }
+        when (Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight) {
             "regular" -> {
                 this.setTypeface(null, Typeface.NORMAL)
             }
@@ -32,25 +38,14 @@ class Desk360MainTitle : TextView {
 
     }
 
+
     constructor(context: Context) : super(context)
-//    {
-//        val face = Typeface.createFromAsset(context.assets, "Gotham-Book.ttf")
-//        this.typeface = face
-//    }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-//    {
-//        val face = Typeface.createFromAsset(context.assets, "Gotham-Book.ttf")
-//        this.typeface = face
-//    }
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
         context,
         attrs,
         defStyle
     )
-//    {
-//        val face = Typeface.createFromAsset(context.assets, "Gotham-Book.ttf")
-//        this.typeface = face
-//    }
 }

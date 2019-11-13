@@ -72,7 +72,22 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
                 ticketAdapter!!.notifyDataSetChanged()
             }
         })
+        setViews()
+        binding.openMessageformFromExpiredList.setOnClickListener{
+            Navigation
+                .findNavController(it)
+                .navigate(R.id.action_ticketListFragment_to_preNewTicketFragment, null)
+        }
+    }
 
+    private fun setViews() {
+        if(tickets.isEmpty()){
+            binding.pastTicketList.visibility=View.INVISIBLE
+            binding.noExpireEmptyLayout.visibility=View.VISIBLE
+        }else{
+            binding.pastTicketList.visibility=View.VISIBLE
+            binding.noExpireEmptyLayout.visibility=View.INVISIBLE
+        }
     }
 
     companion object {

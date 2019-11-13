@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -26,9 +27,8 @@
             android:gravity="left"
             android:letterSpacing="0.01"
             android:lines="1"
-            android:text="A paragraph of a support message…"
+            tools:text="A paragraph of a support message…"
             android:singleLine="true"
-            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/ticket_date"
             app:layout_constraintEnd_toStartOf="@+id/message_status"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,11 +41,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginBottom="10dp"
-            android:text="3.11.2018 10:00"
+            tools:text="3.11.2018 10:00"
             android:fontFamily="sans-serif"
             android:letterSpacing="0.03"
             android:layout_marginTop="8dp"
-            android:textSize="12sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/message_status"

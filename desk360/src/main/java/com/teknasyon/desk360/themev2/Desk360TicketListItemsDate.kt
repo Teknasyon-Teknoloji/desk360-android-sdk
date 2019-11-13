@@ -10,19 +10,9 @@ import com.teknasyon.desk360.helper.Desk360Constants
 class Desk360TicketListItemsDate : TextView {
 
     init {
-
-        when (Desk360Constants.currentTheme) {
-            1, 2, 3, 5 -> {
-                this.setTextColor(Color.parseColor("#b0b0b0"))
-            }
-            4 -> {
-                this.setTextColor(Color.parseColor("#c3cad5"))
-            }
-            else -> {
-                this.setTextColor(Color.parseColor("#b0b0b0"))
-
-            }
-        }
+        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_date_color))
+        this.textSize =
+            Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_date_font_size!!.toFloat()
     }
 
 

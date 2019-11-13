@@ -10,17 +10,9 @@ import com.teknasyon.desk360.helper.Desk360Constants
 class Desk360CommonBottomBar : ConstraintLayout {
 
     init {
-        when (Desk360Constants.currentTheme) {
-            1, 2, 3, 5 -> {
-                this.setBackgroundColor(Color.parseColor("#71717b"))
-            }
-            4 -> {
-                this.setBackgroundColor(Color.parseColor("#2d3543"))
-            }
-            else -> {
-                this.setBackgroundColor(Color.parseColor("#71717b"))
-            }
-        }
+
+        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.copyright_background_color))
+
     }
 
 

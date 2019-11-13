@@ -10,17 +10,8 @@ class Desk360TicketRecyclerView : RecyclerView {
 
     init {
 
-        when (Desk360Constants.currentTheme) {
-            1, 2, 3, 5 -> {
-                this.setBackgroundColor(Color.parseColor("#eeeff0"))
-            }
-            4 -> {
-                this.setBackgroundColor(Color.parseColor("#4a576d"))
-            }
-            else -> {
-                this.setBackgroundColor(Color.parseColor("#eeeff0"))
-            }
-        }
+        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_background_color))
+
     }
 
     constructor(context: Context) : super(context)

@@ -34,7 +34,7 @@
                 android:paddingRight="24dp"
                 android:textSize="14sp"
                 android:textColor="#525a7e"
-                android:text="A paragraph of a support message
+                tools:text="A paragraph of a support message
 paragraph of a support message"
                 android:gravity="center_vertical"
                 app:layout_constraintBottom_toTopOf="@+id/date_incoming"
@@ -43,7 +43,7 @@ paragraph of a support message"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <com.teknasyon.desk360.themev2.Desk360DetailTicketDateIncoming
                 android:id="@+id/date_incoming"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -52,7 +52,6 @@ paragraph of a support message"
                 android:layout_marginTop="8dp"
                 android:text="13.11.2018 10:00"
                 android:textSize="12sp"
-                android:textColor="#9298b1"
                 app:layout_constraintStart_toStartOf="@+id/message_incoming"
                 app:layout_constraintTop_toBottomOf="@+id/message_incoming" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.teknasyon.desk360.themev2.Desk360FirstDescription
+            <com.teknasyon.desk360.themev2.Desk360PreScreenSubTitle
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -24,15 +24,15 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="64dp"
-                android:text="Yeni bir mesaj gönder."
-                android:textSize="24sp"
+                tools:text="Yeni bir mesaj gönder."
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.39" />
 
-            <com.teknasyon.desk360.themev2.Desk360SecondDescription
+            <com.teknasyon.desk360.themev2.Desk360PreScreenDescription
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -45,14 +45,12 @@
                 android:letterSpacing="0.03"
                 android:lineSpacingExtra="8sp"
                 android:text="Yeni bir destek mesajı yaratmak için devam edin."
-                android:textSize="16sp"
-                android:textStyle="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
-            <com.teknasyon.desk360.themev2.Desk360CommonButton
+            <com.teknasyon.desk360.themev2.Desk360PreScreenButton
                 android:id="@+id/emptys_add_new_ticket_button"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -63,7 +61,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
 
-                <com.teknasyon.desk360.themev2.Desk360CommonButtonText
+                <com.teknasyon.desk360.themev2.Desk360PreScreenButtonText
                     android:id="@+id/txtOpenMessageForm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -71,8 +69,7 @@
                     android:drawablePadding="16dp"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="Bize Yazın"
-                    android:textSize="18sp"
+                    tools:text="Bize Yazın"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -90,9 +87,9 @@
                     app:layout_constraintTop_toTopOf="@+id/txtOpenMessageForm"
                     android:layout_marginRight="16dp" />
 
-            </com.teknasyon.desk360.themev2.Desk360CommonButton>
+            </com.teknasyon.desk360.themev2.Desk360PreScreenButton>
 
-            <com.teknasyon.desk360.themev2.Desk360CommonFooterText
+            <com.teknasyon.desk360.themev2.Desk360PreScreenFooter
                 android:id="@+id/txtBottomFooterTicket"
                 android:layout_width="0dp"
                 android:layout_height="60dp"

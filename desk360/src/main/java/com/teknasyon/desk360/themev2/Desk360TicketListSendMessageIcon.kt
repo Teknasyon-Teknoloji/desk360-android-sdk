@@ -10,7 +10,7 @@ class Desk360TicketListSendMessageIcon  : ImageView{
 
     init {
 
-        when (Desk360Constants.currentTheme) {
+        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
             1,2,3,5-> {
                 this.setImageResource(R.drawable.message_send_icon_blue)
             }

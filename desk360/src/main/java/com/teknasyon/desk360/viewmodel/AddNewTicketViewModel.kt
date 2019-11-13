@@ -73,7 +73,7 @@ open class AddNewTicketViewModel : ViewModel() {
                     } else {
                         addedTicket.value = null
                     }
-                }
+            }
             })
     }
 

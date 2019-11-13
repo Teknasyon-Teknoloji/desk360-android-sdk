@@ -2,46 +2,23 @@ package com.teknasyon.desk360.themev2
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.util.DisplayMetrics
-import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360SendFormButton : Button {
-
+class Desk360TicketSuccessScreenButton : ConstraintLayout {
     private val gradientDrawable = GradientDrawable()
 
     init {
-
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_color))
-        this.text = Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text
-        this.textSize =
-            Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_font_size!!.toFloat()
-
-        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_font_weight) {
-            //TODO sabir
-            "regular" -> {
-                this.setTypeface(null, Typeface.NORMAL)
-            }
-            "bold" -> {
-                this.setTypeface(null, Typeface.BOLD)
-            }
-            "normal" -> {
-                this.setTypeface(null, Typeface.NORMAL)
-            }
-            else -> {
-                this.setTypeface(null, Typeface.NORMAL)
-            }
-        }
-        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_background_color))
+        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_background_color))
         gradientDrawable.setStroke(
             1,
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_border_color)
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_border_color)
         )
 
-        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
+        when (Desk360Constants.currentTheme) {
             1 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
             }
@@ -68,7 +45,6 @@ class Desk360SendFormButton : Button {
     private fun convertDpToPixel(dp: Float, context: Context): Float {
         return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
-
 
     constructor(context: Context) : super(context)
 

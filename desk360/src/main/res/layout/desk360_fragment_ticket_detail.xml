@@ -34,7 +34,7 @@
             android:layout_marginBottom="24dp"
             android:textAllCaps="false"
             android:gravity="center"
-            android:text="Yeni Talep Ekle"
+            tools:text="Yeni Talep Ekle"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,13 +66,11 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="26dp"
                 android:layout_weight="1"
-                android:hint="Mesajı Yazınız"
+                tools:hint="Mesajı Yazınız"
                 android:imeOptions="actionDone"
-                android:backgroundTint="#c2c7cc"
                 android:inputType="textCapSentences|textMultiLine"
                 android:isScrollContainer="true"
                 android:maxLines="6"
-                android:textSize="18sp"
                 android:layout_marginLeft="26dp" />
 
             <com.teknasyon.desk360.themev2.Desk360TicketListSendMessageIcon

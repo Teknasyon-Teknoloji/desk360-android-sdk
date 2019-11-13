@@ -1,6 +1,8 @@
 package com.teknasyon.desk360.themev2
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.widget.TextView
 import com.teknasyon.desk360.R
@@ -11,7 +13,7 @@ class Desk360SentMessageLayout : TextView {
 
     init {
 
-        when (Desk360Constants.currentTheme) {
+        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
             1 ,2,4-> {
 
                 this.setBackgroundResource(R.drawable.sent_message_background)
@@ -25,6 +27,24 @@ class Desk360SentMessageLayout : TextView {
 
             }
         }
+
+            this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_text_color))
+            this.textSize = Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_font_size!!.toFloat()
+
+            when(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_font_weight){
+                "regular" ->{
+                    this.setTypeface(null, Typeface.NORMAL)
+                }
+                "bold" ->{
+                    this.setTypeface(null, Typeface.BOLD)
+                }
+                "normal" ->{
+                    this.setTypeface(null, Typeface.NORMAL)
+                }
+                else ->{
+                    this.setTypeface(null, Typeface.NORMAL)
+                }
+            }
     }
 
 

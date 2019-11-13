@@ -13,23 +13,23 @@ class Desk360CommonButtonImage : ImageView {
 
     init {
 
-        when (Desk360Constants.currentTheme) {
+        when (Desk360Constants.currentType?.data?.first_screen?.button_style_id) {
             1, 3, 4 -> {
                 this.setBackgroundResource(R.drawable.arrow_right)
-                this.visibility= View.VISIBLE
+                this.visibility = View.VISIBLE
             }
             2 -> {
                 this.setBackgroundColor(Color.parseColor("#58b0fa"))
-                this.visibility= View.GONE
+                this.visibility = View.GONE
             }
 
             5 -> {
                 this.setBackgroundResource(R.drawable.arrow_right_blue)
-                this.visibility= View.VISIBLE
+                this.visibility = View.VISIBLE
             }
             else -> {
                 this.setBackgroundResource(R.drawable.arrow_right)
-                this.visibility= View.VISIBLE
+                this.visibility = View.VISIBLE
             }
         }
     }

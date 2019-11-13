@@ -11,7 +11,7 @@
             android:id="@+id/fill_list_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/containerTabs" />
 
 
-
         </com.teknasyon.desk360.themev2.Desk360LayoutTicket>
 
         <com.teknasyon.desk360.themev2.Desk360MainBackground
@@ -95,12 +94,11 @@
                 android:layout_marginBottom="0dp"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Henüz hiç bir mesaj yaratmadınız"
-                android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/txtMainSecondDesc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                tools:text="Henüz hiç bir mesaj yaratmadınız" />
 
             <com.teknasyon.desk360.themev2.Desk360SecondDescription
                 android:id="@+id/txtMainSecondDesc"
@@ -111,12 +109,11 @@
                 android:layout_marginBottom="64dp"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="İlk yardım mesajını yaratmak ve canlı destek almak için bize ulaşın!"
-                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="İlk yardım mesajını yaratmak ve canlı destek almak için bize ulaşın!" />
 
 
             <com.teknasyon.desk360.themev2.Desk360CommonButton
@@ -141,13 +138,12 @@
                     android:drawablePadding="16dp"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="Bize Yazın"
-                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingConstraints" />
+                    tools:ignore="MissingConstraints"
+                    tools:text="Bize Yazın" />
 
                 <com.teknasyon.desk360.themev2.Desk360CommonButtonImage
                     android:id="@+id/imgNextOpenMessageForm"
@@ -172,14 +168,13 @@
                 android:maxLines="5"
                 android:padding="8dp"
                 android:scrollbars="vertical"
-                android:text="Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. "
                 android:textColor="#868686"
-                android:textSize="8sp"
                 android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints,SmallSp" />
+                tools:ignore="MissingConstraints,SmallSp"
+                tools:text="Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. " />
 
 
         </com.teknasyon.desk360.themev2.Desk360MainBackground>

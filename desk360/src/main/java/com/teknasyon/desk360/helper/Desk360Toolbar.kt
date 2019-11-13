@@ -10,21 +10,8 @@ import com.teknasyon.desk360.helper.Desk360Constants.currentTheme
 
 class Desk360Toolbar : Toolbar {
     init {
-
-        when (currentTheme) {
-            1, 2, 3, 5 -> {
-                this.setBackgroundColor(Color.parseColor("#f7f7f7"))
-                this.setTitleTextColor(Color.parseColor("#5c5c5c"))
-            }
-            4 -> {
-                this.setBackgroundColor(Color.parseColor("#3f4b60"))
-                this.setTitleTextColor(Color.parseColor("#ffffff"))
-            }
-            else -> {
-                this.setBackgroundColor(Color.parseColor("#f7f7f7"))
-                this.setTitleTextColor(Color.parseColor("#5c5c5c"))
-            }
-        }
+        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_background_color))
+        this.setTitleTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
     }
 
     constructor(context: Context) : super(

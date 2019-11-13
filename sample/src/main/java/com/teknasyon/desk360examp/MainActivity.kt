@@ -16,19 +16,21 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         openContact = findViewById(R.id.openContactUs)
+        Desk360Config.instance.context = this
 
-        openContact?.setOnClickListener { setupNavigation() }
-    }
-
-    private fun setupNavigation() {
-        Desk360Config().context = this
         Desk360Constants.desk360CurrentTheme(1)
         Desk360Constants.desk360Config(
             app_key = BuildConfig.APP_KEY,
             app_version = BuildConfig.VERSION_NAME,
             baseURL = BuildConfig.DESK360_BASE_URL,
-            device_token = "asd12345"
+            device_token = "asd123566545"
         )
+        Desk360Config.instance.callStyle()
+        openContact?.setOnClickListener { setupNavigation() }
+    }
+
+    private fun setupNavigation() {
+
         startActivity(Intent(this, Desk360BaseActivity::class.java))
     }
 }

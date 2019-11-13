@@ -7,22 +7,15 @@ import android.widget.TextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
 
-class Desk360TicketListItemTitle : TextView{
+class Desk360TicketListItemTitle : TextView {
 
     init {
 
-        when (Desk360Constants.currentTheme) {
-            1, 2, 3, 5 -> {
-                this.setTextColor(Color.parseColor("#2d2d2d"))
-            }
-            4 -> {
-                this.setTextColor(Color.parseColor("#ffffff"))
-            }
-            else -> {
-                this.setTextColor(Color.parseColor("#2d2d2d"))
 
-            }
-        }
+
+        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_subject_color))
+        this.textSize =
+            Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_subject_font_size!!.toFloat()
     }
 
 
