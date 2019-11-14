@@ -18,7 +18,12 @@ object Desk360Constants {
     var language_code: String? = null
     var time_zone: String? = null
     var baseURL: String? = null
-    var currentType : Desk360ConfigResponse?=null
+    var currentType: Desk360ConfigResponse? = null
+        get() {
+            field = Desk360Config.instance.getDesk360Preferences()?.types
+            return field
+        }
+
 
     fun desk360Config(
         app_key: String,

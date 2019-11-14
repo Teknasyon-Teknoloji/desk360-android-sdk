@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
             app_key = BuildConfig.APP_KEY,
             app_version = BuildConfig.VERSION_NAME,
             baseURL = BuildConfig.DESK360_BASE_URL,
-            device_token = "asd123566545"
+            device_token = "asd123566547785"
         )
         Desk360Config.instance.callStyle()
 
