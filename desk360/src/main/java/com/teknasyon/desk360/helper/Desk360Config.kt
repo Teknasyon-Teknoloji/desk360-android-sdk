@@ -23,9 +23,6 @@ open class Desk360Config {
         return desk360Preferences
     }
 
-    fun callStyle() {
-        GetTypesViewModel()
-    }
 
     companion object {
         var INSTANCE: Desk360Config? = null

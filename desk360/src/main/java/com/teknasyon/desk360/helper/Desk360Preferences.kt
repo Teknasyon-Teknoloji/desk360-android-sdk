@@ -13,8 +13,9 @@ open class Desk360Preferences : PreferencesManager() {
         get() = getObject<Desk360Data>(DATA, Desk360Data::class.java)
         set(meta) = putObject(DATA, meta!!)
 
-   var types: Desk360ConfigResponse?
+    var types: Desk360ConfigResponse?
         get() = getObject<Desk360ConfigResponse>(TYPES, Desk360ConfigResponse::class.java)
+            ?: Desk360ConfigResponse()
         set(types) = putObject(TYPES, types!!)
 
     var adId: String?

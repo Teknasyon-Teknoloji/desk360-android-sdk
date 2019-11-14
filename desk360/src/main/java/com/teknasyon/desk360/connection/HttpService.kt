@@ -1,7 +1,6 @@
 package com.teknasyon.desk360.connection
 
 import com.teknasyon.desk360.model.*
-import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import retrofit2.Call
 import retrofit2.http.*
 

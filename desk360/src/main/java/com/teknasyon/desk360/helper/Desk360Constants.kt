@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
+import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import java.util.*
 
 /**
@@ -55,6 +56,7 @@ object Desk360Constants {
         this.language_code = Locale.getDefault().language
         this.time_zone = TimeZone.getDefault().id
         this.baseURL = baseURL
+        GetTypesViewModel()
         return true
     }
 

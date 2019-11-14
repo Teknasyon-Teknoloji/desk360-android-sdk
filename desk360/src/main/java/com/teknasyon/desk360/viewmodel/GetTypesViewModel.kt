@@ -15,7 +15,7 @@ class GetTypesViewModel : ViewModel() {
         getTypes()
     }
 
-    fun getTypes() {
+    private fun getTypes() {
 
         Desk360StylesRetrofitFactory.instance.sslService.getTypes()
             .enqueue(object : BaseCallback<Desk360ConfigResponse>() {
