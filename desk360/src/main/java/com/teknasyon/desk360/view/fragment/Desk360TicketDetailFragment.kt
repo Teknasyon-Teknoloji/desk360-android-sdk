@@ -1,6 +1,9 @@
 package com.teknasyon.desk360.view.fragment
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
@@ -8,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketDetailBinding
+import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.view.adapter.Desk360TicketDetailListAdapter
@@ -23,6 +28,7 @@ import com.teknasyon.desk360.viewmodel.TicketDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
 
 
 /**
@@ -32,7 +38,7 @@ import io.reactivex.schedulers.Schedulers
 open class Desk360TicketDetailFragment : Fragment() {
     private var binding: Desk360FragmentTicketDetailBinding? = null
     private var ticketDetailAdapter: Desk360TicketDetailListAdapter? = null
-
+    private val gradientDrawable = GradientDrawable()
     private var ticketId: Int? = null
     private var ticketStatus: String? = null
 
@@ -84,7 +90,6 @@ open class Desk360TicketDetailFragment : Fragment() {
         binding?.addNewMessageButton?.setOnClickListener {
             binding?.messageEditText?.text?.trim()?.apply {
                 if (isNotEmpty() && toString().isNotEmpty()) {
-
                     ticketId?.let { it1 ->
                         viewModel?.addMessage(
                             it1,
@@ -95,7 +100,34 @@ open class Desk360TicketDetailFragment : Fragment() {
                 }
             }
         }
+        gradientDrawable.setStroke(1, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
+        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_background_color))
 
+        binding?.addNewMessageButton?.setImageResource(R.drawable.message_send_icon_blue)
+        binding?.addNewMessageButton?.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
+        binding?.messageEditText?.onFocusChangeListener =
+            View.OnFocusChangeListener { v, hasFocus ->
+
+                if (hasFocus) {
+                    gradientDrawable.setStroke(2, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_active_color))
+                    binding?.addNewMessageButton?.setColorFilter(
+                        Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_color),
+                        PorterDuff.Mode.SRC_ATOP
+                    )
+                } else {
+                    gradientDrawable.setStroke(2, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
+                    binding?.addNewMessageButton?.setColorFilter(
+                        Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
+                        PorterDuff.Mode.SRC_ATOP
+                    )
+                }
+
+            }
+
+        binding?.layoutSendNewMessageNormal?.background = gradientDrawable
         binding?.addNewTicketButton?.setOnClickListener {
             Navigation
                 .findNavController(it)
