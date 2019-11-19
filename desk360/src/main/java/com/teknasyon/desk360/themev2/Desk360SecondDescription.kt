@@ -15,17 +15,34 @@ class Desk360SecondDescription  : TextView{
             this.text= Desk360Constants.currentType?.data?.first_screen?.description
             this.textSize = Desk360Constants.currentType?.data?.first_screen?.description_font_size!!.toFloat()
             when(Desk360Constants.currentType?.data?.first_screen?.description_font_weight){
-                //TODO sabğr
-                "regular" ->{
+                100 -> {
                     this.setTypeface(null, Typeface.NORMAL)
                 }
-                "bold" ->{
+                200 -> {
                     this.setTypeface(null, Typeface.BOLD)
                 }
-                "normal" ->{
+                300 -> {
                     this.setTypeface(null, Typeface.NORMAL)
                 }
-                else ->{
+                400 -> {
+                    this.setTypeface(null, Typeface.NORMAL)
+                }
+                500 -> {
+                    this.setTypeface(null, Typeface.BOLD)
+                }
+                600 -> {
+                    this.setTypeface(null, Typeface.NORMAL)
+                }
+                700 -> {
+                    this.setTypeface(null, Typeface.NORMAL)
+                }
+                800 -> {
+                    this.setTypeface(null, Typeface.BOLD)
+                }
+                900 -> {
+                    this.setTypeface(null, Typeface.NORMAL)
+                }
+                else -> {
                     this.setTypeface(null, Typeface.NORMAL)
                 }
             }

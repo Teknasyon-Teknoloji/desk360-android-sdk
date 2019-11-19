@@ -20,13 +20,31 @@ class Desk360TicketListEditTextSendMessage : EditText {
             Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_place_holder_text
         this.setHintTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_place_holder_color))
         when (Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_font_weight) {
-            "regular" -> {
+            100 -> {
                 this.setTypeface(null, Typeface.NORMAL)
             }
-            "bold" -> {
+            200 -> {
                 this.setTypeface(null, Typeface.BOLD)
             }
-            "normal" -> {
+            300 -> {
+                this.setTypeface(null, Typeface.NORMAL)
+            }
+            400 -> {
+                this.setTypeface(null, Typeface.NORMAL)
+            }
+            500 -> {
+                this.setTypeface(null, Typeface.BOLD)
+            }
+            600 -> {
+                this.setTypeface(null, Typeface.NORMAL)
+            }
+            700 -> {
+                this.setTypeface(null, Typeface.NORMAL)
+            }
+            800 -> {
+                this.setTypeface(null, Typeface.BOLD)
+            }
+            900 -> {
                 this.setTypeface(null, Typeface.NORMAL)
             }
             else -> {

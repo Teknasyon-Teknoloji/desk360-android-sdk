@@ -6,7 +6,6 @@ import com.teknasyon.desk360.model.Desk360RegisterResponse
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -16,7 +15,7 @@ interface SslService {
     @POST("api/v1/devices/register")
     fun register(@Body register: Desk360Register): Call<Desk360RegisterResponse>
 
-    @GET("api/v1/sdk")
-    fun getTypes(): Call<Desk360ConfigResponse>
+    @POST("api/v1/sdk/configurations")
+    fun getTypes(@Body app_key: HashMap<String, String>): Call<Desk360ConfigResponse>
 
 }

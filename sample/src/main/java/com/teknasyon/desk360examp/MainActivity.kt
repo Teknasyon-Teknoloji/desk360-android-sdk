@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
         Desk360Constants.desk360Config(
             app_key = BuildConfig.APP_KEY,
             app_version = BuildConfig.VERSION_NAME,
-            baseURL = BuildConfig.DESK360_BASE_URL,
-            device_token = "asd12356654ssll7785"
+            baseURL = "http://teknasyon.desk360.com/",
+            device_token = "desk1234k999"
         )
 
         startActivity(Intent(this, Desk360BaseActivity::class.java))

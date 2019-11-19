@@ -3,34 +3,34 @@ package com.teknasyon.desk360.modelv2
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class Desk360ScreenFirst : Serializable{
+class Desk360ScreenFirst : Serializable {
 
     @SerializedName("sub_title_color")
-    var sub_title_color: String = "#000000"
+    var sub_title_color: String = "#4d4d4d"
 
     @SerializedName("button_background_color")
     var button_background_color: String = "#58b0fa"
 
     @SerializedName("button_icon_is_hidden")
-    var button_icon_is_hidden: Boolean = true
+    var button_icon_is_hidden: Boolean = false
 
     @SerializedName("bottom_note_is_hidden")
-    var bottom_note_is_hidden: Boolean = true
+    var bottom_note_is_hidden: Boolean = false
 
     @SerializedName("bottom_note_text")
     var bottom_note_text: String =
-        "Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir." +
-                " Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar."
+        "Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. " +
+                "Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar"
 
     @SerializedName("sub_title")
-    var sub_title: String = "Henüz hiçbir mesaj oluşturmadınız."
+    var sub_title: String = "Henüz hiçbir mesaj oluşturmadınız"
 
     @SerializedName("button_text_font_size")
     var button_text_font_size: Int = 18
 
     @SerializedName("description")
     var description: String =
-        "İlk yardım mesajınızı oluşturmak için ve canlı destek almak için bize ulaşın"
+        "İlk yardım mesajınızı oluşturmak için ve canlı destek almak için bize ulaşın!"
 
     @SerializedName("description_font_size")
     var description_font_size: Int = 15
@@ -45,7 +45,7 @@ class Desk360ScreenFirst : Serializable{
     var sub_title_font_size: Int = 24
 
     @SerializedName("button_text_font_weight")
-    var button_text_font_weight: String = "regular"
+    var button_text_font_weight: Int = 600
 
     @SerializedName("button_text_color")
     var button_text_color: String = "#ffffff"
@@ -54,15 +54,17 @@ class Desk360ScreenFirst : Serializable{
     var button_style_id: Int = 1
 
     @SerializedName("sub_title_font_weight")
-    var sub_title_font_weight: String = "bold"
+    var sub_title_font_weight: Int = 600
 
     @SerializedName("button_text")
-    var button_text: String = "Bize Yazın"
+    var button_text: String = "Write Us"
 
     @SerializedName("button_border_color")
     var button_border_color: String = "#58b0fa"
 
     @SerializedName("description_font_weight")
-    var description_font_weight: String = "regular"
+    var description_font_weight: Int = 400
 
+//    @SerializedName("button_shadow_is_hidden")
+//    var button_shadow_is_hidden: Boolean = false
 }
