@@ -1,5 +1,7 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +13,12 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentCurrentTicketListBinding
+import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
+import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
 
 
 class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.TicketOnClickListener {
@@ -67,13 +71,35 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         ticketAdapter?.clickItem = this
         viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
         binding.viewModelList=viewModel
+        binding.imageEmptyCurrent.setImageResource(R.drawable.no_expired_ticket_list_icon)
+        binding.imageEmptyCurrent.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
         viewModel?.ticketList?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 tickets.clear()
                 tickets.addAll(it)
                 ticketAdapter!!.notifyDataSetChanged()
+                setViews()
             }
         })
+
+        binding.openMessageformEmptyCurrentList.setOnClickListener{
+            Navigation
+                .findNavController(it)
+                .navigate(R.id.action_ticketListFragment_to_preNewTicketFragment, null)
+        }
+    }
+
+    private fun setViews() {
+        if(tickets.isEmpty()){
+            binding.currentTicketList.visibility=View.INVISIBLE
+            binding.emptyLayoutCurrent.visibility=View.VISIBLE
+        }else{
+            binding.currentTicketList.visibility=View.VISIBLE
+            binding.emptyLayoutCurrent.visibility=View.INVISIBLE
+        }
     }
 
     companion object {

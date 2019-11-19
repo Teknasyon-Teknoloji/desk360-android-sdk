@@ -1,5 +1,7 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentPastTicketListBinding
+import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
@@ -64,15 +67,20 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.pastTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
+        binding.noExpiredImageEmpty.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
         viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
         viewModel?.expiredList?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 tickets.clear()
                 tickets.addAll(it)
                 ticketAdapter!!.notifyDataSetChanged()
+                setViews()
             }
         })
-        setViews()
+
         binding.openMessageformFromExpiredList.setOnClickListener{
             Navigation
                 .findNavController(it)

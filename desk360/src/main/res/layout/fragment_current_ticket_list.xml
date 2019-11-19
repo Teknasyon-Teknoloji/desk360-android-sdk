@@ -10,15 +10,97 @@
             type="com.teknasyon.desk360.viewmodel.TicketListViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <com.teknasyon.desk360.themev2.Desk360TicketListRootLayout
+        android:id="@+id/ticket_list_empty_current_root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/empty_layout_current"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/image_empty_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/no_expired_ticket_list_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.13999999" />
+
+            <com.teknasyon.desk360.themev2.Desk360CurrentEmptyTicketSubTitle
+                android:id="@+id/empty_current_subTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:gravity="center_horizontal"
+                android:letterSpacing="0.03"
+                android:lineSpacingExtra="3sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_empty_current"
+                tools:ignore="MissingConstraints" />
+
+            <com.teknasyon.desk360.themev2.Desk360CurrentEmptyTicketDesc
+                android:id="@+id/expired_text_empty_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:fontFamily="sans-serifs-medium"
+                android:gravity="center_horizontal"
+                android:letterSpacing="0.03"
+                android:lineSpacingExtra="3sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/empty_current_subTitle"
+                tools:ignore="MissingConstraints" />
+
+
+
+            <com.teknasyon.desk360.themev2.Desk360EmptyTicketButton
+                android:id="@+id/open_messageform_empty_current_list"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:visibility="visible"
+                android:drawablePadding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Yeni Talep Ekle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/current_ticket_list"
             android:layout_width="match_parent"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:layout_height="match_parent" />
 
         <com.teknasyon.desk360.helper.Desk360Loading
@@ -35,5 +117,5 @@
 
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.teknasyon.desk360.themev2.Desk360TicketListRootLayout>
 </layout>
