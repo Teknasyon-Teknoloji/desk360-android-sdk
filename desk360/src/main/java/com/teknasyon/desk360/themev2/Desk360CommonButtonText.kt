@@ -47,17 +47,6 @@ class Desk360CommonButtonText : TextView {
             }
         }
 
-        if (currentType?.data?.first_screen?.button_icon_is_hidden != true) {
-            if (currentType?.data?.first_screen?.button_style_id == 5) {
-                this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mavi_zarf_icon, 0, 0, 0)
-
-            } else {
-                this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.zarf, 0, 0, 0)
-            }
-        } else {
-            this.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-        }
-
     }
 
 

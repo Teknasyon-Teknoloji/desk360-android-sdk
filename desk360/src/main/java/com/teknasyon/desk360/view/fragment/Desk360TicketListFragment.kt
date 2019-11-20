@@ -1,6 +1,8 @@
 package com.teknasyon.desk360.view.fragment
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
@@ -20,6 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.desk360_fragment_ticket_list.*
+import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
 
 
 open class Desk360TicketListFragment : Fragment() {
@@ -56,6 +59,12 @@ open class Desk360TicketListFragment : Fragment() {
                 .findNavController(binding!!.root)
                 .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
         }
+
+        binding!!.firstScreenButtonIcon.setImageResource(R.drawable.zarf)
+        binding!!.firstScreenButtonIcon.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
 
         disposable = RxBus.listen(HashMap<String, Int>()::class.java).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

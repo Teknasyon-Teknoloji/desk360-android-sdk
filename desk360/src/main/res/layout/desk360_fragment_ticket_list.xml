@@ -130,6 +130,14 @@
                 app:layout_constraintStart_toStartOf="parent">
 
 
+                <com.teknasyon.desk360.themev2.Desk360FirstScreenButtonIcon
+                    android:id="@+id/firstScreenButtonIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtOpenMessageForm"
+                    app:layout_constraintEnd_toStartOf="@+id/txtOpenMessageForm"
+                    app:layout_constraintTop_toTopOf="@+id/txtOpenMessageForm" />
+
                 <com.teknasyon.desk360.themev2.Desk360CommonButtonText
                     android:id="@+id/txtOpenMessageForm"
                     android:layout_width="wrap_content"
@@ -145,16 +153,6 @@
                     tools:ignore="MissingConstraints"
                     tools:text="Bize Yazın" />
 
-                <com.teknasyon.desk360.themev2.Desk360CommonButtonImage
-                    android:id="@+id/imgNextOpenMessageForm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:padding="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/txtOpenMessageForm"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/txtOpenMessageForm" />
 
             </com.teknasyon.desk360.themev2.Desk360CommonButton>
 
