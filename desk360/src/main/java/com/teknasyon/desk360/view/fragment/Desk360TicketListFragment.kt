@@ -46,7 +46,7 @@ open class Desk360TicketListFragment : Fragment() {
         binding!!.ticketsTabs?.setupWithViewPager(binding?.viewPagerContainer)
         ticketListPagerAdapter = Desk360TicketPagerAdapter(childFragmentManager)
         binding!!.viewPagerContainer.adapter = ticketListPagerAdapter
-        binding!!.txtBottomFooterMain?.movementMethod = ScrollingMovementMethod()
+        binding!!.txtBottomFooterMainTicketList?.movementMethod = ScrollingMovementMethod()
 
         return binding?.root
     }
@@ -54,7 +54,7 @@ open class Desk360TicketListFragment : Fragment() {
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.emptysAddNewTicketButton?.setOnClickListener {
+        binding?.emptysAddNewTicketButtonTicketList?.setOnClickListener {
             Navigation
                 .findNavController(binding!!.root)
                 .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
@@ -102,13 +102,13 @@ open class Desk360TicketListFragment : Fragment() {
     }
 
     private fun setViewFillLayout() {
-        binding!!.emptyListLayout?.visibility = View.INVISIBLE
+        binding!!.emptyListLayoutTicketList?.visibility = View.INVISIBLE
         binding!!.fillListLayout?.visibility = View.VISIBLE
         RxBus.publish("ticketListIsNotEmpty")
     }
 
     private fun setViewEmptyLayout() {
-        binding!!.emptyListLayout?.visibility = View.VISIBLE
+        binding!!.emptyListLayoutTicketList?.visibility = View.VISIBLE
         binding!!.fillListLayout?.visibility = View.INVISIBLE
         (activity as Desk360BaseActivity).title = getString(R.string.CONTACT_US_TITLE)
         RxBus.publish("ticketListIsEmpty")

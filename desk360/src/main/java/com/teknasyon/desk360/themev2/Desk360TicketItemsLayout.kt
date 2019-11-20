@@ -15,21 +15,25 @@ class Desk360TicketItemsLayout : ConstraintLayout {
     init {
 
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_backgroud_color))
-        gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
-
 
         when (Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_type) {
             1 -> {
+                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
             }
             2 -> {
+                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
             }
             3 -> {
+                gradientDrawable.cornerRadius = convertDpToPixel(4f, context)
             }
             4 -> {
+                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
             }
             5 -> {
+                gradientDrawable.cornerRadius = convertDpToPixel(4f, context)
             }
             else -> {
+                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
             }
         }
 

@@ -67,6 +67,7 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.pastTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
+        binding.noExpiredImageEmpty.setImageResource(R.drawable.no_expired_ticket_list_icon)
         binding.noExpiredImageEmpty.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_color),
             PorterDuff.Mode.SRC_ATOP
@@ -80,6 +81,13 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
                 setViews()
             }
         })
+
+        binding.ticketListEmptyButtonIconPast.setImageResource(R.drawable.zarf)
+        binding.ticketListEmptyButtonIconPast.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_button_text_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
+
 
         binding.openMessageformFromExpiredList.setOnClickListener{
             Navigation

@@ -13,14 +13,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnOpenMessageForm"
+            app:layout_constraintBottom_toTopOf="@+id/success_screen_open_message_form"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.32999998" />
 
         <com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenSubTitle
-            android:id="@+id/txtMainFirstDesc"
+            android:id="@+id/success_screen_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -28,14 +28,14 @@
             android:layout_marginEnd="32dp"
             android:gravity="center"
             android:padding="8dp"
-            tools:text="Teşekkürler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageReceived"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:text="Teşekkürler" />
 
         <com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenDesc
-            android:id="@+id/txtMainSecondDesc"
+            android:id="@+id/success_screen_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -43,62 +43,66 @@
             android:layout_marginEnd="32dp"
             android:gravity="center"
             android:padding="8dp"
-            tools:text="Mesajınızı aldık. En kısa sürede bir uzman mesajınıza yanıt gönderecektir."
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtMainFirstDesc" />
+            app:layout_constraintTop_toBottomOf="@+id/success_screen_subtitle"
+            tools:text="Mesajınızı aldık. En kısa sürede bir uzman mesajınıza yanıt gönderecektir." />
 
 
-        <com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenButton
-            android:id="@+id/btnOpenMessageForm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
+        <com.teknasyon.desk360.themev2.Desk360PreScreenButton
+            android:id="@+id/success_screen_open_message_form"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
-            android:gravity="center"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/txtBottomFooter"
+            app:layout_constraintBottom_toTopOf="@+id/success_screen_bottom_footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
 
-            <com.teknasyon.desk360.themev2.Desk360ButtonReturnMessages
-                android:id="@+id/txtOpenMessageForm"
+            <com.teknasyon.desk360.themev2.Desk360SuccessScreenButtonText
+                android:id="@+id/success_screen_open_message_form_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                tools:text="Mesajlar Sayfasına Git"
+                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                tools:text="Bize Yazın" />
 
-        </com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenButton>
+
+            <com.teknasyon.desk360.themev2.Desk360SuccessScreenButtonIcon
+                android:id="@+id/success_screen_button_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/success_screen_open_message_form_text"
+                app:layout_constraintEnd_toStartOf="@+id/success_screen_open_message_form_text"
+                app:layout_constraintTop_toTopOf="@+id/success_screen_open_message_form_text" />
 
 
+        </com.teknasyon.desk360.themev2.Desk360PreScreenButton>
 
 
         <com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenFooter
-            android:id="@+id/txtBottomFooter"
+            android:id="@+id/success_screen_bottom_footer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:padding="8dp"
             android:maxLines="5"
+            android:padding="8dp"
             android:scrollbars="vertical"
-            tools:text="Bilgilendirme: Aynı koby ile ilgili birden fazla mesaj göndermemeye dikkat ediniz. Aynı konu ile ilgili birden fazla mesaj iletmeniz karışıklığa ve daha geç yanıt almanıza neden olabilir."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints,SmallSp" />
+            tools:ignore="MissingConstraints,SmallSp"
+            tools:text="Bilgilendirme: Aynı koby ile ilgili birden fazla mesaj göndermemeye dikkat ediniz. Aynı konu ile ilgili birden fazla mesaj iletmeniz karışıklığa ve daha geç yanıt almanıza neden olabilir." />
 
 
     </com.teknasyon.desk360.themev2.Desk360MainBackground>

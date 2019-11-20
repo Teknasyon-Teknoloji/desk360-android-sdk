@@ -1,5 +1,7 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentPreNewTicketBinding
+import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 
 
@@ -28,7 +31,7 @@ class PreNewTicketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.emptysAddNewTicketButton.setOnClickListener {
+        binding.preScreenButton.setOnClickListener {
             Navigation
                 .findNavController(it)
                 .navigate(
@@ -37,7 +40,13 @@ class PreNewTicketFragment : Fragment() {
                 )
         }
 
-        binding.txtBottomFooterTicket.movementMethod = ScrollingMovementMethod()
+        binding.preScreennButtonIcon.setImageResource(R.drawable.zarf)
+        binding.preScreennButtonIcon.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_text_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
+
+        binding.txtBottomFooterPreScreen.movementMethod = ScrollingMovementMethod()
     }
 
 }

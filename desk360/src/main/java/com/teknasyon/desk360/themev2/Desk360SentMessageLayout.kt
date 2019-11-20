@@ -13,7 +13,7 @@ class Desk360SentMessageLayout : TextView {
 
     init {
 
-        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
+        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_box_style) {
             1 ,2,4-> {
 
                 this.setBackgroundResource(R.drawable.sent_message_background)

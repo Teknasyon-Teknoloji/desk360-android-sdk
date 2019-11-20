@@ -76,6 +76,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_color),
             PorterDuff.Mode.SRC_ATOP
         )
+
         viewModel?.ticketList?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 tickets.clear()
@@ -84,6 +85,12 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
                 setViews()
             }
         })
+
+        binding.ticketListEmptyButtonIcon.setImageResource(R.drawable.zarf)
+        binding.ticketListEmptyButtonIcon.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_button_text_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
 
         binding.openMessageformEmptyCurrentList.setOnClickListener{
             Navigation

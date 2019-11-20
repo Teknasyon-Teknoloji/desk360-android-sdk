@@ -29,7 +29,7 @@ class Desk360SuccessScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnOpenMessageForm.setOnClickListener {
+        binding.successScreenOpenMessageForm.setOnClickListener {
             Navigation
                 .findNavController(it)
                 .navigateUp()
@@ -41,7 +41,13 @@ class Desk360SuccessScreen : Fragment() {
             PorterDuff.Mode.SRC_ATOP
         )
 
-        binding.txtBottomFooter.movementMethod = ScrollingMovementMethod()
+        binding.successScreenButtonIcon.setImageResource(R.drawable.zarf)
+        binding.successScreenButtonIcon.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
+
+        binding.successScreenBottomFooter.movementMethod = ScrollingMovementMethod()
     }
 
 }

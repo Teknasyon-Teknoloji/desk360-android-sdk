@@ -80,13 +80,13 @@
         </com.teknasyon.desk360.themev2.Desk360LayoutTicket>
 
         <com.teknasyon.desk360.themev2.Desk360MainBackground
-            android:id="@+id/empty_list_layout"
+            android:id="@+id/empty_list_layout_ticket_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="invisible">
 
             <com.teknasyon.desk360.themev2.Desk360FirstDescription
-                android:id="@+id/txtMainFirstDesc"
+                android:id="@+id/empty_list_layout_ticket_list_subTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -94,14 +94,14 @@
                 android:layout_marginBottom="0dp"
                 android:gravity="center"
                 android:padding="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/txtMainSecondDesc"
+                app:layout_constraintBottom_toTopOf="@+id/empty_list_layout_ticket_list_desc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints"
                 tools:text="Henüz hiç bir mesaj yaratmadınız" />
 
             <com.teknasyon.desk360.themev2.Desk360SecondDescription
-                android:id="@+id/txtMainSecondDesc"
+                android:id="@+id/empty_list_layout_ticket_list_desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -117,7 +117,7 @@
 
 
             <com.teknasyon.desk360.themev2.Desk360CommonButton
-                android:id="@+id/emptysAddNewTicketButton"
+                android:id="@+id/emptysAddNewTicketButtonTicketList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -125,7 +125,7 @@
                 android:gravity="center"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/txtBottomFooterMain"
+                app:layout_constraintBottom_toTopOf="@+id/txtBottomFooterMainTicketList"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -134,12 +134,12 @@
                     android:id="@+id/firstScreenButtonIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/txtOpenMessageForm"
-                    app:layout_constraintEnd_toStartOf="@+id/txtOpenMessageForm"
-                    app:layout_constraintTop_toTopOf="@+id/txtOpenMessageForm" />
+                    app:layout_constraintBottom_toBottomOf="@+id/txtOpenMessageFormTicketList"
+                    app:layout_constraintEnd_toStartOf="@+id/txtOpenMessageFormTicketList"
+                    app:layout_constraintTop_toTopOf="@+id/txtOpenMessageFormTicketList" />
 
                 <com.teknasyon.desk360.themev2.Desk360CommonButtonText
-                    android:id="@+id/txtOpenMessageForm"
+                    android:id="@+id/txtOpenMessageFormTicketList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -158,7 +158,7 @@
 
 
             <com.teknasyon.desk360.themev2.Desk360CommonFooterText
-                android:id="@+id/txtBottomFooterMain"
+                android:id="@+id/txtBottomFooterMainTicketList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"

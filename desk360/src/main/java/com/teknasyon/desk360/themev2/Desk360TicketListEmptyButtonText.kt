@@ -7,14 +7,14 @@ import android.util.AttributeSet
 import android.widget.TextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360PreScreenButtonText : TextView {
+class Desk360TicketListEmptyButtonText : TextView {
 
     init {
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_text_color))
-        this.text = Desk360Constants.currentType?.data?.create_pre_screen?.button_text
-        this.textSize = Desk360Constants.currentType?.data?.create_pre_screen?.button_text_font_size!!.toFloat()
-        when (Desk360Constants.currentType?.data?.create_pre_screen?.button_text_font_weight) {
+        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_button_text_color))
+        this.text = Desk360Constants.currentType?.data?.ticket_list_screen?.empty_button_text
+        this.textSize = Desk360Constants.currentType?.data?.ticket_list_screen?.empty_button_text_font_size!!.toFloat()
+        when (Desk360Constants.currentType?.data?.ticket_list_screen?.empty_button_text_font_weight) {
             100 -> {
                 this.setTypeface(null, Typeface.NORMAL)
             }

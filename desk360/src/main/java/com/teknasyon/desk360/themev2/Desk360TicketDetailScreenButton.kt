@@ -8,17 +8,19 @@ import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360PreScreenButton : ConstraintLayout {
+class Desk360TicketDetailScreenButton : ConstraintLayout {
     private val gradientDrawable = GradientDrawable()
 
     init {
-        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_background_color))
+        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_background_color))
         gradientDrawable.setStroke(
             1,
-            Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_border_color)
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_border_color)
         )
 
-        when (Desk360Constants.currentType?.data?.create_pre_screen?.button_style_id) {
+
+        //TODO sabir
+        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
             1 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
             }

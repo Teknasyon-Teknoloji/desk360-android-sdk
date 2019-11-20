@@ -65,25 +65,51 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/no_expired_text_empty"
                 tools:ignore="MissingConstraints" />
-
-
-            <com.teknasyon.desk360.themev2.Desk360EmptyTicketButton
+            
+            <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton
                 android:id="@+id/open_messageform_from_expired_list"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="24dp"
                 android:layout_marginLeft="24dp"
+                android:gravity="center"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="32dp"
-                android:gravity="center"
-                android:textAllCaps="false"
-                android:drawablePadding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="Yeni Talep Ekle" />
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonText
+                    android:id="@+id/ticket_list_empty_button_text_past"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="16dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints"
+                    tools:text="Bize Yazın" />
+
+
+                <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonIcon
+                    android:id="@+id/ticket_list_empty_button_icon_past"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/ticket_list_empty_button_text_past"
+                    app:layout_constraintEnd_toStartOf="@+id/ticket_list_empty_button_text_past"
+                    app:layout_constraintTop_toTopOf="@+id/ticket_list_empty_button_text_past" />
+
+
+            </com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton>
+            
+            
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -45,7 +45,7 @@ open class Desk360TicketDetailFragment : Fragment() {
     private var backButtonAction: Disposable? = null
 
     private var observer = Observer<ArrayList<Desk360Message>> {
-        binding?.loadingProgress?.visibility = View.INVISIBLE
+        binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
 
         if (it != null) {
             ticketDetailAdapter = Desk360TicketDetailListAdapter(it)
@@ -59,7 +59,7 @@ open class Desk360TicketDetailFragment : Fragment() {
     }
 
     private var addMessageObserver = Observer<Desk360Message> {
-        binding?.loadingProgress?.visibility = View.INVISIBLE
+        binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
 
         if (it != null) {
             viewModel?.ticketDetailList?.value?.add(it)
@@ -83,7 +83,7 @@ open class Desk360TicketDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.loadingProgress?.visibility = View.VISIBLE
+        binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
         viewModel = ticketId?.let { TicketDetailViewModel(it) }
         viewModel?.ticketDetailList?.observe(this, observer)
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
@@ -96,10 +96,16 @@ open class Desk360TicketDetailFragment : Fragment() {
                             binding?.messageEditText?.text.toString()
                         )
                     }
-                    binding?.loadingProgress?.visibility = View.VISIBLE
+                    binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
                 }
             }
         }
+        binding?.ticketDetailButtonIcon?.setImageResource(R.drawable.zarf)
+        binding?.ticketDetailButtonIcon?.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
+
         gradientDrawable.setStroke(1, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_background_color))
 
