@@ -1,9 +1,11 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +37,18 @@ class Desk360SuccessScreen : Fragment() {
                 .navigateUp()
         }
 
+        binding.imageReceived.layoutParams?.height = context?.let {
+            convertDpToPixel((Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
+                it
+            ).toInt()
+        }
+        binding.imageReceived.layoutParams?.width = context?.let {
+            convertDpToPixel((Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
+                it
+            ).toInt()
+        }
+        binding.imageReceived.requestLayout()
+
         binding.imageReceived.setImageResource(R.drawable.received_message_image)
         binding.imageReceived.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.icon_color),
@@ -49,5 +63,10 @@ class Desk360SuccessScreen : Fragment() {
 
         binding.successScreenBottomFooter.movementMethod = ScrollingMovementMethod()
     }
+
+    private fun convertDpToPixel(dp: Float, context: Context): Float {
+        return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
+
 
 }

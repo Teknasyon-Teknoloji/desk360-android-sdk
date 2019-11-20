@@ -1,8 +1,10 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,6 +69,18 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.pastTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
+
+        binding.noExpiredImageEmpty.layoutParams?.height = context?.let {
+            convertDpToPixel((Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_size)?.toFloat()!!,
+                it
+            ).toInt()
+        }
+        binding.noExpiredImageEmpty.layoutParams?.width = context?.let {
+            convertDpToPixel((Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_size)?.toFloat()!!,
+                it
+            ).toInt()
+        }
+        binding.noExpiredImageEmpty.requestLayout()
         binding.noExpiredImageEmpty.setImageResource(R.drawable.no_expired_ticket_list_icon)
         binding.noExpiredImageEmpty.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_color),
@@ -94,6 +108,10 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
                 .findNavController(it)
                 .navigate(R.id.action_ticketListFragment_to_preNewTicketFragment, null)
         }
+    }
+
+    private fun convertDpToPixel(dp: Float, context: Context): Float {
+        return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
 
     private fun setViews() {

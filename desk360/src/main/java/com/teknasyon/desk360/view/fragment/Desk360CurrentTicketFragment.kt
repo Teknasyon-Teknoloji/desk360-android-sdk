@@ -1,8 +1,10 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +72,18 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         binding.currentTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
         viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
+        binding.imageEmptyCurrent.layoutParams?.height = context?.let {
+            convertDpToPixel((Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_size)?.toFloat()!!,
+                it
+            ).toInt()
+        }
+        binding.imageEmptyCurrent.layoutParams?.width = context?.let {
+            convertDpToPixel((Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_size)?.toFloat()!!,
+                it
+            ).toInt()
+        }
+
+        binding.imageEmptyCurrent.requestLayout()
         binding.viewModelList=viewModel
         binding.imageEmptyCurrent.setImageResource(R.drawable.no_expired_ticket_list_icon)
         binding.imageEmptyCurrent.setColorFilter(
@@ -99,6 +113,9 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         }
     }
 
+    private fun convertDpToPixel(dp: Float, context: Context): Float {
+        return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+    }
     private fun setViews() {
         if(tickets.isEmpty()){
             binding.currentTicketList.visibility=View.INVISIBLE
