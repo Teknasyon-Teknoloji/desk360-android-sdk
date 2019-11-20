@@ -143,7 +143,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         register.isEnabled=false
         register.icon = resources.getDrawable(R.drawable.add_new_message_icon_black)
         register.icon?.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color),
+            Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_background_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
