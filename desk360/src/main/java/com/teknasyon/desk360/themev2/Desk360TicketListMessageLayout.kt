@@ -19,7 +19,7 @@ class Desk360TicketListMessageLayout : LinearLayout {
             1,
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color)
         )
-        gradientDrawable.cornerRadius = 0f
+        gradientDrawable.cornerRadius = 1f
         
         this.background = gradientDrawable
     }

@@ -102,7 +102,7 @@
                 android:maxLines="6"
                 tools:hint="Mesajı Yazınız" />
 
-            <com.teknasyon.desk360.themev2.Desk360TicketListSendMessageIcon
+            <ImageView
                 android:id="@+id/add_new_message_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
