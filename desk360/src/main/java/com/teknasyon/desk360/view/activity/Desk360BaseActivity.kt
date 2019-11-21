@@ -55,7 +55,29 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                 userRegistered = true
             }
 
-            binding?.toolbarTitle?.text = navController?.currentDestination?.label
+            when (destination.id) {
+                R.id.preNewTicketFragment -> {
+                    binding?.toolbarTitle?.text =
+                        Desk360Constants.currentType?.data?.create_pre_screen?.title
+                }
+                R.id.thanksFragment -> {
+                    binding?.toolbarTitle?.text =
+                        Desk360Constants.currentType?.data?.ticket_success_screen?.title
+                }
+                R.id.ticketDetailFragment -> {
+                    binding?.toolbarTitle?.text =
+                        Desk360Constants.currentType?.data?.ticket_detail_screen?.title
+                }
+                R.id.addNewTicketFragment -> {
+                    binding?.toolbarTitle?.text =
+                        Desk360Constants.currentType?.data?.create_screen?.title
+                }
+                else -> {
+                    binding?.toolbarTitle?.text = " "
+                }
+
+            }
+
             localMenu?.let { onPrepareOptionsMenu(it) }
 
             if (destination.id == R.id.ticketListFragment || destination.id == R.id.preNewTicketFragment || destination.id == R.id.thanksFragment) {
@@ -94,9 +116,10 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             .subscribe({
                 when (it) {
                     "ticketListIsNotEmpty" -> {
-
+                        binding?.toolbarTitle?.text =
+                            Desk360Constants.currentType?.data?.ticket_list_screen?.title
                         register.isVisible = true
-                        register.isEnabled=true
+                        register.isEnabled = true
                         register.icon =
                             resources.getDrawable(R.drawable.add_new_message_icon_black)
 
@@ -109,7 +132,10 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                     }
 
                     "ticketListIsEmpty" -> {
-                        register.isVisible = false
+                        binding?.toolbarTitle?.text =
+                            Desk360Constants.currentType?.data?.first_screen?.title
+                        register.isVisible = true
+                        register.isEnabled = false
                     }
                 }
             }, { t ->
@@ -140,7 +166,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val register: MenuItem = menu.findItem(R.id.action_add_new_ticket)
         register.isVisible = true
-        register.isEnabled=false
+        register.isEnabled = false
         register.icon = resources.getDrawable(R.drawable.add_new_message_icon_black)
         register.icon?.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_background_color),

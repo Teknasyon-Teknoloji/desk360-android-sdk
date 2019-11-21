@@ -110,7 +110,6 @@ open class Desk360TicketListFragment : Fragment() {
     private fun setViewEmptyLayout() {
         binding!!.emptyListLayoutTicketList?.visibility = View.VISIBLE
         binding!!.fillListLayout?.visibility = View.INVISIBLE
-        (activity as Desk360BaseActivity).title = getString(R.string.CONTACT_US_TITLE)
         RxBus.publish("ticketListIsEmpty")
     }
 

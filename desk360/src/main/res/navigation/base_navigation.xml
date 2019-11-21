@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/ticketListFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360TicketListFragment"
-        android:label="Destek Taleplerim"
         tools:layout="@layout/desk360_fragment_ticket_list">
 
         <action
@@ -32,7 +31,6 @@
     <fragment
         android:id="@+id/ticketDetailFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360TicketDetailFragment"
-        android:label="Destek Taleplerim"
         tools:layout="@layout/desk360_fragment_ticket_detail">
         <action
             android:id="@+id/action_ticketDetailFragment_to_addNewTicketFragment"
@@ -51,7 +49,6 @@
     <fragment
         android:id="@+id/addNewTicketFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360AddNewTicketFragment"
-        android:label="Bize Ulaşın"
         tools:layout="@layout/desk360_add_new_ticket_layout"
         >
         <action
@@ -65,7 +62,6 @@
     <fragment
         android:id="@+id/preNewTicketFragment"
         android:name="com.teknasyon.desk360.view.fragment.PreNewTicketFragment"
-        android:label="Bize Ulaşın"
         tools:layout="@layout/fragment_pre_new_ticket">
         <action
             android:id="@+id/action_preNewTicketFragment_to_addNewTicketFragment"
@@ -80,7 +76,6 @@
     <fragment
         android:id="@+id/thanksFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360SuccessScreen"
-        android:label="Bize Ulaşın"
         tools:layout="@layout/desk360_success_screen_layout">
         <action
             android:id="@+id/action_thanksFragment_to_ticketListFragment"

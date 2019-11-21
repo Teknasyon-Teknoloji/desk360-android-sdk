@@ -124,6 +124,11 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        setViews()
+    }
+
     companion object {
         fun newInstance(): Desk360PastTicketListFragment {
             val args = Bundle()
