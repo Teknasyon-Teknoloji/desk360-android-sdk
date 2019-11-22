@@ -65,21 +65,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/no_expired_text_empty"
                 tools:ignore="MissingConstraints" />
-            
+
             <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton
                 android:id="@+id/open_messageform_from_expired_list"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:gravity="center"
-                android:layout_marginEnd="24dp"
-                android:layout_marginRight="24dp"
                 android:layout_marginBottom="32dp"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/no_expired_text_empty_desc"
+                app:layout_constraintVertical_bias="0.80">
 
 
                 <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonText

@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
+import com.teknasyon.desk360.helper.Desk360ButtonStyle
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
@@ -59,6 +60,9 @@ open class Desk360TicketListFragment : Fragment() {
                 .findNavController(binding!!.root)
                 .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
         }
+
+        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding!!.emptysAddNewTicketButtonTicketList,context!!)
+
 
         binding!!.firstScreenButtonIcon.setImageResource(R.drawable.zarf)
         binding!!.firstScreenButtonIcon.setColorFilter(

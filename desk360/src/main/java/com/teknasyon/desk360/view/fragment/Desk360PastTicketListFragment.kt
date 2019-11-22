@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentPastTicketListBinding
+import com.teknasyon.desk360.helper.Desk360ButtonStyle
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360TicketResponse
@@ -69,7 +70,7 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.pastTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
-
+        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_button_style_id,binding.openMessageformFromExpiredList,context!!)
         binding.noExpiredImageEmpty.layoutParams?.height = context?.let {
             convertDpToPixel((Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_size)?.toFloat()!!,
                 it

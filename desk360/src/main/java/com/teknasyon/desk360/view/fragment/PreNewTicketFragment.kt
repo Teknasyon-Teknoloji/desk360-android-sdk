@@ -12,8 +12,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentPreNewTicketBinding
+import com.teknasyon.desk360.helper.Desk360ButtonStyle
 import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 
 
 class PreNewTicketFragment : Fragment() {
@@ -39,7 +39,7 @@ class PreNewTicketFragment : Fragment() {
                     NavOptions.Builder().setPopUpTo(R.id.preNewTicketFragment, true).build()
                 )
         }
-
+        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.create_pre_screen?.button_style_id,binding.preScreenButton,context!!)
         binding.preScreennButtonIcon.setImageResource(R.drawable.zarf)
         binding.preScreennButtonIcon.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_text_color),

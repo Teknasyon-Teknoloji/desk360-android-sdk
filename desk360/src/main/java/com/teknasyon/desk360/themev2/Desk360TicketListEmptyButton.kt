@@ -18,8 +18,6 @@ class Desk360TicketListEmptyButton : ConstraintLayout {
             Color.parseColor(currentType?.data?.ticket_list_screen?.empty_button_border_color)
         )
 
-
-        //TODO sabir
         when (currentType?.data?.ticket_list_screen?.empty_button_style_id) {
             1 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)

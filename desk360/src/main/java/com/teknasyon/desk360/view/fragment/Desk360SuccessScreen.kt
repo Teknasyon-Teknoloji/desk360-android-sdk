@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360SuccessScreenLayoutBinding
+import com.teknasyon.desk360.helper.Desk360ButtonStyle
 import com.teknasyon.desk360.helper.Desk360Constants
 
 
@@ -36,6 +37,8 @@ class Desk360SuccessScreen : Fragment() {
                 .findNavController(it)
                 .navigateUp()
         }
+
+        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.ticket_success_screen?.button_style_id,binding.successScreenOpenMessageForm,context!!)
 
         binding.imageReceived.layoutParams?.height = context?.let {
             convertDpToPixel((Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,

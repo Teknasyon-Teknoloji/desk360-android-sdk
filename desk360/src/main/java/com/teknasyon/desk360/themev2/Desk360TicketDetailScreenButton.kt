@@ -18,8 +18,6 @@ class Desk360TicketDetailScreenButton : ConstraintLayout {
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_border_color)
         )
 
-
-        //TODO sabir
         when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
             1 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)

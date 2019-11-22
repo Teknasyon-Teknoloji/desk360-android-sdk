@@ -50,12 +50,10 @@
             tools:text="Mesajınızı aldık. En kısa sürede bir uzman mesajınıza yanıt gönderecektir." />
 
 
-        <com.teknasyon.desk360.themev2.Desk360PreScreenButton
+        <com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenButton
             android:id="@+id/success_screen_open_message_form"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
             android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toTopOf="@+id/success_screen_bottom_footer"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +84,7 @@
                 app:layout_constraintTop_toTopOf="@+id/success_screen_open_message_form_text" />
 
 
-        </com.teknasyon.desk360.themev2.Desk360PreScreenButton>
+        </com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenButton>
 
 
         <com.teknasyon.desk360.themev2.Desk360TicketSuccessScreenFooter

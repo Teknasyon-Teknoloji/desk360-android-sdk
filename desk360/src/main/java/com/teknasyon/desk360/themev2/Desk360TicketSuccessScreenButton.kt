@@ -18,7 +18,7 @@ class Desk360TicketSuccessScreenButton : ConstraintLayout {
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_border_color)
         )
 
-        when (Desk360Constants.currentTheme) {
+        when (Desk360Constants.currentType?.data?.ticket_success_screen?.button_style_id) {
             1 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
             }
