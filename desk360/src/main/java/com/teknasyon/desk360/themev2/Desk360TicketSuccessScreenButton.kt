@@ -15,7 +15,7 @@ class Desk360TicketSuccessScreenButton : ConstraintLayout {
     init {
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_background_color))
         gradientDrawable.setStroke(
-            1,
+            2,
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_border_color)
         )
 

@@ -14,7 +14,7 @@ class Desk360CreateScreenButton : ConstraintLayout {
     init {
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.button_background_color))
         gradientDrawable.setStroke(
-            1,
+            2,
             Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.button_border_color)
         )
 

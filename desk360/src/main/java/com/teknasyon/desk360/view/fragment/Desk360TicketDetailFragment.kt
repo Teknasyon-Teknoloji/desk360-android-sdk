@@ -108,7 +108,7 @@ open class Desk360TicketDetailFragment : Fragment() {
         )
 
         Desk360CustomStyle.setFontWeight(binding!!.ticketDetailButtonText,context,Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_font_weight)
-        gradientDrawable.setStroke(1, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
+        gradientDrawable.setStroke(2, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_background_color))
 
         binding?.addNewMessageButton?.setImageResource(R.drawable.message_send_icon_blue)

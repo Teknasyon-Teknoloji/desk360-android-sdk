@@ -1,11 +1,9 @@
 package com.teknasyon.desk360.themev2
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.widget.Spinner
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.helper.Desk360Constants
 
 class Desk360Spinner : Spinner {
 

@@ -2,7 +2,9 @@ package com.teknasyon.desk360.themev2
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.Typeface
+import android.os.Build
 import android.util.AttributeSet
 import android.widget.TextView
 import com.teknasyon.desk360.R
@@ -14,19 +16,38 @@ class Desk360IncomingText : TextView {
     init {
 
         when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
-            1, 2, 4 -> {
+            1 -> {
 
-                this.setBackgroundResource(R.drawable.incoming_messages_background_type1)
+                this.setBackgroundResource(R.drawable.incoming_message_background_1)
             }
-            3, 5 -> {
-                this.setBackgroundResource(R.drawable.incoming_messages_background_type2)
+            2-> {
+                this.setBackgroundResource(R.drawable.incoming_message_background_2)
+            }
+            3-> {
+                this.setBackgroundResource(R.drawable.incoming_message_background_2)
+            }
+            4-> {
+                this.setBackgroundResource(R.drawable.incoming_message_background_4)
             }
 
             else -> {
-                this.setBackgroundResource(R.drawable.incoming_messages_background_type1)
+                this.setBackgroundResource(R.drawable.incoming_message_background_1)
 
             }
         }
+
+
+        if(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_shadow_is_hidden!=true){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                this.elevation=20f
+            }
+        }
+
+
+        this.background.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_background_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
 
         this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_text_color))
         this.textSize =

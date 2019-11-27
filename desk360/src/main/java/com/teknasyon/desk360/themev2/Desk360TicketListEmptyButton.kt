@@ -14,7 +14,7 @@ class Desk360TicketListEmptyButton : ConstraintLayout {
     init {
         gradientDrawable.setColor(Color.parseColor(currentType?.data?.first_screen?.button_text_color))
         gradientDrawable.setStroke(
-            1,
+            2,
             Color.parseColor(currentType?.data?.first_screen?.button_border_color)
         )
 

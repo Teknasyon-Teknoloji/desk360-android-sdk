@@ -15,7 +15,7 @@ class Desk360PreScreenButton : ConstraintLayout {
     init {
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_background_color))
         gradientDrawable.setStroke(
-            1,
+            2,
             Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_border_color)
         )
 

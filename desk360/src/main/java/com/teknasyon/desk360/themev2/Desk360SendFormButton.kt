@@ -21,7 +21,7 @@ class Desk360SendFormButton : Button {
             Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_font_size!!.toFloat()
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_background_color))
         gradientDrawable.setStroke(
-            1,
+            2,
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_border_color)
         )
         when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_font_weight) {

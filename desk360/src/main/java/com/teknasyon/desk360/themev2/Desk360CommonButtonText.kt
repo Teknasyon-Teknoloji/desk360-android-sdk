@@ -2,10 +2,8 @@ package com.teknasyon.desk360.themev2
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
 import android.util.AttributeSet
 import android.widget.TextView
-import com.teknasyon.desk360.R
 import com.teknasyon.desk360.helper.Desk360Constants.currentType
 
 class Desk360CommonButtonText : TextView {

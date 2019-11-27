@@ -4,14 +4,12 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.teknasyon.desk360.helper.Desk360Constants
 
 
 class Desk360CommonBottomBar : ConstraintLayout {
 
     init {
 
-//      this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.copyright_background_color))
         this.setBackgroundColor(Color.parseColor("#71717b"))
     }
 
