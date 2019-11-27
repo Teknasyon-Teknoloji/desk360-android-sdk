@@ -1,21 +1,22 @@
 package com.teknasyon.desk360.themev2
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.util.AttributeSet
-import android.widget.TextView
+import android.view.View
+import android.widget.ImageView
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360CurrentEmptyTicketSubTitle : TextView {
+class Desk360CreateScreenButtonIcon : ImageView {
+
 
     init {
-
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_text_color))
-        this.text = Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_current_text
+        if (Desk360Constants.currentType?.data?.create_screen?.button_icon_is_hidden != true) {
+            this.visibility= View.VISIBLE
+        } else {
+            this.visibility= View.INVISIBLE
+        }
 
     }
-
 
     constructor(context: Context) : super(context)
 

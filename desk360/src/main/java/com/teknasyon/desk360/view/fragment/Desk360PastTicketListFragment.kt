@@ -70,21 +70,12 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.pastTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
-        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_button_style_id,binding.openMessageformFromExpiredList,context!!)
-        binding.noExpiredImageEmpty.layoutParams?.height = context?.let {
-            convertDpToPixel((Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_size)?.toFloat()!!,
-                it
-            ).toInt()
-        }
-        binding.noExpiredImageEmpty.layoutParams?.width = context?.let {
-            convertDpToPixel((Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_size)?.toFloat()!!,
-                it
-            ).toInt()
-        }
+        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding.openMessageformFromExpiredList,context!!)
+
         binding.noExpiredImageEmpty.requestLayout()
         binding.noExpiredImageEmpty.setImageResource(R.drawable.no_expired_ticket_list_icon)
         binding.noExpiredImageEmpty.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_icon_color),
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_icon_color),
             PorterDuff.Mode.SRC_ATOP
         )
         viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
@@ -99,7 +90,7 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
 
         binding.ticketListEmptyButtonIconPast.setImageResource(R.drawable.zarf)
         binding.ticketListEmptyButtonIconPast.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.empty_button_text_color),
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_text_color),
             PorterDuff.Mode.SRC_ATOP
         )
 

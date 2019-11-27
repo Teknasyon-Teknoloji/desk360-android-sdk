@@ -1,5 +1,6 @@
 package com.teknasyon.desk360.helper
 
+import android.util.Log
 import com.teknasyon.desk360.model.Desk360Data
 import com.teknasyon.desk360.model.Desk360Meta
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
@@ -14,10 +15,15 @@ open class Desk360Preferences : PreferencesManager() {
         set(meta) = putObject(DATA, meta!!)
 
     var types: Desk360ConfigResponse?
-        get() = getObject<Desk360ConfigResponse>(TYPES, Desk360ConfigResponse::class.java)
-            ?: Desk360ConfigResponse()
-        set(types) = putObject(TYPES, types!!)
-
+        get() {
+            Log.d("GetTypesViewModel", "getlendi")
+            return getObject<Desk360ConfigResponse>(TYPES, Desk360ConfigResponse::class.java)
+                ?: Desk360ConfigResponse()
+        }
+        set(types) {
+            Log.d("GetTypesViewModel", "setlendi")
+            putObject(TYPES, types!!)
+        }
     var adId: String?
         get() = getString(AD_ID)
         set(adId) = setString(AD_ID, adId ?: "")

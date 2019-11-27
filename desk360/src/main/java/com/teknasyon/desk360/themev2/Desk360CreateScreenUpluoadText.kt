@@ -1,19 +1,20 @@
 package com.teknasyon.desk360.themev2
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.util.AttributeSet
+import android.view.View
 import android.widget.TextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360CurrentEmptyTicketSubTitle : TextView {
+class Desk360CreateScreenUpluoadText : TextView {
+
 
     init {
-
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_text_color))
-        this.text = Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_current_text
-
+        if (Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!) {
+            this.visibility = View.INVISIBLE
+        } else {
+            this.visibility = View.VISIBLE
+        }
     }
 
 
@@ -26,4 +27,5 @@ class Desk360CurrentEmptyTicketSubTitle : TextView {
         attrs,
         defStyle
     )
+
 }

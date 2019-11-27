@@ -12,13 +12,13 @@ class Desk360TicketListEmptyButton : ConstraintLayout {
     private val gradientDrawable = GradientDrawable()
 
     init {
-        gradientDrawable.setColor(Color.parseColor(currentType?.data?.ticket_list_screen?.empty_button_background_color))
+        gradientDrawable.setColor(Color.parseColor(currentType?.data?.first_screen?.button_text_color))
         gradientDrawable.setStroke(
             1,
-            Color.parseColor(currentType?.data?.ticket_list_screen?.empty_button_border_color)
+            Color.parseColor(currentType?.data?.first_screen?.button_border_color)
         )
 
-        when (currentType?.data?.ticket_list_screen?.empty_button_style_id) {
+        when (currentType?.data?.first_screen?.button_style_id) {
             1 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
             }

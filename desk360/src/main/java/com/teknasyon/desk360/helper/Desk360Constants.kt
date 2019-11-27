@@ -50,7 +50,6 @@ object Desk360Constants {
 
         if (device_token != null && device_token != "")
             Desk360Config.instance.getDesk360Preferences()?.adId = device_token
-
         this.app_key = app_key
         this.app_version = app_version
         this.language_code = Locale.getDefault().language

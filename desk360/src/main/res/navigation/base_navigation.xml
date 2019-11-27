@@ -91,4 +91,8 @@
         app:launchSingleTop="false"
         app:popUpTo="@+id/ticketListFragment"
         app:popUpToInclusive="false" />
+    <fragment
+        android:id="@+id/exampleFragment"
+        android:name="com.teknasyon.desk360.view.fragment.ExampleFragment"
+        android:label="ExampleFragment" />
 </navigation>

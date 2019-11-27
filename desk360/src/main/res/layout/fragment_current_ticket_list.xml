@@ -54,23 +54,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/image_empty_current"
                 tools:ignore="MissingConstraints" />
 
-            <com.teknasyon.desk360.themev2.Desk360CurrentEmptyTicketDesc
-                android:id="@+id/empty_current_desc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginRight="32dp"
-                android:fontFamily="sans-serifs-medium"
-                android:gravity="center_horizontal"
-                android:letterSpacing="0.03"
-                android:lineSpacingExtra="3sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/empty_current_subTitle"
-                tools:ignore="MissingConstraints" />
             
 
             <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton
@@ -81,7 +64,6 @@
                 android:gravity="center"
                 android:layout_marginBottom="32dp"
                 app:layout_constraintVertical_bias="0.80"
-                app:layout_constraintTop_toBottomOf="@+id/empty_current_desc"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">

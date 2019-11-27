@@ -3,29 +3,22 @@ package com.teknasyon.desk360.themev2
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360TicketDetailScreenButton : ConstraintLayout {
+class Desk360CreateScreenButton : ConstraintLayout {
     private val gradientDrawable = GradientDrawable()
 
     init {
-        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_background_color))
+        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.button_background_color))
         gradientDrawable.setStroke(
             1,
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_border_color)
+            Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.button_border_color)
         )
 
-        if(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_shadow_is_hidden!=true){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.elevation=20f
-            }
-        }
-
-        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
+        when (Desk360Constants.currentType?.data?.create_screen?.button_style_id) {
             1 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
             }

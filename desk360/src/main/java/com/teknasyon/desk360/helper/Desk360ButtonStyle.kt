@@ -3,6 +3,7 @@ package com.teknasyon.desk360.helper
 import android.content.Context
 import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 
 object Desk360ButtonStyle {
 
@@ -22,6 +23,25 @@ object Desk360ButtonStyle {
 
         layout.layoutParams = params
     }
+
+
+    fun setStyleTicket(styleIdTicket : Int?,layout: ConstraintLayout,context: Context) {
+        val params = layout.layoutParams as RecyclerView.LayoutParams
+        when (styleIdTicket) {
+            1,3,4,5-> {
+                params.setMargins(convertDpToPixel(16f,context).toInt(), 24, convertDpToPixel(16f,context).toInt(), 0)
+            }
+            2 -> {
+                params.setMargins(0, 24, 0, 0)
+            }
+            else -> {
+                params.setMargins(convertDpToPixel(16f,context).toInt(), 24, convertDpToPixel(16f,context).toInt(), 0)
+            }
+        }
+
+        layout.layoutParams = params
+    }
+
 
     private fun convertDpToPixel(dpOfMargin: Float, context: Context): Float {
         return dpOfMargin * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)

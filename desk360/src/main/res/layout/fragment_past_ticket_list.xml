@@ -48,23 +48,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/no_expired_image_empty"
                 tools:ignore="MissingConstraints" />
 
-            <com.teknasyon.desk360.themev2.Desk360PastEmptyTicketDesc
-                android:id="@+id/no_expired_text_empty_desc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginRight="32dp"
-                android:gravity="center_horizontal"
-                android:letterSpacing="0.03"
-                android:lineSpacingExtra="3sp"
-                tools:text="You have no resolved support requests"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/no_expired_text_empty"
-                tools:ignore="MissingConstraints" />
+
 
             <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton
                 android:id="@+id/open_messageform_from_expired_list"
@@ -76,7 +60,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/no_expired_text_empty_desc"
                 app:layout_constraintVertical_bias="0.80">
 
 
@@ -106,8 +89,8 @@
 
 
             </com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton>
-            
-            
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

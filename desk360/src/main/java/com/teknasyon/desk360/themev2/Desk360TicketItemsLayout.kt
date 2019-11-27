@@ -3,6 +3,7 @@ package com.teknasyon.desk360.themev2
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +22,7 @@ class Desk360TicketItemsLayout : ConstraintLayout {
                 gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
             }
             2 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
+                gradientDrawable.cornerRadius = convertDpToPixel(0f, context)
             }
             3 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(4f, context)
@@ -34,6 +35,12 @@ class Desk360TicketItemsLayout : ConstraintLayout {
             }
             else -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
+            }
+        }
+
+        if(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_shadow_is_hidden!=true){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                this.elevation=20f
             }
         }
 

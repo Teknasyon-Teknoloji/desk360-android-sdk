@@ -1,70 +1,27 @@
 package com.teknasyon.desk360.modelv2
 
-import com.google.gson.annotations.SerializedName
-import java.io.Serializable
+class Desk360ScreenCreatePre {
 
-class Desk360ScreenCreatePre : Serializable {
+    var title = "Contact Us"
+    var sub_title = "Send a new message"
+    var button_text = "Write Us"
+    var description = "Please continue to create a new support message."
+    var button_style_id = 1
+    var sub_title_color = "#4D4D4D"
+    var bottom_note_text =
+        "You have a pending support request. If it has not been responded please keep waiting. You can write us through the same request if you’d like to contact us again."
+    var button_text_color = "#FFFFFF"
+    var description_color = "#868686"
+    var button_border_color = "#58B0FA"
+    var sub_title_font_size = 24
+    var bottom_note_is_hidden = false
+    var button_icon_is_hidden = false
+    var button_text_font_size = 18
+    var description_font_size = 15
+    var sub_title_font_weight = 600
+    var button_background_color = "#58B0FA"
+    var button_shadow_is_hidden = false
+    var button_text_font_weight = 600
+    var description_font_weight = 400
 
-    @SerializedName("sub_title_color")
-    var sub_title_color: String = "#4d4d4d"
-
-    @SerializedName("button_background_color")
-    var button_background_color: String = "#58b0fa"
-
-    @SerializedName("bottom_note_is_hidden")
-    var bottom_note_is_hidden: Boolean = false
-
-    @SerializedName("button_icon_is_hidden")
-    var button_icon_is_hidden: Boolean = false
-
-//    @SerializedName("button_shadow_is_hidden")
-//    var button_shadow_is_hidden: Boolean = false
-
-    @SerializedName("bottom_note_text")
-    var bottom_note_text: String =
-        " Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir." +
-                " Geliştirici istediği mesajı burada verebilir. " +
-                "Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar"
-
-    @SerializedName("sub_title")
-    var sub_title: String = "Yeni bir mesaj gönder"
-
-    @SerializedName("button_text_font_size")
-    var button_text_font_size: Int = 18
-
-    @SerializedName("description")
-    var description: String = "Yeni bir destek mesajı oluşturmak için devam edin"
-
-    @SerializedName("description_font_size")
-    var description_font_size: Int = 15
-
-    @SerializedName("title")
-    var title: String = "Bize Ulaşın"
-
-    @SerializedName("description_color")
-    var description_color: String = "#868686"
-
-    @SerializedName("sub_title_font_size")
-    var sub_title_font_size: Int = 24
-
-    @SerializedName("button_text_font_weight")
-    var button_text_font_weight: Int = 600
-
-    @SerializedName("button_text_color")
-    var button_text_color: String = "#ffffff"
-
-    @SerializedName("button_style_id")
-    var button_style_id: Int = 1
-
-    @SerializedName("sub_title_font_weight")
-    var sub_title_font_weight: Int = 600
-
-    @SerializedName("button_text")
-    var button_text: String = "Bize Yazın"
-
-    @SerializedName("button_border_color")
-    var button_border_color: String = "#58b0fa"
-
-    @SerializedName("description_font_weight")
-    var description_font_weight: Int = 400
 }
