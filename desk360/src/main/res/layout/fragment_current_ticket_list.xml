@@ -54,19 +54,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/image_empty_current"
                 tools:ignore="MissingConstraints" />
 
-            
 
             <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton
                 android:id="@+id/open_messageform_empty_current_list"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_centerVertical="true"
-                android:gravity="center"
                 android:layout_marginBottom="32dp"
-                app:layout_constraintVertical_bias="0.80"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/empty_current_subTitle"
+                app:layout_constraintVertical_bias="0.85">
 
 
                 <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonText

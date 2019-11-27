@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
@@ -121,19 +123,38 @@ open class Desk360TicketDetailFragment : Fragment() {
 
                 if (hasFocus) {
                     gradientDrawable.setStroke(2, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_active_color))
-                    binding?.addNewMessageButton?.setColorFilter(
-                        Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_color),
-                        PorterDuff.Mode.SRC_ATOP
-                    )
                 } else {
                     gradientDrawable.setStroke(2, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
+
+                }
+
+            }
+
+        binding?.messageEditText?.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                Log.d("addTextChangedListener","afterTextChanged")
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                Log.d("addTextChangedListener","beforeTextChanged")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s?.length == 0){
                     binding?.addNewMessageButton?.setColorFilter(
                         Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
-                }
+                }else{
+                    binding?.addNewMessageButton?.setColorFilter(
+                        Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_color),
+                        PorterDuff.Mode.SRC_ATOP
+                    )
 
+                }
             }
+
+        })
 
         binding?.layoutSendNewMessageNormal?.background = gradientDrawable
         binding?.addNewTicketButton?.setOnClickListener {

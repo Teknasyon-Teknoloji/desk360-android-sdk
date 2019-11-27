@@ -62,16 +62,13 @@ class Desk360SendFormButton : Button {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
             }
             2 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(0f, context)
+                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
             }
             3 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
-            }
-            4 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(2f, context)
             }
-            5 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
+            4 -> {
+                gradientDrawable.cornerRadius = convertDpToPixel(0f, context)
             }
             else -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)

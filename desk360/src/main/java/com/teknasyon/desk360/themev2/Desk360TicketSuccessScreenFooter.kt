@@ -17,9 +17,9 @@ class Desk360TicketSuccessScreenFooter : TextView {
 
         this.text = Desk360Constants.currentType?.data?.ticket_success_screen?.bottom_note_text
         if (Desk360Constants.currentType?.data?.ticket_success_screen?.bottom_note_is_hidden!!) {
-            this.visibility = View.VISIBLE
-        } else {
             this.visibility = View.INVISIBLE
+        } else {
+            this.visibility = View.VISIBLE
         }
         when (Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight) {
             100 -> {

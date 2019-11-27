@@ -10,10 +10,10 @@ object Desk360ButtonStyle {
     fun setStyle(styleId : Int?,layout: ConstraintLayout,context: Context) {
         val params = layout.layoutParams as ConstraintLayout.LayoutParams
         when (styleId) {
-            1,3,4,5-> {
+            1,2,3-> {
                 params.setMargins(convertDpToPixel(32f,context).toInt(), 0, convertDpToPixel(32f,context).toInt(), 0)
             }
-            2 -> {
+            4 -> {
                 params.setMargins(0, 0, 0, 0)
             }
             else -> {
@@ -28,10 +28,10 @@ object Desk360ButtonStyle {
     fun setStyleTicket(styleIdTicket : Int?,layout: ConstraintLayout,context: Context) {
         val params = layout.layoutParams as RecyclerView.LayoutParams
         when (styleIdTicket) {
-            1,3,4,5-> {
+            1,2,3-> {
                 params.setMargins(convertDpToPixel(16f,context).toInt(), 24, convertDpToPixel(16f,context).toInt(), 0)
             }
-            2 -> {
+            4 -> {
                 params.setMargins(0, 24, 0, 0)
             }
             else -> {

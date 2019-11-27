@@ -49,7 +49,6 @@
                 tools:ignore="MissingConstraints" />
 
 
-
             <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton
                 android:id="@+id/open_messageform_from_expired_list"
                 android:layout_width="match_parent"
@@ -60,7 +59,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="0.80">
+                app:layout_constraintTop_toBottomOf="@+id/no_expired_text_empty"
+                app:layout_constraintVertical_bias="0.85">
 
 
                 <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonText
