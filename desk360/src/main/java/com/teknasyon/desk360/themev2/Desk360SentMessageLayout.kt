@@ -33,34 +33,44 @@ class Desk360SentMessageLayout : TextView {
 
             when(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_font_weight){
                 100 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
+                    val face = Typeface.createFromAsset(context?.assets, "Montserrat-Thin.ttf")
+                    this.typeface = face
                 }
                 200 -> {
-                    this.setTypeface(null, Typeface.BOLD)
+                    val face = Typeface.createFromAsset(context?.assets, "Montserrat-ExtraLight.ttf")
+                    this.typeface = face
                 }
                 300 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
+                    val face = Typeface.createFromAsset(context?.assets, "Montserrat-Light.ttf")
+                    this.typeface = face
                 }
                 400 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
+                    val face = Typeface.createFromAsset(context?.assets, "Montserrat-Regular.ttf")
+                    this.typeface = face
                 }
                 500 -> {
-                    this.setTypeface(null, Typeface.BOLD)
+                    val face = Typeface.createFromAsset(context?.assets, "Montserrat-Medium.ttf")
+                    this.typeface = face
                 }
                 600 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
+                    val face = Typeface.createFromAsset(context?.assets, "Montserrat-SemiBold.ttf")
+                    this.typeface = face
                 }
                 700 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
+                    val face = Typeface.createFromAsset(context?.assets, "Montserrat-Bold.ttf")
+                    this.typeface = face
                 }
                 800 -> {
-                    this.setTypeface(null, Typeface.BOLD)
+                    val face = Typeface.createFromAsset(context?.assets, "Montserrat-ExtraBold.ttf")
+                    this.typeface = face
                 }
                 900 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
+                    val face = Typeface.createFromAsset(context?.assets, "Montserrat-Black.ttf")
+                    this.typeface = face
                 }
                 else -> {
-                    this.setTypeface(null, Typeface.NORMAL)
+                    val face = Typeface.createFromAsset(context?.assets, "Montserrat-Regular.ttf")
+                    this.typeface = face
                 }
             }
     }

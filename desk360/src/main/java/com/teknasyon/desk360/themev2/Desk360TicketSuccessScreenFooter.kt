@@ -21,39 +21,6 @@ class Desk360TicketSuccessScreenFooter : TextView {
         } else {
             this.visibility = View.VISIBLE
         }
-        when (Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight) {
-            100 -> {
-                this.setTypeface(null, Typeface.NORMAL)
-            }
-            200 -> {
-                this.setTypeface(null, Typeface.BOLD)
-            }
-            300 -> {
-                this.setTypeface(null, Typeface.NORMAL)
-            }
-            400 -> {
-                this.setTypeface(null, Typeface.NORMAL)
-            }
-            500 -> {
-                this.setTypeface(null, Typeface.BOLD)
-            }
-            600 -> {
-                this.setTypeface(null, Typeface.NORMAL)
-            }
-            700 -> {
-                this.setTypeface(null, Typeface.NORMAL)
-            }
-            800 -> {
-                this.setTypeface(null, Typeface.BOLD)
-            }
-            900 -> {
-                this.setTypeface(null, Typeface.NORMAL)
-            }
-            else -> {
-                this.setTypeface(null, Typeface.NORMAL)
-            }
-        }
-
     }
 
 

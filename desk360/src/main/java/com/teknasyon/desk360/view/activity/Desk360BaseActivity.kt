@@ -16,6 +16,7 @@ import androidx.navigation.fragment.FragmentNavigator
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.RxBus
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -54,6 +55,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             if (currentNav == "com.teknasyon.desk360.view.fragment.Desk360TicketListFragment") {
                 userRegistered = true
             }
+
+            Desk360CustomStyle.setFontWeight(binding!!.toolbarTitle,this,Desk360Constants.currentType?.data?.general_settings?.header_text_font_weight)
 
             when (destination.id) {
                 R.id.preNewTicketFragment -> {

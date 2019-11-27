@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +16,12 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentCurrentTicketListBinding
-import com.teknasyon.desk360.helper.Desk360ButtonStyle
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
-import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
 
 
 class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.TicketOnClickListener {
@@ -73,8 +73,11 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         binding.currentTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
         viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
-        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding.openMessageformEmptyCurrentList,context!!)
+        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding.openMessageformEmptyCurrentList,context!!)
+        Desk360CustomStyle.setFontWeight(binding.ticketListEmptyButtonText,context,Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight)
 
+
+        binding.emptyCurrentSubTitle.movementMethod = ScrollingMovementMethod()
 
 
         binding.imageEmptyCurrent.requestLayout()

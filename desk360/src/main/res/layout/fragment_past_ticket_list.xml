@@ -41,6 +41,8 @@
                 android:layout_marginRight="32dp"
                 android:gravity="center_horizontal"
                 android:letterSpacing="0.03"
+                android:maxLines="5"
+                android:scrollbars="vertical"
                 android:lineSpacingExtra="3sp"
                 tools:text="You have no resolved support requests"
                 app:layout_constraintEnd_toEndOf="parent"

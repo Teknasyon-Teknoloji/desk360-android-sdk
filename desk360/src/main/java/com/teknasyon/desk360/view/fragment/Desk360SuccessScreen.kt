@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360SuccessScreenLayoutBinding
-import com.teknasyon.desk360.helper.Desk360ButtonStyle
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
 
 
@@ -38,7 +38,11 @@ class Desk360SuccessScreen : Fragment() {
                 .navigateUp()
         }
 
-        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.ticket_success_screen?.button_style_id,binding.successScreenOpenMessageForm,context!!)
+        Desk360CustomStyle.setFontWeight(binding.successScreenBottomFooter,context,Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight)
+        Desk360CustomStyle.setFontWeight(binding.successScreenOpenMessageFormText,context,Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_font_weight)
+        Desk360CustomStyle.setFontWeight(binding.successScreenSubtitle,context,Desk360Constants.currentType?.data?.ticket_success_screen?.sub_title_font_weight)
+        Desk360CustomStyle.setFontWeight(binding.successScreenDescription,context,Desk360Constants.currentType?.data?.ticket_success_screen?.description_font_weight)
+        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.ticket_success_screen?.button_style_id,binding.successScreenOpenMessageForm,context!!)
 
         binding.imageReceived.layoutParams?.height = context?.let {
             convertDpToPixel((Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
@@ -65,6 +69,8 @@ class Desk360SuccessScreen : Fragment() {
         )
 
         binding.successScreenBottomFooter.movementMethod = ScrollingMovementMethod()
+        binding.successScreenSubtitle.movementMethod = ScrollingMovementMethod()
+        binding.successScreenDescription.movementMethod = ScrollingMovementMethod()
     }
 
     private fun convertDpToPixel(dp: Float, context: Context): Float {

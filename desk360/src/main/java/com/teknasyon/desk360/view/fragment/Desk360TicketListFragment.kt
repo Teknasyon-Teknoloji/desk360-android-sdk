@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.Navigation
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
-import com.teknasyon.desk360.helper.Desk360ButtonStyle
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
@@ -23,7 +23,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.desk360_fragment_ticket_list.*
-import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
 
 
 open class Desk360TicketListFragment : Fragment() {
@@ -48,6 +47,8 @@ open class Desk360TicketListFragment : Fragment() {
         ticketListPagerAdapter = Desk360TicketPagerAdapter(childFragmentManager)
         binding!!.viewPagerContainer.adapter = ticketListPagerAdapter
         binding!!.txtBottomFooterMainTicketList?.movementMethod = ScrollingMovementMethod()
+        binding!!.emptyListLayoutTicketListSubTitle?.movementMethod = ScrollingMovementMethod()
+        binding!!.emptyListLayoutTicketListDesc?.movementMethod = ScrollingMovementMethod()
 
         return binding?.root
     }
@@ -61,8 +62,11 @@ open class Desk360TicketListFragment : Fragment() {
                 .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
         }
 
-        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding!!.emptysAddNewTicketButtonTicketList,context!!)
-
+        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding!!.emptysAddNewTicketButtonTicketList,context!!)
+        Desk360CustomStyle.setFontWeight(binding!!.emptyListLayoutTicketListSubTitle,context,Desk360Constants.currentType?.data?.first_screen?.sub_title_font_weight)
+        Desk360CustomStyle.setFontWeight(binding!!.emptyListLayoutTicketListDesc,context,Desk360Constants.currentType?.data?.first_screen?.description_font_weight)
+        Desk360CustomStyle.setFontWeight(binding!!.txtOpenMessageFormTicketList,context,Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight)
+        Desk360CustomStyle.setFontWeight(binding!!.txtBottomFooterMainTicketList,context,Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight)
 
         binding!!.firstScreenButtonIcon.setImageResource(R.drawable.zarf)
         binding!!.firstScreenButtonIcon.setColorFilter(

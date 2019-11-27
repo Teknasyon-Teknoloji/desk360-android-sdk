@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentExampleBinding
-import com.teknasyon.desk360.helper.Desk360ButtonStyle
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
 import kotlinx.android.synthetic.main.fragment_example.view.*
 
@@ -42,7 +42,7 @@ class ExampleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.textFooterCreateTicketScreen.movementMethod = ScrollingMovementMethod()
-        Desk360ButtonStyle.setStyle(
+        Desk360CustomStyle.setStyle(
             Desk360Constants.currentType?.data?.create_pre_screen?.button_style_id,
             binding.createTicketButton,
             context!!

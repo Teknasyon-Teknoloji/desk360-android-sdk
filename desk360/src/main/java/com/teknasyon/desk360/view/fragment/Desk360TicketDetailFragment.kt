@@ -7,13 +7,11 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -22,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketDetailBinding
-import com.teknasyon.desk360.helper.Desk360ButtonStyle
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360Message
@@ -31,7 +29,6 @@ import com.teknasyon.desk360.viewmodel.TicketDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
 
 
 /**
@@ -90,7 +87,7 @@ open class Desk360TicketDetailFragment : Fragment() {
         viewModel = ticketId?.let { TicketDetailViewModel(it) }
         viewModel?.ticketDetailList?.observe(this, observer)
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
-        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id,binding!!.addNewTicketButton,context!!)
+        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id,binding!!.addNewTicketButton,context!!)
         binding?.addNewMessageButton?.setOnClickListener {
             binding?.messageEditText?.text?.trim()?.apply {
                 if (isNotEmpty() && toString().isNotEmpty()) {
@@ -110,6 +107,7 @@ open class Desk360TicketDetailFragment : Fragment() {
             PorterDuff.Mode.SRC_ATOP
         )
 
+        Desk360CustomStyle.setFontWeight(binding!!.ticketDetailButtonText,context,Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_font_weight)
         gradientDrawable.setStroke(1, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_background_color))
 

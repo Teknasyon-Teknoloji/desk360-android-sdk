@@ -11,8 +11,6 @@ class Desk360TicketListItemTitle : TextView {
 
     init {
 
-
-
         this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_subject_color))
         this.textSize =
             Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_subject_font_size!!.toFloat()

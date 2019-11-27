@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360TicketListItemBinding
-import com.teknasyon.desk360.helper.Desk360ButtonStyle
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
@@ -48,7 +48,7 @@ class Desk360TicketListAdapter(
                 }
             }
 
-            Desk360ButtonStyle.setStyleTicket(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_type,ticket_item_root_layout,context!!)
+            Desk360CustomStyle.setStyleTicket(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_type,ticket_item_root_layout,context!!)
 
             setOnClickListener {
                 clickItem?.selectTicket(ticketList[position], position)

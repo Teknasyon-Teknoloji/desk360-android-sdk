@@ -15,39 +15,6 @@ class Desk360FirstDescription : TextView {
             this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.sub_title_color))
             this.text= Desk360Constants.currentType?.data?.first_screen?.sub_title
             this.textSize = Desk360Constants.currentType?.data?.first_screen?.sub_title_font_size!!.toFloat()
-            when(Desk360Constants.currentType?.data?.first_screen?.sub_title_font_weight){
-                100 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
-                }
-                200 -> {
-                    this.setTypeface(null, Typeface.BOLD)
-                }
-                300 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
-                }
-                400 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
-                }
-                500 -> {
-                    this.setTypeface(null, Typeface.BOLD)
-                }
-                600 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
-                }
-                700 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
-                }
-                800 -> {
-                    this.setTypeface(null, Typeface.BOLD)
-                }
-                900 -> {
-                    this.setTypeface(null, Typeface.NORMAL)
-                }
-                else -> {
-                    this.setTypeface(null, Typeface.NORMAL)
-                }
-            }
-
     }
 
 

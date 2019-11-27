@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +16,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentPastTicketListBinding
-import com.teknasyon.desk360.helper.Desk360ButtonStyle
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
@@ -70,7 +70,7 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.pastTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
-        Desk360ButtonStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding.openMessageformFromExpiredList,context!!)
+        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding.openMessageformFromExpiredList,context!!)
 
         binding.noExpiredImageEmpty.requestLayout()
         binding.noExpiredImageEmpty.setImageResource(R.drawable.no_expired_ticket_list_icon)
@@ -87,6 +87,8 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
                 setViews()
             }
         })
+
+        binding.noExpiredTextEmpty.movementMethod = ScrollingMovementMethod()
 
         binding.ticketListEmptyButtonIconPast.setImageResource(R.drawable.zarf)
         binding.ticketListEmptyButtonIconPast.setColorFilter(

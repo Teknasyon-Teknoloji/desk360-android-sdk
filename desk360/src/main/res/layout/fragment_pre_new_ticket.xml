@@ -26,6 +26,8 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="64dp"
             android:gravity="center"
+            android:maxLines="5"
+            android:scrollbars="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +36,7 @@
             tools:text="Yeni bir mesaj gönder." />
 
         <com.teknasyon.desk360.themev2.Desk360PreScreenDescription
+            android:id="@+id/pre_Screen_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -42,6 +45,8 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:fontFamily="sans-serif"
+            android:maxLines="5"
+            android:scrollbars="vertical"
             android:gravity="center_horizontal"
             android:letterSpacing="0.03"
             android:lineSpacingExtra="8sp"
