@@ -52,6 +52,7 @@ class PreNewTicketFragment : Fragment() {
             PorterDuff.Mode.SRC_ATOP
         )
 
+        Desk360CustomStyle.setFontWeight(binding.txtBottomFooterPreScreen,context,Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight)
         binding.txtBottomFooterPreScreen.movementMethod = ScrollingMovementMethod()
         binding.subTitlePreScreen?.movementMethod = ScrollingMovementMethod()
         binding.preScreenDesc?.movementMethod = ScrollingMovementMethod()

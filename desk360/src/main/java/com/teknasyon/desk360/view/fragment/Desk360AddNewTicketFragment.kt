@@ -28,6 +28,7 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.model.Desk360TicketReq
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.modelv2.Desk360ScreenCreate
@@ -217,6 +218,14 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 messageQuality(s)
             }
         })
+        Desk360CustomStyle.setFontWeight(binding.createScreenButtonText,context,Desk360Constants.currentType?.data?.create_screen?.button_text_font_weight)
+        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.create_screen?.button_style_id,binding.createTicketButton,context!!)
+        binding.createScreenButtonIcon.setImageResource(R.drawable.zarf)
+        binding.createScreenButtonIcon.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.button_text_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
+        Desk360CustomStyle.setFontWeight(binding.textFooterCreateTicketScreen,context,Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight)
         messageField?.gravity = Gravity.TOP
         binding.viewModel = viewModel
     }
