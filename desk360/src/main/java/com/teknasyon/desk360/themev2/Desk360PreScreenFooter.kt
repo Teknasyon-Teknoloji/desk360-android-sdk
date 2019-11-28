@@ -14,7 +14,7 @@ class Desk360PreScreenFooter : TextView {
         this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
         this.textSize=Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
         this.text = Desk360Constants.currentType?.data?.create_pre_screen?.bottom_note_text
-        if (Desk360Constants.currentType?.data?.create_pre_screen?.bottom_note_is_hidden!!) {
+        if (!Desk360Constants.currentType?.data?.create_pre_screen?.bottom_note_is_hidden!!) {
             this.visibility = View.INVISIBLE
         } else {
             this.visibility = View.VISIBLE

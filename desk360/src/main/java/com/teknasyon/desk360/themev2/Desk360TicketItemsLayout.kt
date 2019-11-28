@@ -35,7 +35,7 @@ class Desk360TicketItemsLayout : ConstraintLayout {
             }
         }
 
-        if(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_shadow_is_hidden!=true){
+        if(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_shadow_is_hidden==true){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 this.elevation=20f
             }

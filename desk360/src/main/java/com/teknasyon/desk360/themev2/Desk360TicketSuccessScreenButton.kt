@@ -19,7 +19,7 @@ class Desk360TicketSuccessScreenButton : ConstraintLayout {
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_border_color)
         )
 
-        if(Desk360Constants.currentType?.data?.ticket_success_screen?.button_shadow_is_hidden!=true){
+        if(Desk360Constants.currentType?.data?.ticket_success_screen?.button_shadow_is_hidden==true){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 this.elevation=20f
             }

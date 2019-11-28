@@ -21,7 +21,7 @@ class Desk360CommonButton : ConstraintLayout {
             2,
             Color.parseColor(currentType?.data?.first_screen?.button_border_color)
         )
-        if(currentType?.data?.first_screen?.button_shadow_is_hidden!=true){
+        if(currentType?.data?.first_screen?.button_shadow_is_hidden==true){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 this.elevation=20f
             }

@@ -11,7 +11,7 @@ class Desk360FirstScreenButtonIcon : ImageView {
 
 
     init {
-        if (currentType?.data?.first_screen?.button_icon_is_hidden != true) {
+        if (currentType?.data?.first_screen?.button_icon_is_hidden == true) {
             this.visibility= View.VISIBLE
         } else {
             this.visibility= View.INVISIBLE

@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
@@ -56,24 +57,36 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                 userRegistered = true
             }
 
-            Desk360CustomStyle.setFontWeight(binding!!.toolbarTitle,this,Desk360Constants.currentType?.data?.general_settings?.header_text_font_weight)
+            Desk360CustomStyle.setFontWeight(
+                binding!!.toolbarTitle,
+                this,
+                Desk360Constants.currentType?.data?.general_settings?.header_text_font_weight
+            )
 
             when (destination.id) {
                 R.id.preNewTicketFragment -> {
-                    binding?.toolbarTitle?.text =
-                        Desk360Constants.currentType?.data?.create_pre_screen?.title
+                    setMainTitle(
+                        Desk360Constants.currentType?.data?.create_pre_screen?.title,
+                        binding?.toolbarTitle
+                    )
                 }
                 R.id.thanksFragment -> {
-                    binding?.toolbarTitle?.text =
-                        Desk360Constants.currentType?.data?.ticket_success_screen?.title
+                    setMainTitle(
+                        Desk360Constants.currentType?.data?.ticket_success_screen?.title,
+                        binding?.toolbarTitle
+                    )
                 }
                 R.id.ticketDetailFragment -> {
-                    binding?.toolbarTitle?.text =
-                        Desk360Constants.currentType?.data?.ticket_detail_screen?.title
+                    setMainTitle(
+                        Desk360Constants.currentType?.data?.ticket_detail_screen?.title,
+                        binding?.toolbarTitle
+                    )
                 }
                 R.id.addNewTicketFragment -> {
-                    binding?.toolbarTitle?.text =
-                        Desk360Constants.currentType?.data?.create_screen?.title
+                    setMainTitle(
+                        Desk360Constants.currentType?.data?.create_screen?.title,
+                        binding?.toolbarTitle
+                    )
                 }
                 else -> {
                     binding?.toolbarTitle?.text = " "
@@ -100,6 +113,15 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 //        setupActionBarWithNavController(this, navController!!, appBarConfiguration)
     }
 
+    private fun setMainTitle(titleHead: String?, titleTextView: TextView?) {
+
+        when {
+            titleHead?.length!! < 29 -> titleTextView?.text = titleHead
+            else -> titleTextView?.text = titleHead.substring(0, 18) + "..."
+        }
+
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
@@ -119,8 +141,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             .subscribe({
                 when (it) {
                     "ticketListIsNotEmpty" -> {
-                        binding?.toolbarTitle?.text =
-                            Desk360Constants.currentType?.data?.ticket_list_screen?.title
+                        setMainTitle(Desk360Constants.currentType?.data?.ticket_list_screen?.title,binding?.toolbarTitle)
                         register.isVisible = true
                         register.isEnabled = true
                         register.icon =
@@ -135,8 +156,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                     }
 
                     "ticketListIsEmpty" -> {
-                        binding?.toolbarTitle?.text =
-                            Desk360Constants.currentType?.data?.first_screen?.title
+                        setMainTitle(Desk360Constants.currentType?.data?.first_screen?.title,binding?.toolbarTitle)
                         register.isVisible = true
                         register.isEnabled = false
                     }
