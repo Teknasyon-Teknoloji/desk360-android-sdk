@@ -69,8 +69,7 @@ class Desk360SuccessScreen : Fragment() {
         )
 
         binding.successScreenBottomFooter.movementMethod = ScrollingMovementMethod()
-        binding.successScreenSubtitle.movementMethod = ScrollingMovementMethod()
-        binding.successScreenDescription.movementMethod = ScrollingMovementMethod()
+
     }
 
     private fun convertDpToPixel(dp: Float, context: Context): Float {

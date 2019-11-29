@@ -77,9 +77,6 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         Desk360CustomStyle.setFontWeight(binding.ticketListEmptyButtonText,context,Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight)
 
 
-        binding.emptyCurrentSubTitle.movementMethod = ScrollingMovementMethod()
-
-
         binding.imageEmptyCurrent.requestLayout()
         binding.viewModelList=viewModel
         binding.imageEmptyCurrent.setImageResource(R.drawable.no_expired_ticket_list_icon)

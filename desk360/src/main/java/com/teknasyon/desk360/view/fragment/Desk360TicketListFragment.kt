@@ -47,8 +47,6 @@ open class Desk360TicketListFragment : Fragment() {
         ticketListPagerAdapter = Desk360TicketPagerAdapter(childFragmentManager)
         binding!!.viewPagerContainer.adapter = ticketListPagerAdapter
         binding!!.txtBottomFooterMainTicketList?.movementMethod = ScrollingMovementMethod()
-        binding!!.emptyListLayoutTicketListSubTitle?.movementMethod = ScrollingMovementMethod()
-        binding!!.emptyListLayoutTicketListDesc?.movementMethod = ScrollingMovementMethod()
 
         return binding?.root
     }
