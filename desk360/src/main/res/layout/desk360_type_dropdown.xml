@@ -5,13 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <com.teknasyon.desk360.helper.Desk360TextTitle
         android:id="@+id/dropdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:paddingStart="12dp"
+        android:paddingStart="2dp"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -24,5 +23,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="RtlSymmetry" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

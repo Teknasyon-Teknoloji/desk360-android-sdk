@@ -4,17 +4,18 @@ import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.KeyEvent.ACTION_UP
 import android.view.KeyEvent.KEYCODE_DPAD_CENTER
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.cardview.widget.CardView
@@ -29,30 +30,41 @@ import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
-import com.teknasyon.desk360.model.Desk360TicketReq
 import com.teknasyon.desk360.model.Desk360Type
+import com.teknasyon.desk360.modelv2.Desk360CustomFields
 import com.teknasyon.desk360.modelv2.Desk360ScreenCreate
+import com.teknasyon.desk360.view.adapter.Desk360CustomSupportTypeAdapter
 import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
 import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
-import kotlinx.android.synthetic.main.desk360_add_new_ticket_layout.view.*
 import java.util.regex.Pattern
+
 
 /**
  * Created by seyfullah on 30,May,2019
  *
  */
+
 open class Desk360AddNewTicketFragment : Fragment() {
+
     private var viewModel: AddNewTicketViewModel? = null
     private var nameField: TextInputEditText? = null
     private var eMailField: TextInputEditText? = null
     private var messageField: TextInputEditText? = null
     private var subjectTypeSpinner: Spinner? = null
+    private val selectedTypeId = 1
+
     private lateinit var binding: Desk360AddNewTicketLayoutBinding
+
     private var typeList: ArrayList<Desk360Type>? = null
     private val editTextStyleModel =
         Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen
+    private var customInputField: List<Desk360CustomFields> = arrayListOf()
+    private var customSelectBoxField: List<Desk360CustomFields> = arrayListOf()
+    private var customTextAreaField: List<Desk360CustomFields> = arrayListOf()
 
-    private var selectedTypeId: Int = 1
+    private var customInputViewList: ArrayList<TextInputEditText> = arrayListOf()
+    private var customSelectBoxViewList: ArrayList<Spinner> = arrayListOf()
+    private var customTextAreaViewList: ArrayList<TextInputEditText> = arrayListOf()
 
     //Validate variables
     private var nameData: String? = null
@@ -62,14 +74,17 @@ open class Desk360AddNewTicketFragment : Fragment() {
     private var nameFieldFill: Boolean = false
     private var emailFieldFill: Boolean = false
     private var messageFieldFill: Boolean = false
+
     private val rootParamsLayout = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.MATCH_PARENT,
         LinearLayout.LayoutParams.WRAP_CONTENT
     )
+
     private var observer = Observer<ArrayList<Desk360Type>> {
         binding.loadingProgress?.visibility = View.GONE
         if (it != null) {
             typeList = it
+
             val listOfType: ArrayList<String> = arrayListOf()
             for (i in 0 until it.size) {
                 listOfType.add(it[i].title.toString())
@@ -123,6 +138,7 @@ open class Desk360AddNewTicketFragment : Fragment() {
                         NavOptions.Builder().setPopUpTo(R.id.addNewTicketFragment, true).build()
                     )
             }
+
             val imm = activity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view!!.windowToken, 0)
         }
@@ -145,27 +161,38 @@ open class Desk360AddNewTicketFragment : Fragment() {
         viewModel = AddNewTicketViewModel()
         viewModel?.typeList?.observe(this, observer)
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
-//        binding.subjectType?.prompt = "Gender"
-        subjectTypeSpinner?.onItemSelectedListener =
-            (object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    typeList?.let { it[position].let { it1 -> selectedTypeId = it1.id!! } }
-                }
-            })
-//        binding.txtBottomFooterMessageForm?.movementMethod = ScrollingMovementMethod()
+//      binding.subjectType?.prompt = "Gender"
+//      binding.subjectType?.onItemSelectedListener =
+//          (object : AdapterView.OnItemSelectedListener {
+//              override fun onNothingSelected(parent: AdapterView<*>?) {
+//
+//              }
+//
+//              override fun onItemSelected(
+//                  parent: AdapterView<*>,
+//                  view: View?,
+//                  position: Int,
+//                  id: Long
+//              ) {
+//                  typeList?.let { it[position].let { it1 -> selectedTypeId = it1.id!! } }
+//              }
+//          })
+//      binding.txtBottomFooterMessageForm?.movementMethod = ScrollingMovementMethod()
         binding.createTicketButton?.setOnClickListener {
-            validateAllField(selectedTypeId)
+            validateAllField()
         }
+
         rootParamsLayout.setMargins(24, 24, 24, 24)
+
+        /**
+         * find custom fields
+         */
+        Desk360Config.instance.getDesk360Preferences()?.types?.data?.custom_fields?.apply {
+            customInputField = filter { it.type == "input" }
+            customSelectBoxField = filter { it.type == "selectbox" }
+            customTextAreaField = filter { it.type == "textarea" }
+        }
+
         /**
          * name filed
          */
@@ -182,6 +209,7 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 nameQuality(s)
             }
         })
+
         /**
          * email filed
          */
@@ -198,17 +226,71 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 emailQuality(s)
             }
         })
+
+        for (i in 0 until customInputField.size) {
+            customInputViewList.add(createEditText("custom").also {
+                it?.tag = customInputField[i].id
+                it?.setLines(1)
+                it?.setSingleLine(true)
+                it?.imeOptions = EditorInfo.IME_ACTION_NEXT
+                it?.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable) {}
+                    override fun beforeTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                        Log.d("customInputField", customInputField[i].id.toString())
+                        customFieldQuality(s)
+                    }
+                })
+            }!!)
+        }
+
         /**
          * subject filed
          */
         subjectTypeSpinner = createSpinner()
+        for (i in customSelectBoxField.indices) {
+            customSelectBoxViewList.add(
+                createSpinner().also {
+                    val myAdapter =
+                        context?.let { it1 ->
+                            customSelectBoxField[i].options?.let { customSelectBoxField ->
+                                Desk360CustomSupportTypeAdapter(
+                                    it1,
+                                    R.layout.desk360_type_dropdown,
+                                    customSelectBoxField
+                                )
+                            }
+                        }
+                    it?.adapter = myAdapter
+                }!!
+            )
+        }
+
         /**
          * message filed
          */
-        messageField = createEditText("Message", true)
-        messageField?.maxLines = 7
+        messageField = createCustomTextArea("Message")
+        messageField?.maxLines = 6
         messageField?.minLines = 6
-        messageField?.imeOptions = EditorInfo.IME_ACTION_DONE
+
+        if ((customTextAreaField.isNotEmpty())) {
+            messageField?.imeOptions = EditorInfo.IME_ACTION_NEXT
+        } else {
+            messageField?.imeOptions = EditorInfo.IME_ACTION_DONE
+        }
+
         messageField?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -227,6 +309,40 @@ open class Desk360AddNewTicketFragment : Fragment() {
         )
         Desk360CustomStyle.setFontWeight(binding.textFooterCreateTicketScreen,context,Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight)
         messageField?.gravity = Gravity.TOP
+
+        for (i in customTextAreaField.indices) {
+            customTextAreaViewList.add(createCustomTextArea("custom").also {
+                it?.maxLines = 6
+                it?.minLines = 6
+                if (i == customTextAreaField.size) {
+                    messageField?.imeOptions = EditorInfo.IME_ACTION_DONE
+                } else {
+                    messageField?.imeOptions = EditorInfo.IME_ACTION_NEXT
+                }
+                it?.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable) {}
+                    override fun beforeTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                        messageQuality(s)
+                    }
+                })
+                it?.gravity = Gravity.TOP
+
+            }!!)
+        }
+
         binding.viewModel = viewModel
     }
 
@@ -237,23 +353,58 @@ open class Desk360AddNewTicketFragment : Fragment() {
         textInputLayout.hint = hintText
         textInputLayout.layoutParams = rootParamsLayout
         textInputLayout.gravity = Gravity.CENTER_VERTICAL
+
         editTextStyleModel?.let { textInputLayout.setDesk360InputStyle(it) }
         if (editTextStyleModel!!.form_style_id == 1 && isMessage) {
             textInputLayout.setPadding(24, 8, 24, 8)
             textInputLayout.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
         }
+
         val textInputEditText = TextInputEditText(context)
         textInputEditText.setDesk360InputStyle(editTextStyleModel)
+
         textInputLayout.addView(textInputEditText)
+
         if (editTextStyleModel.form_style_id == 3) {
             val cardView = CardView(context!!)
             cardView.layoutParams = rootParamsLayout
             cardView.setDesk360CardViewStyle()
             cardView.addView(textInputLayout)
-            binding.root.create_screen_root_view.addView(cardView)
+            binding.createScreenRootView.addView(cardView)
         } else {
-            binding.root.create_screen_root_view.addView(textInputLayout)
+            binding.createScreenRootView.addView(textInputLayout)
         }
+
+        return textInputEditText
+    }
+
+    private fun createCustomTextArea(
+        hintText: String
+    ): TextInputEditText? {
+        if (context == null)
+            return null
+        val textInputLayout = TextInputLayout(context!!)
+        textInputLayout.hint = hintText
+        textInputLayout.layoutParams = rootParamsLayout
+        textInputLayout.gravity = Gravity.TOP and Gravity.START
+
+        editTextStyleModel?.let { textInputLayout.setDesk360TextAreaStyle(it) }
+
+        val textInputEditText = TextInputEditText(context)
+        editTextStyleModel?.let { textInputEditText.setDesk360TextAreaStyle(it) }
+
+        textInputLayout.addView(textInputEditText)
+
+        if (editTextStyleModel?.form_style_id == 3) {
+            val cardView = CardView(context!!)
+            cardView.layoutParams = rootParamsLayout
+            cardView.setDesk360CardViewStyle()
+            cardView.addView(textInputLayout)
+            binding.createScreenRootView.addView(cardView)
+        } else {
+            binding.createScreenRootView.addView(textInputLayout)
+        }
+
         return textInputEditText
     }
 
@@ -263,22 +414,37 @@ open class Desk360AddNewTicketFragment : Fragment() {
         val textInputLayoutSpinner = TextInputLayout(context!!)
         textInputLayoutSpinner.layoutParams = rootParamsLayout
         textInputLayoutSpinner.gravity = Gravity.CENTER_VERTICAL
+
         val spinner = Spinner(context)
         editTextStyleModel?.let { spinner.setDesk360SpinnerStyle(it) }
         textInputLayoutSpinner.addView(spinner)
+
         when (editTextStyleModel?.form_style_id) {
             3 -> {
                 val cardView = CardView(context!!)
                 cardView.layoutParams = rootParamsLayout
                 cardView.setDesk360CardViewStyle()
                 cardView.addView(textInputLayoutSpinner)
-                binding.root.create_screen_root_view.addView(cardView)
+                binding.createScreenRootView.addView(cardView)
             }
             2 -> {
-                binding.root.create_screen_root_view.addView(textInputLayoutSpinner)
+                binding.createScreenRootView.addView(textInputLayoutSpinner)
             }
-            else -> binding.root.create_screen_root_view.addView(textInputLayoutSpinner)
+            else -> {
+                binding.createScreenRootView.addView(textInputLayoutSpinner)
+
+                val underline = View(context)
+                underline.setBackgroundColor(Color.parseColor(editTextStyleModel?.form_input_border_color))
+                val underlineParamsLayout = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, 2
+                )
+                underlineParamsLayout.leftMargin = 24
+                underlineParamsLayout.rightMargin = 24
+                underline.layoutParams = underlineParamsLayout
+                binding.createScreenRootView.addView(underline)
+            }
         }
+
         return spinner
     }
 
@@ -295,45 +461,55 @@ open class Desk360AddNewTicketFragment : Fragment() {
 
     fun nameQuality(s: CharSequence) {
         nameData = s.toString().trim()
-        nameFieldFill =
-            when {
-                s.isEmpty() -> {
-                    false
-                }
-                else -> {
-                    true
-                }
+        nameFieldFill = when {
+            s.isEmpty() -> {
+                false
             }
+            else -> {
+                true
+            }
+        }
+    }
+
+    fun customFieldQuality(s: CharSequence) {
+        nameData = s.toString().trim()
+        nameFieldFill = when {
+            s.isEmpty() -> {
+                false
+            }
+            else -> {
+                true
+            }
+        }
     }
 
     fun emailQuality(s: CharSequence) {
         emailData = s.toString().trim()
-        emailFieldFill =
-            when {
-                s.isEmpty() -> false
-                !checkEmail(email = s.toString()) -> false
-                else -> {
-                    true
-                }
+        emailFieldFill = when {
+            s.isEmpty() -> false
+            !checkEmail(email = s.toString()) -> false
+            else -> {
+                true
             }
+        }
     }
 
     fun messageQuality(s: CharSequence) {
         messageData = s.toString().trim()
         messageLength = messageData!!.length
-        messageFieldFill =
-            when {
-                s.isEmpty() -> false
-                s.length < 3 -> false
-                else -> {
-                    true
-                }
+        messageFieldFill = when {
+            s.isEmpty() -> false
+            s.length < 3 -> false
+            else -> {
+                true
             }
+        }
     }
 
     private fun checkEmail(email: String): Boolean {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches()
     }
+
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -345,17 +521,58 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 ")+"
     )
 
-    private fun validateAllField(selectedTypeId: Int) {
-        val ticketItem = Desk360TicketReq()
+    private fun validateAllField() {
+        val ticketItem = HashMap<String, String>()
         if (nameFieldFill && emailFieldFill && messageLength > 0) {
-            ticketItem.email = emailData
-            ticketItem.name = nameData
-//            ticketItem.subject = subjectData
-            ticketItem.message = messageData
-            ticketItem.type_id = selectedTypeId.toString()
-            ticketItem.source = "App"
-            ticketItem.platform = "Android"
-            ticketItem.country_code = Desk360Constants.countryCode()
+            var isExistEmptyCustomField = false
+            for (i in 0 until customInputViewList.size) {
+                ticketItem[customInputField[i].id.toString()] = customInputViewList[i].text.toString()
+
+                if (customInputViewList[i].text?.isNotEmpty() != true) {
+                    customInputViewList[i].isEnabled = true
+                    customInputViewList[i].requestFocus()
+                    customInputViewList[i].onKeyUp(
+                        KEYCODE_DPAD_CENTER,
+                        KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER)
+                    )
+                    isExistEmptyCustomField = true
+                    break
+                }
+            }
+            if (isExistEmptyCustomField) {
+                return
+            }
+            for (i in customTextAreaViewList.indices) {
+                ticketItem[customTextAreaViewList[i].id.toString()] =
+                    customTextAreaViewList[i].text.toString()
+
+                if (customTextAreaViewList[i].text?.isNotEmpty() != true) {
+                    customTextAreaViewList[i].isEnabled = true
+                    customTextAreaViewList[i].requestFocus()
+                    customTextAreaViewList[i].onKeyUp(
+                        KEYCODE_DPAD_CENTER,
+                        KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER)
+                    )
+                    isExistEmptyCustomField = true
+                    break
+                }
+            }
+            if (isExistEmptyCustomField) {
+                return
+            }
+
+            ticketItem["email"] = emailData!!
+            ticketItem["name"] = nameData!!
+            ticketItem["message"] = messageData!!
+            ticketItem["type_id"] = selectedTypeId.toString()
+            ticketItem["source"] = "App"
+            ticketItem["platform"] = "Android"
+            ticketItem["country_code"] = Desk360Constants.countryCode()
+
+
+
+
+
             viewModel?.addSupportTicket(ticketItem)
         } else when {
             !nameFieldFill -> {
@@ -386,40 +603,51 @@ fun TextInputLayout.setDesk360InputStyle(style: Desk360ScreenCreate) {
         intArrayOf(android.R.attr.state_enabled),
         intArrayOf()
     )
+
     val colors = intArrayOf(
         Color.parseColor(style.form_input_focus_border_color),
         Color.parseColor(style.form_input_border_color),
         Color.parseColor(style.form_input_focus_border_color),
         Color.parseColor(style.form_input_border_color)
     )
-    val colorsHint = intArrayOf(
-        Color.parseColor(style.label_text_color),
-        Color.parseColor(style.form_input_border_color),
-        Color.parseColor(style.form_input_border_color),
-        Color.parseColor(style.label_text_color)
-    )
-    val defaultHintColors = intArrayOf(
-        Color.parseColor(style.form_input_color),
-        Color.parseColor(style.form_input_color),
-        Color.parseColor(style.form_input_color),
-        Color.parseColor(style.form_input_color)
-    )
+
     val myColorList = ColorStateList(states, colors)
-    val myColorListDefault = ColorStateList(states, defaultHintColors)
-    val myColorListHint = ColorStateList(states, colorsHint)
     this.setBoxStrokeColorStateList(myColorList)
-    this.defaultHintTextColor = myColorListDefault
-    this.hintTextColor = myColorListHint
+
+    val colorStateList = ColorStateList(
+        arrayOf(
+            intArrayOf(-android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_drag_hovered),
+            intArrayOf(-android.R.attr.state_hovered),
+            intArrayOf(android.R.attr.state_active)
+        ),
+        intArrayOf(
+            Color.parseColor(style.form_input_border_color),
+            Color.parseColor(style.form_input_focus_color),
+            Color.parseColor(style.form_input_focus_color),
+            Color.parseColor(style.form_input_focus_color),
+            Color.parseColor(style.form_input_focus_color)
+        )
+    )
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        this.backgroundTintList = colorStateList
+    }
+    this.defaultHintTextColor = colorStateList
+    this.hintTextColor = colorStateList
     this.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_NONE
+
     when (style.form_style_id) {
         1 -> {
             //line
             this.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_NONE
         }
+
         2 -> {
             //box
             this.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
         }
+
         else -> {
             //shadow
             this.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_NONE
@@ -427,24 +655,111 @@ fun TextInputLayout.setDesk360InputStyle(style: Desk360ScreenCreate) {
     }
 }
 
+fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
+    val states = arrayOf(
+        intArrayOf(android.R.attr.state_focused),
+        intArrayOf(android.R.attr.state_hovered),
+        intArrayOf(android.R.attr.state_enabled),
+        intArrayOf()
+    )
+
+    val colors = intArrayOf(
+        Color.parseColor(style.form_input_focus_border_color),
+        Color.parseColor(style.form_input_border_color),
+        Color.parseColor(style.form_input_focus_border_color),
+        Color.parseColor(style.form_input_border_color)
+    )
+    val myColorList = ColorStateList(states, colors)
+    this.setBoxStrokeColorStateList(myColorList)
+
+    val colorStateList = ColorStateList(
+        arrayOf(
+            intArrayOf(-android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_drag_hovered),
+            intArrayOf(-android.R.attr.state_hovered),
+            intArrayOf(android.R.attr.state_active)
+        ),
+        intArrayOf(
+            Color.parseColor(style.form_input_border_color),
+            Color.parseColor(style.form_input_focus_color),
+            Color.parseColor(style.form_input_focus_color),
+            Color.parseColor(style.form_input_focus_color),
+            Color.parseColor(style.form_input_focus_color)
+        )
+    )
+    val colorHintStateList = ColorStateList(
+        arrayOf(
+            intArrayOf(-android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_focused)
+        ),
+        intArrayOf(
+            Color.parseColor(style.form_input_color),
+            Color.parseColor(style.form_input_focus_color)
+        )
+    )
+    this.defaultHintTextColor = colorHintStateList
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        this.backgroundTintList = colorStateList
+    }
+    this.hintTextColor = colorHintStateList
+
+    when (style.form_style_id) {
+        3 -> {
+            //shadow
+            this.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_NONE
+        }
+
+        else -> {
+            //box
+            this.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
+        }
+    }
+}
+
 fun TextInputEditText.setDesk360InputStyle(style: Desk360ScreenCreate) {
-    val drawable: Drawable = this.background
     this.setTextColor(Color.parseColor(style.form_input_focus_color))
+
     when (style.form_style_id) {
         1 -> {
             //line
-            drawable.setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP)
+            val colorStateList = ColorStateList(
+                arrayOf(
+                    intArrayOf(-android.R.attr.state_focused),
+                    intArrayOf(android.R.attr.state_focused),
+                    intArrayOf(android.R.attr.state_drag_hovered),
+                    intArrayOf(android.R.attr.state_hovered),
+                    intArrayOf(android.R.attr.state_active)
+                ),
+                intArrayOf(
+                    Color.parseColor(style.form_input_border_color),
+                    Color.parseColor(style.form_input_focus_color),
+                    Color.parseColor(style.form_input_focus_color),
+                    Color.parseColor(style.form_input_focus_color),
+                    Color.parseColor(style.form_input_focus_color)
+                )
+            )
+            supportBackgroundTintList = colorStateList
+            supportBackgroundTintMode = PorterDuff.Mode.SRC_ATOP
         }
         2 -> {
             //box
             this.background = null
-            this.setPadding(24, 24, 24, 24)
+            this
+                .setPadding(24, 24, 24, 24)
         }
         else -> {
             //shadow
             this.background = null
         }
     }
+}
+
+fun TextInputEditText.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
+    this.inputType = InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
+    this.setTextColor(Color.parseColor(style.form_input_focus_color))
+    this.background = null
+    this.setPadding(24, 24, 24, 24)
 }
 
 fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
@@ -452,7 +767,9 @@ fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
     when (style.form_style_id) {
         1 -> {
             //line
+            this.setPadding(0, 10, 24, 0)
         }
+
         2 -> {
             val gd = GradientDrawable()
             gd.setColor(Color.TRANSPARENT)
@@ -461,9 +778,11 @@ fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
             this.background = gd
             //box
         }
+
         else -> {
             //shadow
         }
     }
+
     this.isActivated = style.added_file_is_hidden
 }

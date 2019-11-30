@@ -16,6 +16,6 @@ class Desk360DataV2 {
 
     var first_screen: Desk360ScreenFirst = Desk360ScreenFirst()
 
-//    var custom_fields: ArrayList<Desk360CustomFields> = ArrayList()
+    var custom_fields: ArrayList<Desk360CustomFields>? = null
 
 }

@@ -27,6 +27,7 @@ class GetTypesViewModel : ViewModel() {
                     response: Response<Desk360ConfigResponse>
                 ) {
                     if (response.isSuccessful) {
+                        Desk360Config.instance.getDesk360Preferences()?.types = Desk360ConfigResponse()
                         Desk360Config.instance.getDesk360Preferences()?.types = response.body()
                     } else {
                         Log.d("Desk360DataV2", "Error")
