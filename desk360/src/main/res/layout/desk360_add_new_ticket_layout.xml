@@ -60,7 +60,7 @@
                 android:drawableStart="@drawable/path_icon_desk360"
                 android:drawableLeft="@drawable/path_icon_desk360"
                 android:drawablePadding="8dp"
-                android:text="dsdsdsds"
+                android:text="Dosya Seçiniz"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/create_screen_root_view"
                 tools:ignore="MissingConstraints" />
@@ -80,7 +80,7 @@
                 android:padding="16dp"
                 android:text="sabir..jpg"
                 android:textSize="14sp"
-                android:visibility="visible"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/create_screen_root_view" />
 
