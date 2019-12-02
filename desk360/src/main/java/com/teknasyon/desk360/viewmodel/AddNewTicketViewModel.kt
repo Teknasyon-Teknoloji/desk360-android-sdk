@@ -1,13 +1,22 @@
 package com.teknasyon.desk360.viewmodel
+
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.model.Desk360NewSupportResponse
+import com.teknasyon.desk360.model.Desk360TicketReq
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.model.Desk360TypeResponse
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
+import java.io.File
+
+
 /**
  * Created by seyfullah on 30,May,2019
  *
@@ -15,9 +24,11 @@ import retrofit2.Response
 open class AddNewTicketViewModel : ViewModel() {
     var typeList: MutableLiveData<ArrayList<Desk360Type>>? = MutableLiveData()
     var addedTicket: MutableLiveData<String> = MutableLiveData()
+
     init {
         getTypeList()
     }
+
     private fun getTypeList() {
         Desk360RetrofitFactory.instance.httpService.getTypeList()
             .enqueue(object : BaseCallback<Desk360TypeResponse>() {
@@ -33,8 +44,20 @@ open class AddNewTicketViewModel : ViewModel() {
                 }
             })
     }
-    fun addSupportTicket(map: HashMap<String,String>) {
-        Desk360RetrofitFactory.instance.httpService.addTicket(map)
+
+    fun addSupportTicket(ticketItem:  HashMap<String, RequestBody>, file: File?) {
+
+//        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
+//            "attachment",
+//            File("/storage/emulated/0/Download/Getting started.pdf")!!.name,
+//            RequestBody.create(MediaType.parse("image/*"), File("/storage/emulated/0/Download/Getting started.pdf"))
+//        )
+
+        val filePart= null
+
+
+
+        Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem, filePart)
             .enqueue(object : BaseCallback<Desk360NewSupportResponse>() {
                 override fun onResponseSuccess(
                     call: Call<Desk360NewSupportResponse>,

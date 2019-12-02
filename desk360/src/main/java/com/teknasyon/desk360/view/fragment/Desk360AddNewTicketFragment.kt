@@ -1,12 +1,18 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.database.Cursor
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -16,8 +22,7 @@ import android.view.KeyEvent.ACTION_UP
 import android.view.KeyEvent.KEYCODE_DPAD_CENTER
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.LinearLayout
-import android.widget.Spinner
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -25,6 +30,12 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.Desk360Config
@@ -36,22 +47,25 @@ import com.teknasyon.desk360.modelv2.Desk360ScreenCreate
 import com.teknasyon.desk360.view.adapter.Desk360CustomSupportTypeAdapter
 import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
 import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import java.io.File
 import java.util.regex.Pattern
-
 
 /**
  * Created by seyfullah on 30,May,2019
  *
  */
 
-open class Desk360AddNewTicketFragment : Fragment() {
+open class Desk360AddNewTicketFragment : Fragment(),
+    Desk360BottomSheetDialogFragment.BottomSheetListener {
 
     private var viewModel: AddNewTicketViewModel? = null
     private var nameField: TextInputEditText? = null
     private var eMailField: TextInputEditText? = null
     private var messageField: TextInputEditText? = null
     private var subjectTypeSpinner: Spinner? = null
-    private val selectedTypeId = 1
+    private var selectedTypeId = 1
 
     private lateinit var binding: Desk360AddNewTicketLayoutBinding
 
@@ -74,6 +88,11 @@ open class Desk360AddNewTicketFragment : Fragment() {
     private var nameFieldFill: Boolean = false
     private var emailFieldFill: Boolean = false
     private var messageFieldFill: Boolean = false
+    var params: HashMap<String, RequestBody> = HashMap()
+
+
+    var path: Uri? = null
+    var file: File? = null
 
     private val rootParamsLayout = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -161,25 +180,60 @@ open class Desk360AddNewTicketFragment : Fragment() {
         viewModel = AddNewTicketViewModel()
         viewModel?.typeList?.observe(this, observer)
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
-//      binding.subjectType?.prompt = "Gender"
-//      binding.subjectType?.onItemSelectedListener =
-//          (object : AdapterView.OnItemSelectedListener {
-//              override fun onNothingSelected(parent: AdapterView<*>?) {
-//
-//              }
-//
-//              override fun onItemSelected(
-//                  parent: AdapterView<*>,
-//                  view: View?,
-//                  position: Int,
-//                  id: Long
-//              ) {
-//                  typeList?.let { it[position].let { it1 -> selectedTypeId = it1.id!! } }
-//              }
-//          })
-//      binding.txtBottomFooterMessageForm?.movementMethod = ScrollingMovementMethod()
+
         binding.createTicketButton?.setOnClickListener {
             validateAllField()
+        }
+
+        binding.textPathCreateTicketScreen.setOnClickListener {
+            //            FilePickerManager
+//                .from(this@Desk360AddNewTicketFragment)
+//                .filter(object : AbstractFileFilter() {
+//                    override fun doFilter(listData: ArrayList<FileItemBeanImpl>): ArrayList<FileItemBeanImpl> {
+//                        return ArrayList(
+//                            listData.filter { item ->
+//                                ((item.isDir) || (item.fileType is RasterImageFileType) || (item.fileType is PageLayoutFileType))
+//                            }
+//                        )
+//                    }
+//                }).maxSelectable(1)
+//                .showCheckBox(false)
+//                .forResult(RESULT_LOAD_FILES)
+
+//
+//            val projection = arrayOf(
+//                MediaStore.Files.FileColumns._ID,
+//                MediaStore.Files.FileColumns.MIME_TYPE,
+//                MediaStore.Files.FileColumns.DATE_ADDED,
+//                MediaStore.Files.FileColumns.DATE_MODIFIED,
+//                MediaStore.Files.FileColumns.DATA,
+//                MediaStore.Files.FileColumns.DISPLAY_NAME,
+//                MediaStore.Files.FileColumns.TITLE,
+//                MediaStore.Files.FileColumns.SIZE
+//            )
+//
+//            val mimeType = "image/*"
+//
+//            val whereClause =
+//                MediaStore.Files.FileColumns.MIME_TYPE + " IN ('" + mimeType + "')"
+//            val orderBy = MediaStore.Files.FileColumns.SIZE + " DESC"
+//            val cursor: Cursor = context?.contentResolver?.query(
+//                MediaStore.Files.getContentUri("external"),
+//                projection,
+//                whereClause,
+//                null,
+//                orderBy
+//            )!!
+//
+//
+//            while (cursor.moveToNext()) {
+//                Log.d("asdfsadfsadf", cursor.getString(4).toString())
+//            }
+
+            val bottomDialog = Desk360BottomSheetDialogFragment(this)
+            fragmentManager?.let { it1 -> bottomDialog.show(it1, "bottomSheet") }
+
+//            getFiles()
         }
 
         rootParamsLayout.setMargins(24, 24, 24, 24)
@@ -216,6 +270,7 @@ open class Desk360AddNewTicketFragment : Fragment() {
         eMailField = createEditText("Email")
         eMailField?.setLines(1)
         eMailField?.setSingleLine(true)
+        eMailField?.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
         eMailField?.imeOptions = EditorInfo.IME_ACTION_NEXT
         eMailField?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -227,32 +282,14 @@ open class Desk360AddNewTicketFragment : Fragment() {
             }
         })
 
-        for (i in 0 until customInputField.size) {
-            customInputViewList.add(createEditText("custom").also {
-                it?.tag = customInputField[i].id
-                it?.setLines(1)
-                it?.setSingleLine(true)
-                it?.imeOptions = EditorInfo.IME_ACTION_NEXT
-                it?.addTextChangedListener(object : TextWatcher {
-                    override fun afterTextChanged(s: Editable) {}
-                    override fun beforeTextChanged(
-                        s: CharSequence,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                    }
-
-                    override fun onTextChanged(
-                        s: CharSequence,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                        Log.d("customInputField", customInputField[i].id.toString())
-                        customFieldQuality(s)
-                    }
-                })
+        for (i in customInputField.indices) {
+            customInputViewList.add(customInputField[i].place_holder?.let {
+                createEditText(it).also {
+                    it?.tag = customInputField[i].id
+                    it?.setLines(1)
+                    it?.setSingleLine(true)
+                    it?.imeOptions = EditorInfo.IME_ACTION_NEXT
+                }
             }!!)
         }
 
@@ -260,9 +297,33 @@ open class Desk360AddNewTicketFragment : Fragment() {
          * subject filed
          */
         subjectTypeSpinner = createSpinner()
+        subjectTypeSpinner?.onItemSelectedListener =
+            (object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    typeList?.let { it[position].let { it1 -> selectedTypeId = it1.id!! } }
+                    (subjectTypeSpinner?.selectedView as TextView).setTextColor(
+                        Color.parseColor(editTextStyleModel?.form_input_focus_color ?: "#000000")
+                    )
+                }
+            })
         for (i in customSelectBoxField.indices) {
             customSelectBoxViewList.add(
                 createSpinner().also {
+                    val customSelectBoxId = RequestBody.create(
+                        MediaType.parse("text/plain"),
+                        customSelectBoxField[i].options?.get(0)?.order.toString()
+                    )
+                    params[customSelectBoxField[i].id.toString()] = customSelectBoxId
+
                     val myAdapter =
                         context?.let { it1 ->
                             customSelectBoxField[i].options?.let { customSelectBoxField ->
@@ -274,6 +335,33 @@ open class Desk360AddNewTicketFragment : Fragment() {
                             }
                         }
                     it?.adapter = myAdapter
+
+                    it?.onItemSelectedListener = (object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                        }
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            (it?.selectedView as TextView).setTextColor(
+                                Color.parseColor(
+                                    editTextStyleModel?.form_input_focus_color ?: "#000000"
+                                )
+                            )
+                            customSelectBoxField[i].options?.let { it ->
+                                it[position].let { it1 ->
+                                    val customSelectboxId = RequestBody.create(
+                                        MediaType.parse("text/plain"), it1.order.toString()
+                                    )
+                                    params[customSelectBoxField[i].name.toString()] =
+                                        customSelectboxId
+                                }
+                            }
+                        }
+                    })
                 }!!
             )
         }
@@ -300,51 +388,148 @@ open class Desk360AddNewTicketFragment : Fragment() {
                 messageQuality(s)
             }
         })
-        Desk360CustomStyle.setFontWeight(binding.createScreenButtonText,context,Desk360Constants.currentType?.data?.create_screen?.button_text_font_weight)
-        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.create_screen?.button_style_id,binding.createTicketButton,context!!)
+        Desk360CustomStyle.setFontWeight(
+            binding.createScreenButtonText,
+            context,
+            Desk360Constants.currentType?.data?.create_screen?.button_text_font_weight
+        )
+        Desk360CustomStyle.setStyle(
+            Desk360Constants.currentType?.data?.create_screen?.button_style_id,
+            binding.createTicketButton,
+            context!!
+        )
         binding.createScreenButtonIcon.setImageResource(R.drawable.zarf)
         binding.createScreenButtonIcon.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.button_text_color),
             PorterDuff.Mode.SRC_ATOP
         )
-        Desk360CustomStyle.setFontWeight(binding.textFooterCreateTicketScreen,context,Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight)
+        Desk360CustomStyle.setFontWeight(
+            binding.textFooterCreateTicketScreen,
+            context,
+            Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
+        )
         messageField?.gravity = Gravity.TOP
 
         for (i in customTextAreaField.indices) {
-            customTextAreaViewList.add(createCustomTextArea("custom").also {
-                it?.maxLines = 6
-                it?.minLines = 6
-                if (i == customTextAreaField.size) {
-                    messageField?.imeOptions = EditorInfo.IME_ACTION_DONE
-                } else {
-                    messageField?.imeOptions = EditorInfo.IME_ACTION_NEXT
+            customTextAreaViewList.add(customTextAreaField[i].place_holder?.let {
+                createCustomTextArea(it).also {
+                    it?.maxLines = 6
+                    it?.minLines = 6
+                    if (i == customTextAreaField.size) {
+                        messageField?.imeOptions = EditorInfo.IME_ACTION_DONE
+                    } else {
+                        messageField?.imeOptions = EditorInfo.IME_ACTION_NEXT
+                    }
+
+                    it?.gravity = Gravity.TOP
+
                 }
-                it?.addTextChangedListener(object : TextWatcher {
-                    override fun afterTextChanged(s: Editable) {}
-                    override fun beforeTextChanged(
-                        s: CharSequence,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                    }
-
-                    override fun onTextChanged(
-                        s: CharSequence,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                        messageQuality(s)
-                    }
-                })
-                it?.gravity = Gravity.TOP
-
             }!!)
         }
 
         binding.viewModel = viewModel
     }
+
+
+    private fun getFiles() {
+        Dexter.withActivity(activity)
+            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(response: PermissionGrantedResponse) {
+                    val mimeTypes = arrayOf("image/*", "application/pdf")
+
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                    intent.addCategory(Intent.CATEGORY_OPENABLE)
+                    intent.type = "image/* | application/pdf"
+                    if (mimeTypes.isNotEmpty()) {
+                        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+                    }
+
+                    intent.flags = Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+
+                    try {
+                        startActivityForResult(
+                            Intent.createChooser(
+                                intent,
+                                "Select Your .pdf File"
+                            ), RESULT_LOAD_FILES
+                        )
+                    } catch (e: ActivityNotFoundException) {
+                        Log.d("createChooser Exception", "Please Install a File Manager")
+                    }
+                }
+
+                override fun onPermissionDenied(response: PermissionDeniedResponse) {
+
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permission: PermissionRequest,
+                    token: PermissionToken
+                ) {
+                    token.continuePermissionRequest()
+                }
+            })
+            .check()
+    }
+
+    companion object {
+        internal const val RESULT_LOAD_FILES = 100
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+
+            RESULT_LOAD_FILES -> {
+                val pathUri = data?.data
+                val filesss = File(pathUri?.path)
+                if (!filesss.path.contains("images")) {
+
+
+                    file = if (filesss.path.contains(":")) {
+                        val split: List<String> = filesss.path.split(":")
+                        File(split[1])
+                    } else {
+                        File(filesss.path)
+                    }
+                } else {
+                    val myFile = File(pathUri.toString())
+                    val path: String = myFile.absolutePath
+                    var displayName: String? = null
+
+                    if (pathUri.toString().startsWith("content://")) {
+                        var cursor: Cursor? = null
+                        try {
+                            cursor =
+                                activity?.contentResolver?.query(pathUri, null, null, null, null)
+                            if (cursor != null && cursor.moveToFirst()) {
+                                val path = cursor.getString(4)
+                                file = File(path)
+                                displayName =
+                                    cursor.getString(cursor.getColumnIndex("_data"))
+                            }
+                        } finally {
+                            cursor?.close()
+                        }
+                    } else if (pathUri.toString().startsWith("file://")) {
+                        displayName = myFile.name
+                    }
+                }
+            }
+
+//            RESULT_LOAD_FILES ->
+//                if (resultCode == Activity.RESULT_OK && null != data) {
+//                    val list = FilePickerManager.obtainData()[0]
+//                    file = File(list)
+//                    binding.fileNameTextCreateTicketScreen.text=file?.name?.substring(0,5)
+//                    Log.e("file", list)
+//
+//                }
+        }
+    }
+
 
     private fun createEditText(hintText: String, isMessage: Boolean = false): TextInputEditText? {
         if (context == null)
@@ -471,18 +656,6 @@ open class Desk360AddNewTicketFragment : Fragment() {
         }
     }
 
-    fun customFieldQuality(s: CharSequence) {
-        nameData = s.toString().trim()
-        nameFieldFill = when {
-            s.isEmpty() -> {
-                false
-            }
-            else -> {
-                true
-            }
-        }
-    }
-
     fun emailQuality(s: CharSequence) {
         emailData = s.toString().trim()
         emailFieldFill = when {
@@ -522,12 +695,9 @@ open class Desk360AddNewTicketFragment : Fragment() {
     )
 
     private fun validateAllField() {
-        val ticketItem = HashMap<String, String>()
         if (nameFieldFill && emailFieldFill && messageLength > 0) {
             var isExistEmptyCustomField = false
             for (i in 0 until customInputViewList.size) {
-                ticketItem[customInputField[i].id.toString()] = customInputViewList[i].text.toString()
-
                 if (customInputViewList[i].text?.isNotEmpty() != true) {
                     customInputViewList[i].isEnabled = true
                     customInputViewList[i].requestFocus()
@@ -537,15 +707,18 @@ open class Desk360AddNewTicketFragment : Fragment() {
                     )
                     isExistEmptyCustomField = true
                     break
+                } else {
+                    val customInputData = RequestBody.create(
+                        MediaType.parse("text/plain"),
+                        customInputViewList[i].text.toString()
+                    )
+                    params[customInputField[i].name.toString()] = customInputData
                 }
             }
             if (isExistEmptyCustomField) {
                 return
             }
             for (i in customTextAreaViewList.indices) {
-                ticketItem[customTextAreaViewList[i].id.toString()] =
-                    customTextAreaViewList[i].text.toString()
-
                 if (customTextAreaViewList[i].text?.isNotEmpty() != true) {
                     customTextAreaViewList[i].isEnabled = true
                     customTextAreaViewList[i].requestFocus()
@@ -555,25 +728,38 @@ open class Desk360AddNewTicketFragment : Fragment() {
                     )
                     isExistEmptyCustomField = true
                     break
+                } else {
+                    val customInputData = RequestBody.create(
+                        MediaType.parse("text/plain"),
+                        customTextAreaViewList[i].text.toString()
+                    )
+                    params[customTextAreaField[i].name.toString()] = customInputData
                 }
             }
             if (isExistEmptyCustomField) {
                 return
             }
 
-            ticketItem["email"] = emailData!!
-            ticketItem["name"] = nameData!!
-            ticketItem["message"] = messageData!!
-            ticketItem["type_id"] = selectedTypeId.toString()
-            ticketItem["source"] = "App"
-            ticketItem["platform"] = "Android"
-            ticketItem["country_code"] = Desk360Constants.countryCode()
+            val email = RequestBody.create(MediaType.parse("text/plain"), emailData!!)
+            val name = RequestBody.create(MediaType.parse("text/plain"), nameData)
+            val message = RequestBody.create(MediaType.parse("text/plain"), messageData)
+            val typeId =
+                RequestBody.create(MediaType.parse("text/plain"), selectedTypeId.toString())
+            val source = RequestBody.create(MediaType.parse("text/plain"), "App")
+            val platform = RequestBody.create(MediaType.parse("text/plain"), "Android")
+            val countryCode =
+                RequestBody.create(MediaType.parse("text/plain"), Desk360Constants.countryCode())
 
+            params["name"] = name
+            params["email"] = email
+            params["message"] = message
+            params["type_id"] = typeId
+            params["source"] = source
+            params["platform"] = platform
+            params["country_code"] = countryCode
 
+            viewModel?.addSupportTicket(params, file)
 
-
-
-            viewModel?.addSupportTicket(ticketItem)
         } else when {
             !nameFieldFill -> {
                 nameFieldFill = false
@@ -589,6 +775,18 @@ open class Desk360AddNewTicketFragment : Fragment() {
             }
         }
     }
+
+    override fun onButtonClicked(isClickedImage: Boolean) {
+
+        if(isClickedImage){
+            Log.d("isClicked", "Image")
+        }else{
+            Log.d("isClicked", "PDF")
+        }
+
+
+    }
+
 }
 
 fun CardView.setDesk360CardViewStyle() {
