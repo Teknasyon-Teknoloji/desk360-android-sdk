@@ -30,15 +30,16 @@ class Desk360TicketListAdapter(
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        val detail = ticketList[position]
+        val lastMessage = detail.messages?.get(detail.messages!!.size - 1)
+
         with(holder.itemView) {
             ticket_subject.text = ticketList[position].message
             ticket_date.text = ticketList[position].created
             ticket_subject.setTypeface(null, Typeface.NORMAL)
-            message_status.visibility= View.INVISIBLE
 
             when (ticketList[position].status) {
                 "unread" -> {
-                    message_status.visibility= View.VISIBLE
                     message_status.setBackgroundResource(R.drawable.zarf)
                     message_status.background?.setColorFilter(
                         Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_icon_color),
@@ -48,7 +49,17 @@ class Desk360TicketListAdapter(
                 }
                 else -> {
                     ticket_subject.setTypeface(null, Typeface.NORMAL)
-                    message_status.visibility= View.INVISIBLE
+                    message_status.setBackgroundResource(R.drawable.message_icon_read)
+                    message_status.background?.setColorFilter(
+                        Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_icon_color),
+                        PorterDuff.Mode.SRC_ATOP
+                    )
+//                    if(lastMessage?.is_answer == false){
+//                        message_status.visibility=View.VISIBLE
+//
+//                    }else{
+//                        message_status.visibility=View.INVISIBLE
+//                    }
 
                 }
             }

@@ -190,6 +190,14 @@ open class Desk360AddNewTicketFragment : Fragment(),
             validateAllField()
         }
 
+        binding.fileNameIcon.setOnClickListener{
+            file=null
+            binding.fileNameIcon.visibility=View.INVISIBLE
+            binding.fileNameTextCreateTicketScreen.visibility=View.INVISIBLE
+        }
+        binding.fileNameTextCreateTicketScreen.visibility=View.INVISIBLE
+        binding.fileNameIcon.visibility=View.INVISIBLE
+
         binding.textPathCreateTicketScreen.setOnClickListener {
             val bottomDialog = Desk360BottomSheetDialogFragment(this)
             fragmentManager?.let { it1 -> bottomDialog.show(it1, "bottomSheet") }
@@ -373,11 +381,9 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         if (Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!) {
             binding.pathIconn.visibility = View.VISIBLE
-            binding.fileNameIcon.visibility = View.VISIBLE
 
         } else {
             binding.pathIconn.visibility = View.INVISIBLE
-            binding.fileNameIcon.visibility = View.INVISIBLE
         }
 
 
@@ -464,7 +470,19 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         fileName = file!!.name
                     }
                 }
-              
+
+               if(file?.exists() == true){
+                   fileName?.length?.let {
+                       if(it > 10){
+                           binding.fileNameTextCreateTicketScreen.text= fileName?.substring(0,8) + "..."
+                       }else{
+                           binding.fileNameTextCreateTicketScreen.text=fileName
+                       }
+                       binding.fileNameTextCreateTicketScreen.visibility=View.VISIBLE
+                       binding.fileNameIcon.visibility=View.VISIBLE
+                   }
+
+                }
 
                 Log.d("asasa", "saas")
             }

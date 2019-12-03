@@ -17,7 +17,7 @@
         android:paddingBottom="16dp"
         android:text="Image"
         android:textColor="#808080"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <View
         android:layout_width="match_parent"
@@ -37,6 +37,6 @@
         android:paddingBottom="16dp"
         android:text="Documents"
         android:textColor="#808080"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
 </LinearLayout>
