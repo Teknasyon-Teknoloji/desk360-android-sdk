@@ -11,7 +11,6 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 
-//import android.provider.<span id="IL_AD11" class="IL_AD">MediaStore</span>;
 @SuppressLint("NewApi")
 @TargetApi(Build.VERSION_CODES.KITKAT)
 class ImageFilePath {
@@ -33,7 +32,14 @@ class ImageFilePath {
         var ret = ""
         if (ctx != null && uri != null) {
             if (isContentUri(uri)) {
-
+                ret = if (isGooglePhotoDoc(uri.authority)) {
+                    uri.lastPathSegment
+                } else {
+                    getImageRealPath(ctx.contentResolver, uri, null)
+                }
+            } else if (isFileUri(uri)) {
+                ret = uri.path
+            } else if (isDocumentUri(ctx, uri)) { // Get uri related document id.
                 val documentId = DocumentsContract.getDocumentId(uri)
                 // Get uri authority.
                 val uriAuthority = uri.authority

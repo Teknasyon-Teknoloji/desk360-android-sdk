@@ -5,13 +5,14 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360TicketListItemBinding
-import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import kotlinx.android.synthetic.main.desk360_ticket_list_item.view.*
 
@@ -33,18 +34,22 @@ class Desk360TicketListAdapter(
             ticket_subject.text = ticketList[position].message
             ticket_date.text = ticketList[position].created
             ticket_subject.setTypeface(null, Typeface.NORMAL)
-            when {
-                ticketList[position].status == "unread" -> {
-                    message_status.setImageResource(R.drawable.mavi_zarf_icon)
-                    message_status.setColorFilter(
+            message_status.visibility= View.INVISIBLE
+
+            when (ticketList[position].status) {
+                "unread" -> {
+                    message_status.visibility= View.VISIBLE
+                    message_status.setBackgroundResource(R.drawable.zarf)
+                    message_status.background?.setColorFilter(
                         Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_icon_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
                     ticket_subject.setTypeface(null, Typeface.BOLD)
                 }
                 else -> {
-                    message_status.setImageResource(android.R.color.transparent)
                     ticket_subject.setTypeface(null, Typeface.NORMAL)
+                    message_status.visibility= View.INVISIBLE
+
                 }
             }
 

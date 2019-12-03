@@ -16,18 +16,15 @@ open class Desk360Preferences : PreferencesManager() {
 
     var types: Desk360ConfigResponse?
         get() {
-            Log.d("GetTypesViewModel", "getlendi")
             return getObject<Desk360ConfigResponse>(TYPES, Desk360ConfigResponse::class.java)
                 ?: Desk360ConfigResponse()
         }
         set(types) {
-            Log.d("GetTypesViewModel", "setlendi")
             putObject(TYPES, types!!)
         }
     var adId: String?
         get() = getString(AD_ID)
         set(adId) = setString(AD_ID, adId ?: "")
-
 
     companion object {
         private const val META = "meta"

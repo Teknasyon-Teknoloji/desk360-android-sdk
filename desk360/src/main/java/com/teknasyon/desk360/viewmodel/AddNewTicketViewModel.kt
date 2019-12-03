@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.model.Desk360NewSupportResponse
-import com.teknasyon.desk360.model.Desk360TicketReq
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.model.Desk360TypeResponse
 import okhttp3.MediaType
@@ -45,19 +44,19 @@ open class AddNewTicketViewModel : ViewModel() {
             })
     }
 
-    fun addSupportTicket(ticketItem:  HashMap<String, RequestBody>, file: File?) {
+    fun addSupportTicket(ticketItem: HashMap<String, RequestBody>, file: File?) {
 
 //        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
 //            "attachment",
-//            File("/storage/emulated/0/Download/Getting started.pdf")!!.name,
-//            RequestBody.create(MediaType.parse("image/*"), File("/storage/emulated/0/Download/Getting started.pdf"))
+//            file?.name,
+//            RequestBody.create(
+//                MediaType.parse("image/*"), file
+//            )
 //        )
 
-        val filePart= null
 
 
-
-        Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem, filePart)
+        Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem, null)
             .enqueue(object : BaseCallback<Desk360NewSupportResponse>() {
                 override fun onResponseSuccess(
                     call: Call<Desk360NewSupportResponse>,

@@ -50,38 +50,59 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/pathIconn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textPathCreateTicketScreen"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textPathCreateTicketScreen"
+                tools:ignore="MissingConstraints" />
+
             <com.teknasyon.desk360.themev2.Desk360CreateScreenUpluoadText
                 android:id="@+id/textPathCreateTicketScreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:padding="16dp"
-                android:drawableStart="@drawable/path_icon_desk360"
-                android:drawableLeft="@drawable/path_icon_desk360"
-                android:drawablePadding="8dp"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="16dp"
                 android:text="Dosya Seçiniz"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pathIconn"
                 app:layout_constraintTop_toBottomOf="@+id/create_screen_root_view"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                android:paddingStart="4dp"
+                android:paddingEnd="16dp" />
 
             <!--            android:text="@{viewModel.observable.messageLengthData}"-->
 
+
+            <ImageView
+                android:id="@+id/fileNameIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:padding="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/file_name_text_create_ticket_screen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/file_name_text_create_ticket_screen"
+                tools:ignore="MissingConstraints" />
 
             <com.teknasyon.desk360.themev2.Desk360FileNameText
                 android:id="@+id/file_name_text_create_ticket_screen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:drawableEnd="@drawable/document_cancel_icon"
-                android:drawableRight="@drawable/document_cancel_icon"
                 android:drawablePadding="8dp"
-                android:padding="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
                 android:text="sabir..jpg"
                 android:textSize="14sp"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/fileNameIcon"
                 app:layout_constraintTop_toBottomOf="@+id/create_screen_root_view" />
 
             <com.teknasyon.desk360.themev2.Desk360CreateScreenButton

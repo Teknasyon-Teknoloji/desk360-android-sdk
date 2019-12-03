@@ -15,15 +15,6 @@
             android:label="@string/SUPPORT_TITLE"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.teknasyon.desk360"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/my_path" />
-        </provider>
     </application>
 
 </manifest>

@@ -15,7 +15,7 @@ class Desk360IncomingText : TextView {
 
     init {
 
-        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id) {
+        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_box_style) {
             1 -> {
 
                 this.setBackgroundResource(R.drawable.incoming_message_background_1)

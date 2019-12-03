@@ -2,26 +2,27 @@ package com.teknasyon.desk360.themev2
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.util.AttributeSet
+import android.view.View
 import android.widget.TextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
 
-class Desk360FileNameText  : TextView{
+class Desk360FileNameText : TextView {
     init {
 
-        when (Desk360Constants.currentTheme) {
-            1 -> {
-                this.setTextColor(Color.parseColor("#5a5a5a"))
-            }
-            4 -> {
-                this.setTextColor(Color.parseColor("#ffffff"))
-            }
+        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_color))
 
-            else -> {
-                this.setTextColor(Color.parseColor("#5a5a5a"))
-            }
+        val face = Typeface.createFromAsset(context?.assets, "Montserrat-Regular.ttf")
+        this.typeface = face
+
+        if (Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!) {
+            this.visibility= View.VISIBLE
+        } else {
+            this.visibility= View.INVISIBLE
         }
+
     }
 
 

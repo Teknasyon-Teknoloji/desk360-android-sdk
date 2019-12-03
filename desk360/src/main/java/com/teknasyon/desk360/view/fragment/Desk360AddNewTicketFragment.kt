@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -22,7 +23,10 @@ import android.view.KeyEvent.ACTION_UP
 import android.view.KeyEvent.KEYCODE_DPAD_CENTER
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -41,6 +45,7 @@ import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.ImageFilePath
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.modelv2.Desk360CustomFields
 import com.teknasyon.desk360.modelv2.Desk360ScreenCreate
@@ -88,10 +93,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var nameFieldFill: Boolean = false
     private var emailFieldFill: Boolean = false
     private var messageFieldFill: Boolean = false
+    private var fileType = 1
     var params: HashMap<String, RequestBody> = HashMap()
-
-
-    var path: Uri? = null
     var file: File? = null
 
     private val rootParamsLayout = LinearLayout.LayoutParams(
@@ -186,54 +189,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
 
         binding.textPathCreateTicketScreen.setOnClickListener {
-            //            FilePickerManager
-//                .from(this@Desk360AddNewTicketFragment)
-//                .filter(object : AbstractFileFilter() {
-//                    override fun doFilter(listData: ArrayList<FileItemBeanImpl>): ArrayList<FileItemBeanImpl> {
-//                        return ArrayList(
-//                            listData.filter { item ->
-//                                ((item.isDir) || (item.fileType is RasterImageFileType) || (item.fileType is PageLayoutFileType))
-//                            }
-//                        )
-//                    }
-//                }).maxSelectable(1)
-//                .showCheckBox(false)
-//                .forResult(RESULT_LOAD_FILES)
-
-//
-//            val projection = arrayOf(
-//                MediaStore.Files.FileColumns._ID,
-//                MediaStore.Files.FileColumns.MIME_TYPE,
-//                MediaStore.Files.FileColumns.DATE_ADDED,
-//                MediaStore.Files.FileColumns.DATE_MODIFIED,
-//                MediaStore.Files.FileColumns.DATA,
-//                MediaStore.Files.FileColumns.DISPLAY_NAME,
-//                MediaStore.Files.FileColumns.TITLE,
-//                MediaStore.Files.FileColumns.SIZE
-//            )
-//
-//            val mimeType = "image/*"
-//
-//            val whereClause =
-//                MediaStore.Files.FileColumns.MIME_TYPE + " IN ('" + mimeType + "')"
-//            val orderBy = MediaStore.Files.FileColumns.SIZE + " DESC"
-//            val cursor: Cursor = context?.contentResolver?.query(
-//                MediaStore.Files.getContentUri("external"),
-//                projection,
-//                whereClause,
-//                null,
-//                orderBy
-//            )!!
-//
-//
-//            while (cursor.moveToNext()) {
-//                Log.d("asdfsadfsadf", cursor.getString(4).toString())
-//            }
-
-            val bottomDialog = Desk360BottomSheetDialogFragment(this)
-            fragmentManager?.let { it1 -> bottomDialog.show(it1, "bottomSheet") }
-
-//            getFiles()
+//            val bottomDialog = Desk360BottomSheetDialogFragment(this)
+//            fragmentManager?.let { it1 -> bottomDialog.show(it1, "bottomSheet") }
         }
 
         rootParamsLayout.setMargins(24, 24, 24, 24)
@@ -398,6 +355,29 @@ open class Desk360AddNewTicketFragment : Fragment(),
             binding.createTicketButton,
             context!!
         )
+
+        binding.pathIconn.setImageResource(R.drawable.path_icon_desk360)
+        binding.pathIconn.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.label_text_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
+
+        binding.fileNameIcon.setImageResource(R.drawable.document_cancel_icon)
+        binding.fileNameIcon.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
+
+        if(Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!){
+            binding.pathIconn.visibility= View.VISIBLE
+            binding.fileNameIcon.visibility= View.VISIBLE
+
+        } else {
+            binding.pathIconn.visibility= View.INVISIBLE
+            binding.fileNameIcon.visibility= View.INVISIBLE
+        }
+
+
         binding.createScreenButtonIcon.setImageResource(R.drawable.zarf)
         binding.createScreenButtonIcon.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.button_text_color),
@@ -431,49 +411,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
 
-    private fun getFiles() {
-        Dexter.withActivity(activity)
-            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-            .withListener(object : PermissionListener {
-                override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                    val mimeTypes = arrayOf("image/*", "application/pdf")
-
-                    val intent = Intent(Intent.ACTION_GET_CONTENT)
-                    intent.addCategory(Intent.CATEGORY_OPENABLE)
-                    intent.type = "image/* | application/pdf"
-                    if (mimeTypes.isNotEmpty()) {
-                        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-                    }
-
-                    intent.flags = Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT
-                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-
-                    try {
-                        startActivityForResult(
-                            Intent.createChooser(
-                                intent,
-                                "Select Your .pdf File"
-                            ), RESULT_LOAD_FILES
-                        )
-                    } catch (e: ActivityNotFoundException) {
-                        Log.d("createChooser Exception", "Please Install a File Manager")
-                    }
-                }
-
-                override fun onPermissionDenied(response: PermissionDeniedResponse) {
-
-                }
-
-                override fun onPermissionRationaleShouldBeShown(
-                    permission: PermissionRequest,
-                    token: PermissionToken
-                ) {
-                    token.continuePermissionRequest()
-                }
-            })
-            .check()
-    }
-
     companion object {
         internal const val RESULT_LOAD_FILES = 100
     }
@@ -483,51 +420,34 @@ open class Desk360AddNewTicketFragment : Fragment(),
         when (requestCode) {
 
             RESULT_LOAD_FILES -> {
+
                 val pathUri = data?.data
-                val filesss = File(pathUri?.path)
-                if (!filesss.path.contains("images")) {
 
-
-                    file = if (filesss.path.contains(":")) {
-                        val split: List<String> = filesss.path.split(":")
-                        File(split[1])
-                    } else {
-                        File(filesss.path)
-                    }
+                if (fileType == 1) {
+                    file = File(pathUri?.let { ImageFilePath().getUriRealPath(context!!, it) })
                 } else {
-                    val myFile = File(pathUri.toString())
-                    val path: String = myFile.absolutePath
-                    var displayName: String? = null
-
-                    if (pathUri.toString().startsWith("content://")) {
-                        var cursor: Cursor? = null
-                        try {
-                            cursor =
-                                activity?.contentResolver?.query(pathUri, null, null, null, null)
-                            if (cursor != null && cursor.moveToFirst()) {
-                                val path = cursor.getString(4)
-                                file = File(path)
-                                displayName =
-                                    cursor.getString(cursor.getColumnIndex("_data"))
-                            }
-                        } finally {
-                            cursor?.close()
-                        }
-                    } else if (pathUri.toString().startsWith("file://")) {
-                        displayName = myFile.name
-                    }
+                    //file = File(pathUri?.let { getRealPathFromURI(it) })
                 }
+
             }
 
-//            RESULT_LOAD_FILES ->
-//                if (resultCode == Activity.RESULT_OK && null != data) {
-//                    val list = FilePickerManager.obtainData()[0]
-//                    file = File(list)
-//                    binding.fileNameTextCreateTicketScreen.text=file?.name?.substring(0,5)
-//                    Log.e("file", list)
-//
-//                }
         }
+    }
+
+    open fun getRealPathFromURI(contentURI: Uri): String? {
+        var cursor: Cursor? = null
+        var filepath = ""
+        try {
+            val proj =
+                arrayOf(MediaStore.Images.Media.DATA)
+            cursor = context?.contentResolver?.query(contentURI, proj, null, null, null)
+            val column_index: Int? = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor?.moveToFirst()
+            filepath = column_index?.let { cursor?.getString(2) }!!
+        } finally {
+            cursor?.close()
+        }
+        return filepath
     }
 
 
@@ -778,11 +698,52 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     override fun onButtonClicked(isClickedImage: Boolean) {
 
-        if(isClickedImage){
-            Log.d("isClicked", "Image")
-        }else{
-            Log.d("isClicked", "PDF")
-        }
+        Dexter.withActivity(activity)
+            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(response: PermissionGrantedResponse) {
+
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                    //  intent.addCategory(Intent.CATEGORY_OPENABLE)
+
+                    if (isClickedImage) {
+
+                        fileType = 1
+                        intent.type = "image/*"
+
+                    } else {
+                        fileType = 2
+                        intent.type = "application/pdf"
+
+                    }
+
+                    intent.flags = Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+
+                    try {
+                        startActivityForResult(
+                            Intent.createChooser(
+                                intent,
+                                "Select Your  File"
+                            ), RESULT_LOAD_FILES
+                        )
+                    } catch (e: ActivityNotFoundException) {
+                        Log.d("createChooser Exception", "Please Install a File Manager")
+                    }
+                }
+
+                override fun onPermissionDenied(response: PermissionDeniedResponse) {
+
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permission: PermissionRequest,
+                    token: PermissionToken
+                ) {
+                    token.continuePermissionRequest()
+                }
+            })
+            .check()
 
 
     }

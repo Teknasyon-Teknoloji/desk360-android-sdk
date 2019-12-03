@@ -30,7 +30,6 @@ open class TicketListViewModel : ViewModel() {
     init {
         progress= ObservableInt(View.GONE)
         Desk360Constants.getDeviceId()
-        register()
     }
 
     private fun getTicketList() {
