@@ -683,6 +683,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     )
 
     private fun validateAllField() {
+        binding.loadingProgress.visibility=View.VISIBLE
         if (nameFieldFill && emailFieldFill && messageLength > 0) {
             var isExistEmptyCustomField = false
             for (i in 0 until customInputViewList.size) {
