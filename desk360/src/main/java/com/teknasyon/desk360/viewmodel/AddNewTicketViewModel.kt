@@ -46,17 +46,19 @@ open class AddNewTicketViewModel : ViewModel() {
 
     fun addSupportTicket(ticketItem: HashMap<String, RequestBody>, file: File?) {
 
-//        val filePart: MultipartBody.Part = MultipartBody.Part.createFormData(
-//            "attachment",
-//            file?.name,
-//            RequestBody.create(
-//                MediaType.parse("image/*"), file
-//            )
-//        )
+        var filePart: MultipartBody.Part? = null
 
+        if (file != null) {
+            filePart = MultipartBody.Part.createFormData(
+                "attachment",
+                file.name,
+                RequestBody.create(
+                    MediaType.parse("image/*"), file
+                )
+            )
+        }
 
-
-        Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem, null)
+        Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem, filePart)
             .enqueue(object : BaseCallback<Desk360NewSupportResponse>() {
                 override fun onResponseSuccess(
                     call: Call<Desk360NewSupportResponse>,

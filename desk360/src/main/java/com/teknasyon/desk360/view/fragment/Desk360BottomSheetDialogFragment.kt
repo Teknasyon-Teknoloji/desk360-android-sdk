@@ -1,5 +1,6 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,10 @@ class Desk360BottomSheetDialogFragment(val listener: BottomSheetListener) :
         buttonPdf.setOnClickListener {
             bottomSheetListener?.onButtonClicked(false)
             dismiss()
+        }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            buttonPdf.visibility=View.GONE
         }
 
         return view

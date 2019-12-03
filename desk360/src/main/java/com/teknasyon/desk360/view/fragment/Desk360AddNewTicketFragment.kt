@@ -1,7 +1,6 @@
 package com.teknasyon.desk360.view.fragment
 
 import android.Manifest
-import android.content.ActivityNotFoundException
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -13,7 +12,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -28,6 +26,7 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
@@ -55,6 +54,7 @@ import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import java.io.File
+import java.io.FileOutputStream
 import java.util.regex.Pattern
 
 /**
@@ -93,9 +93,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var nameFieldFill: Boolean = false
     private var emailFieldFill: Boolean = false
     private var messageFieldFill: Boolean = false
-    private var fileType = 1
+    private var RESULT_LOAD_FILES = 1221
     var params: HashMap<String, RequestBody> = HashMap()
     var file: File? = null
+    var fileName: String? = null
 
     private val rootParamsLayout = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -153,6 +154,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var observerAddedTicket = Observer<String> {
         if (it != null) {
             view?.let { it1 ->
+                remove()
                 Navigation.findNavController(it1)
                     .navigate(
                         R.id.action_addNewTicketFragment_to_thanksFragment,
@@ -189,8 +191,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
 
         binding.textPathCreateTicketScreen.setOnClickListener {
-//            val bottomDialog = Desk360BottomSheetDialogFragment(this)
-//            fragmentManager?.let { it1 -> bottomDialog.show(it1, "bottomSheet") }
+            val bottomDialog = Desk360BottomSheetDialogFragment(this)
+            fragmentManager?.let { it1 -> bottomDialog.show(it1, "bottomSheet") }
         }
 
         rootParamsLayout.setMargins(24, 24, 24, 24)
@@ -362,19 +364,20 @@ open class Desk360AddNewTicketFragment : Fragment(),
             PorterDuff.Mode.SRC_ATOP
         )
 
-        binding.fileNameIcon.setImageResource(R.drawable.document_cancel_icon)
-        binding.fileNameIcon.setColorFilter(
+
+        binding.fileNameIcon.setBackgroundResource(R.drawable.document_cancel_icon)
+        binding.fileNameIcon.background.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
-        if(Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!){
-            binding.pathIconn.visibility= View.VISIBLE
-            binding.fileNameIcon.visibility= View.VISIBLE
+        if (Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!) {
+            binding.pathIconn.visibility = View.VISIBLE
+            binding.fileNameIcon.visibility = View.VISIBLE
 
         } else {
-            binding.pathIconn.visibility= View.INVISIBLE
-            binding.fileNameIcon.visibility= View.INVISIBLE
+            binding.pathIconn.visibility = View.INVISIBLE
+            binding.fileNameIcon.visibility = View.INVISIBLE
         }
 
 
@@ -411,24 +414,59 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
 
-    companion object {
-        internal const val RESULT_LOAD_FILES = 100
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
 
             RESULT_LOAD_FILES -> {
 
-                val pathUri = data?.data
+                val pathUri = data?.data ?: return
 
-                if (fileType == 1) {
-                    file = File(pathUri?.let { ImageFilePath().getUriRealPath(context!!, it) })
-                } else {
-                    //file = File(pathUri?.let { getRealPathFromURI(it) })
+                when (RESULT_LOAD_FILES) {
+                    1221 -> {
+                        file = File(pathUri.let { ImageFilePath().getUriRealPath(context!!, it) })
+                        fileName = file!!.name
+                    }
+                    1222 -> {
+                        //file = File(pathUri?.let { getRealPathFromURI(it) })
+                        val cachFile = File(
+                            context!!.cacheDir, DocumentFile.fromSingleUri(
+                                activity!!,
+                                pathUri
+                            )?.name?.replace(" ", "")
+                        )
+                        try {
+                            val inputStream = context!!.contentResolver.openInputStream(
+                                DocumentFile.fromSingleUri(
+                                    activity!!,
+                                    pathUri!!
+                                )?.uri
+                            )
+                            val outputStream = FileOutputStream(cachFile)
+                            var read = 0
+                            val maxBufferSize = 1 * 1024 * 1024
+                            val bytesAvailable = inputStream.available()
+                            //int bufferSize = 1024;
+                            val bufferSize = Math.min(bytesAvailable, maxBufferSize)
+                            val buffers = ByteArray(bufferSize)
+                            while (inputStream.read(buffers).also { read = it } != -1) {
+                                outputStream.write(buffers, 0, read)
+                            }
+                            Log.e("File Size", "Size " + cachFile.length())
+                            inputStream.close()
+                            outputStream.close()
+                            Log.e("File Path", "Path " + cachFile.path)
+                        } catch (e: Exception) {
+                            Log.e("Exception", e.message)
+                        }
+                        Log.d("pdf_path", cachFile.path + "")
+                        file = cachFile
+                        fileName = file!!.name
+                    }
                 }
+              
 
+                Log.d("asasa", "saas")
             }
 
         }
@@ -512,6 +550,18 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         return textInputEditText
     }
+
+    private fun remove(): Boolean {
+        return try {
+            if (file?.exists() == true) file?.delete()
+
+            true
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            false
+        }
+    }
+
 
     private fun createSpinner(): Spinner? {
         if (context == null)
@@ -702,33 +752,22 @@ open class Desk360AddNewTicketFragment : Fragment(),
             .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
             .withListener(object : PermissionListener {
                 override fun onPermissionGranted(response: PermissionGrantedResponse) {
-
-                    val intent = Intent(Intent.ACTION_GET_CONTENT)
-                    //  intent.addCategory(Intent.CATEGORY_OPENABLE)
-
                     if (isClickedImage) {
 
-                        fileType = 1
-                        intent.type = "image/*"
-
-                    } else {
-                        fileType = 2
-                        intent.type = "application/pdf"
-
-                    }
-
-                    intent.flags = Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT
-                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
-
-                    try {
+                        RESULT_LOAD_FILES = 1221
                         startActivityForResult(
-                            Intent.createChooser(
-                                intent,
-                                "Select Your  File"
+                            Intent(
+                                Intent.ACTION_PICK,
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                             ), RESULT_LOAD_FILES
                         )
-                    } catch (e: ActivityNotFoundException) {
-                        Log.d("createChooser Exception", "Please Install a File Manager")
+                    } else {
+                        RESULT_LOAD_FILES = 1222
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            val photoPickerIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                            photoPickerIntent.type = "application/pdf"
+                            startActivityForResult(photoPickerIntent, RESULT_LOAD_FILES)
+                        }
                     }
                 }
 
@@ -744,10 +783,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 }
             })
             .check()
-
-
     }
-
 }
 
 fun CardView.setDesk360CardViewStyle() {

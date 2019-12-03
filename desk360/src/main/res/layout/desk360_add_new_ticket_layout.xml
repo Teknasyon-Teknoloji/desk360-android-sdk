@@ -79,13 +79,16 @@
             <!--            android:text="@{viewModel.observable.messageLengthData}"-->
 
 
-            <ImageView
+            <TextView
                 android:id="@+id/fileNameIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
-                android:padding="12dp"
+                android:text="X"
+                android:textColor="#ffffff"
+                android:layout_gravity="center"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="@+id/file_name_text_create_ticket_screen"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/file_name_text_create_ticket_screen"
