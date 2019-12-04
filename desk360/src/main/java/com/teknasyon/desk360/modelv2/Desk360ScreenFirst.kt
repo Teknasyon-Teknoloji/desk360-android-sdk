@@ -3,13 +3,13 @@ package com.teknasyon.desk360.modelv2
 class Desk360ScreenFirst  {
 
     var title = "Bize Ulaşın"
-    var sub_title = "How can we help you?"
-    var button_text = "Write Us"
-    var description = "Contact us to create your first support message and get live support."
+    var sub_title = "Size nasıl yardımcı olabiliriz?"
+    var button_text = "Bize Yazın"
+    var description = "İlk yardım mesajını yaratmak ve canlı destek almak için bize ulaşın!"
     var button_style_id = 1
     var sub_title_color = "#4D4D4D"
     var bottom_note_text =
-        "You have a pending support request. If it has not been responded, please keep waiting. You can write us through the same request if you’d like to contact us again."
+        "Açık bir destek talebiniz bulunmaktadır. Talebiniz henüz yanıtlanmadıysa lütfen beklemeye devam ediniz. Tekrar iletişime geçmek isterseniz aynı talep üzerinden bize tekrar yazabilirsiniz"
     var button_text_color = "#FFFFFF"
     var description_color = "#868686"
     var button_border_color = "#58B0FA"
@@ -19,7 +19,7 @@ class Desk360ScreenFirst  {
     var button_text_font_size = 18
     var description_font_size = 15
     var sub_title_font_weight = 600
-    var button_background_color = "#FA7F26"
+    var button_background_color = "#58b0fa"
     var button_shadow_is_hidden = false
     var button_text_font_weight = 600
     var description_font_weight = 400

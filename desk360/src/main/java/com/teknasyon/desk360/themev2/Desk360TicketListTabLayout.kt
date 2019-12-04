@@ -12,11 +12,6 @@ class Desk360TicketListTabLayout : TabLayout {
 
         this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
         this.setSelectedTabIndicatorColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_active_border_color))
-        this.setTabTextColors(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_color),
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color)
-        )
-
     }
 
     constructor(context: Context) : super(context)

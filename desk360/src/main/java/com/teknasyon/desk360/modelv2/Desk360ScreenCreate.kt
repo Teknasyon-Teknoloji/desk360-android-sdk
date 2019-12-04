@@ -2,12 +2,12 @@ package com.teknasyon.desk360.modelv2
 
 class Desk360ScreenCreate {
 
-    var title = "Contact Us"
-    var button_text = "Send"
+    var title = "Bize Ulaşın"
+    var button_text = "Gönder"
     var form_style_id = 1
     var button_style_id = 1
     var bottom_note_text =
-        "You have a pending support request. If it has not been responded please keep waiting. You can write us through the same request if you’d like to contact us again."
+        "Açık bir destek talebiniz bulunmaktadır. Talebiniz henüz yanıtlanmadıysa lütfen beklemeye devam ediniz. Tekrar iletişime geçmek isterseniz aynı talep üzerinden bize tekrar yazabilirsiniz"
     var form_input_color = "#A6A6A8"
     var label_text_color = "#2E86CF"
     var button_text_color = "#FFFFFF"

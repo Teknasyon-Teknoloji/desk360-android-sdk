@@ -3,16 +3,24 @@ package com.teknasyon.desk360.view.fragment
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.Navigation
+import com.google.android.material.tabs.TabLayout
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
 import com.teknasyon.desk360.helper.Desk360CustomStyle
@@ -60,11 +68,88 @@ open class Desk360TicketListFragment : Fragment() {
                 .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
         }
 
-        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding!!.emptysAddNewTicketButtonTicketList,context!!)
-        Desk360CustomStyle.setFontWeight(binding!!.emptyListLayoutTicketListSubTitle,context,Desk360Constants.currentType?.data?.first_screen?.sub_title_font_weight)
-        Desk360CustomStyle.setFontWeight(binding!!.emptyListLayoutTicketListDesc,context,Desk360Constants.currentType?.data?.first_screen?.description_font_weight)
-        Desk360CustomStyle.setFontWeight(binding!!.txtOpenMessageFormTicketList,context,Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight)
-        Desk360CustomStyle.setFontWeight(binding!!.txtBottomFooterMainTicketList,context,Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight)
+
+        for (i in 0 until binding?.ticketsTabs?.tabCount!!) {
+
+            val tabItem = LayoutInflater.from(context).inflate(
+                R.layout.desk360_toolbar_title_text,
+                null
+            ) as TextView
+
+            tabItem.textSize =
+                Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_font_size?.toFloat()!!
+            Desk360CustomStyle.setFontWeight(
+                tabItem,
+                context,
+                Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_font_weight
+            )
+
+            if (i == 0) {
+                tabItem.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color))
+            }
+
+            binding?.ticketsTabs?.getTabAt(i)?.customView = tabItem
+        }
+
+        binding?.ticketsTabs?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                val customView = tab?.customView as TextView?
+                (customView?.findViewById(android.R.id.text1) as TextView).setTextColor(
+                    Color.parseColor(
+                        Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color
+                    )
+                )
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                val customView = tab?.customView as TextView?
+                (customView?.findViewById(android.R.id.text1) as TextView).setTextColor(
+                    Color.parseColor(
+                        Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_color
+                    )
+                )
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab?.customView != null) {
+                    val customView = tab.customView as TextView?
+                    (customView?.findViewById(android.R.id.text1) as TextView).setTextColor(
+                        Color.parseColor(
+                            Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color
+                        )
+                    )
+                }
+
+            }
+
+        })
+
+
+        Desk360CustomStyle.setStyle(
+            Desk360Constants.currentType?.data?.first_screen?.button_style_id,
+            binding!!.emptysAddNewTicketButtonTicketList,
+            context!!
+        )
+        Desk360CustomStyle.setFontWeight(
+            binding!!.emptyListLayoutTicketListSubTitle,
+            context,
+            Desk360Constants.currentType?.data?.first_screen?.sub_title_font_weight
+        )
+        Desk360CustomStyle.setFontWeight(
+            binding!!.emptyListLayoutTicketListDesc,
+            context,
+            Desk360Constants.currentType?.data?.first_screen?.description_font_weight
+        )
+        Desk360CustomStyle.setFontWeight(
+            binding!!.txtOpenMessageFormTicketList,
+            context,
+            Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight
+        )
+        Desk360CustomStyle.setFontWeight(
+            binding!!.txtBottomFooterMainTicketList,
+            context,
+            Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
+        )
 
         binding!!.firstScreenButtonIcon.setImageResource(R.drawable.zarf)
         binding!!.firstScreenButtonIcon.setColorFilter(

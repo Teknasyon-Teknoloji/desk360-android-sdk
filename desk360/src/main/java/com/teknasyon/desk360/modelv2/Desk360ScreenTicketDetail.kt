@@ -1,8 +1,8 @@
 package com.teknasyon.desk360.modelv2
 
 class Desk360ScreenTicketDetail {
-    var title = "My Support Requests"
-    var button_text = "Create a new request"
+    var title = "Destek Taleplerim"
+    var button_text = "Yeni Talep Ekle"
     var chat_box_style = 1
     var button_style_id = 1
     var button_text_color = "#FFFFFF"
@@ -31,8 +31,10 @@ class Desk360ScreenTicketDetail {
     var chat_receiver_shadow_is_hidden = false
     var write_message_background_color = "#FFFFFF"
     var write_message_button_icon_color = "#58B0FA"
-    var write_message_place_holder_text = "Write message"
+    var write_message_place_holder_text = "Mesaj Yaz"
     var write_message_place_holder_color = "#9298B1"
     var write_message_border_active_color = "#000000"
+    var write_message_button_background_color =  "#ffffff"
+    var write_message_button_background_disable_color = "#ffffff"
     var write_message_button_icon_disable_color = "#D0D0D0"
 }
