@@ -30,7 +30,8 @@ object Desk360Constants {
         app_key: String,
         app_version: String,
         baseURL: String? = "http://teknasyon.desk360.com/",
-        device_token: String? = null
+        device_token: String? = null,
+        app_language: String = ""
     ): Boolean {
 
         if (app_key == "")
@@ -45,6 +46,7 @@ object Desk360Constants {
         if (time_zone == "")
             return false
 
+
         if (baseURL == "")
             return false
 
@@ -52,7 +54,11 @@ object Desk360Constants {
             Desk360Config.instance.getDesk360Preferences()?.adId = device_token
         this.app_key = app_key
         this.app_version = app_version
-        this.language_code = Locale.getDefault().language
+        if (app_language == "") {
+            this.language_code = Locale.getDefault().language
+        }else{
+            this.language_code=app_language
+        }
         this.time_zone = TimeZone.getDefault().id
         this.baseURL = baseURL
         GetTypesViewModel()

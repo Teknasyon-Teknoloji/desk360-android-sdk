@@ -7,6 +7,7 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
@@ -30,9 +31,6 @@ class Desk360TicketListAdapter(
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val detail = ticketList[position]
-        val lastMessage = detail.messages?.get(detail.messages!!.size - 1)
-
         with(holder.itemView) {
             ticket_subject.text = ticketList[position].message
             ticket_date.text = ticketList[position].created
@@ -47,24 +45,24 @@ class Desk360TicketListAdapter(
                     )
                     ticket_subject.setTypeface(null, Typeface.BOLD)
                 }
-                else -> {
+                "read" -> {
                     ticket_subject.setTypeface(null, Typeface.NORMAL)
                     message_status.setBackgroundResource(R.drawable.message_icon_read)
                     message_status.background?.setColorFilter(
                         Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_icon_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
-//                    if(lastMessage?.is_answer == false){
-//                        message_status.visibility=View.VISIBLE
-//
-//                    }else{
-//                        message_status.visibility=View.INVISIBLE
-//                    }
-
+                }
+                else -> {
+                    message_status.visibility=View.INVISIBLE
                 }
             }
 
-            Desk360CustomStyle.setStyleTicket(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_type,ticket_item_root_layout,context!!)
+            Desk360CustomStyle.setStyleTicket(
+                Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_type,
+                ticket_item_root_layout,
+                context!!
+            )
 
             setOnClickListener {
                 clickItem?.selectTicket(ticketList[position], position)
