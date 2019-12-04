@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
             device_token = "desktes12"
         )
 
-
-
         startActivity(Intent(this, Desk360BaseActivity::class.java))
     }
 }

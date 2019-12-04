@@ -190,13 +190,13 @@ open class Desk360AddNewTicketFragment : Fragment(),
             validateAllField()
         }
 
-        binding.fileNameIcon.setOnClickListener{
-            file=null
-            binding.fileNameIcon.visibility=View.INVISIBLE
-            binding.fileNameTextCreateTicketScreen.visibility=View.INVISIBLE
+        binding.fileNameIcon.setOnClickListener {
+            file = null
+            binding.fileNameIcon.visibility = View.INVISIBLE
+            binding.fileNameTextCreateTicketScreen.visibility = View.INVISIBLE
         }
-        binding.fileNameTextCreateTicketScreen.visibility=View.INVISIBLE
-        binding.fileNameIcon.visibility=View.INVISIBLE
+        binding.fileNameTextCreateTicketScreen.visibility = View.INVISIBLE
+        binding.fileNameIcon.visibility = View.INVISIBLE
 
         binding.textPathCreateTicketScreen.setOnClickListener {
             val bottomDialog = Desk360BottomSheetDialogFragment(this)
@@ -471,16 +471,17 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     }
                 }
 
-               if(file?.exists() == true){
-                   fileName?.length?.let {
-                       if(it > 10){
-                           binding.fileNameTextCreateTicketScreen.text= fileName?.substring(0,8) + "..."
-                       }else{
-                           binding.fileNameTextCreateTicketScreen.text=fileName
-                       }
-                       binding.fileNameTextCreateTicketScreen.visibility=View.VISIBLE
-                       binding.fileNameIcon.visibility=View.VISIBLE
-                   }
+                if (file?.exists() == true) {
+                    fileName?.length?.let {
+                        if (it > 10) {
+                            binding.fileNameTextCreateTicketScreen.text =
+                                fileName?.substring(0, 8) + "..."
+                        } else {
+                            binding.fileNameTextCreateTicketScreen.text = fileName
+                        }
+                        binding.fileNameTextCreateTicketScreen.visibility = View.VISIBLE
+                        binding.fileNameIcon.visibility = View.VISIBLE
+                    }
 
                 }
 
@@ -590,7 +591,18 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         val spinner = Spinner(context)
         editTextStyleModel?.let { spinner.setDesk360SpinnerStyle(it) }
-        textInputLayoutSpinner.addView(spinner)
+        spinner.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        val strokeView = LinearLayout(context)
+        strokeView.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        editTextStyleModel?.let { strokeView.setStroke(it) }
+        strokeView.addView(spinner)
+        textInputLayoutSpinner.addView(strokeView)
 
         when (editTextStyleModel?.form_style_id) {
             3 -> {
@@ -683,7 +695,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     )
 
     private fun validateAllField() {
-        binding.loadingProgress.visibility=View.VISIBLE
+        binding.loadingProgress.visibility = View.VISIBLE
         if (nameFieldFill && emailFieldFill && messageLength > 0) {
             var isExistEmptyCustomField = false
             for (i in 0 until customInputViewList.size) {
@@ -976,14 +988,12 @@ fun TextInputEditText.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
     this.setPadding(24, 24, 24, 24)
 }
 
-fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
-    this.setPadding(24, 20, 24, 20)
+fun LinearLayout.setStroke(style: Desk360ScreenCreate) {
+    this.setPadding(24, 16, 0, 16)
     when (style.form_style_id) {
         1 -> {
             //line
-            this.setPadding(0, 10, 24, 0)
         }
-
         2 -> {
             val gd = GradientDrawable()
             gd.setColor(Color.TRANSPARENT)
@@ -992,11 +1002,12 @@ fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
             this.background = gd
             //box
         }
-
         else -> {
             //shadow
         }
     }
+}
 
+fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
     this.isActivated = style.added_file_is_hidden
 }
