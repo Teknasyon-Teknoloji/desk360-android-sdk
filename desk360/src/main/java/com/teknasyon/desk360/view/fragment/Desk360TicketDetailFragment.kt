@@ -87,7 +87,7 @@ open class Desk360TicketDetailFragment : Fragment() {
         viewModel = ticketId?.let { TicketDetailViewModel(it) }
         viewModel?.ticketDetailList?.observe(this, observer)
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
-        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_style_id,binding!!.addNewTicketButton,context!!)
+        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding!!.addNewTicketButton,context!!)
         binding?.addNewMessageButton?.setOnClickListener {
             binding?.messageEditText?.text?.trim()?.apply {
                 if (isNotEmpty() && toString().isNotEmpty()) {
@@ -103,11 +103,11 @@ open class Desk360TicketDetailFragment : Fragment() {
         }
         binding?.ticketDetailButtonIcon?.setImageResource(R.drawable.zarf)
         binding?.ticketDetailButtonIcon?.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_color),
+            Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
-        Desk360CustomStyle.setFontWeight(binding!!.ticketDetailButtonText,context,Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_font_weight)
+        Desk360CustomStyle.setFontWeight(binding!!.ticketDetailButtonText,context,Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight)
         gradientDrawable.setStroke(2, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_background_color))
 

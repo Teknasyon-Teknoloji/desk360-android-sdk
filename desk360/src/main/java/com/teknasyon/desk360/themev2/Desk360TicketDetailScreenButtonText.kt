@@ -10,9 +10,9 @@ class Desk360TicketDetailScreenButtonText : TextView {
 
     init {
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_color))
-        this.text = Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text
-        this.textSize = Desk360Constants.currentType?.data?.ticket_detail_screen?.button_text_font_size!!.toFloat()
+        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color))
+        this.text = Desk360Constants.currentType?.data?.first_screen?.button_text
+        this.textSize = Desk360Constants.currentType?.data?.first_screen?.button_text_font_size!!.toFloat()
     }
 
 

@@ -10,7 +10,7 @@ class Desk360TicketDetailScreenButtonIcon  : ImageView {
 
 
     init {
-        if (Desk360Constants.currentType?.data?.ticket_detail_screen?.button_icon_is_hidden != true) {
+        if (Desk360Constants.currentType?.data?.first_screen?.button_icon_is_hidden == true) {
             this.visibility= View.VISIBLE
         } else {
             this.visibility= View.INVISIBLE

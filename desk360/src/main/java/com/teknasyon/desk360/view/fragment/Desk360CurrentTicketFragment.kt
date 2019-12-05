@@ -80,7 +80,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         binding.viewModelList=viewModel
         binding.imageEmptyCurrent.setImageResource(R.drawable.no_expired_ticket_list_icon)
         binding.imageEmptyCurrent.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_icon_color),
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color),
             PorterDuff.Mode.SRC_ATOP
         )
 

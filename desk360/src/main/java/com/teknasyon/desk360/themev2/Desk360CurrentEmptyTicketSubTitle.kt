@@ -10,7 +10,7 @@ class Desk360CurrentEmptyTicketSubTitle : TextView {
 
     init {
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_text_color))
+        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_color))
         this.text = Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_current_text
 
     }

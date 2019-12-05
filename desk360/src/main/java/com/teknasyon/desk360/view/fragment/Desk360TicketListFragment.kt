@@ -93,8 +93,8 @@ open class Desk360TicketListFragment : Fragment() {
 
         binding?.ticketsTabs?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                val customView = tab?.customView as TextView?
-                (customView?.findViewById(android.R.id.text1) as TextView).setTextColor(
+                val customView = tab?.customView
+                (customView?.findViewById(android.R.id.text1) as? TextView)?.setTextColor(
                     Color.parseColor(
                         Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color
                     )
@@ -102,8 +102,8 @@ open class Desk360TicketListFragment : Fragment() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                val customView = tab?.customView as TextView?
-                (customView?.findViewById(android.R.id.text1) as TextView).setTextColor(
+                val customView = tab?.customView
+                (customView?.findViewById(android.R.id.text1) as? TextView)?.setTextColor(
                     Color.parseColor(
                         Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_color
                     )
@@ -112,8 +112,8 @@ open class Desk360TicketListFragment : Fragment() {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab?.customView != null) {
-                    val customView = tab.customView as TextView?
-                    (customView?.findViewById(android.R.id.text1) as TextView).setTextColor(
+                    val customView = tab.customView
+                    (customView?.findViewById(android.R.id.text1) as? TextView)?.setTextColor(
                         Color.parseColor(
                             Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color
                         )
