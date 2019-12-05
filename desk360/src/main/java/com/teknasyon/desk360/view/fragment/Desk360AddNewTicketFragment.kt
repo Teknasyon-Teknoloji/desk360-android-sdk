@@ -93,6 +93,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var nameFieldFill: Boolean = false
     private var emailFieldFill: Boolean = false
     private var messageFieldFill: Boolean = false
+    private var selectedItem: Boolean = false
     private var RESULT_LOAD_FILES = 1221
     var params: HashMap<String, RequestBody> = HashMap()
     var file: File? = null
@@ -276,6 +277,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     position: Int,
                     id: Long
                 ) {
+                    if (position == 0){
+                        selectedItem = false
+                        return
+                    }
+
+                    selectedItem=true
                     typeList?.let { it[position].let { it1 -> selectedTypeId = it1.id!! } }
                     (subjectTypeSpinner?.selectedView as TextView).setTextColor(
                         Color.parseColor(editTextStyleModel?.form_input_focus_color ?: "#000000")
@@ -695,50 +702,50 @@ open class Desk360AddNewTicketFragment : Fragment(),
     )
 
     private fun validateAllField() {
-        if (nameFieldFill && emailFieldFill && messageLength > 0) {
-            var isExistEmptyCustomField = false
+        if (nameFieldFill && emailFieldFill && messageLength > 0 && selectedItem) {
+//            var isExistEmptyCustomField = false
             for (i in 0 until customInputViewList.size) {
-                if (customInputViewList[i].text?.isNotEmpty() != true) {
-                    customInputViewList[i].isEnabled = true
-                    customInputViewList[i].requestFocus()
-                    customInputViewList[i].onKeyUp(
-                        KEYCODE_DPAD_CENTER,
-                        KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER)
-                    )
-                    isExistEmptyCustomField = true
-                    break
-                } else {
+//                if (customInputViewList[i].text?.isNotEmpty() != true) {
+//                    customInputViewList[i].isEnabled = true
+//                    customInputViewList[i].requestFocus()
+//                    customInputViewList[i].onKeyUp(
+//                        KEYCODE_DPAD_CENTER,
+//                        KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER)
+//                    )
+//                    isExistEmptyCustomField = true
+//                    break
+//                } else {
                     val customInputData = RequestBody.create(
                         MediaType.parse("text/plain"),
                         customInputViewList[i].text.toString()
                     )
                     params[customInputField[i].name.toString()] = customInputData
                 }
-            }
-            if (isExistEmptyCustomField) {
-                return
-            }
+//            }
+//            if (isExistEmptyCustomField) {
+//                return
+//            }
             for (i in customTextAreaViewList.indices) {
-                if (customTextAreaViewList[i].text?.isNotEmpty() != true) {
-                    customTextAreaViewList[i].isEnabled = true
-                    customTextAreaViewList[i].requestFocus()
-                    customTextAreaViewList[i].onKeyUp(
-                        KEYCODE_DPAD_CENTER,
-                        KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER)
-                    )
-                    isExistEmptyCustomField = true
-                    break
-                } else {
+//                if (customTextAreaViewList[i].text?.isNotEmpty() != true) {
+//                    customTextAreaViewList[i].isEnabled = true
+//                    customTextAreaViewList[i].requestFocus()
+//                    customTextAreaViewList[i].onKeyUp(
+//                        KEYCODE_DPAD_CENTER,
+//                        KeyEvent(ACTION_UP, KEYCODE_DPAD_CENTER)
+//                    )
+//                    isExistEmptyCustomField = true
+//                    break
+//                } else {
                     val customInputData = RequestBody.create(
                         MediaType.parse("text/plain"),
                         customTextAreaViewList[i].text.toString()
                     )
                     params[customTextAreaField[i].name.toString()] = customInputData
                 }
-            }
-            if (isExistEmptyCustomField) {
-                return
-            }
+//            }
+//            if (isExistEmptyCustomField) {
+//                return
+//            }
 
             val email = RequestBody.create(MediaType.parse("text/plain"), emailData!!)
             val name = RequestBody.create(MediaType.parse("text/plain"), nameData)
@@ -770,6 +777,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
             !emailFieldFill -> {
                 emailFieldFill = false
                 observerEMail()
+            }
+            !selectedItem -> {
+                selectedItem = false
+                 //
+                subjectTypeSpinner?.performClick()
             }
             messageLength <= 0 -> {
                 messageFieldFill = false
@@ -821,6 +833,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
 fun CardView.setDesk360CardViewStyle() {
     this.cardElevation = 20f
     this.radius = 8f
+    setBackgroundColor(
+        Color.parseColor(
+            Desk360Constants.currentType?.data?.create_screen?.form_input_background_color
+                ?: "#ffffff"
+        )
+    )
 }
 
 fun TextInputLayout.setDesk360InputStyle(style: Desk360ScreenCreate) {
@@ -990,7 +1008,7 @@ fun TextInputEditText.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
 }
 
 fun LinearLayout.setStroke(style: Desk360ScreenCreate) {
-    this.setPadding(24, 16, 0, 16)
+    this.setPadding(4, 16, 0, 16)
     when (style.form_style_id) {
         1 -> {
             //line
@@ -1011,4 +1029,10 @@ fun LinearLayout.setStroke(style: Desk360ScreenCreate) {
 
 fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
     this.isActivated = style.added_file_is_hidden
+    background.setColorFilter(
+        Color.parseColor(
+            Desk360Constants.currentType?.data?.create_screen?.label_text_color
+                ?: "#000000"
+        ), PorterDuff.Mode.SRC_IN
+    )
 }
