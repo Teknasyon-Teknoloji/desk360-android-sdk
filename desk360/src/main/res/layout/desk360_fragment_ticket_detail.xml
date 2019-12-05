@@ -93,7 +93,6 @@
                 android:layout_marginStart="26dp"
                 android:layout_marginLeft="26dp"
                 android:layout_weight="1"
-                android:backgroundTint="#cecece"
                 android:imeOptions="actionDone"
                 android:inputType="textCapSentences|textMultiLine"
                 android:isScrollContainer="true"

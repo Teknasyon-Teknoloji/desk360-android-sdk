@@ -1,9 +1,11 @@
 package com.teknasyon.desk360.view.fragment
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +14,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -77,7 +81,12 @@ open class Desk360TicketDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.desk360_fragment_ticket_detail, container, false)
+            DataBindingUtil.inflate(
+                inflater,
+                R.layout.desk360_fragment_ticket_detail,
+                container,
+                false
+            )
         return binding?.root
     }
 
@@ -87,7 +96,11 @@ open class Desk360TicketDetailFragment : Fragment() {
         viewModel = ticketId?.let { TicketDetailViewModel(it) }
         viewModel?.ticketDetailList?.observe(this, observer)
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
-        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding!!.addNewTicketButton,context!!)
+        Desk360CustomStyle.setStyle(
+            Desk360Constants.currentType?.data?.first_screen?.button_style_id,
+            binding!!.addNewTicketButton,
+            context!!
+        )
         binding?.addNewMessageButton?.setOnClickListener {
             binding?.messageEditText?.text?.trim()?.apply {
                 if (isNotEmpty() && toString().isNotEmpty()) {
@@ -107,8 +120,32 @@ open class Desk360TicketDetailFragment : Fragment() {
             PorterDuff.Mode.SRC_ATOP
         )
 
-        Desk360CustomStyle.setFontWeight(binding!!.ticketDetailButtonText,context,Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight)
-        gradientDrawable.setStroke(2, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
+
+        DrawableCompat.setTint(binding!!.messageEditText.background, ContextCompat.getColor(context!!,R.color.colorHintDesk360 ))
+
+
+        val states = arrayOf(
+            intArrayOf(android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_enabled)
+        )
+
+        val colors = intArrayOf(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_active_color),
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color)
+        )
+
+
+        val myList =  ColorStateList(states, colors)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            binding!!.messageEditText.backgroundTintList = myList
+        }
+
+        Desk360CustomStyle.setFontWeight(
+            binding!!.ticketDetailButtonText,
+            context,
+            Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight
+        )
+
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_background_color))
 
         binding?.addNewMessageButton?.setImageResource(R.drawable.message_send_icon_blue)
@@ -120,30 +157,31 @@ open class Desk360TicketDetailFragment : Fragment() {
             View.OnFocusChangeListener { v, hasFocus ->
 
                 if (hasFocus) {
-                    gradientDrawable.setStroke(2, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_active_color))
+                 //   binding!!.messageEditText.setHintTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_active_color))
                 } else {
-                    gradientDrawable.setStroke(2, Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
-
+               //     binding!!.messageEditText.setHintTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
                 }
 
             }
 
-        binding?.messageEditText?.addTextChangedListener(object : TextWatcher{
+
+
+        binding?.messageEditText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                Log.d("addTextChangedListener","afterTextChanged")
+                Log.d("addTextChangedListener", "afterTextChanged")
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Log.d("addTextChangedListener","beforeTextChanged")
+                Log.d("addTextChangedListener", "beforeTextChanged")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s?.length == 0){
+                if (s?.length == 0) {
                     binding?.addNewMessageButton?.setColorFilter(
                         Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
-                }else{
+                } else {
                     binding?.addNewMessageButton?.setColorFilter(
                         Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_color),
                         PorterDuff.Mode.SRC_ATOP
