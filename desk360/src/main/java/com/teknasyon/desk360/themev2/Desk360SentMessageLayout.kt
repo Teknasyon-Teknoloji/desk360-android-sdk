@@ -37,22 +37,22 @@ class Desk360SentMessageLayout : TextView {
 
         }
 
-        if(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_shadow_is_hidden!=true){
+        if(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_shadow_is_hidden!=true){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 this.elevation=20f
             }
         }
 
         this.background.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_background_color),
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_background_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_text_color))
+        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_text_color))
         this.textSize =
-            Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_font_size!!.toFloat()
+            Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_font_size!!.toFloat()
 
-        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_font_weight) {
+        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_font_weight) {
             100 -> {
                 val face = Typeface.createFromAsset(context?.assets, "Montserrat-Thin.ttf")
                 this.typeface = face

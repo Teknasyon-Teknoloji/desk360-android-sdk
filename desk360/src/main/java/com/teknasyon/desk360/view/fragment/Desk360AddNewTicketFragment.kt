@@ -219,7 +219,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         /**
          * name filed
          */
-        nameField = createEditText("Name")
+        nameField = createEditText(Desk360Constants.currentType?.data?.general_settings?.name_field_text.toString())
         nameField?.setLines(1)
         nameField?.setSingleLine(true)
         nameField?.imeOptions = EditorInfo.IME_ACTION_NEXT
@@ -236,7 +236,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         /**
          * email filed
          */
-        eMailField = createEditText("Email")
+        eMailField = createEditText(Desk360Constants.currentType?.data?.general_settings?.email_field_text.toString())
         eMailField?.setLines(1)
         eMailField?.setSingleLine(true)
         eMailField?.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
@@ -347,7 +347,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         /**
          * message filed
          */
-        messageField = createCustomTextArea("Message")
+        messageField = createCustomTextArea(Desk360Constants.currentType?.data?.general_settings?.message_field_text.toString())
         messageField?.maxLines = 6
         messageField?.minLines = 6
 
@@ -376,6 +376,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
             binding.createTicketButton,
             context!!
         )
+
+        binding.textPathCreateTicketScreen.text= Desk360Constants.currentType?.data?.general_settings?.add_file_text
 
         binding.pathIconn.setImageResource(R.drawable.path_icon_desk360)
         binding.pathIconn.setColorFilter(

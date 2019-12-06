@@ -69,7 +69,7 @@
                 android:paddingTop="16dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="16dp"
-                android:text="Dosya Seçiniz"
+                tools:text="Dosya Seçiniz"
                 app:layout_constraintStart_toEndOf="@+id/pathIconn"
                 app:layout_constraintTop_toBottomOf="@+id/create_screen_root_view"
                 tools:ignore="MissingConstraints"

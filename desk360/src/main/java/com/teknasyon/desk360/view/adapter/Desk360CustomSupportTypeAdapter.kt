@@ -47,7 +47,10 @@ class Desk360CustomSupportTypeAdapter(
         if(position==0){
             label.text = objects[0].value
             label.setTextColor(
-                Color.BLACK
+                Color.parseColor(
+                    Desk360Constants.currentType?.data?.create_screen?.form_input_color
+                        ?: "#000000"
+                )
             )
         }else{
             label.text = objects[position].value

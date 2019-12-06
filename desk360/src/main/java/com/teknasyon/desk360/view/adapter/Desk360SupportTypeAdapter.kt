@@ -47,7 +47,7 @@ class Desk360SupportTypeAdapter(
             label.text = Desk360Constants.currentType?.data?.general_settings?.subject_field_text
             label.setTextColor(
                 Color.parseColor(
-                    Desk360Constants.currentType?.data?.create_screen?.label_text_color
+                    Desk360Constants.currentType?.data?.create_screen?.form_input_color
                         ?: "#000000"
                 )
             )

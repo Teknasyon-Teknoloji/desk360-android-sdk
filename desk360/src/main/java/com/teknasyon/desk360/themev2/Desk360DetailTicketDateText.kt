@@ -10,7 +10,7 @@ class Desk360DetailTicketDateText : TextView {
 
     init {
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_date_color))
+        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_date_color))
 
     }
 
