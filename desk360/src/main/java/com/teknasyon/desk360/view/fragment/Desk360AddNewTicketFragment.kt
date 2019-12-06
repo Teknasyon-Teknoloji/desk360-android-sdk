@@ -47,6 +47,7 @@ import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.ImageFilePath
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.modelv2.Desk360CustomFields
+import com.teknasyon.desk360.modelv2.Desk360Options
 import com.teknasyon.desk360.modelv2.Desk360ScreenCreate
 import com.teknasyon.desk360.view.adapter.Desk360CustomSupportTypeAdapter
 import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
@@ -277,12 +278,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     position: Int,
                     id: Long
                 ) {
-                    if (position == 0){
+                    if (position == 0) {
                         selectedItem = false
                         return
                     }
 
-                    selectedItem=true
+                    selectedItem = true
                     typeList?.let { it[position].let { it1 -> selectedTypeId = it1.id!! } }
                     (subjectTypeSpinner?.selectedView as TextView).setTextColor(
                         Color.parseColor(editTextStyleModel?.form_input_focus_color ?: "#000000")
@@ -292,15 +293,18 @@ open class Desk360AddNewTicketFragment : Fragment(),
         for (i in customSelectBoxField.indices) {
             customSelectBoxViewList.add(
                 createSpinner().also {
-                    val customSelectBoxId = RequestBody.create(
-                        MediaType.parse("text/plain"),
-                        customSelectBoxField[i].options?.get(0)?.order.toString()
+                    val optionsList = arrayListOf<Desk360Options>()
+                    optionsList.add(
+                        Desk360Options(
+                            value = customSelectBoxField[i].place_holder,
+                            order = -1
+                        )
                     )
-                    params[customSelectBoxField[i].id.toString()] = customSelectBoxId
+                    customSelectBoxField[i].options?.let { it1 -> optionsList.addAll(it1) }
 
                     val myAdapter =
                         context?.let { it1 ->
-                            customSelectBoxField[i].options?.let { customSelectBoxField ->
+                            optionsList.let { customSelectBoxField ->
                                 Desk360CustomSupportTypeAdapter(
                                     it1,
                                     R.layout.desk360_type_dropdown,
@@ -715,12 +719,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
 //                    isExistEmptyCustomField = true
 //                    break
 //                } else {
-                    val customInputData = RequestBody.create(
-                        MediaType.parse("text/plain"),
-                        customInputViewList[i].text.toString()
-                    )
-                    params[customInputField[i].name.toString()] = customInputData
-                }
+                val customInputData = RequestBody.create(
+                    MediaType.parse("text/plain"),
+                    customInputViewList[i].text.toString()
+                )
+                params[customInputField[i].name.toString()] = customInputData
+            }
 //            }
 //            if (isExistEmptyCustomField) {
 //                return
@@ -736,12 +740,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
 //                    isExistEmptyCustomField = true
 //                    break
 //                } else {
-                    val customInputData = RequestBody.create(
-                        MediaType.parse("text/plain"),
-                        customTextAreaViewList[i].text.toString()
-                    )
-                    params[customTextAreaField[i].name.toString()] = customInputData
-                }
+                val customInputData = RequestBody.create(
+                    MediaType.parse("text/plain"),
+                    customTextAreaViewList[i].text.toString()
+                )
+                params[customTextAreaField[i].name.toString()] = customInputData
+            }
 //            }
 //            if (isExistEmptyCustomField) {
 //                return
@@ -780,7 +784,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             }
             !selectedItem -> {
                 selectedItem = false
-                 //
+                //
                 subjectTypeSpinner?.performClick()
             }
             messageLength <= 0 -> {

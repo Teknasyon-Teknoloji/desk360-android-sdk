@@ -44,13 +44,21 @@ class Desk360CustomSupportTypeAdapter(
             )
         )
         val label = row.findViewById<View>(R.id.dropdown) as TextView
-        label.text = objects[position].value
-        label.setTextColor(
-            Color.parseColor(
-                Desk360Constants.currentType?.data?.create_screen?.form_input_focus_color
-                    ?: "#000000"
+        if(position==0){
+            label.text = objects[0].value
+            label.setTextColor(
+                Color.BLACK
             )
-        )
+        }else{
+            label.text = objects[position].value
+            label.setTextColor(
+                Color.parseColor(
+                    Desk360Constants.currentType?.data?.create_screen?.form_input_focus_color
+                        ?: "#000000"
+                )
+            )
+        }
+
         return row
     }
 }
