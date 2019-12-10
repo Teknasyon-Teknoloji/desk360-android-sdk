@@ -219,7 +219,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
         /**
          * name filed
          */
-        nameField = createEditText(Desk360Constants.currentType?.data?.general_settings?.name_field_text.toString())
+        nameField =
+            createEditText(Desk360Constants.currentType?.data?.general_settings?.name_field_text.toString())
         nameField?.setLines(1)
         nameField?.setSingleLine(true)
         nameField?.imeOptions = EditorInfo.IME_ACTION_NEXT
@@ -236,7 +237,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
         /**
          * email filed
          */
-        eMailField = createEditText(Desk360Constants.currentType?.data?.general_settings?.email_field_text.toString())
+        eMailField =
+            createEditText(Desk360Constants.currentType?.data?.general_settings?.email_field_text.toString())
         eMailField?.setLines(1)
         eMailField?.setSingleLine(true)
         eMailField?.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
@@ -347,7 +349,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
         /**
          * message filed
          */
-        messageField = createCustomTextArea(Desk360Constants.currentType?.data?.general_settings?.message_field_text.toString())
+        messageField =
+            createCustomTextArea(Desk360Constants.currentType?.data?.general_settings?.message_field_text.toString())
         messageField?.maxLines = 6
         messageField?.minLines = 6
 
@@ -377,7 +380,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
             context!!
         )
 
-        binding.textPathCreateTicketScreen.text= Desk360Constants.currentType?.data?.general_settings?.add_file_text
+        binding.textPathCreateTicketScreen.text =
+            Desk360Constants.currentType?.data?.general_settings?.add_file_text
 
         binding.pathIconn.setImageResource(R.drawable.path_icon_desk360)
         binding.pathIconn.setColorFilter(
@@ -845,6 +849,8 @@ fun CardView.setDesk360CardViewStyle() {
                 ?: "#ffffff"
         )
     )
+
+
 }
 
 fun TextInputLayout.setDesk360InputStyle(style: Desk360ScreenCreate) {
@@ -881,11 +887,49 @@ fun TextInputLayout.setDesk360InputStyle(style: Desk360ScreenCreate) {
             Color.parseColor(style.form_input_focus_color)
         )
     )
+
+
+    val colorStateList2 = ColorStateList(
+        arrayOf(
+            intArrayOf(-android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_drag_hovered),
+            intArrayOf(-android.R.attr.state_hovered),
+            intArrayOf(android.R.attr.state_active)
+        ),
+        intArrayOf(
+            Color.parseColor(style.form_input_border_color),
+            Color.parseColor(style.label_text_color),
+            Color.parseColor(style.label_text_color),
+            Color.parseColor(style.label_text_color),
+            Color.parseColor(style.label_text_color)
+        )
+    )
+
+    val colorStateList3 = ColorStateList(
+        arrayOf(
+            intArrayOf(-android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_drag_hovered),
+            intArrayOf(-android.R.attr.state_hovered),
+            intArrayOf(android.R.attr.state_active)
+        ),
+        intArrayOf(
+            Color.parseColor(style.form_input_color),
+            Color.parseColor(style.form_input_focus_color),
+            Color.parseColor(style.form_input_focus_color),
+            Color.parseColor(style.form_input_focus_color),
+            Color.parseColor(style.form_input_focus_color)
+        )
+    )
+
+
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         this.backgroundTintList = colorStateList
     }
-    this.defaultHintTextColor = colorStateList
-    this.hintTextColor = colorStateList
+    this.defaultHintTextColor = colorStateList3
+    this.hintTextColor = colorStateList2
     this.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_NONE
 
     when (style.form_style_id) {
@@ -939,6 +983,23 @@ fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
             Color.parseColor(style.form_input_focus_color)
         )
     )
+    val colorStateList2 = ColorStateList(
+        arrayOf(
+            intArrayOf(-android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_drag_hovered),
+            intArrayOf(-android.R.attr.state_hovered),
+            intArrayOf(android.R.attr.state_active)
+        ),
+        intArrayOf(
+            Color.parseColor(style.form_input_border_color),
+            Color.parseColor(style.label_text_color),
+            Color.parseColor(style.label_text_color),
+            Color.parseColor(style.label_text_color),
+            Color.parseColor(style.label_text_color)
+        )
+    )
+
     val colorHintStateList = ColorStateList(
         arrayOf(
             intArrayOf(-android.R.attr.state_focused),
@@ -953,7 +1014,7 @@ fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         this.backgroundTintList = colorStateList
     }
-    this.hintTextColor = colorHintStateList
+    this.hintTextColor = colorStateList2
 
     when (style.form_style_id) {
         3 -> {

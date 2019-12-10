@@ -86,6 +86,8 @@ open class Desk360TicketListFragment : Fragment() {
 
             if (i == 0) {
                 tabItem.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color))
+            }else{
+                tabItem.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_color))
             }
 
             binding?.ticketsTabs?.getTabAt(i)?.customView = tabItem
