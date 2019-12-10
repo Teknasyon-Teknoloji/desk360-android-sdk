@@ -36,6 +36,7 @@ android {
         outputFormat = 'gfm'
         outputDirectory = "$buildDir/javadoc"
     }
+    resourcePrefix("DESK360_")
 }
 
 dependencies {
