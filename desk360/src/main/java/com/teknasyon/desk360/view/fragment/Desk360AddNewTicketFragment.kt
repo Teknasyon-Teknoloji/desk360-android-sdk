@@ -549,6 +549,16 @@ open class Desk360AddNewTicketFragment : Fragment(),
             cardView.layoutParams = rootParamsLayout
             cardView.setDesk360CardViewStyle()
             cardView.addView(textInputLayout)
+            cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_background_color))
+            textInputEditText.setOnFocusChangeListener { view, hasFocus ->
+
+                if (hasFocus || textInputEditText.text?.length ?: 0 > 0) {
+                    cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_focus_background_color))
+                } else {
+                    cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_background_color))
+                }
+
+            }
             binding.createScreenRootView.addView(cardView)
         } else {
             binding.createScreenRootView.addView(textInputLayout)
@@ -579,6 +589,16 @@ open class Desk360AddNewTicketFragment : Fragment(),
             cardView.layoutParams = rootParamsLayout
             cardView.setDesk360CardViewStyle()
             cardView.addView(textInputLayout)
+            cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_background_color))
+            textInputEditText.setOnFocusChangeListener { view, hasFocus ->
+                if (view.id == nameField?.id) {
+                    if (hasFocus) {
+                        cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_focus_background_color))
+                    } else {
+                        cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_background_color))
+                    }
+                }
+            }
             binding.createScreenRootView.addView(cardView)
         } else {
             binding.createScreenRootView.addView(textInputLayout)
@@ -842,15 +862,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
 fun CardView.setDesk360CardViewStyle() {
     this.cardElevation = 20f
-    this.radius = 8f
-    setBackgroundColor(
-        Color.parseColor(
-            Desk360Constants.currentType?.data?.create_screen?.form_input_background_color
-                ?: "#ffffff"
-        )
-    )
-
-
+    this.radius = 12f
 }
 
 fun TextInputLayout.setDesk360InputStyle(style: Desk360ScreenCreate) {
@@ -1045,10 +1057,10 @@ fun TextInputEditText.setDesk360InputStyle(style: Desk360ScreenCreate) {
                 ),
                 intArrayOf(
                     Color.parseColor(style.form_input_border_color),
-                    Color.parseColor(style.form_input_focus_color),
-                    Color.parseColor(style.form_input_focus_color),
-                    Color.parseColor(style.form_input_focus_color),
-                    Color.parseColor(style.form_input_focus_color)
+                    Color.parseColor(style.form_input_focus_border_color),
+                    Color.parseColor(style.form_input_focus_border_color),
+                    Color.parseColor(style.form_input_focus_border_color),
+                    Color.parseColor(style.form_input_focus_border_color)
                 )
             )
             supportBackgroundTintList = colorStateList
