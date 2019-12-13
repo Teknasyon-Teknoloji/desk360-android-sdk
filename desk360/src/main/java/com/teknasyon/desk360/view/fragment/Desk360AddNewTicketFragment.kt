@@ -11,6 +11,7 @@ import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputType
@@ -189,7 +190,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
 
         binding.createTicketButton?.setOnClickListener {
-            validateAllField()
+            binding.createTicketButton.isClickable = false
+            Handler().postDelayed({
+                binding.createTicketButton.isClickable = true
+                validateAllField()
+            }, 800)
         }
 
         binding.fileNameIcon.setOnClickListener {
@@ -591,12 +596,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
             cardView.addView(textInputLayout)
             cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_background_color))
             textInputEditText.setOnFocusChangeListener { view, hasFocus ->
-                if (view.id == nameField?.id) {
-                    if (hasFocus) {
-                        cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_focus_background_color))
-                    } else {
-                        cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_background_color))
-                    }
+                if (hasFocus || textInputEditText.text?.length ?: 0 > 0) {
+                    cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_focus_background_color))
+                } else {
+                    cardView.setCardBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_background_color))
                 }
             }
             binding.createScreenRootView.addView(cardView)
