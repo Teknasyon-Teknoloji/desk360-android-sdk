@@ -1,94 +1,25 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-
     </style>
-
-    <style name="LightTextLabel" parent="Widget.Design.TextInputLayout">
-        <item name="hintTextAppearance">@style/LightHintText</item>
-        <item name="android:textSize">16sp</item>
-        <item name="colorControlNormal">@color/light_theme_text_color</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/light_theme_box_stroke_color</item>
-        <item name="colorControlHighlight">@color/light_theme_box_stroke_color</item>
-        <item name="android:textColorHint">@color/light_theme_hint_color</item>
-        <item name="colorControlActivated">@color/light_theme_box_stroke_color</item>
-
-    </style>
-
-    <style name="DarkTextLabel" parent="Widget.Design.TextInputLayout">
-        <item name="colorAccent">@color/white</item>
-        <item name="android:textColorHint">@color/dark_theme_hint_color2</item>
-        <item name="android:textSize">16sp</item>
-        <item name="hintTextAppearance">@style/DarkHintText</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorControlHighlight">@color/light_theme_box_stroke_color</item>
-        <item name="colorControlActivated">@color/light_theme_box_stroke_color</item>
-    </style>
-
     <style name="DarkHintText" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/dark_theme_hint_color2</item>
         <item name="android:textSize">16sp</item>
     </style>
-
-
     <style name="LightHintText" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/dark_theme_hint_color2</item>
         <item name="android:textSize">16sp</item>
     </style>
-
     <style name="LightAccent" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorAccent">@color/white</item>
     </style>
-
     <style name="DarkAccent" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorAccent">@color/colorDesk360Type4Progress</item>
     </style>
-
-    <style name="LightThemeToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorAccent">@color/white</item>
-        <item name="colorControlNormal">#212121</item>
-    </style>
-
     <style name="DarkThemeToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">@color/dark_theme_toolbar_bg_color</item>
         <item name="colorAccent">@color/dark_theme_toolbar_bg_color</item>
         <item name="colorControlNormal">@color/white</item>
     </style>
-
-    <style name="spinnerTheme">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/colorDesk360TextHint</item>
-    </style>
-
-    <style name="input_type1" parent="Widget.Design.TextInputLayout">
-        <item name="colorAccent">@color/light_theme_box_stroke_color</item>
-        <item name="android:textColorHint">@color/light_theme_hint_color</item>
-        <item name="android:textSize">16sp</item>
-        <item name="hintTextAppearance">@style/LightHintText</item>
-        <item name="colorControlNormal">@color/light_theme_text_color</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorControlHighlight">@color/light_theme_box_stroke_color</item>
-        <item name="colorControlActivated">@color/light_theme_box_stroke_color</item>
-    </style>
-
-    <style name="input_type4" parent="Widget.Design.TextInputLayout">
-        <item name="colorAccent">@color/white</item>
-        <item name="android:textColorHint">@color/dark_theme_hint_color2</item>
-        <item name="android:textSize">16sp</item>
-        <item name="hintTextAppearance">@style/DarkHintText</item>
-        <item name="colorControlNormal">@color/dark_theme_hint_color2</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorControlHighlight">@color/light_theme_box_stroke_color</item>
-        <item name="colorControlActivated">@color/white</item>
-    </style>
-
 </resources>
