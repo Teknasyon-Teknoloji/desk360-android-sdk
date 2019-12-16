@@ -28,6 +28,7 @@ import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360Message
+import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.adapter.Desk360TicketDetailListAdapter
 import com.teknasyon.desk360.viewmodel.TicketDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -45,19 +46,19 @@ open class Desk360TicketDetailFragment : Fragment() {
     private val gradientDrawable = GradientDrawable()
     private var ticketId: Int? = null
     private var ticketStatus: String? = null
-
+    private var url : String?=null
     private var backButtonAction: Disposable? = null
 
-    private var observer = Observer<ArrayList<Desk360Message>> {
+    private var observer = Observer<Desk360TicketResponse> {
         binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
 
         if (it != null) {
-            ticketDetailAdapter = Desk360TicketDetailListAdapter(it)
+            ticketDetailAdapter = Desk360TicketDetailListAdapter(it.messages!!,it.attachment_url)
             val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             binding?.messageDetailRecyclerView?.apply {
                 this.layoutManager = layoutManager
                 adapter = ticketDetailAdapter
-                scrollToPosition(it.size - 1)
+                scrollToPosition(it.messages?.size!! - 1)
             }
         }
     }
@@ -66,9 +67,9 @@ open class Desk360TicketDetailFragment : Fragment() {
         binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
 
         if (it != null) {
-            viewModel?.ticketDetailList?.value?.add(it)
+            viewModel?.ticketDetailList?.value?.messages?.add(it)
             ticketDetailAdapter?.notifyDataSetChanged()
-            viewModel?.ticketDetailList?.value?.size?.minus(1)
+            viewModel?.ticketDetailList?.value?.messages?.size?.minus(1)
                 ?.let { it1 -> binding?.messageDetailRecyclerView?.scrollToPosition(it1) }
             binding?.messageEditText?.setText("")
         }
@@ -94,7 +95,13 @@ open class Desk360TicketDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
         viewModel = ticketId?.let { TicketDetailViewModel(it) }
+
+//        viewModel?.url_attachment?.observe(this, Observer {
+//            url=it
+//        })
+
         viewModel?.ticketDetailList?.observe(this, observer)
+
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
         Desk360CustomStyle.setStyle(
             Desk360Constants.currentType?.data?.first_screen?.button_style_id,

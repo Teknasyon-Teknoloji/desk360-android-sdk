@@ -1,5 +1,6 @@
 package com.teknasyon.desk360.view.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -11,7 +12,7 @@ import com.teknasyon.desk360.model.Desk360Message
 import kotlinx.android.synthetic.main.desk360_incoming_message_item_layout.view.*
 import kotlinx.android.synthetic.main.desk360_send_message_item_layout.view.*
 
-class Desk360TicketDetailListAdapter(private val ticketList: ArrayList<Desk360Message>) : RecyclerView.Adapter<Desk360TicketDetailListAdapter.ViewHolder>() {
+class Desk360TicketDetailListAdapter(private val ticketList: ArrayList<Desk360Message>,private val url :String?) : RecyclerView.Adapter<Desk360TicketDetailListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -29,6 +30,10 @@ class Desk360TicketDetailListAdapter(private val ticketList: ArrayList<Desk360Me
         if (holder.itemViewType == 1) {
             holder.itemView.message_send.text = message.message
             holder.itemView.date_send.text = message.created
+            if(url!=null ){
+
+            }
+
         } else {
             holder.itemView.message_incoming.text = message.message
             holder.itemView.date_incoming.text = message.created
