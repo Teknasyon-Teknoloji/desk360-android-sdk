@@ -1,4 +1,5 @@
 package com.teknasyon.desk360.helper
+
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
@@ -9,14 +10,17 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.teknasyon.desk360.modelv2.Desk360ScreenCreate
+
 class TextAreaViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
     var holder: MyHolder
     var view: View? = null
+
     inner class MyHolder {
         var textAreaLayout: TextInputLayout? = null
         var textAreaEditText: TextInputEditText? = null
         var textAreaCardView: CardView? = null
     }
+
     init {
         view = viewGroup.layoutInflater.inflate(
             com.teknasyon.desk360.R.layout.custom_textarea_layout,
@@ -30,6 +34,7 @@ class TextAreaViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
         holder.textAreaCardView = view?.findViewById(com.teknasyon.desk360.R.id.textarea_card_view)
         holder.textAreaCardView?.setCardBackgroundColor(Color.parseColor(style.form_input_background_color))
     }
+
     fun createEditText(hintText: String): View? {
         holder.textAreaLayout?.hint = hintText
         holder.textAreaEditText?.setDesk360TextAreaStyle(style)
@@ -49,20 +54,25 @@ class TextAreaViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
         when (style.form_style_id) {
             3 -> {
                 //shadow
+                holder.textAreaLayout?.setStroke(style)
                 holder.textAreaLayout?.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_NONE
             }
             else -> {
                 //box
+                holder.textAreaLayout?.setPadding(0, 0, 0, 0)
                 holder.textAreaLayout?.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
             }
         }
         return view
     }
 }
+
 fun TextInputEditText.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
-    this.inputType = InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE
+    this.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE
+    this.setPadding(16, 24, 16, 24)
     this.setTextColor(Color.parseColor(style.form_input_focus_color))
 }
+
 fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
     val states = arrayOf(
         intArrayOf(android.R.attr.state_focused),

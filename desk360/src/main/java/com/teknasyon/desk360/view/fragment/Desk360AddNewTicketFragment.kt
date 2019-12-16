@@ -3,6 +3,7 @@ package com.teknasyon.desk360.view.fragment
 import android.Manifest
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
@@ -13,13 +14,13 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
+import android.util.Patterns
 import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_UP
 import android.view.KeyEvent.KEYCODE_DPAD_CENTER
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.LinearLayout
@@ -47,7 +48,6 @@ import okhttp3.MediaType
 import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
-import java.util.regex.Pattern
 
 /**
  * Created by seyfullah on 30,May,2019
@@ -86,10 +86,16 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var emailFieldFill: Boolean = false
     private var messageFieldFill: Boolean = false
     private var selectedItem: Boolean = false
+
+    private var invalidEmail: Boolean = false
+
+
     private var RESULT_LOAD_FILES = 1221
     var params: HashMap<String, RequestBody> = HashMap()
     var file: File? = null
     var fileName: String? = null
+
+    private var errorLabelTextColor: ColorStateList? = null
 
     private val rootParamsLayout = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -183,7 +189,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             binding.createTicketButton.isClickable = false
             Handler().postDelayed({
                 binding.createTicketButton.isClickable = true
-            validateAllField()
+                validateAllField()
             }, 800)
         }
 
@@ -201,6 +207,14 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
 
         rootParamsLayout.setMargins(24, 24, 24, 24)
+        errorLabelTextColor = ColorStateList(
+            arrayOf(
+                intArrayOf()
+            ),
+            intArrayOf(
+                Color.parseColor(editTextStyleModel?.error_label_text_color)
+            )
+        )
 
         /**
          * find custom fields
@@ -374,6 +388,14 @@ open class Desk360AddNewTicketFragment : Fragment(),
             )
         )
 
+        nameField?.holder?.textInputLayout?.setErrorTextColor(errorLabelTextColor)
+        eMailField?.holder?.textInputLayout?.setErrorTextColor(errorLabelTextColor)
+        messageField?.holder?.textAreaLayout?.setErrorTextColor(errorLabelTextColor)
+
+        nameField?.holder?.textInputLayout?.boxStrokeErrorColor = errorLabelTextColor
+        eMailField?.holder?.textInputLayout?.boxStrokeErrorColor = errorLabelTextColor
+        messageField?.holder?.textAreaLayout?.boxStrokeErrorColor = errorLabelTextColor
+
         messageField?.holder?.textAreaEditText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -541,9 +563,13 @@ open class Desk360AddNewTicketFragment : Fragment(),
         nameData = s.toString().trim()
         nameFieldFill = when {
             s.isEmpty() -> {
+                nameField?.holder?.textInputLayout?.error = "Boşş"
+                nameField?.holder?.textInputLayout?.isErrorEnabled = true
                 false
             }
             else -> {
+                nameField?.holder?.textInputLayout?.isErrorEnabled = false
+                nameField?.holder?.textInputLayout?.error = null
                 true
             }
         }
@@ -552,9 +578,20 @@ open class Desk360AddNewTicketFragment : Fragment(),
     fun emailQuality(s: CharSequence) {
         emailData = s.toString().trim()
         emailFieldFill = when {
-            s.isEmpty() -> false
-            !checkEmail(email = s.toString()) -> false
+            s.isEmpty() -> {
+                false
+            }
+            !checkEmail(email = s.toString()) -> {
+                invalidEmail = true
+                eMailField?.holder?.textInputLayout?.isErrorEnabled = true
+                eMailField?.holder?.textInputLayout?.error = "Geçersiz email"
+                false
+            }
+
             else -> {
+                eMailField?.holder?.textInputLayout?.isErrorEnabled = false
+                eMailField?.holder?.textInputLayout?.error = null
+                invalidEmail = false
                 true
             }
         }
@@ -564,33 +601,31 @@ open class Desk360AddNewTicketFragment : Fragment(),
         messageData = s.toString().trim()
         messageLength = messageData!!.length
         messageFieldFill = when {
-            s.isEmpty() -> false
-            s.length < 3 -> false
+            s.isEmpty() -> {
+                messageField?.holder?.textAreaLayout?.error = "En az üç karakter olmalı"
+                messageField?.holder?.textAreaLayout?.isErrorEnabled = true
+                false
+            }
+            s.length < 3 -> {
+                messageField?.holder?.textAreaLayout?.error = "En az üç karakter olmalı"
+                messageField?.holder?.textAreaLayout?.isErrorEnabled = true
+                false
+            }
             else -> {
+                messageField?.holder?.textAreaLayout?.isErrorEnabled = false
+                messageField?.holder?.textAreaLayout?.error = null
                 true
             }
         }
     }
 
     private fun checkEmail(email: String): Boolean {
-        return EMAIL_ADDRESS_PATTERN.matcher(email).matches()
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
-
-
-    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
-        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-                "\\@" +
-                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-                "(" +
-                "\\." +
-                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-                ")+"
-    )
 
     private fun validateAllField() {
         if (nameFieldFill && emailFieldFill && messageLength > 0 && selectedItem) {
             for (i in 0 until customInputViewList.size) {
-
                 val customInputData = RequestBody.create(
                     MediaType.parse("text/plain"),
                     customInputViewList[i].holder.textInputEditText?.text.toString()
@@ -598,7 +633,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 params[customInputField[i].name.toString()] = customInputData
             }
             for (i in customTextAreaViewList.indices) {
-
                 val customInputData = RequestBody.create(
                     MediaType.parse("text/plain"),
                     customTextAreaViewList[i].holder.textAreaEditText?.text.toString()
@@ -613,7 +647,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
             val source = RequestBody.create(MediaType.parse("text/plain"), "App")
             val platform = RequestBody.create(MediaType.parse("text/plain"), "Android")
             val countryCode =
-                RequestBody.create(MediaType.parse("text/plain"), Desk360Constants.countryCode().toUpperCase())
+                RequestBody.create(
+                    MediaType.parse("text/plain"),
+                    Desk360Constants.countryCode().toUpperCase()
+                )
 
             params["name"] = name
             params["email"] = email
@@ -624,24 +661,29 @@ open class Desk360AddNewTicketFragment : Fragment(),
             params["country_code"] = countryCode
 
             binding.loadingProgress.visibility = View.VISIBLE
-
             viewModel?.addSupportTicket(params, file)
 
         } else when {
             !nameFieldFill -> {
+                nameField?.holder?.textInputLayout?.error = "Alan Boşşşş"
                 nameFieldFill = false
                 observerName()
             }
             !emailFieldFill -> {
+                if (invalidEmail)
+                    eMailField?.holder?.textInputLayout?.error = "Geçersiz Mail adresi"
+                else
+                    eMailField?.holder?.textInputLayout?.error = "Alan Boşşşş"
+
                 emailFieldFill = false
                 observerEMail()
             }
             !selectedItem -> {
                 selectedItem = false
-                //
                 subjectTypeSpinner?.holder?.selectBox?.performClick()
             }
             messageLength <= 0 -> {
+                messageField?.holder?.textAreaLayout?.error = "En az üç karakter olmalı"
                 messageFieldFill = false
                 observerMessage()
             }
@@ -649,13 +691,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
     override fun onButtonClicked(isClickedImage: Boolean) {
-
         Dexter.withActivity(activity)
             .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
             .withListener(object : PermissionListener {
                 override fun onPermissionGranted(response: PermissionGrantedResponse) {
                     if (isClickedImage) {
-
                         RESULT_LOAD_FILES = 1221
                         startActivityForResult(
                             Intent(

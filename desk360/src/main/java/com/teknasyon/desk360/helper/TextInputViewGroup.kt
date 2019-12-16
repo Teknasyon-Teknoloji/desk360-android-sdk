@@ -1,23 +1,30 @@
 package com.teknasyon.desk360.helper
+
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.teknasyon.desk360.modelv2.Desk360ScreenCreate
+
 class TextInputViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
     var holder: MyHolder
     var view: View? = null
+
     inner class MyHolder {
         var textInputLayout: TextInputLayout? = null
         var textInputEditText: TextInputEditText? = null
         var cardView: CardView? = null
     }
+
     init {
         view = viewGroup.layoutInflater.inflate(
             com.teknasyon.desk360.R.layout.custom_input_layout,
@@ -31,6 +38,7 @@ class TextInputViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
         holder.cardView = view?.findViewById(com.teknasyon.desk360.R.id.input_card_view)
         holder.cardView?.setCardBackgroundColor(Color.parseColor(style.form_input_background_color))
     }
+
     fun createEditText(hintText: String): View? {
         if (style.form_style_id == 2 || style.form_style_id == 1)
             holder.cardView?.visibility = View.INVISIBLE
@@ -41,14 +49,17 @@ class TextInputViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
         when (style.form_style_id) {
             1 -> {
                 //line
+                holder.textInputLayout?.setPadding(0, 0, 0, 0)
                 holder.textInputLayout?.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_NONE
             }
             2 -> {
                 //box
+                holder.textInputLayout?.setPadding(0, 0, 0, 0)
                 holder.textInputLayout?.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
             }
             else -> {
                 //shadow
+                holder.textInputLayout?.setStroke(style)
                 holder.textInputLayout?.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_NONE
             }
         }
@@ -63,6 +74,7 @@ class TextInputViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
         return view
     }
 }
+
 fun TextInputLayout.setDesk360InputStyle(style: Desk360ScreenCreate) {
     val states = arrayOf(
         intArrayOf(android.R.attr.state_focused),
@@ -145,25 +157,22 @@ fun TextInputLayout.setDesk360InputStyle(style: Desk360ScreenCreate) {
     }
     this.hintTextColor = colorHintStateListNormal
 }
+
+@SuppressLint("ClickableViewAccessibility")
 fun TextInputEditText.setDesk360InputStyle(style: Desk360ScreenCreate) {
     this.setTextColor(Color.parseColor(style.form_input_focus_color))
     this.imeOptions = EditorInfo.IME_ACTION_NEXT
     when (style.form_style_id) {
         1 -> {
             //line
+            this.setPadding(0, 24, 0, 24)
             val colorStateList = ColorStateList(
                 arrayOf(
                     intArrayOf(-android.R.attr.state_focused),
-                    intArrayOf(android.R.attr.state_focused),
-                    intArrayOf(android.R.attr.state_drag_hovered),
-                    intArrayOf(android.R.attr.state_hovered),
-                    intArrayOf(android.R.attr.state_active)
+                    intArrayOf(android.R.attr.state_focused)
                 ),
                 intArrayOf(
                     Color.parseColor(style.form_input_border_color),
-                    Color.parseColor(style.form_input_focus_border_color),
-                    Color.parseColor(style.form_input_focus_border_color),
-                    Color.parseColor(style.form_input_focus_border_color),
                     Color.parseColor(style.form_input_focus_border_color)
                 )
             )
@@ -171,12 +180,35 @@ fun TextInputEditText.setDesk360InputStyle(style: Desk360ScreenCreate) {
             supportBackgroundTintMode = PorterDuff.Mode.SRC_ATOP
         }
         2 -> {
-            this.background = null
             //box
+            this.setPadding(16, 24, 16, 24)
+            this.background = null
         }
         else -> {
             //shadow
             this.background = null
+        }
+    }
+}
+
+fun LinearLayout.setStroke(style: Desk360ScreenCreate) {
+    when (style.form_style_id) {
+        1 -> {
+            //line
+        }
+        2 -> {
+            //box
+        }
+        else -> {
+            //shadow
+            val gd = GradientDrawable()
+            gd.setColor(Color.TRANSPARENT)
+            gd.cornerRadius = 16f
+            if (isBaselineAligned) {
+                gd.setStroke(3, Color.parseColor(style.form_input_focus_border_color))
+            } else
+                gd.setStroke(3, Color.parseColor(style.form_input_border_color))
+            this.background = gd
         }
     }
 }
