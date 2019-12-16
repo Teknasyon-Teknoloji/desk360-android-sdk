@@ -22,4 +22,14 @@ class Desk360ScreenGeneralSettings : Serializable {
     var header_shadow_is_hidden = false
     var header_text_font_weight = 600
     var copyright_background_color = "#71717b"
+
+    var required_field_message = ""
+    var required_textarea_message = ""
+    var attachment_browse_text = ""
+    var attachment_images_text = ""
+    var attachment_cancel_text = ""
+    var gallery_permission_error_message = ""
+    var required_email_field_message = ""
+    var gallery_permission_error_button_text = ""
+
 }

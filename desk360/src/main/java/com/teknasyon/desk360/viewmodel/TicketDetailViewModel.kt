@@ -7,6 +7,7 @@ import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360MessageResponse
 import com.teknasyon.desk360.model.Desk360TickeMessage
+import com.teknasyon.desk360.model.Desk360TicketResponse
 import retrofit2.Call
 import retrofit2.Response
 
@@ -23,7 +24,8 @@ import retrofit2.Response
 
 open class TicketDetailViewModel(val ticketId: Int = -1) : ViewModel() {
 
-    var ticketDetailList: MutableLiveData<ArrayList<Desk360Message>>? = MutableLiveData()
+    var ticketDetailList: MutableLiveData<Desk360TicketResponse>? = MutableLiveData()
+//    var url_attachment: MutableLiveData<String> = MutableLiveData()
     var addMessageItem: MutableLiveData<Desk360Message> = MutableLiveData()
 
     init {
@@ -40,7 +42,7 @@ open class TicketDetailViewModel(val ticketId: Int = -1) : ViewModel() {
                     response: Response<Desk360TickeMessage>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
-                        ticketDetailList?.value = response.body()!!.data?.messages
+                        ticketDetailList?.value = response.body()!!.data
                     } else {
                         ticketDetailList?.value = null
                     }
