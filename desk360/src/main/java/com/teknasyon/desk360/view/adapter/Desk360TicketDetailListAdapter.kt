@@ -3,9 +3,7 @@ package com.teknasyon.desk360.view.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
 import android.webkit.WebSettings
-import android.webkit.WebView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -57,7 +55,8 @@ class Desk360TicketDetailListAdapter(
                     val webSettings: WebSettings = holder.itemView.webView.settings
                     webSettings.javaScriptEnabled = true
                     webSettings.builtInZoomControls = true
-                    val myPdfUrl = "https://desk-360.s3.amazonaws.com/attachment/52/desk360test/QOFN3o0jaPtdPnVmNJJpPSZtErvTHR1mKMvkr7i3.pdf"
+                    val myPdfUrl =
+                        "https://desk-360.s3.amazonaws.com/attachment/52/desk360test/QOFN3o0jaPtdPnVmNJJpPSZtErvTHR1mKMvkr7i3.pdf"
                     val url = "https://docs.google.com/viewer?embedded=true&url=$myPdfUrl"
                     holder.itemView.webView.loadUrl(url)
 
