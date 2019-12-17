@@ -60,6 +60,7 @@ class SelectBoxViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
                 )
             }
             else -> {
+                holder.selectBox?.setPadding(0, 0, 0, 0)
                 holder.selectBoxCardView?.setBackgroundColor(
                     Color.parseColor(
                         Desk360Constants.currentType?.data?.general_settings?.main_background_color
@@ -95,6 +96,7 @@ fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
 fun ConstraintLayout.setStroke(style: Desk360ScreenCreate) {
     when (style.form_style_id) {
         1 -> {
+            setPadding(0, 0, 0, 0)
             //line
         }
         2 -> {

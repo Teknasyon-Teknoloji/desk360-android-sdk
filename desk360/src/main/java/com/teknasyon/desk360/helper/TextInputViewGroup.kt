@@ -111,7 +111,7 @@ fun LinearLayout.setStroke(style: Desk360ScreenCreate) {
     //shadow
     val gd = GradientDrawable()
     gd.setColor(Color.TRANSPARENT)
-    gd.cornerRadius = 13f
+    gd.cornerRadius = 15f
     gd.setStroke(3, Color.parseColor(style.form_input_border_color))
     this.background = gd
 }

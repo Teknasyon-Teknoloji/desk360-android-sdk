@@ -24,7 +24,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.LinearLayout
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
@@ -42,6 +41,8 @@ import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.*
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.modelv2.Desk360CustomFields
+import com.teknasyon.desk360.modelv2.Desk360Options
+import com.teknasyon.desk360.view.adapter.Desk360CustomSupportTypeAdapter
 import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
 import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
 import okhttp3.MediaType
@@ -74,7 +75,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var customTextAreaField: List<Desk360CustomFields> = arrayListOf()
 
     private var customInputViewList: ArrayList<TextInputViewGroup> = arrayListOf()
-    private var customSelectBoxViewList: ArrayList<Spinner> = arrayListOf()
+    private var customSelectBoxViewList: ArrayList<SelectBoxViewGroup> = arrayListOf()
     private var customTextAreaViewList: ArrayList<TextAreaViewGroup> = arrayListOf()
 
     //Validate variables
@@ -327,57 +328,92 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     )
                 }
             })
-//        for (i in customSelectBoxField.indices) {
-//            customSelectBoxViewList.add(
-//                createSpinner().also {
-//                    val optionsList = arrayListOf<Desk360Options>()
-//                    optionsList.add(
-//                        Desk360Options(
-//                            value = customSelectBoxField[i].place_holder,
-//                            order = -1
-//                        )
-//                    )
-//                    customSelectBoxField[i].options?.let { it1 -> optionsList.addAll(it1) }
-//
-//                    val myAdapter =
-//                        context?.let { it1 ->
-//                            Desk360CustomSupportTypeAdapter(
-//                                it1,
-//                                R.layout.desk360_type_dropdown,
-//                                optionsList
-//                            )
-//                        }
-//                    it?.adapter = myAdapter
-//
-//                    it?.onItemSelectedListener = (object : AdapterView.OnItemSelectedListener {
-//                        override fun onNothingSelected(parent: AdapterView<*>?) {
-//                        }
-//
-//                        override fun onItemSelected(
-//                            parent: AdapterView<*>,
-//                            view: View?,
-//                            position: Int,
-//                            id: Long
-//                        ) {
-//                            (it?.selectedView as TextView).setTextColor(
-//                                Color.parseColor(
-//                                    editTextStyleModel?.form_input_focus_color ?: "#000000"
-//                                )
-//                            )
-//                            customSelectBoxField[i].options?.let { it ->
-//                                it[position].let { it1 ->
-//                                    val customSelectboxId = RequestBody.create(
-//                                        MediaType.parse("text/plain"), it1.order.toString()
-//                                    )
-//                                    params[customSelectBoxField[i].name.toString()] =
-//                                        customSelectboxId
-//                                }
-//                            }
-//                        }
-//                    })
-//                }!!
-//            )
-//        }
+        for (i in customSelectBoxField.indices) {
+            val spinnerItem =
+                SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
+            binding.createScreenRootView.addView(
+                spinnerItem.createSpinner()
+            )
+            customSelectBoxViewList.add(spinnerItem)
+            val optionsList = arrayListOf<Desk360Options>()
+            optionsList.add(
+                Desk360Options(
+                    value = customSelectBoxField[i].place_holder,
+                    order = -1
+                )
+            )
+            customSelectBoxField[i].options?.let { it1 -> optionsList.addAll(it1) }
+
+            val myAdapter =
+                context?.let { it1 ->
+                    Desk360CustomSupportTypeAdapter(
+                        it1,
+                        R.layout.desk360_type_dropdown,
+                        optionsList
+                    )
+                }
+            spinnerItem.holder.selectBox?.adapter = myAdapter
+
+            spinnerItem.holder.selectBox?.onItemSelectedListener =
+                (object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                    }
+
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        if (position == 0) {
+                            (spinnerItem.holder.selectBox?.selectedView as TextView).setTextColor(
+                                Color.parseColor(
+                                    editTextStyleModel.form_input_color
+                                )
+                            )
+                            if (editTextStyleModel.form_style_id == 3) {
+                                view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_background_color))
+                                spinnerItem.holder.shadowBorder?.setStroke(editTextStyleModel.form_input_border_color)
+                                spinnerItem.holder.selectBoxCardView?.setCardBackgroundColor(
+                                    Color.parseColor(
+                                        editTextStyleModel.form_input_background_color
+                                    )
+                                )
+                            }
+                            return
+                        }
+
+                        (spinnerItem.holder.selectBox?.selectedView as TextView).setTextColor(
+                            Color.parseColor(
+                                editTextStyleModel.form_input_focus_color
+                            )
+                        )
+                        (spinnerItem.holder.selectBox?.selectedView as TextView).setTextColor(
+                            Color.parseColor(editTextStyleModel.form_input_focus_color)
+                        )
+                        optionsList.run {
+                            this[position].let { it1 ->
+                                val customSelectboxId = RequestBody.create(
+                                    MediaType.parse("text/plain"), it1.order.toString()
+                                )
+
+                                params[customSelectBoxField[i].name.toString()] =
+                                    customSelectboxId
+                            }
+                        }
+
+                        if (editTextStyleModel.form_style_id == 3) {
+                            spinnerItem.holder.shadowBorder?.setStroke(editTextStyleModel.form_input_focus_border_color)
+                            view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_focus_background_color))
+                            spinnerItem.holder.selectBoxCardView?.setCardBackgroundColor(
+                                Color.parseColor(
+                                    editTextStyleModel.form_input_focus_background_color
+                                )
+                            )
+                        }
+                    }
+                })
+        }
 
         /**
          * message filed

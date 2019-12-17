@@ -117,7 +117,7 @@ open class Desk360TicketDetailFragment : Fragment() {
                             binding?.messageEditText?.text.toString()
                         )
                     }
-                    binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
+//                    binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
                 }
             }
         }
