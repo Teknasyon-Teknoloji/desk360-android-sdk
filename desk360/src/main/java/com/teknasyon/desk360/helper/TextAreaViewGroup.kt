@@ -3,7 +3,6 @@ package com.teknasyon.desk360.helper
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
-import android.text.InputType
 import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
@@ -68,89 +67,99 @@ class TextAreaViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
 }
 
 fun TextInputEditText.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
-    this.inputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE
     this.setPadding(16, 24, 16, 24)
     this.setTextColor(Color.parseColor(style.form_input_focus_color))
 }
 
 fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
-    val states = arrayOf(
-        intArrayOf(android.R.attr.state_focused),
-        intArrayOf(android.R.attr.state_hovered),
-        intArrayOf(android.R.attr.state_focused),
-        intArrayOf()
-    )
-    val colors = intArrayOf(
-        Color.parseColor(style.form_input_focus_border_color),
-        Color.parseColor(style.form_input_border_color),
-        Color.parseColor(style.form_input_focus_border_color),
-        Color.parseColor(style.form_input_border_color)
-    )
-    val myColorList = ColorStateList(states, colors)
-    this.setBoxStrokeColorStateList(myColorList)
-    val colorStateList = ColorStateList(
-        arrayOf(
-            intArrayOf(-android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_drag_hovered),
-            intArrayOf(-android.R.attr.state_hovered),
-            intArrayOf(android.R.attr.state_active)
-        ),
-        intArrayOf(
-            Color.parseColor(style.form_input_border_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color)
+    if (style.form_style_id == 3) {
+        val colorStateList = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_focused),
+                intArrayOf(android.R.attr.state_focused)
+            ),
+            intArrayOf(
+                Color.parseColor(style.form_input_border_color),
+                Color.parseColor(style.form_input_focus_border_color)
+            )
         )
-    )
-    val colorHintStateListNormal = ColorStateList(
-        arrayOf(
-            intArrayOf(-android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_drag_hovered),
-            intArrayOf(-android.R.attr.state_hovered),
-            intArrayOf(android.R.attr.state_active)
-        ),
-        intArrayOf(
-            Color.parseColor(style.form_input_border_color),
-            Color.parseColor(style.label_text_color),
-            Color.parseColor(style.label_text_color),
-            Color.parseColor(style.label_text_color),
-            Color.parseColor(style.label_text_color)
-        )
-    )
 
-    val colorHintStateListDefault = ColorStateList(
-        arrayOf(
-            intArrayOf(-android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_drag_hovered),
-            intArrayOf(-android.R.attr.state_hovered),
-            intArrayOf(android.R.attr.state_active)
-        ),
-        intArrayOf(
-            Color.parseColor(style.form_input_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color)
+        val colorHintStateListNormal = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_empty),
+                intArrayOf(android.R.attr.state_empty)
+            ),
+            intArrayOf(
+                Color.parseColor(style.form_input_border_color),
+                Color.parseColor(style.label_text_color)
+            )
         )
-    )
 
-    val colorHintStateList = ColorStateList(
-        arrayOf(
+        val colorHintStateListDefault = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_empty),
+                intArrayOf(android.R.attr.state_empty)
+            ),
+            intArrayOf(
+                Color.parseColor(style.form_input_color),
+                Color.parseColor(style.form_input_focus_color)
+            )
+        )
+
+        this.defaultHintTextColor = colorHintStateListDefault
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.backgroundTintList = colorStateList
+        }
+        this.hintTextColor = colorHintStateListNormal
+    } else {
+        val states = arrayOf(
             intArrayOf(-android.R.attr.state_focused),
             intArrayOf(android.R.attr.state_focused)
-        ),
-        intArrayOf(
-            Color.parseColor(style.form_input_color),
-            Color.parseColor(style.form_input_focus_color)
         )
-    )
-    this.defaultHintTextColor = colorHintStateListDefault
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        this.backgroundTintList = colorStateList
+        val colors = intArrayOf(
+            Color.parseColor(style.form_input_border_color),
+            Color.parseColor(style.form_input_focus_border_color)
+        )
+        val myColorList = ColorStateList(states, colors)
+        this.setBoxStrokeColorStateList(myColorList)
+
+        val colorStateList = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_focused),
+                intArrayOf(android.R.attr.state_focused)
+            ),
+            intArrayOf(
+                Color.parseColor(style.form_input_border_color),
+                Color.parseColor(style.form_input_focus_border_color)
+            )
+        )
+
+        val colorHintStateListNormal = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_focused),
+                intArrayOf(android.R.attr.state_focused)
+            ),
+            intArrayOf(
+                Color.parseColor(style.form_input_border_color),
+                Color.parseColor(style.label_text_color)
+            )
+        )
+
+        val colorHintStateListDefault = ColorStateList(
+            arrayOf(
+                intArrayOf(-android.R.attr.state_focused),
+                intArrayOf(android.R.attr.state_focused)
+            ),
+            intArrayOf(
+                Color.parseColor(style.form_input_color),
+                Color.parseColor(style.form_input_focus_color)
+            )
+        )
+
+        this.defaultHintTextColor = colorHintStateListDefault
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.backgroundTintList = colorStateList
+        }
+        this.hintTextColor = colorHintStateListNormal
     }
-    this.hintTextColor = colorHintStateListNormal
 }

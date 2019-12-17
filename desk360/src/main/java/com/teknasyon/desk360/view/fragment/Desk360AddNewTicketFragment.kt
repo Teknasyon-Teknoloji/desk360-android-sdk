@@ -281,6 +281,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
          */
         subjectTypeSpinner =
             SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
+
         binding.createScreenRootView.addView(
             subjectTypeSpinner?.createSpinner()
         )
@@ -300,7 +301,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         selectedItem = false
                         if (editTextStyleModel.form_style_id == 3) {
                             view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_background_color))
-
+                            subjectTypeSpinner?.holder?.shadowBorder?.setStroke(editTextStyleModel.form_input_border_color)
                             subjectTypeSpinner?.holder?.selectBoxCardView?.setCardBackgroundColor(
                                 Color.parseColor(
                                     editTextStyleModel.form_input_background_color
@@ -310,6 +311,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         return
                     }
                     if (editTextStyleModel.form_style_id == 3) {
+                        subjectTypeSpinner?.holder?.shadowBorder?.setStroke(editTextStyleModel.form_input_focus_border_color)
                         view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_focus_background_color))
                         subjectTypeSpinner?.holder?.selectBoxCardView?.setCardBackgroundColor(
                             Color.parseColor(
@@ -674,7 +676,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     eMailField?.holder?.textInputLayout?.error = "Geçersiz Mail adresi"
                 else
                     eMailField?.holder?.textInputLayout?.error = "Alan Boşşşş"
-
                 emailFieldFill = false
                 observerEMail()
             }

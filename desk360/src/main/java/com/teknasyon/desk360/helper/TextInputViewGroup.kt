@@ -5,7 +5,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
@@ -45,7 +44,7 @@ class TextInputViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
         else
             holder.cardView?.visibility = View.VISIBLE
         holder.textInputEditText?.setDesk360InputStyle(style)
-        holder.textInputLayout?.setDesk360InputStyle(style)
+        holder.textInputLayout?.setDesk360TextAreaStyle(style)
         when (style.form_style_id) {
             1 -> {
                 //line
@@ -75,89 +74,6 @@ class TextInputViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
     }
 }
 
-fun TextInputLayout.setDesk360InputStyle(style: Desk360ScreenCreate) {
-    val states = arrayOf(
-        intArrayOf(android.R.attr.state_focused),
-        intArrayOf(android.R.attr.state_hovered),
-        intArrayOf(android.R.attr.state_enabled),
-        intArrayOf()
-    )
-    val colors = intArrayOf(
-        Color.parseColor(style.form_input_focus_border_color),
-        Color.parseColor(style.form_input_border_color),
-        Color.parseColor(style.form_input_focus_border_color),
-        Color.parseColor(style.form_input_border_color)
-    )
-    val myColorList = ColorStateList(states, colors)
-    this.setBoxStrokeColorStateList(myColorList)
-    val colorStateList = ColorStateList(
-        arrayOf(
-            intArrayOf(-android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_drag_hovered),
-            intArrayOf(-android.R.attr.state_hovered),
-            intArrayOf(android.R.attr.state_active)
-        ),
-        intArrayOf(
-            Color.parseColor(style.form_input_border_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color)
-        )
-    )
-    val colorHintStateList = ColorStateList(
-        arrayOf(
-            intArrayOf(-android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_focused)
-        ),
-        intArrayOf(
-            Color.parseColor(style.form_input_color),
-            Color.parseColor(style.form_input_focus_color)
-        )
-    )
-
-    val colorHintStateListNormal = ColorStateList(
-        arrayOf(
-            intArrayOf(-android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_drag_hovered),
-            intArrayOf(-android.R.attr.state_hovered),
-            intArrayOf(android.R.attr.state_active)
-        ),
-        intArrayOf(
-            Color.parseColor(style.form_input_border_color),
-            Color.parseColor(style.label_text_color),
-            Color.parseColor(style.label_text_color),
-            Color.parseColor(style.label_text_color),
-            Color.parseColor(style.label_text_color)
-        )
-    )
-
-    val colorHintStateListDefault = ColorStateList(
-        arrayOf(
-            intArrayOf(-android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_drag_hovered),
-            intArrayOf(-android.R.attr.state_hovered),
-            intArrayOf(android.R.attr.state_active)
-        ),
-        intArrayOf(
-            Color.parseColor(style.form_input_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color),
-            Color.parseColor(style.form_input_focus_color)
-        )
-    )
-
-    this.defaultHintTextColor = colorHintStateListDefault
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        this.backgroundTintList = colorStateList
-    }
-    this.hintTextColor = colorHintStateListNormal
-}
-
 @SuppressLint("ClickableViewAccessibility")
 fun TextInputEditText.setDesk360InputStyle(style: Desk360ScreenCreate) {
     this.setTextColor(Color.parseColor(style.form_input_focus_color))
@@ -181,7 +97,7 @@ fun TextInputEditText.setDesk360InputStyle(style: Desk360ScreenCreate) {
         }
         2 -> {
             //box
-            this.setPadding(16, 24, 16, 24)
+            this.setPadding(16, 32, 16, 32)
             this.background = null
         }
         else -> {
@@ -192,23 +108,10 @@ fun TextInputEditText.setDesk360InputStyle(style: Desk360ScreenCreate) {
 }
 
 fun LinearLayout.setStroke(style: Desk360ScreenCreate) {
-    when (style.form_style_id) {
-        1 -> {
-            //line
-        }
-        2 -> {
-            //box
-        }
-        else -> {
-            //shadow
-            val gd = GradientDrawable()
-            gd.setColor(Color.TRANSPARENT)
-            gd.cornerRadius = 16f
-            if (isBaselineAligned) {
-                gd.setStroke(3, Color.parseColor(style.form_input_focus_border_color))
-            } else
-                gd.setStroke(3, Color.parseColor(style.form_input_border_color))
-            this.background = gd
-        }
-    }
+    //shadow
+    val gd = GradientDrawable()
+    gd.setColor(Color.TRANSPARENT)
+    gd.cornerRadius = 13f
+    gd.setStroke(3, Color.parseColor(style.form_input_border_color))
+    this.background = gd
 }
