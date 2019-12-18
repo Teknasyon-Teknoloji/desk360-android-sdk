@@ -11,9 +11,9 @@ class Desk360CreateScreenButtonIcon : ImageView {
 
     init {
         if (Desk360Constants.currentType?.data?.create_screen?.button_icon_is_hidden != true) {
-            this.visibility= View.VISIBLE
-        } else {
             this.visibility= View.INVISIBLE
+        } else {
+            this.visibility= View.VISIBLE
         }
 
     }

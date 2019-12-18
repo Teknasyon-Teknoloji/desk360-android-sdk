@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputType
@@ -166,6 +165,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             val imm = activity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view!!.windowToken, 0)
         }
+        binding.createTicketButton.isClickable = true
     }
 
     override fun onCreateView(
@@ -188,10 +188,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         binding.createTicketButton?.setOnClickListener {
             binding.createTicketButton.isClickable = false
-            Handler().postDelayed({
-                binding.createTicketButton.isClickable = true
-                validateAllField()
-            }, 800)
+            validateAllField()
         }
 
         binding.fileNameIcon.setOnClickListener {
@@ -701,29 +698,32 @@ open class Desk360AddNewTicketFragment : Fragment(),
             binding.loadingProgress.visibility = View.VISIBLE
             viewModel?.addSupportTicket(params, file)
 
-        } else when {
-            !nameFieldFill -> {
-                nameField?.holder?.textInputLayout?.error = "Alan Boşşşş"
-                nameFieldFill = false
-                observerName()
+        } else {
+            when {
+                !nameFieldFill -> {
+                    nameField?.holder?.textInputLayout?.error = "Alan Boşşşş"
+                    nameFieldFill = false
+                    observerName()
+                }
+                !emailFieldFill -> {
+                    if (invalidEmail)
+                        eMailField?.holder?.textInputLayout?.error = "Geçersiz Mail adresi"
+                    else
+                        eMailField?.holder?.textInputLayout?.error = "Alan Boşşşş"
+                    emailFieldFill = false
+                    observerEMail()
+                }
+                !selectedItem -> {
+                    selectedItem = false
+                    subjectTypeSpinner?.holder?.selectBox?.performClick()
+                }
+                messageLength <= 0 -> {
+                    messageField?.holder?.textAreaLayout?.error = "En az üç karakter olmalı"
+                    messageFieldFill = false
+                    observerMessage()
+                }
             }
-            !emailFieldFill -> {
-                if (invalidEmail)
-                    eMailField?.holder?.textInputLayout?.error = "Geçersiz Mail adresi"
-                else
-                    eMailField?.holder?.textInputLayout?.error = "Alan Boşşşş"
-                emailFieldFill = false
-                observerEMail()
-            }
-            !selectedItem -> {
-                selectedItem = false
-                subjectTypeSpinner?.holder?.selectBox?.performClick()
-            }
-            messageLength <= 0 -> {
-                messageField?.holder?.textAreaLayout?.error = "En az üç karakter olmalı"
-                messageFieldFill = false
-                observerMessage()
-            }
+            binding.createTicketButton.isClickable = true
         }
     }
 

@@ -86,8 +86,8 @@ fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
 
         val colorHintStateListNormal = ColorStateList(
             arrayOf(
-                intArrayOf(-android.R.attr.state_empty),
-                intArrayOf(android.R.attr.state_empty)
+                intArrayOf(-android.R.attr.state_focused),
+                intArrayOf(android.R.attr.state_focused)
             ),
             intArrayOf(
                 Color.parseColor(style.form_input_border_color),
