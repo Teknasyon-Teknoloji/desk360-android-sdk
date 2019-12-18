@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginStart
 import androidx.fragment.app.Fragment
 import com.teknasyon.desk360.modelv2.Desk360ScreenCreate
 
@@ -86,7 +87,7 @@ fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
     if (style.form_style_id == 2) {
         val gd = GradientDrawable()
         gd.setColor(Color.TRANSPARENT)
-        gd.cornerRadius = 8f
+        gd.cornerRadius = 24f
         gd.setStroke(3, Color.parseColor(style.form_input_border_color))
         this.background = gd
         //box
@@ -100,7 +101,7 @@ fun ConstraintLayout.setStroke(style: Desk360ScreenCreate) {
             //line
         }
         2 -> {
-            setPadding(8, 0, 8, 0)
+            setPadding(8, 0, 0, 0)
             //box
         }
         else -> {
