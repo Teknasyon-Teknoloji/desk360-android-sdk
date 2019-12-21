@@ -9,28 +9,29 @@
 
     <com.teknasyon.desk360.themev2.Desk360MainBackground
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <com.teknasyon.desk360.helper.Desk360Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="0dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
             android:layout_marginRight="0dp"
             android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             app:layout_collapseMode="pin"
-            app:titleMarginStart="0dp">
+            app:titleMarginStart="0dp"
+            tools:ignore="MissingConstraints">
 
             <com.teknasyon.desk360.themev2.Desk360MainTitle
                 android:id="@+id/toolbar_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
                 android:text="@string/SUPPORT_TITLE" />
 
         </com.teknasyon.desk360.helper.Desk360Toolbar>
@@ -59,12 +60,12 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/powered_by"
                 android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/powered_by"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageView1"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginRight="8dp">
+                app:layout_constraintTop_toTopOf="parent">
 
             </ImageView>
 
@@ -72,12 +73,12 @@
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:src="@drawable/desk_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginEnd="8dp">
+                app:layout_constraintTop_toTopOf="parent">
 
             </ImageView>
 

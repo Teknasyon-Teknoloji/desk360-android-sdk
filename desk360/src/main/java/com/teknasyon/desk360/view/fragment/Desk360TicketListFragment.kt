@@ -1,21 +1,14 @@
 package com.teknasyon.desk360.view.fragment
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.Typeface
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TableLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -23,8 +16,8 @@ import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayout
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
-import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -59,7 +52,6 @@ open class Desk360TicketListFragment : Fragment() {
         return binding?.root
     }
 
-    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.emptysAddNewTicketButtonTicketList?.setOnClickListener {
@@ -86,7 +78,7 @@ open class Desk360TicketListFragment : Fragment() {
 
             if (i == 0) {
                 tabItem.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color))
-            }else{
+            } else {
                 tabItem.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_color))
             }
 
@@ -185,7 +177,6 @@ open class Desk360TicketListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewPagerContainer.currentItem = 0
-        (activity as Desk360BaseActivity).userRegistered = true
     }
 
     override fun onDestroy() {
@@ -197,13 +188,11 @@ open class Desk360TicketListFragment : Fragment() {
     private fun setViewFillLayout() {
         binding!!.emptyListLayoutTicketList?.visibility = View.INVISIBLE
         binding!!.fillListLayout?.visibility = View.VISIBLE
-        RxBus.publish("ticketListIsNotEmpty")
     }
 
     private fun setViewEmptyLayout() {
         binding!!.emptyListLayoutTicketList?.visibility = View.VISIBLE
         binding!!.fillListLayout?.visibility = View.INVISIBLE
-        RxBus.publish("ticketListIsEmpty")
     }
 
     private fun setUnreadTicketSize(sizeUnread: Int) {

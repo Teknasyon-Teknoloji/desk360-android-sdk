@@ -33,9 +33,6 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             val bundle = Bundle()
             item.id?.let { it1 -> bundle.putInt("ticket_id", it1) }
             bundle.putString("ticket_status", item.status.toString())
-
-            (activity as Desk360BaseActivity).userRegistered = false
-
             binding.root.let { it1 ->
                 Navigation
                     .findNavController(it1)

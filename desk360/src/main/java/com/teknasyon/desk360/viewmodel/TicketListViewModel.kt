@@ -23,12 +23,13 @@ import java.util.*
  */
 
 open class TicketListViewModel : ViewModel() {
+    var ticketSize: MutableLiveData<Int>? = MutableLiveData()
     var ticketList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
     var expiredList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
     var progress: ObservableInt? = null
 
     init {
-        progress= ObservableInt(View.GONE)
+        progress = ObservableInt(View.GONE)
         Desk360Constants.getDeviceId()
     }
 
@@ -41,7 +42,7 @@ open class TicketListViewModel : ViewModel() {
                     response: Response<Desk360TicketListResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
-
+                        ticketSize?.value = response.body()?.data?.size
                         val unreadList =
                             response.body()!!.data?.filter { unread -> unread.status == "unread" } as ArrayList<Desk360TicketResponse>
 

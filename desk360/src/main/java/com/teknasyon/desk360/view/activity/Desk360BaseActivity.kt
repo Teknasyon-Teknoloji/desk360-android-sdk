@@ -4,13 +4,15 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
@@ -18,18 +20,21 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
-import com.teknasyon.desk360.helper.RxBus
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.teknasyon.desk360.viewmodel.TicketListViewModel
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
+
 
 open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     private var localMenu: Menu? = null
-    var userRegistered = true
+    var ticketListSize = 0
+    var currentScreenTicketList = true
     private var navController: NavController? = null
     private var disposable: Disposable? = null
+    private var viewModel: TicketListViewModel? = null
+
+    private var addBtnClicked = false
 
     private var binding: Desk360FragmentMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,25 +43,29 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         binding = Desk360FragmentMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         setSupportActionBar(findViewById(R.id.toolbar))
-
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        viewModel = ViewModelProviders.of(this).get(TicketListViewModel::class.java)
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
+
+        viewModel?.ticketSize?.observe(this, Observer {
+            ticketListSize = it
+            notifyToolBar()
+        })
 
         navController =
             findNavController(this, R.id.my_nav_host_fragment)
 
         navController?.addOnDestinationChangedListener { _, destination, _ ->
 
-            userRegistered = false
             val currentNav =
                 (navController?.currentDestination as FragmentNavigator.Destination).className
 
-            if (currentNav == "com.teknasyon.desk360.view.fragment.Desk360TicketListFragment") {
-                userRegistered = true
-            }
-
+            currentScreenTicketList =
+                currentNav == "com.teknasyon.desk360.view.fragment.Desk360TicketListFragment"
+            notifyToolBar()
             Desk360CustomStyle.setFontWeight(
                 binding!!.toolbarTitle,
                 this,
@@ -88,9 +97,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                         binding?.toolbarTitle
                     )
                 }
-                else -> {
-                    binding?.toolbarTitle?.text = " "
-                }
+
+                else -> ""
 
             }
 
@@ -108,9 +116,31 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                 PorterDuff.Mode.SRC_ATOP
             )
 
+            Handler().postDelayed(
+                {
+                    addBtnClicked = false
+                }, 600
+            )
+
 
         }
 //        setupActionBarWithNavController(this, navController!!, appBarConfiguration)
+    }
+
+    private fun notifyToolBar() {
+        if (ticketListSize > 0) {
+            setMainTitle(
+                Desk360Constants.currentType?.data?.ticket_list_screen?.title,
+                binding?.toolbarTitle
+            )
+        } else {
+            setMainTitle(
+                Desk360Constants.currentType?.data?.first_screen?.title,
+                binding?.toolbarTitle
+            )
+        }
+
+        localMenu?.let { onPrepareOptionsMenu(it) }
     }
 
     private fun setMainTitle(titleHead: String?, titleTextView: TextView?) {
@@ -123,47 +153,33 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        if (addBtnClicked) {
+            return false
+        }
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
-        return if (userRegistered) {
+        return if (currentScreenTicketList) {
             super.onBackPressed()
             true
         } else
             findNavController(this, R.id.my_nav_host_fragment).navigateUp()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         localMenu = menu
         menuInflater.inflate(R.menu.menu_main, menu)
         val register: MenuItem = menu.findItem(R.id.action_add_new_ticket)
-        disposable = RxBus.listen(String::class.java).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                when (it) {
-                    "ticketListIsNotEmpty" -> {
-                        setMainTitle(Desk360Constants.currentType?.data?.ticket_list_screen?.title,binding?.toolbarTitle)
-                        register.isVisible = true
-                        register.isEnabled = true
-                        register.icon =
-                            resources.getDrawable(R.drawable.add_new_message_icon_black)
 
-                        register.icon?.setColorFilter(
-                            Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
-                            PorterDuff.Mode.SRC_ATOP
-                        )
+        register.isVisible = true
+        register.isEnabled = true
+        register.icon =
+            resources.getDrawable(R.drawable.add_new_message_icon_black)
 
-
-                    }
-
-                    "ticketListIsEmpty" -> {
-                        setMainTitle(Desk360Constants.currentType?.data?.first_screen?.title,binding?.toolbarTitle)
-                        register.isVisible = true
-                        register.isEnabled = false
-                    }
-                }
-            }, { t ->
-                Log.d("Test", "$t.")
-            })
+        register.icon?.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
 
         return true
     }
@@ -172,7 +188,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         val id = item.itemId
 
         if (id == R.id.action_add_new_ticket) {
-            userRegistered = false
+            addBtnClicked = true
+
             findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(R.id.action_ticketListFragment_to_preNewTicketFragment)
             return true
         }
@@ -180,7 +197,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     override fun onBackPressed() {
-        if (userRegistered)
+        if (currentScreenTicketList)
             super.onBackPressed()
         else
             onSupportNavigateUp()
@@ -188,14 +205,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val register: MenuItem = menu.findItem(R.id.action_add_new_ticket)
-        register.isVisible = true
-        register.isEnabled = false
-        register.icon = resources.getDrawable(R.drawable.add_new_message_icon_black)
-        register.icon?.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_background_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
-
+        register.isVisible = currentScreenTicketList && ticketListSize > 0
         return true
     }
 
