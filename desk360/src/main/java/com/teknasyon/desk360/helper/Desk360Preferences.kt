@@ -1,8 +1,8 @@
 package com.teknasyon.desk360.helper
 
-import android.util.Log
 import com.teknasyon.desk360.model.Desk360Data
 import com.teknasyon.desk360.model.Desk360Meta
+import com.teknasyon.desk360.model.Desk360TypeResponse
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 
 open class Desk360Preferences : PreferencesManager() {
@@ -22,6 +22,17 @@ open class Desk360Preferences : PreferencesManager() {
         set(types) {
             putObject(TYPES, types!!)
         }
+
+    var subjects: Desk360TypeResponse?
+        get() {
+            return getObject<Desk360TypeResponse>(SUBJECTS, Desk360TypeResponse::class.java)
+                ?: Desk360TypeResponse()
+        }
+        set(subjects) {
+            putObject(SUBJECTS, subjects!!)
+        }
+
+
     var adId: String?
         get() = getString(AD_ID)
         set(adId) = setString(AD_ID, adId ?: "")
@@ -30,6 +41,7 @@ open class Desk360Preferences : PreferencesManager() {
         private const val META = "meta"
         private const val DATA = "data"
         private const val TYPES = "types"
+        private const val SUBJECTS = "subjects"
         private const val AD_ID = "device_id"
     }
 }

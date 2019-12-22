@@ -66,7 +66,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     private lateinit var binding: Desk360AddNewTicketLayoutBinding
 
-    private var typeList: ArrayList<Desk360Type>? = null
+    private var typeList: ArrayList<Desk360Type>? =null
+
     private val editTextStyleModel =
         Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen
     private var customInputField: List<Desk360CustomFields> = arrayListOf()
@@ -76,7 +77,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var customInputViewList: ArrayList<TextInputViewGroup> = arrayListOf()
     private var customSelectBoxViewList: ArrayList<SelectBoxViewGroup> = arrayListOf()
     private var customTextAreaViewList: ArrayList<TextAreaViewGroup> = arrayListOf()
-
+    private var myAdapter: Desk360SupportTypeAdapter? = null
     //Validate variables
     private var nameData: String? = null
     private var emailData: String? = null
@@ -86,7 +87,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var emailFieldFill: Boolean = false
     private var messageFieldFill: Boolean = false
     private var selectedItem: Boolean = false
-
+    private val listOfType: ArrayList<String> = arrayListOf()
     private var invalidEmail: Boolean = false
 
 
@@ -105,21 +106,14 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var observer = Observer<ArrayList<Desk360Type>> {
         binding.loadingProgress?.visibility = View.GONE
         if (it != null) {
+            listOfType.clear()
+            typeList?.clear()
             typeList = it
 
-            val listOfType: ArrayList<String> = arrayListOf()
             for (i in 0 until it.size) {
                 listOfType.add(it[i].title.toString())
             }
-            val myAdapter =
-                context?.let { it1 ->
-                    Desk360SupportTypeAdapter(
-                        it1,
-                        R.layout.desk360_type_dropdown,
-                        listOfType
-                    )
-                }
-            subjectTypeSpinner?.holder?.selectBox?.adapter = myAdapter
+            myAdapter?.notifyDataSetChanged()
         }
     }
 
@@ -183,8 +177,25 @@ open class Desk360AddNewTicketFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = AddNewTicketViewModel()
+        typeList = Desk360Config.instance.getDesk360Preferences()?.subjects?.data
         viewModel?.typeList?.observe(this, observer)
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
+
+        listOfType.clear()
+
+        typeList?.let {
+            for (i in 0 until it.size) {
+                listOfType.add(it[i].title.toString())
+            }
+        }
+        myAdapter =
+            context?.let { it1 ->
+                Desk360SupportTypeAdapter(
+                    it1,
+                    R.layout.desk360_type_dropdown,
+                    listOfType
+                )
+            }
 
         binding.createTicketButton?.setOnClickListener {
             binding.createTicketButton.isClickable = false
@@ -325,6 +336,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     )
                 }
             })
+        subjectTypeSpinner?.holder?.selectBox?.adapter = myAdapter
+
         for (i in customSelectBoxField.indices) {
             val spinnerItem =
                 SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)

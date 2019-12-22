@@ -68,7 +68,6 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:clipChildren="false"
-        android:entries="@array/array_name"
         android:gravity="center_vertical"
         android:hapticFeedbackEnabled="false"
         android:paddingStart="4dp"

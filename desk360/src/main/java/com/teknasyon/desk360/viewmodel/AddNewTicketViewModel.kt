@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
+import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.model.Desk360NewSupportResponse
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.model.Desk360TypeResponse
+import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -24,6 +26,7 @@ open class AddNewTicketViewModel : ViewModel() {
     var typeList: MutableLiveData<ArrayList<Desk360Type>>? = MutableLiveData()
     var addedTicket: MutableLiveData<String> = MutableLiveData()
 
+
     init {
         getTypeList()
     }
@@ -36,9 +39,11 @@ open class AddNewTicketViewModel : ViewModel() {
                     response: Response<Desk360TypeResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
+                        Desk360Config.instance.getDesk360Preferences()?.subjects = response.body()
                         typeList?.value = response.body()!!.data
+                        Desk360Config.instance.getDesk360Preferences()?.subjects
                     } else {
-                        typeList?.value = null
+                        typeList?.value =  Desk360Config.instance.getDesk360Preferences()?.subjects?.data
                     }
                 }
             })
