@@ -18,26 +18,26 @@ class Desk360IncomingText : TextView {
         when (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_box_style) {
             1 -> {
 
-                this.setBackgroundResource(R.drawable.incoming_message_background_1)
+                this.setBackgroundResource(R.drawable.incoming_message_layout_type1)
             }
             2-> {
-                this.setBackgroundResource(R.drawable.incoming_message_background_2)
+                this.setBackgroundResource(R.drawable.incoming_message_layout_type2)
             }
             3-> {
-                this.setBackgroundResource(R.drawable.incoming_message_background_2)
+                this.setBackgroundResource(R.drawable.incoming_message_layout_type3)
             }
             4-> {
-                this.setBackgroundResource(R.drawable.incoming_message_background_4)
+                this.setBackgroundResource(R.drawable.incoming_message_layout_type4)
             }
 
             else -> {
-                this.setBackgroundResource(R.drawable.incoming_message_background_1)
+                this.setBackgroundResource(R.drawable.incoming_message_layout_type1)
 
             }
         }
 
 
-        if(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_shadow_is_hidden!=true){
+        if(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_shadow_is_hidden==true){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 this.elevation=20f
             }

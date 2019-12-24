@@ -74,6 +74,7 @@ class Desk360TicketDetailListAdapter(
         } else {
             holder.itemView.message_incoming.text = message.message
             holder.itemView.date_incoming.text = message.created
+
         }
 
 
