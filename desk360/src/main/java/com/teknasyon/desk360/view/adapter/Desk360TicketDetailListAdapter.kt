@@ -1,9 +1,12 @@
 package com.teknasyon.desk360.view.adapter
 
+import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
+import android.widget.MediaController
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -14,9 +17,10 @@ import com.teknasyon.desk360.model.Desk360Message
 import kotlinx.android.synthetic.main.desk360_incoming_message_item_layout.view.*
 import kotlinx.android.synthetic.main.desk360_send_message_item_layout.view.*
 
+
 class Desk360TicketDetailListAdapter(
     private val ticketList: ArrayList<Desk360Message>,
-    private val url: String?
+    private val url: String?,private val context : Context?
 
 ) : RecyclerView.Adapter<Desk360TicketDetailListAdapter.ViewHolder>() {
 
@@ -48,6 +52,7 @@ class Desk360TicketDetailListAdapter(
             holder.itemView.date_send.text = message.created
             holder.itemView.webView.visibility = View.GONE
             holder.itemView.imageUrl.visibility = View.GONE
+            holder.itemView.videoView.visibility = View.GONE
             if (url != null && url != "" && position == 0) {
                 if (url.substring(url.length - 3) == "pdf") {
                     holder.itemView.webView.visibility = View.VISIBLE
@@ -60,6 +65,17 @@ class Desk360TicketDetailListAdapter(
                     val url = "https://docs.google.com/viewer?embedded=true&url=$myPdfUrl"
                     holder.itemView.webView.loadUrl(url)
 
+                } else if (url.substring(url.length - 3) == "mp4") {
+                    holder.itemView.videoView.visibility = View.VISIBLE
+                    val video: Uri = Uri.parse(url)
+                    val mediaController =  MediaController(context);
+                    mediaController.setAnchorView( holder.itemView.videoView)
+                    holder.itemView.videoView.setMediaController(mediaController)
+                    holder.itemView.videoView.setVideoURI(video)
+                    holder.itemView.videoView.setOnPreparedListener { mp ->
+                        mp.isLooping = true
+                        holder.itemView.videoView.start()
+                    }
                 } else {
                     holder.itemView.imageUrl.visibility = View.VISIBLE
                     Picasso.get().load(url).into(holder.itemView.imageUrl)
@@ -67,6 +83,7 @@ class Desk360TicketDetailListAdapter(
 
 
             } else {
+                holder.itemView.videoView.visibility = View.GONE
                 holder.itemView.imageUrl.visibility = View.GONE
                 holder.itemView.webView.visibility = View.GONE
             }

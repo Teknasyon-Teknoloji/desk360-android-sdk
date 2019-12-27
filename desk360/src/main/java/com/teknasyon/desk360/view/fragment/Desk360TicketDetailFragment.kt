@@ -53,7 +53,7 @@ open class Desk360TicketDetailFragment : Fragment() {
         binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
 
         if (it != null) {
-            ticketDetailAdapter = Desk360TicketDetailListAdapter(it.messages!!,it.attachment_url)
+            ticketDetailAdapter = Desk360TicketDetailListAdapter(it.messages!!,it.attachment_url,context)
             val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             binding?.messageDetailRecyclerView?.apply {
                 this.layoutManager = layoutManager

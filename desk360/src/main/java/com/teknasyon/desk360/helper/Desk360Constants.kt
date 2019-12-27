@@ -5,6 +5,7 @@ import android.os.Build
 import android.telephony.TelephonyManager
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import com.teknasyon.desk360.viewmodel.GetTypesViewModel
+import org.json.JSONObject
 import java.util.*
 
 /**
@@ -18,6 +19,7 @@ object Desk360Constants {
     var app_version: String? = null
     var language_code: String? = null
     var time_zone: String? = null
+    var jsonObject: JSONObject?=null
     var baseURL: String? = null
     var currentType: Desk360ConfigResponse? = null
         get() {
@@ -31,6 +33,7 @@ object Desk360Constants {
         app_version: String,
         baseURL: String? = "http://teknasyon.desk360.com/",
         device_token: String? = null,
+        json_object: JSONObject?=null,
         app_language: String = ""
     ): Boolean {
 
@@ -58,6 +61,9 @@ object Desk360Constants {
             this.language_code = Locale.getDefault().language
         }else{
             this.language_code=app_language
+        }
+        if(json_object!=null){
+            this.jsonObject=json_object
         }
         this.time_zone = TimeZone.getDefault().id
         this.baseURL = baseURL

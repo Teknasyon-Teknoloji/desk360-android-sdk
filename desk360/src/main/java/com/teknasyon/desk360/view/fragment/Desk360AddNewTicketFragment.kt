@@ -2,6 +2,7 @@ package com.teknasyon.desk360.view.fragment
 
 import android.Manifest
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -14,16 +15,14 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
-import android.view.KeyEvent
+import android.view.*
 import android.view.KeyEvent.ACTION_UP
 import android.view.KeyEvent.KEYCODE_DPAD_CENTER
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -66,7 +65,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     private lateinit var binding: Desk360AddNewTicketLayoutBinding
 
-    private var typeList: ArrayList<Desk360Type>? =null
+    private var typeList: ArrayList<Desk360Type>? = null
 
     private val editTextStyleModel =
         Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen
@@ -105,6 +104,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     private var observer = Observer<ArrayList<Desk360Type>> {
         binding.loadingProgress?.visibility = View.GONE
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         if (it != null) {
             listOfType.clear()
             typeList?.clear()
@@ -176,6 +176,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //progress background companents set clickable false
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         viewModel = AddNewTicketViewModel()
         typeList = Desk360Config.instance.getDesk360Preferences()?.subjects?.data
         viewModel?.typeList?.observe(this, observer)
@@ -563,27 +565,52 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         file = cachFile
                         fileName = file!!.name
                     }
-                }
-
-                if (file?.exists() == true) {
-                    fileName?.length?.let {
-                        if (it > 10) {
-                            binding.fileNameTextCreateTicketScreen.text =
-                                fileName?.substring(0, 8) + "..."
-                        } else {
-                            binding.fileNameTextCreateTicketScreen.text = fileName
-                        }
-                        binding.fileNameTextCreateTicketScreen.visibility = View.VISIBLE
-                        binding.fileNameIcon.visibility = View.VISIBLE
+                    1223 -> {
+//                        file = File(getPathVideo(pathUri))
+                        file = File(pathUri.let { ImageFilePath().getUriRealPath(context!!, it) })
                     }
-
                 }
 
+                file?.let {
+                    if (it.exists()) {
+                        if (!fileSizeIsHigh(it)) {
+                            fileName?.length?.let {
+                                if (it > 10) {
+                                    binding.fileNameTextCreateTicketScreen.text =
+                                        fileName?.substring(0, 8) + "..."
+                                } else {
+                                    binding.fileNameTextCreateTicketScreen.text = fileName
+                                }
+                                binding.fileNameTextCreateTicketScreen.visibility = View.VISIBLE
+                                binding.fileNameIcon.visibility = View.VISIBLE
+                            }
+                        } else {
+                            showAlert()
+                        }
+
+
+                    }
+                }
                 Log.d("asasa", "saas")
             }
 
         }
     }
+
+    private fun showAlert() {
+        activity?.let {
+            val alert = AlertDialog.Builder(it)
+            alert.setTitle("Desk360")
+            alert.setMessage("Boyut 20 mb aşmaktadır")
+            alert.setCancelable(false)
+            alert.setNegativeButton("Anladım") { _: DialogInterface, _: Int ->
+                file = null
+            }
+            alert.show()
+        }
+
+    }
+
 
     private fun remove(): Boolean {
         return try {
@@ -596,8 +623,15 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
     }
 
+    private fun fileSizeIsHigh(file: File): Boolean {
+
+        return ((file.length() / 1024) / 1024).toInt() >= 20
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         viewModel?.let {
             with(viewModel!!) {
                 typeList?.removeObserver(observer)
@@ -687,6 +721,9 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 )
                 params[customTextAreaField[i].name.toString()] = customInputData
             }
+
+            val json: MediaType? = MediaType.parse("application/json; charset=utf-8")
+
             val email = RequestBody.create(MediaType.parse("text/plain"), emailData!!)
             val name = RequestBody.create(MediaType.parse("text/plain"), nameData)
             val message = RequestBody.create(MediaType.parse("text/plain"), messageData)
@@ -694,6 +731,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 RequestBody.create(MediaType.parse("text/plain"), selectedTypeId.toString())
             val source = RequestBody.create(MediaType.parse("text/plain"), "App")
             val platform = RequestBody.create(MediaType.parse("text/plain"), "Android")
+            val settings = RequestBody.create(json, Desk360Constants.jsonObject.toString())
             val countryCode =
                 RequestBody.create(
                     MediaType.parse("text/plain"),
@@ -706,10 +744,15 @@ open class Desk360AddNewTicketFragment : Fragment(),
             params["type_id"] = typeId
             params["source"] = source
             params["platform"] = platform
+            params["settings"] = settings
             params["country_code"] = countryCode
 
             binding.loadingProgress.visibility = View.VISIBLE
-            viewModel?.addSupportTicket(params, file)
+            activity?.window?.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
+            viewModel?.addSupportTicket(params, file, RESULT_LOAD_FILES)
 
         } else {
             when {
@@ -740,12 +783,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
     }
 
-    override fun onButtonClicked(isClickedImage: Boolean) {
+    override fun onButtonClicked(typeOfAttachment: Int) {
         Dexter.withActivity(activity)
             .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
             .withListener(object : PermissionListener {
                 override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                    if (isClickedImage) {
+                    if (typeOfAttachment == 0) {
                         RESULT_LOAD_FILES = 1221
                         startActivityForResult(
                             Intent(
@@ -753,13 +796,22 @@ open class Desk360AddNewTicketFragment : Fragment(),
                                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                             ), RESULT_LOAD_FILES
                         )
-                    } else {
+                    } else if (typeOfAttachment == 2) {
                         RESULT_LOAD_FILES = 1222
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             val photoPickerIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
                             photoPickerIntent.type = "application/pdf"
                             startActivityForResult(photoPickerIntent, RESULT_LOAD_FILES)
                         }
+                    } else {
+                        RESULT_LOAD_FILES = 1223
+                        val intent = Intent()
+                        intent.type = "video/.mp4"
+                        intent.action = Intent.ACTION_GET_CONTENT;
+                        startActivityForResult(
+                            Intent.createChooser(intent, "Select Video"),
+                            RESULT_LOAD_FILES
+                        )
                     }
                 }
 
@@ -776,4 +828,5 @@ open class Desk360AddNewTicketFragment : Fragment(),
             })
             .check()
     }
+
 }

@@ -9,7 +9,6 @@ import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.model.Desk360NewSupportResponse
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.model.Desk360TypeResponse
-import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -43,13 +42,19 @@ open class AddNewTicketViewModel : ViewModel() {
                         typeList?.value = response.body()!!.data
                         Desk360Config.instance.getDesk360Preferences()?.subjects
                     } else {
-                        typeList?.value =  Desk360Config.instance.getDesk360Preferences()?.subjects?.data
+                        typeList?.value =
+                            Desk360Config.instance.getDesk360Preferences()?.subjects?.data
                     }
                 }
             })
     }
 
-    fun addSupportTicket(ticketItem: HashMap<String, RequestBody>, file: File?) {
+    fun addSupportTicket(
+        ticketItem: HashMap<String, RequestBody>,
+        file: File?,
+        resultLoadFiles: Int
+    ) {
+
 
         var filePart: MultipartBody.Part? = null
 
@@ -58,10 +63,11 @@ open class AddNewTicketViewModel : ViewModel() {
                 "attachment",
                 file.name,
                 RequestBody.create(
-                    MediaType.parse("image/*"), file
+                    MediaType.parse(getFileType(resultLoadFiles)), file
                 )
             )
         }
+
 
         Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem, filePart)
             .enqueue(object : BaseCallback<Desk360NewSupportResponse>() {
@@ -77,5 +83,11 @@ open class AddNewTicketViewModel : ViewModel() {
                     }
                 }
             })
+    }
+
+    private fun getFileType(resultLoadFiles: Int): String {
+
+        if (resultLoadFiles == 1223) return "video/*"
+        else return "image/*"
     }
 }

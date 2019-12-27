@@ -15,8 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
-
+s
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/root_ticket_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -24,11 +25,11 @@
                 android:id="@+id/create_screen_root_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginStart="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +49,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.8" />
 
             <ImageView
                 android:id="@+id/pathIconn"
@@ -65,16 +67,16 @@
                 android:id="@+id/textPathCreateTicketScreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:paddingTop="16dp"
+                android:paddingStart="4dp"
                 android:paddingLeft="8dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
                 android:paddingRight="16dp"
-                tools:text="Dosya Seçiniz"
+                android:paddingBottom="16dp"
                 app:layout_constraintStart_toEndOf="@+id/pathIconn"
                 app:layout_constraintTop_toBottomOf="@+id/create_screen_root_view"
                 tools:ignore="MissingConstraints"
-                android:paddingStart="4dp"
-                android:paddingEnd="16dp" />
+                tools:text="Dosya Seçiniz" />
 
             <!--            android:text="@{viewModel.observable.messageLengthData}"-->
 
@@ -83,12 +85,12 @@
                 android:id="@+id/fileNameIcon"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
+                android:layout_gravity="center"
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
+                android:gravity="center"
                 android:text="X"
                 android:textColor="#ffffff"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/file_name_text_create_ticket_screen"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -100,14 +102,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="8dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                android:paddingRight="8dp"
                 android:paddingLeft="8dp"
-                tools:text="sabir..jpg"
+                android:paddingTop="16dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="16dp"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/fileNameIcon"
-                app:layout_constraintTop_toBottomOf="@+id/create_screen_root_view" />
+                app:layout_constraintTop_toBottomOf="@+id/create_screen_root_view"
+                tools:text="sabir..jpg" />
 
             <com.teknasyon.desk360.themev2.Desk360CreateScreenButton
                 android:id="@+id/create_ticket_button"
@@ -153,7 +155,6 @@
             </com.teknasyon.desk360.themev2.Desk360CreateScreenButton>
 
 
-
             <com.teknasyon.desk360.themev2.Desk360CreateScreenFooter
                 android:id="@+id/text_footer_create_ticket_screen"
                 android:layout_width="0dp"
@@ -171,316 +172,7 @@
                 tools:text="Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. " />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <!--
-               <com.teknasyon.desk360.themev2.Desk360MainBackground
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content">
 
-
-                   <com.teknasyon.desk360.themev2.Desk360InputLayout
-                       android:id="@+id/textInputLayout"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginStart="16dp"
-                       android:layout_marginLeft="16dp"
-                       android:layout_marginTop="16dp"
-                       android:layout_marginEnd="16dp"
-                       android:layout_marginRight="16dp"
-                       android:hint="İsim Soyisim"
-                       app:boxCollapsedPaddingTop="4dp"
-                       app:boxCornerRadiusBottomEnd="5dp"
-                       app:boxCornerRadiusBottomStart="5dp"
-                       app:boxCornerRadiusTopEnd="5dp"
-                       app:boxCornerRadiusTopStart="5dp"
-                       app:boxStrokeWidth="1dp"
-                       app:cardCornerRadius="15dp"
-                       app:cardElevation="12dp"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="parent">
-
-
-                       <com.teknasyon.desk360.themev2.Desk360InputEditText
-                           android:id="@+id/name_edit_text"
-                           android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:imeOptions="actionNext"
-                           android:minLines="1"
-                           android:onTextChanged="@{(text, start, before, count) -> viewModel.observable.nameQuality(text)}"
-                           android:padding="16dp"
-                           android:singleLine="true" />
-                   </com.teknasyon.desk360.themev2.Desk360InputLayout>
-
-
-                   <com.teknasyon.desk360.themev2.Desk360InputLayout
-                       android:id="@+id/textInputLayout2"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginStart="16dp"
-                       android:layout_marginLeft="16dp"
-                       android:layout_marginTop="16dp"
-                       android:layout_marginEnd="16dp"
-                       android:layout_marginRight="16dp"
-                       android:hint="E-Mail"
-                       app:boxCollapsedPaddingTop="1dp"
-                       app:boxCornerRadiusBottomEnd="5dp"
-                       app:boxCornerRadiusBottomStart="5dp"
-                       app:boxCornerRadiusTopEnd="5dp"
-                       app:boxCornerRadiusTopStart="5dp"
-                       app:boxStrokeWidth="1dp"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
-
-                       <com.teknasyon.desk360.themev2.Desk360InputEditText
-                           android:id="@+id/email_edit_text"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:imeOptions="actionNext"
-                           android:inputType="textEmailAddress"
-                           android:minLines="1"
-                           android:onTextChanged="@{(text, start, before, count) -> viewModel.observable.emailQuality(text)}"
-                           android:padding="16dp"
-                           android:singleLine="true" />
-                   </com.teknasyon.desk360.themev2.Desk360InputLayout>
-
-
-                   <com.teknasyon.desk360.themev2.Desk360ConstraintLayout
-                       android:id="@+id/subject_layout"
-                       android:layout_width="match_parent"
-                       android:layout_height="0dp"
-                       android:layout_marginStart="16dp"
-                       android:layout_marginLeft="16dp"
-                       android:layout_marginTop="16dp"
-                       android:layout_marginEnd="16dp"
-                       android:layout_marginRight="16dp"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintHorizontal_bias="0.0"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
-
-
-                       <com.teknasyon.desk360.themev2.Desk360Spinner
-                           android:id="@+id/subject_type"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:layout_marginStart="8dp"
-                           android:layout_marginLeft="8dp"
-                           android:layout_marginTop="8dp"
-                           android:layout_marginEnd="8dp"
-                           android:layout_marginRight="8dp"
-                           android:gravity="center"
-                           android:spinnerMode="dropdown"
-                           app:layout_constraintBottom_toBottomOf="parent"
-                           app:layout_constraintEnd_toEndOf="parent"
-                           app:layout_constraintStart_toStartOf="parent"
-                           app:layout_constraintTop_toTopOf="parent" />
-
-                       <View
-                           android:layout_width="match_parent"
-                           android:layout_height="1dp"
-                           android:layout_marginStart="8dp"
-                           android:layout_marginLeft="8dp"
-                           android:layout_marginTop="8dp"
-                           android:layout_marginEnd="8dp"
-                           android:layout_marginRight="8dp"
-                           android:layout_marginBottom="8dp"
-                           android:background="@color/colorDesk360TextHint"
-                           app:layout_constraintEnd_toEndOf="parent"
-                           app:layout_constraintStart_toStartOf="parent"
-                           app:layout_constraintTop_toBottomOf="@+id/subject_type" />
-                   </com.teknasyon.desk360.themev2.Desk360ConstraintLayout>
-
-
-                   <com.teknasyon.desk360.themev2.Desk360MessageAreaTypeOne
-                       android:id="@+id/messageAreaLayoutType1"
-                       android:layout_width="match_parent"
-                       android:layout_height="0dp"
-                       android:layout_marginStart="16dp"
-                       android:layout_marginLeft="16dp"
-                       android:layout_marginTop="16dp"
-                       android:layout_marginEnd="16dp"
-                       android:layout_marginRight="16dp"
-                       android:paddingBottom="8dp"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintHorizontal_bias="1.0"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toBottomOf="@+id/subject_layout">
-
-
-                       <com.google.android.material.textfield.TextInputLayout
-                           android:id="@+id/textInputMessage"
-                           android:layout_width="match_parent"
-                           android:layout_height="0dp"
-                           android:hint="Mesajınız"
-                           app:boxBackgroundMode="outline"
-                           app:boxCollapsedPaddingTop="1dp"
-                           app:boxCornerRadiusBottomEnd="5dp"
-                           app:boxCornerRadiusBottomStart="5dp"
-                           app:boxCornerRadiusTopEnd="5dp"
-                           app:boxCornerRadiusTopStart="5dp"
-                           app:boxStrokeWidth="1dp"
-                           tools:ignore="MissingConstraints">
-
-                           <com.google.android.material.textfield.TextInputEditText
-                               android:id="@+id/message_edit_text_type1"
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:gravity="start"
-                               android:onTextChanged="@{(text, start, before, count) -> viewModel.observable.messageQuality(text)}"
-                               android:imeOptions="actionDone"
-                               android:maxLength="250"
-                               android:maxLines="7"
-                               android:minLines="6"
-                               android:padding="16dp" />
-
-                       </com.google.android.material.textfield.TextInputLayout>
-
-                   </com.teknasyon.desk360.themev2.Desk360MessageAreaTypeOne>
-
-                   <com.teknasyon.desk360.themev2.Desk360MessageAreaTypeTwo
-                       android:id="@+id/messageAreaLayoutType2"
-                       android:layout_width="match_parent"
-                       android:layout_height="0dp"
-                       android:layout_marginStart="16dp"
-                       android:layout_marginLeft="16dp"
-                       android:layout_marginTop="24dp"
-                       android:layout_marginEnd="16dp"
-                       android:layout_marginRight="16dp"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintHorizontal_bias="1.0"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toBottomOf="@+id/subject_layout">
-
-                       <TextView
-                           android:id="@+id/textView"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_marginStart="16dp"
-                           android:layout_marginLeft="16dp"
-                           android:paddingBottom="4dp"
-                           android:text="Mesajınız"
-                           android:textColor="@color/colorDesk360TextHint"
-                           android:textSize="16sp"
-                           app:layout_constraintStart_toStartOf="parent"
-                           app:layout_constraintTop_toTopOf="parent" />
-
-                       <com.teknasyon.desk360.themev2.Desk360EditTextMessage
-                           android:id="@+id/message_edit_text_type2"
-                           android:layout_width="0dp"
-                           android:layout_height="wrap_content"
-                           android:layout_marginStart="8dp"
-                           android:layout_marginEnd="8dp"
-                           android:background="@drawable/message_area_bg_white"
-                           android:gravity="start"
-                           android:maxLength="250"
-                           android:maxLines="6"
-                           android:minLines="5"
-                           android:onTextChanged="@{(text, start, before, count) -> viewModel.observable.messageQuality(text)}"
-                           android:padding="16dp"
-                           app:layout_constraintBottom_toBottomOf="parent"
-                           app:layout_constraintEnd_toEndOf="parent"
-                           app:layout_constraintStart_toStartOf="parent"
-                           app:layout_constraintTop_toBottomOf="@+id/textView"
-                           tools:ignore="MissingConstraints" />
-                   </com.teknasyon.desk360.themev2.Desk360MessageAreaTypeTwo>
-
-
-
-
-                   <TextView
-                       android:id="@+id/textViewPath"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginStart="24dp"
-                       android:layout_marginLeft="24dp"
-                       android:layout_marginTop="16dp"
-                       android:drawableStart="@drawable/path_icon_desk360"
-                       android:drawableLeft="@drawable/path_icon_desk360"
-                       android:drawablePadding="8dp"
-                       android:fontFamily="sans-serif-medium"
-                       android:text="Dosya Ekle"
-                       android:textColor="#58b0fa"
-                       android:textSize="16sp"
-                       android:textStyle="normal"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toBottomOf="@+id/messageAreaLayoutType1" />
-
-                   <com.teknasyon.desk360.themev2.Desk360FileNameText
-                       android:id="@+id/file_name_text"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginTop="16dp"
-                       android:layout_marginEnd="24dp"
-                       android:layout_marginRight="24dp"
-                       android:drawableEnd="@drawable/document_cancel_icon"
-                       android:drawableRight="@drawable/document_cancel_icon"
-                       android:drawablePadding="8dp"
-                       android:visibility="invisible"
-                       android:text="sabir..jpg"
-                       android:textSize="14sp"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintTop_toBottomOf="@+id/messageAreaLayoutType1" />
-
-                   &lt;!&ndash;            android:text="@{viewModel.observable.messageLengthData}"&ndash;&gt;
-
-                   <com.teknasyon.desk360.themev2.Desk360SendFormButton
-                       android:id="@+id/send_button"
-                       android:layout_width="match_parent"
-                       android:layout_height="55dp"
-                       android:layout_marginStart="24dp"
-                       android:layout_marginLeft="24dp"
-                       android:layout_marginTop="32dp"
-                       android:layout_marginEnd="24dp"
-                       android:layout_marginRight="24dp"
-                       android:imeOptions="actionGo"
-                       android:text="Gönder"
-                       android:textAllCaps="false"
-                       app:layout_constraintBottom_toTopOf="@+id/txtBottomFooterMessageForm"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toBottomOf="@+id/file_name_text" />
-
-                   <com.teknasyon.desk360.helper.Desk360Loading
-                       android:id="@+id/loading_progress"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginStart="8dp"
-                       android:layout_marginLeft="8dp"
-                       android:layout_marginTop="8dp"
-                       android:layout_marginEnd="8dp"
-                       android:layout_marginRight="8dp"
-                       android:layout_marginBottom="8dp"
-                       android:padding="16dp"
-                       android:visibility="gone"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="parent" />
-
-
-                   <com.teknasyon.desk360.themev2.Desk360CommonFooterText
-                       android:id="@+id/txtBottomFooterMessageForm"
-                       android:layout_width="0dp"
-                       android:layout_height="wrap_content"
-                       android:layout_marginStart="24dp"
-                       android:layout_marginEnd="24dp"
-                       android:gravity="center"
-                       android:maxLines="5"
-                       android:padding="8dp"
-                       android:scrollbars="vertical"
-                       android:text="Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. "
-                       android:textSize="8sp"
-                       android:textStyle="normal"
-                       app:layout_constraintBottom_toBottomOf="parent"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintStart_toStartOf="parent"
-                       tools:ignore="MissingConstraints,SmallSp" />
-
-
-
-              </com.teknasyon.desk360.themev2.Desk360MainBackground>
-         -->
     </ScrollView>
 
 </layout>

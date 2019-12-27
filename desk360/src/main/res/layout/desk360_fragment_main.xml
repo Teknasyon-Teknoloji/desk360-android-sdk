@@ -48,11 +48,12 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:navGraph="@navigation/base_navigation" />
 
-        <com.teknasyon.desk360.themev2.Desk360CommonBottomBar
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contactUsMainBottomBar"
             android:layout_width="match_parent"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/colorDesk360Transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints">
@@ -60,29 +61,16 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/powered_by"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView1"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </ImageView>
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:src="@drawable/desk_logo"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/desk360bottomlogo"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
             </ImageView>
 
-        </com.teknasyon.desk360.themev2.Desk360CommonBottomBar>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </com.teknasyon.desk360.themev2.Desk360MainBackground>
