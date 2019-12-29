@@ -3,6 +3,7 @@ package com.teknasyon.desk360.view.activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
@@ -23,6 +24,7 @@ import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
+import java.util.*
 
 
 open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
@@ -39,10 +41,10 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     private var binding: Desk360FragmentMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = Desk360FragmentMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         setSupportActionBar(findViewById(R.id.toolbar))
+        setLanguage()
         supportActionBar?.setDisplayShowTitleEnabled(false)
         viewModel = ViewModelProviders.of(this).get(TicketListViewModel::class.java)
 
@@ -213,5 +215,18 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         super.onDestroy()
         if (disposable?.isDisposed == false)
             disposable?.dispose()
+    }
+
+    private fun setLanguage() {
+        if (!Desk360Constants.language_code.isNullOrEmpty()) {
+            val res = this.resources
+            val dm = res.displayMetrics
+            val conf = res.configuration
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                conf?.setLocale(Locale(Desk360Constants.language_code))
+            }
+            res.updateConfiguration(conf, dm)
+        }
+
     }
 }

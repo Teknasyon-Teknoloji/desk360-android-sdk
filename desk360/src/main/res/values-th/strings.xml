@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">โปรดเขียนที่อยู่อีเมลที่ถูกต้อง</string>
     <string name="BUTTON_ADD_NEW_TICKET">สร้างตั๋วใหม่</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">วิดีโอต้องมีขนาดใหญ่สุดอยู่ที่ 20 MB</string>
 </resources>

@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Укажите действительный адрес эл. почты.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Добавить новый запрос</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Размер видеофайла должен быть не более 20 МБ.</string>
 </resources>

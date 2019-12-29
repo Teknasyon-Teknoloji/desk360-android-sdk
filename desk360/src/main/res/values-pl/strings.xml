@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Wpisz prawidłowy adres e-mail.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Utwórz nowy numer</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Rozmiar pliku wideo nie może przekraczać 20 MB.</string>
 </resources>

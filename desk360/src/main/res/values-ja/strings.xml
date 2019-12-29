@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">有効なeメールアドレスを記入して下さい。</string>
     <string name="BUTTON_ADD_NEW_TICKET">新規チケットを作成</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">ビデオファイルのサイズは最大20 MBまでです。</string>
 </resources>

@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Skriv en giltig e-postadress.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Skapa ny etikett</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Storleken på videofilen måste vara högst 20 MB.</string>
 </resources>

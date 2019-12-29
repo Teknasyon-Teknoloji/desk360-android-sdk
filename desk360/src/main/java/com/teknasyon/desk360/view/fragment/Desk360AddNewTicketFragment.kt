@@ -601,9 +601,9 @@ open class Desk360AddNewTicketFragment : Fragment(),
         activity?.let {
             val alert = AlertDialog.Builder(it)
             alert.setTitle("Desk360")
-            alert.setMessage("Boyut 20 mb aşmaktadır")
+            alert.setMessage(getString(R.string.ALERT_MESSAGE_ATTACHMMENT_SIZE))
             alert.setCancelable(false)
-            alert.setNegativeButton("Anladım") { _: DialogInterface, _: Int ->
+            alert.setNegativeButton(getString(R.string.ok_button)) { _: DialogInterface, _: Int ->
                 file = null
             }
             alert.show()

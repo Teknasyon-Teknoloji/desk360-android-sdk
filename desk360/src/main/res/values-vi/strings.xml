@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Vui lòng điền địa chỉ e-mail hợp lệ.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Tạo Thẻ Mới</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Tệp video có kích thước tối đa là 20 MB.</string>
 </resources>

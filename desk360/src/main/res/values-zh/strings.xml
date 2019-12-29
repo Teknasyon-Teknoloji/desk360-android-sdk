@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">請輸入有效的電子郵件地址。</string>
     <string name="BUTTON_ADD_NEW_TICKET">新建任务单</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">" 视频文件大小必须最大为20 MB。20 MB"</string>
 </resources>

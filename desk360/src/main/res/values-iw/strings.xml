@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">נא לרשום כתובת אימייל תקפה.</string>
     <string name="BUTTON_ADD_NEW_TICKET">צור כרטיסייה חדשה</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">גודל קובץ הווידאו המותר חייב להיות מקסימום 20 מגה בייט.</string>
 </resources>

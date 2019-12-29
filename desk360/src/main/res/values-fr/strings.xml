@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Veuillez écrire une adresse e-mail valide.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Créer un nouveau ticket</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">La taille du fichier vidéo doit être au maximum de 20 Mo.</string>
 </resources>

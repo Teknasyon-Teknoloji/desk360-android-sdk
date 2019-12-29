@@ -12,7 +12,6 @@ import org.json.JSONException
 import org.json.JSONObject
 
 
-
 class MainActivity : AppCompatActivity(), LifecycleOwner {
     var openContact: Button? = null
 
@@ -20,8 +19,9 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         openContact = findViewById(R.id.openContactUs)
-        getObj()
         openContact?.setOnClickListener { setupNavigation() }
+
+
     }
 
     private fun setupNavigation() {

@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Vennligst skriv en gyldig e-postadresse.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Nytt oppdrag</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Størrelsen på en videofil kan være maksimalt 20 MB.</string>
 </resources>

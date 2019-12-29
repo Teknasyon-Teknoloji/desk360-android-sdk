@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Skriv venligst en gyldig e-mailadresse.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Opret ny billet</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Videofilstørrelse kan maksimalt være 20 MB.</string>
 </resources>

@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Mangyaring maglagay ng valid na e-mail addres.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Gumawa ng Bagong Tiket</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Ang maximum na laki ng video file ay dapat na 20 MB.</string>
 </resources>
