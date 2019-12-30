@@ -19,7 +19,6 @@ import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.RxBus
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

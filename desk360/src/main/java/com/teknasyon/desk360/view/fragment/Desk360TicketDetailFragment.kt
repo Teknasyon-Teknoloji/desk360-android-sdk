@@ -36,17 +36,13 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 
-/**
- * Created by seyfullah on 25,May,2019
- *
- */
+
 open class Desk360TicketDetailFragment : Fragment() {
     private var binding: Desk360FragmentTicketDetailBinding? = null
     private var ticketDetailAdapter: Desk360TicketDetailListAdapter? = null
     private val gradientDrawable = GradientDrawable()
     private var ticketId: Int? = null
     private var ticketStatus: String? = null
-    private var url : String?=null
     private var backButtonAction: Disposable? = null
 
     private var observer = Observer<Desk360TicketResponse> {
@@ -95,11 +91,6 @@ open class Desk360TicketDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
         viewModel = ticketId?.let { TicketDetailViewModel(it) }
-
-//        viewModel?.url_attachment?.observe(this, Observer {
-//            url=it
-//        })
-
         viewModel?.ticketDetailList?.observe(this, observer)
 
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
@@ -117,7 +108,6 @@ open class Desk360TicketDetailFragment : Fragment() {
                             binding?.messageEditText?.text.toString()
                         )
                     }
-//                    binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
                 }
             }
         }
@@ -160,18 +150,6 @@ open class Desk360TicketDetailFragment : Fragment() {
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
             PorterDuff.Mode.SRC_ATOP
         )
-        binding?.messageEditText?.onFocusChangeListener =
-            View.OnFocusChangeListener { v, hasFocus ->
-
-                if (hasFocus) {
-                 //   binding!!.messageEditText.setHintTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_active_color))
-                } else {
-               //     binding!!.messageEditText.setHintTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color))
-                }
-
-            }
-
-
 
         binding?.messageEditText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

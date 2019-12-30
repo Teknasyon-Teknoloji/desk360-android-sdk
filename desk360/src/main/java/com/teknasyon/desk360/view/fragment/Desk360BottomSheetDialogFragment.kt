@@ -30,6 +30,16 @@ class Desk360BottomSheetDialogFragment(val listener: BottomSheetListener) :
         val buttonImage = view.findViewById<TextView>(R.id.btnImageAttachment)
         val buttonPdf = view.findViewById<TextView>(R.id.btnPdfAttachment)
         val buttonVideo = view.findViewById<TextView>(R.id.btnvideoAttachment)
+        buttonImage.text =
+            Desk360Constants.currentType?.data?.general_settings?.attachment_images_text
+                ?: "Images"
+        buttonPdf.text =
+            Desk360Constants.currentType?.data?.general_settings?.attachment_browse_text
+                ?: "Document"
+        buttonVideo.text =
+            Desk360Constants.currentType?.data?.general_settings?.attachment_videos_text
+                ?: "Videos"
+
         bottomSheetListener = listener
 
         layout.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
@@ -37,9 +47,9 @@ class Desk360BottomSheetDialogFragment(val listener: BottomSheetListener) :
         buttonPdf.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
         buttonVideo.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
 
-        Desk360CustomStyle.setFontWeight(buttonImage,context,500)
-        Desk360CustomStyle.setFontWeight(buttonPdf,context,500)
-        Desk360CustomStyle.setFontWeight(buttonVideo,context,500)
+        Desk360CustomStyle.setFontWeight(buttonImage, context, 500)
+        Desk360CustomStyle.setFontWeight(buttonPdf, context, 500)
+        Desk360CustomStyle.setFontWeight(buttonVideo, context, 500)
 
         buttonImage.setOnClickListener {
             bottomSheetListener?.onButtonClicked(0)
@@ -56,7 +66,7 @@ class Desk360BottomSheetDialogFragment(val listener: BottomSheetListener) :
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            buttonPdf.visibility=View.GONE
+            buttonPdf.visibility = View.GONE
         }
 
         return view

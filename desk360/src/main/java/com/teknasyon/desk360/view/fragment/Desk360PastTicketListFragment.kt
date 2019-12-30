@@ -1,10 +1,8 @@
 package com.teknasyon.desk360.view.fragment
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +15,6 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentPastTicketListBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.model.Desk360TicketResponse
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 
@@ -65,8 +62,6 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.pastTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
-//        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.first_screen?.button_style_id,binding.openMessageformFromExpiredList,context!!)
-
         binding.noExpiredImageEmpty.requestLayout()
         binding.noExpiredImageEmpty.setImageResource(R.drawable.no_expired_ticket_list_icon)
         binding.noExpiredImageEmpty.setColorFilter(
@@ -83,22 +78,6 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             }
         })
 
-//        binding.ticketListEmptyButtonIconPast.setImageResource(R.drawable.zarf)
-//        binding.ticketListEmptyButtonIconPast.setColorFilter(
-//            Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_text_color),
-//            PorterDuff.Mode.SRC_ATOP
-//        )
-//
-//
-//        binding.openMessageformFromExpiredList.setOnClickListener{
-//            Navigation
-//                .findNavController(it)
-//                .navigate(R.id.action_ticketListFragment_to_preNewTicketFragment, null)
-//        }
-    }
-
-    private fun convertDpToPixel(dp: Float, context: Context): Float {
-        return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
 
     private fun setViews() {

@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
             student1.put("year", "3rd")
             student1.put("curriculum", "Arts")
             student1.put("birthday", "5/5/1993")
-        } catch (e: JSONException) { // TODO Auto-generated catch block
+        } catch (e: JSONException) {
             e.printStackTrace()
         }
 

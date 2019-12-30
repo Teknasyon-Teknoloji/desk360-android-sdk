@@ -15,7 +15,6 @@
         android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="Documents"
         android:textColor="#808080"
         android:textSize="16sp" />
 
@@ -35,7 +34,6 @@
         android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="Video"
         android:textColor="#808080"
         android:textSize="16sp" />
 
@@ -55,7 +53,6 @@
         android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="Image"
         android:textColor="#808080"
         android:textSize="16sp" />
 

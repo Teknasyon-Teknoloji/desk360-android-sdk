@@ -554,19 +554,18 @@ open class Desk360AddNewTicketFragment : Fragment(),
                             while (inputStream.read(buffers).also { read = it } != -1) {
                                 outputStream.write(buffers, 0, read)
                             }
-                            Log.e("File Size", "Size " + cachFile.length())
+//                            Log.e("File Size", "Size " + cachFile.length())
                             inputStream.close()
                             outputStream.close()
-                            Log.e("File Path", "Path " + cachFile.path)
+//                            Log.e("File Path", "Path " + cachFile.path)
                         } catch (e: Exception) {
                             Log.e("Exception", e.message)
                         }
-                        Log.d("pdf_path", cachFile.path + "")
+//                        Log.d("pdf_path", cachFile.path + "")
                         file = cachFile
                         fileName = file!!.name
                     }
                     1223 -> {
-//                        file = File(getPathVideo(pathUri))
                         file = File(pathUri.let { ImageFilePath().getUriRealPath(context!!, it) })
                     }
                 }
@@ -591,7 +590,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
                     }
                 }
-                Log.d("asasa", "saas")
             }
 
         }
@@ -645,7 +643,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         nameData = s.toString().trim()
         nameFieldFill = when {
             s.isEmpty() -> {
-                nameField?.holder?.textInputLayout?.error = "Boşş"
+                nameField?.holder?.textInputLayout?.error = Desk360Constants.currentType?.data?.general_settings?.required_field_message ?: "Lütfen İsim Alanını Doldurunuz"
                 nameField?.holder?.textInputLayout?.isErrorEnabled = true
                 false
             }
@@ -666,7 +664,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             !checkEmail(email = s.toString()) -> {
                 invalidEmail = true
                 eMailField?.holder?.textInputLayout?.isErrorEnabled = true
-                eMailField?.holder?.textInputLayout?.error = "Geçersiz email"
+                eMailField?.holder?.textInputLayout?.error = Desk360Constants.currentType?.data?.general_settings?.required_email_field_message ?: "Email Alanını Formatına Göre Giriniz."
                 false
             }
 
@@ -684,12 +682,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
         messageLength = messageData!!.length
         messageFieldFill = when {
             s.isEmpty() -> {
-                messageField?.holder?.textAreaLayout?.error = "En az üç karakter olmalı"
+                messageField?.holder?.textAreaLayout?.error =  Desk360Constants.currentType?.data?.general_settings?.required_textarea_message ?: "Mesaj Alanını Doldurunuz."
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = true
                 false
             }
             s.length < 3 -> {
-                messageField?.holder?.textAreaLayout?.error = "En az üç karakter olmalı"
+                messageField?.holder?.textAreaLayout?.error = Desk360Constants.currentType?.data?.general_settings?.required_textarea_message ?: "Mesaj Alanını Doldurunuz."
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = true
                 false
             }
@@ -757,15 +755,15 @@ open class Desk360AddNewTicketFragment : Fragment(),
         } else {
             when {
                 !nameFieldFill -> {
-                    nameField?.holder?.textInputLayout?.error = "Alan Boşşşş"
+                    nameField?.holder?.textInputLayout?.error = Desk360Constants.currentType?.data?.general_settings?.required_field_message ?: "Lütfen İsim Alanını Doldurunuz"
                     nameFieldFill = false
                     observerName()
                 }
                 !emailFieldFill -> {
                     if (invalidEmail)
-                        eMailField?.holder?.textInputLayout?.error = "Geçersiz Mail adresi"
+                        eMailField?.holder?.textInputLayout?.error = Desk360Constants.currentType?.data?.general_settings?.required_email_field_message ?: "Email Alanını Formatına Göre Giriniz."
                     else
-                        eMailField?.holder?.textInputLayout?.error = "Alan Boşşşş"
+                        eMailField?.holder?.textInputLayout?.error = Desk360Constants.currentType?.data?.general_settings?.required_email_field_message_empty ?: "Email Alanını Lütfen Boş Bırakmayın."
                     emailFieldFill = false
                     observerEMail()
                 }
@@ -774,7 +772,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     subjectTypeSpinner?.holder?.selectBox?.performClick()
                 }
                 messageLength <= 0 -> {
-                    messageField?.holder?.textAreaLayout?.error = "En az üç karakter olmalı"
+                    messageField?.holder?.textAreaLayout?.error =  Desk360Constants.currentType?.data?.general_settings?.required_textarea_message ?: "Mesaj Alanını Doldurunuz."
                     messageFieldFill = false
                     observerMessage()
                 }
