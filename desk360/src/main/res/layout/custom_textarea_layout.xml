@@ -56,7 +56,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textarea_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="150dp"
             android:gravity="start"
             android:inputType="text|textAutoComplete|textMultiLine|textLongMessage"
             android:maxLines="6"

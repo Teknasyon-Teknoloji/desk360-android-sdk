@@ -24,12 +24,13 @@ class Desk360ScreenGeneralSettings : Serializable {
     var copyright_background_color = "#71717b"
 
     var required_field_message = "İsim Alanını Doldurunuz."
+    var required_email_field_message = "Email Alanını Formatına Göre Giriniz."
+    var required_email_field_message_empty = "Email Alanını Doldurunuz."
     var required_textarea_message = "Mesaj Alanını Doldurunuz."
+
     var attachment_browse_text = "Döküman"
     var attachment_images_text = "Resim"
     var attachment_videos_text = "Video"
-    var required_email_field_message = "Email Alanını Formatına Göre Giriniz."
-    var required_email_field_message_empty = "Email Alanını Doldurunuz."
     var file_size_error_text = "Dosya Boyutu 20 Mb dan fazla olmamalıdır."
 
     var gallery_permission_error_button_text = ""
