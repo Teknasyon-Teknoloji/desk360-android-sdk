@@ -40,9 +40,11 @@ import com.teknasyon.desk360.helper.*
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.modelv2.Desk360CustomFields
 import com.teknasyon.desk360.modelv2.Desk360Options
+import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360CustomSupportTypeAdapter
 import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
 import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
+import kotlinx.android.synthetic.main.desk360_fragment_main.*
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import java.io.File
@@ -182,7 +184,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         typeList = Desk360Config.instance.getDesk360Preferences()?.subjects?.data
         viewModel?.typeList?.observe(this, observer)
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
-
+        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.VISIBLE
         listOfType.clear()
 
         typeList?.let {
@@ -527,7 +529,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 when (RESULT_LOAD_FILES) {
                     1221 -> {
                         file = File(pathUri.let { ImageFilePath().getUriRealPath(context!!, it) })
-                        fileName = file!!.name
+                        fileName = file?.name
                     }
                     1222 -> {
                         //file = File(pathUri?.let { getRealPathFromURI(it) })
@@ -563,10 +565,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         }
 //                        Log.d("pdf_path", cachFile.path + "")
                         file = cachFile
-                        fileName = file!!.name
+                        fileName = file?.name
                     }
                     1223 -> {
                         file = File(pathUri.let { ImageFilePath().getUriRealPath(context!!, it) })
+                        fileName=file?.name
                     }
                 }
 

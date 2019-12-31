@@ -15,6 +15,8 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360SuccessScreenLayoutBinding
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.view.activity.Desk360BaseActivity
+import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
 
 class Desk360SuccessScreen : Fragment() {
@@ -37,6 +39,9 @@ class Desk360SuccessScreen : Fragment() {
                 .findNavController(it)
                 .navigateUp()
         }
+
+        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.VISIBLE
+
 
         Desk360CustomStyle.setFontWeight(binding.successScreenBottomFooter,context,Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight)
         Desk360CustomStyle.setFontWeight(binding.successScreenOpenMessageFormText,context,Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_font_weight)

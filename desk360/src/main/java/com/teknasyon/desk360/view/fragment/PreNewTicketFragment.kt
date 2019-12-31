@@ -14,6 +14,8 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentPreNewTicketBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.view.activity.Desk360BaseActivity
+import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
 
 class PreNewTicketFragment : Fragment() {
@@ -39,6 +41,9 @@ class PreNewTicketFragment : Fragment() {
                     NavOptions.Builder().setPopUpTo(R.id.preNewTicketFragment, true).build()
                 )
         }
+
+        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.VISIBLE
+
 
         Desk360CustomStyle.setFontWeight(binding.preScreenButtonText,context,Desk360Constants.currentType?.data?.create_pre_screen?.button_text_font_weight)
 

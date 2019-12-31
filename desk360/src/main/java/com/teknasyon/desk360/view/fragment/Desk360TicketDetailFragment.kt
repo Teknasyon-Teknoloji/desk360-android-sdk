@@ -29,12 +29,13 @@ import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360TicketResponse
+import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360TicketDetailListAdapter
 import com.teknasyon.desk360.viewmodel.TicketDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-
+import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
 
 open class Desk360TicketDetailFragment : Fragment() {
@@ -92,6 +93,8 @@ open class Desk360TicketDetailFragment : Fragment() {
         binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
         viewModel = ticketId?.let { TicketDetailViewModel(it) }
         viewModel?.ticketDetailList?.observe(this, observer)
+
+        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.VISIBLE
 
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
         Desk360CustomStyle.setStyle(
