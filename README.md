@@ -98,42 +98,26 @@ import com.teknasyon.desk360.helper.Desk360Config
 ```
 Desk360Config().context = yourContext
 
-Desk360Constants.desk360CurrentTheme("light")
 
 Desk360Constants.desk360Config(
-            app_key = BuildConfig.APP_KEY,
-            app_version = BuildConfig.VERSION_NAME,
-            baseURL = BuildConfig.DESK360_BASE_URL
-        ) 
+  app_key = BuildConfig.DESK360_APP_KEY,
+  app_version = BuildConfig.VERSION_NAME,
+  baseURL = BuildConfig.DESK360_BASE_URL,
+  app_language = langCode, // optional any language code like "tr","en","ru"
+  json_object = yourJsonObject, // optional
+  device_token = SmartAlarm.instance.getAresPreferences()?.adId
+)
+startActivity(Intent(context, Desk360BaseActivity::class.java))
 ```
 
-
-
-Or 
-
-
-
-```
-Desk360Config().context = yourContext
-
-Desk360Constants.desk360CurrentTheme("light")
-
-Desk360Constants.desk360Config(
-            app_key = BuildConfig.APP_KEY,
-            app_version = BuildConfig.VERSION_NAME,
-            baseURL = BuildConfig.DESK360_BASE_URL,
-            device_token = "your_device_token"
-        ) 	
-```
-
-
-
-##### fun desk360Config(app_key: String, device_token: String?= null)
+##### fun desk360Config(app_key: String, device_token: String?= null,json_object: JSONObject?=null,app_language: String = "")
 
 | Parameters   | Description                                                  |
 | ------------ | ------------------------------------------------------------ |
 | app_key      | Uniqe token request from [http://desk360.com]                |
 | device_token | This parameters  values has a optionally ,  If you do not specify any value, the Desk360 sdksi generates a random deviceId.<br/>  *DeviceId created by Desk360; Resets when user uninstall and reinstall application* |
+| json_object  | This parameter is optionally and avaible to send your json object by this parameter.|
+| app_language | This parameter is optionally too.If you dont use this parameter, Desk360 SDK uses system defualt language.If you want to use this parameter, you must send language code here.|
 
 ####  
 
@@ -150,22 +134,11 @@ Desk360Constants.desk360Config(
 
 
 
-#### Customize Desk360 theme:
-
-Desk360Constants.currentTheme = "dark"
-
-or
-
-Desk360Constants.currentTheme = "light"
-
-
-
 ### Use Desk 360
 
 ```
  startActivity(Intent(context, Desk360BaseActivity::class.java))
 ```
-
 
 
 # Versioning
@@ -177,7 +150,6 @@ We use [SemVer](http://semver.org/) for versioning.
 # Support
 
 If you have any questions or feature requests, please create an issue.
-
 
 
 # Licence
