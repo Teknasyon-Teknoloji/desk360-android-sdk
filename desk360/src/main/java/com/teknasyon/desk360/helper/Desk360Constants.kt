@@ -72,11 +72,6 @@ object Desk360Constants {
     }
 
 
-    fun desk360CurrentTheme(current_theme: Int) {
-        if (current_theme == 1)
-            return
-        this.currentTheme = current_theme
-    }
 
     fun countryCode(): String {
 

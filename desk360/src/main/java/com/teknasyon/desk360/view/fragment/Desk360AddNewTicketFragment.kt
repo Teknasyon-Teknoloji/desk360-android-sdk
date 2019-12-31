@@ -598,8 +598,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private fun showAlert() {
         activity?.let {
             val alert = AlertDialog.Builder(it)
-            alert.setTitle("Desk360")
-            alert.setMessage(getString(R.string.ALERT_MESSAGE_ATTACHMMENT_SIZE))
+            alert.setMessage(Desk360Constants.currentType?.data?.general_settings?.file_size_error_text) ?: ""
             alert.setCancelable(false)
             alert.setNegativeButton(getString(R.string.ok_button)) { _: DialogInterface, _: Int ->
                 file = null
