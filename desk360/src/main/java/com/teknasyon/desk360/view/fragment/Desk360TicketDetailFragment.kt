@@ -94,7 +94,7 @@ open class Desk360TicketDetailFragment : Fragment() {
         viewModel = ticketId?.let { TicketDetailViewModel(it) }
         viewModel?.ticketDetailList?.observe(this, observer)
 
-        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.VISIBLE
+        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.GONE
 
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
         Desk360CustomStyle.setStyle(

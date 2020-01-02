@@ -61,6 +61,7 @@ open class Desk360TicketListFragment : Fragment() {
                 .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
         }
 
+        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.VISIBLE
 
         for (i in 0 until binding?.ticketsTabs?.tabCount!!) {
 
@@ -160,10 +161,8 @@ open class Desk360TicketListFragment : Fragment() {
                     it["sizeTicketList"]?.let { sizeList ->
                         if (sizeList > 0) {
                             setViewFillLayout()
-                            (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.GONE
                         } else {
                             setViewEmptyLayout()
-                            (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.VISIBLE
                         }
                     }
                 }
