@@ -114,6 +114,14 @@ object Desk360CustomStyle {
         }
     }
 
+     fun setButtonText(buttonTextSize: Int,text:String?): String? {
+        return if (buttonTextSize > 18) {
+            text?.substring(0, 15) + "..."
+        } else {
+            text
+        }
+    }
+
 
     private fun convertDpToPixel(dpOfMargin: Float, context: Context): Float {
         return dpOfMargin * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
