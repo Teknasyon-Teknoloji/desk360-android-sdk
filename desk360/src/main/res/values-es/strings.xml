@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Por favor, escribe una dirección de e-mail válida.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Crear un nuevo tique</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">El tamaño del archivo de video debe ser de 20 MB como máximo.</string>
 </resources>

@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Kérjük, adj meg egy érvényes e-mail-címet.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Új jegy létrehozása</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">A videófájl mérete maximum 20MB lehet.</string>
 </resources>

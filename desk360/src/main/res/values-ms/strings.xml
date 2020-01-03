@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Sila tulis alamat e-mel yang sah.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Cipta Tiket Baharu</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Saiz video perlu 20 MB maksimum.</string>
 </resources>

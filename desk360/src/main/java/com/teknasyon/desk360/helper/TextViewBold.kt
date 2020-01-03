@@ -17,7 +17,11 @@ class TextViewBold : TextView {
         this.typeface = face
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
         val face = Typeface.createFromAsset(context.assets, "ProximaNova-Bold.otf")
         this.typeface = face
     }

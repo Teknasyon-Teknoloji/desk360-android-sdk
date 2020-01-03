@@ -1,121 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
-    <com.teknasyon.desk360.helper.Desk360ConstraintLayout
+    <com.teknasyon.desk360.themev2.Desk360LayoutTicket
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.teknasyon.desk360.helper.Desk360RecyclerView
-            android:id="@+id/ticket_list"
+        <com.teknasyon.desk360.themev2.Desk360LayoutTicket
+            android:id="@+id/fill_list_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/footer_area"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.teknasyon.desk360.helper.Desk360ConstraintLayout
-            android:id="@+id/empty_list_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/footer_area"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:id="@+id/containerTabs"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/demand_empty_icon"
+                android:layout_marginTop="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <com.teknasyon.desk360.themev2.Desk360TicketListTabLayout
+                    android:id="@+id/tickets_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabInlineLabel="true"
+                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                    tools:ignore="MissingConstraints">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/current_tickets"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        tools:text="Current" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/past_tickets"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        tools:text="Past" />
+
+                </com.teknasyon.desk360.themev2.Desk360TicketListTabLayout>
+
+                <TextView
+                    android:id="@+id/text_tickets_current_count"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center|top"
+                    android:layout_marginEnd="48dp"
+                    android:layout_marginRight="48dp"
+                    android:background="@drawable/desk360_circle_bg_blue"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp"
+                    android:visibility="invisible"
+                    tools:ignore="MissingConstraints" />
+
+            </FrameLayout>
+
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPagerContainer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/containerTabs" />
+
+
+        </com.teknasyon.desk360.themev2.Desk360LayoutTicket>
+
+        <com.teknasyon.desk360.themev2.Desk360MainBackground
+            android:id="@+id/empty_list_layout_ticket_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+            <com.teknasyon.desk360.themev2.Desk360FirstDescription
+                android:id="@+id/empty_list_layout_ticket_list_subTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="0dp"
+                android:gravity="center"
+                android:maxLines="4"
+                android:ellipsize="end"
+                android:padding="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/empty_list_layout_ticket_list_desc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:text="Henüz hiç bir mesaj yaratmadınız" />
+
+            <com.teknasyon.desk360.themev2.Desk360SecondDescription
+                android:id="@+id/empty_list_layout_ticket_list_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="64dp"
+                android:gravity="center"
+                android:maxLines="6"
+                android:ellipsize="end"
+                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.39" />
+                tools:text="İlk yardım mesajını yaratmak ve canlı destek almak için bize ulaşın!" />
 
-            <com.teknasyon.desk360.helper.Desk360TextViewInfo
+
+            <com.teknasyon.desk360.themev2.Desk360CommonButton
+                android:id="@+id/emptysAddNewTicketButtonTicketList"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toTopOf="@+id/txtBottomFooterMainTicketList"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <com.teknasyon.desk360.themev2.Desk360FirstScreenButtonIcon
+                    android:id="@+id/firstScreenButtonIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtOpenMessageFormTicketList"
+                    app:layout_constraintEnd_toStartOf="@+id/txtOpenMessageFormTicketList"
+                    app:layout_constraintTop_toTopOf="@+id/txtOpenMessageFormTicketList" />
+
+                <com.teknasyon.desk360.themev2.Desk360CommonButtonText
+                    android:id="@+id/txtOpenMessageFormTicketList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="16dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints"
+                    tools:text="Bize Yazın" />
+
+
+            </com.teknasyon.desk360.themev2.Desk360CommonButton>
+
+
+            <com.teknasyon.desk360.themev2.Desk360CommonFooterText
+                android:id="@+id/txtBottomFooterMainTicketList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="32dp"
                 android:layout_marginEnd="24dp"
-                android:layout_marginRight="24dp"
-                android:fontFamily="sans-serif"
-                android:gravity="center_horizontal"
-                android:letterSpacing="0.03"
-                android:lineSpacingExtra="8sp"
-                android:text="@string/EMPTY_SUPPORT_MESSAGE"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-            <com.teknasyon.desk360.helper.Desk360SendButton
-                android:id="@+id/emptys_add_new_ticket_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="24dp"
-                android:text="@string/CREATE_SUPPORT"
+                android:maxLines="5"
+                android:padding="8dp"
+                android:scrollbars="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </com.teknasyon.desk360.helper.Desk360ConstraintLayout>
-
-        <com.teknasyon.desk360.helper.Desk360Loading
-            android:id="@+id/loading_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:padding="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/ticket_list"
-            app:layout_constraintEnd_toEndOf="@+id/ticket_list"
-            app:layout_constraintStart_toStartOf="@+id/ticket_list"
-            app:layout_constraintTop_toTopOf="@+id/ticket_list" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints,SmallSp"
+                tools:text="Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. " />
 
 
-        <com.teknasyon.desk360.helper.TextViewFooter
-            android:id="@+id/footer_area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:background="#5E5D67"
-            android:drawableEnd="@drawable/footer_desk360_logo"
-            android:drawableRight="@drawable/footer_desk360_logo"
-            android:drawablePadding="8dp"
-            android:gravity="center|end"
-            android:paddingTop="4dp"
-            android:paddingEnd="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="2dp"
-            android:text="powered by"
-            android:textColor="#E8E8E9"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/my_nav_host_fragment" />
-    </com.teknasyon.desk360.helper.Desk360ConstraintLayout>
+        </com.teknasyon.desk360.themev2.Desk360MainBackground>
+    </com.teknasyon.desk360.themev2.Desk360LayoutTicket>
 </layout>

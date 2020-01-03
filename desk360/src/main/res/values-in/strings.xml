@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Mohon masukkan alamat e-mail yang valid.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Buat Tiket Baru</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Maksimum ukuran file video adalah 20 MB.</string>
 </resources>

@@ -108,7 +108,6 @@ Desk360Constants.desk360Config(
   device_token = SmartAlarm.instance.getAresPreferences()?.adId
 )
 startActivity(Intent(context, Desk360BaseActivity::class.java))
-```
 
 ##### fun desk360Config(app_key: String, device_token: String?= null,json_object: JSONObject?=null,app_language: String = "")
 
@@ -118,8 +117,7 @@ startActivity(Intent(context, Desk360BaseActivity::class.java))
 | device_token | This parameters  values has a optionally ,  If you do not specify any value, the Desk360 sdksi generates a random deviceId.<br/>  *DeviceId created by Desk360; Resets when user uninstall and reinstall application* |
 | json_object  | This parameter is optionally and avaible to send your json object by this parameter.|
 | app_language | This parameter is optionally too.If you dont use this parameter, Desk360 SDK uses system defualt language.If you want to use this parameter, you must send language code here.|
-
-####  
+####
 
 ##### Add below activiy to your AndroidManifest.xml file into application tag.
 
@@ -133,7 +131,7 @@ startActivity(Intent(context, Desk360BaseActivity::class.java))
 ```
 
 
-
+=======
 ### Use Desk 360
 
 ```

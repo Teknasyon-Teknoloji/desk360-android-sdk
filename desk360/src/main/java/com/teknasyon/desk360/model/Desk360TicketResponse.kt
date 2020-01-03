@@ -12,5 +12,6 @@ class Desk360TicketResponse {
     var email: String? = null
     var message: String? = null
     var created: String? = null
+    var attachment_url : String?= ""
     var messages: ArrayList<Desk360Message>? = null
 }

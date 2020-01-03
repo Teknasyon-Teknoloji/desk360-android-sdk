@@ -1,12 +1,16 @@
 package com.teknasyon.desk360.connection
 
 import com.teknasyon.desk360.model.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
 interface HttpService {
+
+    @Multipart
     @POST("api/v1/tickets")
-    fun addTicket(@Body ticketItem: Desk360TicketReq): Call<Desk360NewSupportResponse>
+    fun addTicket(@PartMap ticketItem: HashMap<String, RequestBody>, @Part attachment: MultipartBody.Part?): Call<Desk360NewSupportResponse>
 
     @GET("api/v1/tickets")
     fun getTicket(): Call<Desk360TicketListResponse>
@@ -20,3 +24,4 @@ interface HttpService {
     @GET("api/v1/tickets/types/list")
     fun getTypeList(): Call<Desk360TypeResponse>
 }
+

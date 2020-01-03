@@ -1,46 +1,32 @@
 package com.teknasyon.desk360.viewmodel
 
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.teknasyon.desk360.BR
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.model.Desk360NewSupportResponse
-import com.teknasyon.desk360.model.Desk360TicketReq
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.model.Desk360TypeResponse
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
-import java.util.regex.Pattern
+import java.io.File
+
 
 /**
  * Created by seyfullah on 30,May,2019
  *
  */
-
 open class AddNewTicketViewModel : ViewModel() {
     var typeList: MutableLiveData<ArrayList<Desk360Type>>? = MutableLiveData()
     var addedTicket: MutableLiveData<String> = MutableLiveData()
-    private val ticketItem = Desk360TicketReq()
 
-    var observable = NewSupportObservable()
-    val nameFieldFill: MutableLiveData<Boolean> = MutableLiveData()
-    val emailFieldFill: MutableLiveData<Boolean> = MutableLiveData()
-    var messageFieldFill: MutableLiveData<Boolean> = MutableLiveData()
-
-    var nameData: String? = null
-    var emailData: String? = null
-    var messageData: String? = null
-    var messageLength: Int = 0
 
     init {
-        messageFieldFill.postValue(false)
-        emailFieldFill.postValue(false)
-        nameFieldFill.postValue(false)
-
         getTypeList()
     }
 
@@ -52,16 +38,38 @@ open class AddNewTicketViewModel : ViewModel() {
                     response: Response<Desk360TypeResponse>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
+                        Desk360Config.instance.getDesk360Preferences()?.subjects = response.body()
                         typeList?.value = response.body()!!.data
+                        Desk360Config.instance.getDesk360Preferences()?.subjects
                     } else {
-                        typeList?.value = null
+                        typeList?.value =
+                            Desk360Config.instance.getDesk360Preferences()?.subjects?.data
                     }
                 }
             })
     }
 
-    private fun addSupportTicket() {
-        Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem)
+    fun addSupportTicket(
+        ticketItem: HashMap<String, RequestBody>,
+        file: File?,
+        resultLoadFiles: Int
+    ) {
+
+
+        var filePart: MultipartBody.Part? = null
+
+        if (file != null) {
+            filePart = MultipartBody.Part.createFormData(
+                "attachment",
+                file.name,
+                RequestBody.create(
+                    MediaType.parse(getFileType(resultLoadFiles)), file
+                )
+            )
+        }
+
+
+        Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem, filePart)
             .enqueue(object : BaseCallback<Desk360NewSupportResponse>() {
                 override fun onResponseSuccess(
                     call: Call<Desk360NewSupportResponse>,
@@ -77,99 +85,9 @@ open class AddNewTicketViewModel : ViewModel() {
             })
     }
 
-    fun validateAllField(selectedTypeId: Int) {
-        if (nameFieldFill.value == true && emailFieldFill.value == true && messageLength > 0) {
-            ticketItem.email = emailData
-            ticketItem.name = nameData
-//            ticketItem.subject = subjectData
-            ticketItem.message = messageData
-            ticketItem.type_id = selectedTypeId.toString()
-            ticketItem.source = "App"
-            ticketItem.platform = "Android"
-            ticketItem.country_code = Desk360Constants.countryCode()
-            addSupportTicket()
-        } else {
-            when {
-                nameFieldFill.value == false -> nameFieldFill.postValue(false)
-                emailFieldFill.value == false -> emailFieldFill.postValue(false)
-                messageLength <= 0 -> messageFieldFill.postValue(false)
-            }
-        }
-    }
+    private fun getFileType(resultLoadFiles: Int): String {
 
-    inner class NewSupportObservable : BaseObservable() {
-
-        val messageLengthData: String?
-            @Bindable
-            get() = "$messageLength/350"
-
-        fun nameQuality(s: CharSequence) {
-            nameData = s.toString()
-            nameFieldFill.postValue(
-                when {
-                    s.isEmpty() -> {
-                        false
-                    }
-                    else -> {
-                        true
-                    }
-                }
-            )
-        }
-
-        fun emailQuality(s: CharSequence) {
-            emailData = s.toString()
-            emailFieldFill.postValue(
-                when {
-                    s.isEmpty() -> false
-                    !checkEmail(email = s.toString()) -> false
-                    else -> {
-                        true
-                    }
-                }
-            )
-        }
-
-//        fun subjectQuality(s: CharSequence) {
-//            subjectData = s.toString()
-//            subjectFieldFill.postValue(
-//                when {
-//                    s.isEmpty() -> false
-//                    else -> {
-//                        true
-//                    }
-//                }
-//            )
-//        }
-
-        fun messageQuality(s: CharSequence) {
-            messageData = s.toString()
-            messageLength = messageData!!.length
-            notifyPropertyChanged(BR.messageLengthData)
-            messageFieldFill.postValue(
-                when {
-                    s.isEmpty() -> false
-                    s.length < 3 -> false
-                    else -> {
-                        true
-                    }
-                }
-            )
-        }
-
-        private fun checkEmail(email: String): Boolean {
-            return EMAIL_ADDRESS_PATTERN.matcher(email).matches()
-        }
-
-
-        val EMAIL_ADDRESS_PATTERN = Pattern.compile(
-            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-                    "\\@" +
-                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-                    "(" +
-                    "\\." +
-                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-                    ")+"
-        )
+        if (resultLoadFiles == 1223) return "video/*"
+        else return "image/*"
     }
 }

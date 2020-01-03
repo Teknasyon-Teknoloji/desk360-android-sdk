@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#2e86cf</color>
+    <color name="colorPrimaryDark">#2e86cf</color>
+    <color name="colorAccent">#2e86cf</color>
 
     <color name="light_theme_box_stroke_color">#58b0fa</color>
     <color name="light_theme_hint_color">#707070</color>
@@ -18,5 +18,19 @@
     <color name="dark_theme_incoming_bg_color">#4f5155</color>
     <color name="dark_theme_hint_color">#a6a6a8</color>
     <color name="dark_theme_hint_color2">#8a8a8a</color>
+
+
+    <!--v2    -->
+
+    <color name="colorHintDesk360">#58b0fa</color>
+    <color name="colorDesk360Line">#000000</color>
+    <color name="colorDesk360LineWhite">#ffffff</color>
+    <color name="colorDesk360LineHint2">#7b8494</color>
+    <color name="colorDesk360TextHint">#a6a6a8</color>
+    <color name="colorDesk360Transparent">#00A6A6A8</color>
+    <color name="colorDesk360Type4Progress">#3f4b60</color>
+    <color name="spinnerBgGray">#f7f7f7</color>
+
+
 
 </resources>

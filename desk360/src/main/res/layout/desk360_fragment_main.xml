@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <com.teknasyon.desk360.helper.Desk360ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <com.teknasyon.desk360.themev2.Desk360MainBackground
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <com.teknasyon.desk360.helper.Desk360Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:background="#1FA0A0A0"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"/>
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            app:layout_collapseMode="pin"
+            app:titleMarginStart="0dp"
+            tools:ignore="MissingConstraints">
+
+            <com.teknasyon.desk360.themev2.Desk360MainTitle
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/SUPPORT_TITLE" />
+
+        </com.teknasyon.desk360.helper.Desk360Toolbar>
 
         <fragment
             android:id="@+id/my_nav_host_fragment"
@@ -24,12 +42,37 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:defaultNavHost="true"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/contactUsMainBottomBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:navGraph="@navigation/base_navigation" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contactUsMainBottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/colorDesk360Transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints">
 
-    </com.teknasyon.desk360.helper.Desk360ConstraintLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/desk360bottomlogo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.teknasyon.desk360.themev2.Desk360MainBackground>
 </layout>

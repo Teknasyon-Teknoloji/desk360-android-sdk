@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">براہ کرم ایک درست ای میل ایڈریس لکھیں۔</string>
     <string name="BUTTON_ADD_NEW_TICKET">نیا ٹکٹ بنائیں </string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">ویڈیو فائل سائز حد سے حد 20 ایم بی حد تک ہو.</string>
 </resources>

@@ -8,18 +8,29 @@ import com.teknasyon.desk360.helper.Desk360Constants.currentTheme
 
 class Desk360TextTitle : TextView {
     init {
-        if (currentTheme == "light") {
-            this.setBackgroundColor(Color.WHITE)
-            this.setTextColor(Color.parseColor("#de000000"))
-        } else {
-            this.setBackgroundColor(Color.parseColor("#2b2b2b"))
-            this.setTextColor(Color.parseColor("#ffffff"))
+
+        when (currentTheme) {
+            1, 2, 3, 5 -> {
+                this.setTextColor(Color.parseColor("#de000000"))
+            }
+            4 -> {
+                this.setTextColor(Color.parseColor("#a6a6a8"))
+            }
+            else -> {
+                this.setTextColor(Color.parseColor("#de000000"))
+
+            }
         }
+
     }
 
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    )
 }

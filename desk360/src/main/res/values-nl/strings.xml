@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Voer een geldig e-mailadres in.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Maak een nieuw ticket aan</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">De grootte van het videobestand mag maximum 20 MB zijn.</string>
 </resources>

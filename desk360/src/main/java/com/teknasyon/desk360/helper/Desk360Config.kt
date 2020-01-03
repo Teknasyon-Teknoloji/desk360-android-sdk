@@ -1,6 +1,7 @@
 package com.teknasyon.desk360.helper
 
 import android.content.Context
+import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 
 /**
  * Created by seyfullah on 14,June,2019
@@ -21,6 +22,7 @@ open class Desk360Config {
     fun getDesk360Preferences(): Desk360Preferences? {
         return desk360Preferences
     }
+
 
     companion object {
         var INSTANCE: Desk360Config? = null

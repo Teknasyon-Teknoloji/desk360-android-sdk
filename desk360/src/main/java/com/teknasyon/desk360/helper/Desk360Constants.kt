@@ -3,6 +3,9 @@ package com.teknasyon.desk360.helper
 import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
+import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
+import com.teknasyon.desk360.viewmodel.GetTypesViewModel
+import org.json.JSONObject
 import java.util.*
 
 /**
@@ -11,15 +14,27 @@ import java.util.*
 
 object Desk360Constants {
 
-    var currentTheme: String = "light"
+    var currentTheme: Int = 1
     var app_key: String? = null
     var app_version: String? = null
     var language_code: String? = null
     var time_zone: String? = null
+    var jsonObject: JSONObject?=null
     var baseURL: String? = null
+    var currentType: Desk360ConfigResponse? = null
+        get() {
+            field = Desk360Config.instance.getDesk360Preferences()?.types
+            return field
+        }
+
 
     fun desk360Config(
-        app_key: String, app_version: String, baseURL: String? = "http://teknasyon.desk360.com/", device_token: String? = null
+        app_key: String,
+        app_version: String,
+        baseURL: String? = "http://teknasyon.desk360.com/",
+        device_token: String? = null,
+        json_object: JSONObject?=null,
+        app_language: String = ""
     ): Boolean {
 
         if (app_key == "")
@@ -34,25 +49,29 @@ object Desk360Constants {
         if (time_zone == "")
             return false
 
+
         if (baseURL == "")
             return false
 
         if (device_token != null && device_token != "")
             Desk360Config.instance.getDesk360Preferences()?.adId = device_token
-
         this.app_key = app_key
         this.app_version = app_version
-        this.language_code = Locale.getDefault().language
+        if (app_language == "") {
+            this.language_code = Locale.getDefault().language
+        }else{
+            this.language_code=app_language
+        }
+        if(json_object!=null){
+            this.jsonObject=json_object
+        }
         this.time_zone = TimeZone.getDefault().id
         this.baseURL = baseURL
+        GetTypesViewModel()
         return true
     }
 
-    fun desk360CurrentTheme(current_theme: String) {
-        if (current_theme == "")
-            return
-        this.currentTheme = current_theme
-    }
+
 
     fun countryCode(): String {
 

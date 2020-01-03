@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Por favor, digite um endereço de e-mail válido.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Criar Nova Senha</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">O tamanho do ficheiro de vídeo não pode exceder os 20 M</string>
 </resources>

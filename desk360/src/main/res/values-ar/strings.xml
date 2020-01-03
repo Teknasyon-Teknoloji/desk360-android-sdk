@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">يرجى كتابة عنوان بريد إلكتروني صالح</string>
     <string name="BUTTON_ADD_NEW_TICKET">إنشاء تذكرة جديدة</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">يجب ألا يتجاوز حجم ملف الفيديو 20 ميغابايت.</string>
 </resources>

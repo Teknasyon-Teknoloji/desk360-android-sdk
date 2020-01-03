@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Uveďte platnou e-mailovou adresu.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Vytvořit nový lístek</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Velikost video souboru nesmí přesáhnout 20 MB.</string>
 </resources>

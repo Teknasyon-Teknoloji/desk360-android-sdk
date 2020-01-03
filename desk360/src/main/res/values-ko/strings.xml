@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">유효한 이메일을 적어주시기 바랍니다.</string>
     <string name="BUTTON_ADD_NEW_TICKET">새 티켓 만들기</string>
     <string name="SUBJECT">Subject</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">파일 크기는 20 MB 이하여야 합니다.</string>
 </resources>

@@ -28,4 +28,5 @@
     <string name="EMAIL_REGEX">Geçersiz email adresi girdiniz.</string>
     <string name="BUTTON_ADD_NEW_TICKET">Yeni Talep Ekle</string>
     <string name="SUBJECT">Başlık</string>
+    <string name="ALERT_MESSAGE_ATTACHMMENT_SIZE">Dosya Boyutu 20 MB Üzerinde Olamaz.</string>
 </resources>
