@@ -48,7 +48,7 @@ Add the dependency
 
 ```
 dependencies {
-        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.2.1'
+        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.5.0'
 }
 ```
 
@@ -109,10 +109,7 @@ Desk360Constants.desk360Config(
 )
 startActivity(Intent(context, Desk360BaseActivity::class.java))
 
-```
-
-
-##### fun desk360Config(app_key: String, device_token: String?= null)
+##### fun desk360Config(app_key: String, device_token: String?= null,json_object: JSONObject?=null,app_language: String = "")
 
 | Parameters   | Description                                                  |
 | ------------ | ------------------------------------------------------------ |
@@ -134,12 +131,12 @@ startActivity(Intent(context, Desk360BaseActivity::class.java))
 ```
 
 
+=======
 ### Use Desk 360
 
 ```
  startActivity(Intent(context, Desk360BaseActivity::class.java))
 ```
-
 
 
 # Versioning
@@ -151,7 +148,6 @@ We use [SemVer](http://semver.org/) for versioning.
 # Support
 
 If you have any questions or feature requests, please create an issue.
-
 
 
 # Licence

@@ -49,6 +49,7 @@
     <fragment
         android:id="@+id/addNewTicketFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360AddNewTicketFragment"
+
         tools:layout="@layout/desk360_add_new_ticket_layout"
         >
         <action
