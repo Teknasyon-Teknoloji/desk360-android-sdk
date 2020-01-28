@@ -56,7 +56,7 @@
 
 
             <com.teknasyon.desk360.themev2.Desk360TicketDetailScreenButtonIcon
-                android:id="@+id/ticket_detail_button_icon"
+                android:id="@+id/ticketDetailButtonIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/ticket_detail_button_text"

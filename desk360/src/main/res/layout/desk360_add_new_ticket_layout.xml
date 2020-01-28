@@ -144,7 +144,7 @@ s
 
 
                 <com.teknasyon.desk360.themev2.Desk360CreateScreenButtonIcon
-                    android:id="@+id/create_screen_button_icon"
+                    android:id="@+id/createScreenButtonIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="@+id/create_screen_button_text"

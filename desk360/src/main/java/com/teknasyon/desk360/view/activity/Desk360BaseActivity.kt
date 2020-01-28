@@ -33,12 +33,17 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     private var navController: NavController? = null
     private var disposable: Disposable? = null
     private var viewModel: TicketListViewModel? = null
+    var notificationToken = ""
 
     private var addBtnClicked = false
 
     private var binding: Desk360FragmentMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val bundle = intent.extras
+        bundle?.let { bundle.getString("token") }
+
         binding = Desk360FragmentMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         setSupportActionBar(findViewById(R.id.toolbar))

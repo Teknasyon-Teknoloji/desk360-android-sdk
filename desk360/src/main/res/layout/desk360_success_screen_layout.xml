@@ -79,7 +79,7 @@
 
 
             <com.teknasyon.desk360.themev2.Desk360SuccessScreenButtonIcon
-                android:id="@+id/success_screen_button_icon"
+                android:id="@+id/successScreenButtonIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/success_screen_open_message_form_text"

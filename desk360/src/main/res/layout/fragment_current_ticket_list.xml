@@ -88,7 +88,7 @@
 
 
                 <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonIcon
-                    android:id="@+id/ticket_list_empty_button_icon"
+                    android:id="@+id/ticketListEmptyButtonIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="@+id/ticket_list_empty_button_text"

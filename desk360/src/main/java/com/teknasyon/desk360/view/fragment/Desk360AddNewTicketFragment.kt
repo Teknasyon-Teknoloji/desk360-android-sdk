@@ -1,6 +1,7 @@
 package com.teknasyon.desk360.view.fragment
 
 import android.Manifest
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
@@ -91,6 +92,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private val listOfType: ArrayList<String> = arrayListOf()
     private var invalidEmail: Boolean = false
 
+    private lateinit var activity: Desk360BaseActivity
 
     private var RESULT_LOAD_FILES = 1221
     var params: HashMap<String, RequestBody> = HashMap()
@@ -641,6 +643,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as Desk360BaseActivity
+    }
+
     fun nameQuality(s: CharSequence) {
         nameData = s.toString().trim()
         nameFieldFill = when {
@@ -737,6 +744,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     MediaType.parse("text/plain"),
                     Desk360Constants.countryCode().toUpperCase()
                 )
+            val notificationToken =
+                RequestBody.create(MediaType.parse("text/plain"), activity.notificationToken)
 
             params["name"] = name
             params["email"] = email
@@ -746,6 +755,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             params["platform"] = platform
             params["settings"] = settings
             params["country_code"] = countryCode
+            params["push_token"] = notificationToken
 
             binding.loadingProgress.visibility = View.VISIBLE
             activity?.window?.setFlags(
