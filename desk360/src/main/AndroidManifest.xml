@@ -13,6 +13,7 @@
         <activity
             android:name="com.teknasyon.desk360.view.activity.Desk360BaseActivity"
             android:label="@string/SUPPORT_TITLE"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
     </application>
