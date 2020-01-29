@@ -34,8 +34,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     private var disposable: Disposable? = null
     private var viewModel: TicketListViewModel? = null
 
-    var notificationToken = ""
-    var targetId = ""
+    var notificationToken: String? = null
+    var targetId: String? = null
 
     private var addBtnClicked = false
 

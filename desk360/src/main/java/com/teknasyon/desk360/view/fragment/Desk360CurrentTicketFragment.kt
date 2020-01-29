@@ -31,6 +31,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
     private var viewModel: TicketListViewModel? = null
 
     private lateinit var desk360BaseActivity: Desk360BaseActivity
+    private var isPushed: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -105,8 +106,12 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
                 ticketAdapter!!.notifyDataSetChanged()
                 setViews()
 
-                if (desk360BaseActivity.targetId.isNotEmpty()) {
-                    forcePushToTicketDetail()
+                desk360BaseActivity.targetId?.let {
+
+                    if (!isPushed) {
+                        forcePushToTicketDetail()
+                        isPushed = true
+                    }
                 }
             }
         })
@@ -132,8 +137,9 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
                 val bundle = Bundle()
                 item.id?.let { itemId ->
-                    bundle.putInt("ticket_id", itemId) }
-                    bundle.putString("ticket_status", item.status.toString())
+                    bundle.putInt("ticket_id", itemId)
+                }
+                bundle.putString("ticket_status", item.status.toString())
                 binding.root.let { it1 ->
                     Navigation
                         .findNavController(it1)
