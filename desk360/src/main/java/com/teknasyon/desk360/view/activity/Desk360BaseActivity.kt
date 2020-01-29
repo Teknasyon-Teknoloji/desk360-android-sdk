@@ -33,16 +33,23 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     private var navController: NavController? = null
     private var disposable: Disposable? = null
     private var viewModel: TicketListViewModel? = null
+
     var notificationToken = ""
+    var targetId = ""
 
     private var addBtnClicked = false
 
     private var binding: Desk360FragmentMainBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val bundle = intent.extras
-        bundle?.let { notificationToken = bundle.getString("token") }
+
+        bundle?.let {
+            notificationToken = bundle.getString("token")
+            targetId = bundle.getString("targetId")
+        }
 
         binding = Desk360FragmentMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
@@ -189,6 +196,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
         val id = item.itemId
 
         if (id == R.id.action_add_new_ticket) {
@@ -218,5 +226,4 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         if (disposable?.isDisposed == false)
             disposable?.dispose()
     }
-
 }
