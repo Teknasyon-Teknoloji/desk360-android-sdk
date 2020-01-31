@@ -11,8 +11,11 @@ class Desk360MainBackground : ConstraintLayout {
 
     init {
 
-        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
-
+        try {
+            this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
+        } catch (e: Exception) {
+            this.setBackgroundColor(Color.parseColor("#F7F7F7"))
+        }
     }
 
     constructor(context: Context) : super(context)
