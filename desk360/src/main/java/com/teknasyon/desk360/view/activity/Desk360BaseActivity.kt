@@ -20,6 +20,7 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
@@ -43,6 +44,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        GetTypesViewModel()
 
         val bundle = intent.extras
 

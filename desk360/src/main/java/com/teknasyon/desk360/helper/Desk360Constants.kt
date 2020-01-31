@@ -67,7 +67,6 @@ object Desk360Constants {
         }
         this.time_zone = TimeZone.getDefault().id
         this.baseURL = baseURL
-        GetTypesViewModel()
         return true
     }
 
