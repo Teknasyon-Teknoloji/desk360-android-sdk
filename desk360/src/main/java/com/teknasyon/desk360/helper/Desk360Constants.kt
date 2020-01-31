@@ -42,7 +42,10 @@ object Desk360Constants {
     ): Boolean {
 
         if (app_key != "" && app_version != "" && baseURL != "" && device_token != "") {
-            Paper.book().write("desk360CacheConfig", Desk360CacheConfig(app_key, app_version, baseURL, deviceToken))
+            Paper.book().write(
+                "desk360CacheConfig",
+                Desk360CacheConfig(app_key, app_version, baseURL, deviceToken)
+            )
         }
 
         val desk360CacheConfig = Paper.book().read<Desk360CacheConfig>("desk360CacheConfig")
@@ -92,7 +95,13 @@ object Desk360Constants {
             this.jsonObject = json_object
         }
         this.time_zone = TimeZone.getDefault().id
-        GetTypesViewModel()
+
+        val desk360ConfigResponse = Desk360Config.instance.getDesk360Preferences()?.types
+        currentType = desk360ConfigResponse
+
+        if (currentType == null) {
+            GetTypesViewModel()
+        }
 
         return true
     }

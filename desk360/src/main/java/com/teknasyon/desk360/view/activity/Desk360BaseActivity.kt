@@ -149,9 +149,6 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         Desk360Constants.app_key?.let {
 
             Paper.init(this)
-
-            val desk360ConfigResponse = Paper.book().read<Desk360ConfigResponse>("Desk360ConfigResponse")
-            Desk360Constants.currentType = desk360ConfigResponse
             Desk360Constants.desk360Config("", "", "", "")
         }
     }
