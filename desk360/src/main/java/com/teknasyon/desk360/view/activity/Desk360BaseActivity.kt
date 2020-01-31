@@ -18,10 +18,13 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
+import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.model.Desk360CacheConfig
 import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
+import io.paperdb.Paper
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
@@ -45,13 +48,11 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        GetTypesViewModel()
-
         val bundle = intent.extras
 
         bundle?.let {
-            notificationToken = bundle.getString("token")
             targetId = bundle.getString("targetId")
+            notificationToken = bundle.getString("token")
         }
 
         binding = Desk360FragmentMainBinding.inflate(layoutInflater)
