@@ -22,6 +22,7 @@ import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.model.Desk360CacheConfig
+import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 import io.paperdb.Paper
@@ -148,6 +149,9 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         Desk360Constants.app_key?.let {
 
             Paper.init(this)
+
+            val desk360ConfigResponse = Paper.book().read<Desk360ConfigResponse>("Desk360ConfigResponse")
+            Desk360Constants.currentType = desk360ConfigResponse
             Desk360Constants.desk360Config("", "", "", "")
         }
     }

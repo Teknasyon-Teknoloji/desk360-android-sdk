@@ -10,12 +10,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
 class Desk360MainBackground : ConstraintLayout {
 
     init {
-
-        try {
-            this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
-        } catch (e: Exception) {
-            this.setBackgroundColor(Color.parseColor("#F7F7F7"))
-        }
+        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
     }
 
     constructor(context: Context) : super(context)

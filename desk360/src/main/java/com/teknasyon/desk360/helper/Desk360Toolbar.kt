@@ -7,28 +7,16 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.Toolbar
 
 class Desk360Toolbar : Toolbar {
-
     init {
-
-        try {
-
-            this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_background_color))
-            this.setTitleTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
-            if (Desk360Constants.currentType?.data?.general_settings?.header_shadow_is_hidden!!) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    this.elevation = 20f
-                }
-            }
-
-        } catch (e: Exception) {
-
-            this.setBackgroundColor(Color.parseColor("#F7F7F7"))
-            this.setTitleTextColor(Color.parseColor("#5C5C5C"))
+        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_background_color))
+        this.setTitleTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
+        if(Desk360Constants.currentType?.data?.general_settings?.header_shadow_is_hidden!!){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.elevation = 20f
+                this.elevation=20f
             }
         }
     }
+
 
     constructor(context: Context) : super(context)
 

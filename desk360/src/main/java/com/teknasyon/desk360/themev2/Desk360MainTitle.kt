@@ -12,8 +12,7 @@ class Desk360MainTitle : TextView {
     init {
 
         this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
-        this.textSize =
-            Desk360Constants.currentType?.data?.general_settings?.header_text_font_size!!.toFloat()
+        this.textSize = Desk360Constants.currentType?.data?.general_settings?.header_text_font_size!!.toFloat()
     }
 
     constructor(context: Context) : super(context)
