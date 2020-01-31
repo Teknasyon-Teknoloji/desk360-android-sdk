@@ -28,7 +28,6 @@ import io.paperdb.Paper
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
-
 open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     private var localMenu: Menu? = null
@@ -151,11 +150,6 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             Paper.init(this)
             Desk360Constants.desk360Config("", "", "", "")
         }
-    }
-
-    private fun create() {
-
-
     }
 
     private fun notifyToolBar() {
