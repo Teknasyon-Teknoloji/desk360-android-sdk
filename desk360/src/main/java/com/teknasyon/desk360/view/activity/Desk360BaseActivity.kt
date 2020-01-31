@@ -57,91 +57,97 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         fromCache()
 
-        binding = Desk360FragmentMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
-        setSupportActionBar(findViewById(R.id.toolbar))
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        viewModel = ViewModelProviders.of(this).get(TicketListViewModel::class.java)
+        val handler = Handler()
 
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-        }
+        handler.postDelayed({
 
-        viewModel?.ticketSize?.observe(this, Observer {
-            ticketListSize = it
-            notifyToolBar()
-        })
+            binding = Desk360FragmentMainBinding.inflate(layoutInflater)
+            setContentView(binding!!.root)
+            setSupportActionBar(findViewById(R.id.toolbar))
+            supportActionBar?.setDisplayShowTitleEnabled(false)
+            viewModel = ViewModelProviders.of(this).get(TicketListViewModel::class.java)
 
-        navController =
-            findNavController(this, R.id.my_nav_host_fragment)
-
-        navController?.addOnDestinationChangedListener { _, destination, _ ->
-
-            val currentNav =
-                (navController?.currentDestination as FragmentNavigator.Destination).className
-
-            currentScreenTicketList =
-                currentNav == "com.teknasyon.desk360.view.fragment.Desk360TicketListFragment"
-            notifyToolBar()
-            Desk360CustomStyle.setFontWeight(
-                binding!!.toolbarTitle,
-                this,
-                Desk360Constants.currentType?.data?.general_settings?.header_text_font_weight
-            )
-
-            when (destination.id) {
-                R.id.preNewTicketFragment -> {
-                    setMainTitle(
-                        Desk360Constants.currentType?.data?.create_pre_screen?.title,
-                        binding?.toolbarTitle
-                    )
-                }
-                R.id.thanksFragment -> {
-                    setMainTitle(
-                        Desk360Constants.currentType?.data?.ticket_success_screen?.title,
-                        binding?.toolbarTitle
-                    )
-                }
-                R.id.ticketDetailFragment -> {
-                    setMainTitle(
-                        Desk360Constants.currentType?.data?.ticket_detail_screen?.title,
-                        binding?.toolbarTitle
-                    )
-                }
-                R.id.addNewTicketFragment -> {
-                    setMainTitle(
-                        Desk360Constants.currentType?.data?.create_screen?.title,
-                        binding?.toolbarTitle
-                    )
-                }
-
-                else -> ""
-
+            supportActionBar?.apply {
+                setDisplayHomeAsUpEnabled(true)
             }
 
-            localMenu?.let { onPrepareOptionsMenu(it) }
+            viewModel?.ticketSize?.observe(this, Observer {
+                ticketListSize = it
+                notifyToolBar()
+            })
 
-            if (destination.id == R.id.ticketListFragment || destination.id == R.id.preNewTicketFragment || destination.id == R.id.thanksFragment) {
-                toolbar.navigationIcon = resources.getDrawable(R.drawable.close_button_desk)
+            navController =
+                findNavController(this, R.id.my_nav_host_fragment)
 
-            } else {
-                toolbar.navigationIcon = resources.getDrawable(R.drawable.back_btn_dark_theme)
+            navController?.addOnDestinationChangedListener { _, destination, _ ->
+
+                val currentNav =
+                    (navController?.currentDestination as FragmentNavigator.Destination).className
+
+                currentScreenTicketList =
+                    currentNav == "com.teknasyon.desk360.view.fragment.Desk360TicketListFragment"
+                notifyToolBar()
+                Desk360CustomStyle.setFontWeight(
+                    binding!!.toolbarTitle,
+                    this,
+                    Desk360Constants.currentType?.data?.general_settings?.header_text_font_weight
+                )
+
+                when (destination.id) {
+                    R.id.preNewTicketFragment -> {
+                        setMainTitle(
+                            Desk360Constants.currentType?.data?.create_pre_screen?.title,
+                            binding?.toolbarTitle
+                        )
+                    }
+                    R.id.thanksFragment -> {
+                        setMainTitle(
+                            Desk360Constants.currentType?.data?.ticket_success_screen?.title,
+                            binding?.toolbarTitle
+                        )
+                    }
+                    R.id.ticketDetailFragment -> {
+                        setMainTitle(
+                            Desk360Constants.currentType?.data?.ticket_detail_screen?.title,
+                            binding?.toolbarTitle
+                        )
+                    }
+                    R.id.addNewTicketFragment -> {
+                        setMainTitle(
+                            Desk360Constants.currentType?.data?.create_screen?.title,
+                            binding?.toolbarTitle
+                        )
+                    }
+
+                    else -> ""
+
+                }
+
+                localMenu?.let { onPrepareOptionsMenu(it) }
+
+                if (destination.id == R.id.ticketListFragment || destination.id == R.id.preNewTicketFragment || destination.id == R.id.thanksFragment) {
+                    toolbar.navigationIcon = resources.getDrawable(R.drawable.close_button_desk)
+
+                } else {
+                    toolbar.navigationIcon = resources.getDrawable(R.drawable.back_btn_dark_theme)
+                }
+
+                toolbar.navigationIcon?.setColorFilter(
+                    Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
+                    PorterDuff.Mode.SRC_ATOP
+                )
+
+                Handler().postDelayed(
+                    {
+                        addBtnClicked = false
+                    }, 600
+                )
+
+
             }
-
-            toolbar.navigationIcon?.setColorFilter(
-                Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
-                PorterDuff.Mode.SRC_ATOP
-            )
-
-            Handler().postDelayed(
-                {
-                    addBtnClicked = false
-                }, 600
-            )
-
-
-        }
 //        setupActionBarWithNavController(this, navController!!, appBarConfiguration)
+
+        }, 2500)
     }
 
     private fun fromCache() {
@@ -152,7 +158,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         }
     }
 
-    private fun create(){
+    private fun create() {
 
 
     }
