@@ -41,7 +41,7 @@ object Desk360Constants {
         app_language: String = ""
     ): Boolean {
 
-        if (Desk360Constants.app_key != "" && Desk360Constants.app_version != "" && Desk360Constants.baseURL != "" && deviceToken != "") {
+        if (app_key != "" && app_version != "" && baseURL != "" && device_token != "") {
             Paper.book().write("desk360CacheConfig", Desk360CacheConfig(app_key, app_version, baseURL, deviceToken))
         }
 

@@ -55,6 +55,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             notificationToken = bundle.getString("token")
         }
 
+        fromCache()
+
         binding = Desk360FragmentMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         setSupportActionBar(findViewById(R.id.toolbar))
@@ -140,6 +142,19 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         }
 //        setupActionBarWithNavController(this, navController!!, appBarConfiguration)
+    }
+
+    private fun fromCache() {
+
+        Desk360Constants.app_key?.let {
+
+            Desk360Constants.desk360Config("", "", "", "")
+        }
+    }
+
+    private fun create(){
+
+
     }
 
     private fun notifyToolBar() {
