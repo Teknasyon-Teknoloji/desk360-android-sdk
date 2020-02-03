@@ -1,5 +1,6 @@
 package com.teknasyon.desk360.view.activity
 
+import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -20,11 +21,9 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
-import com.teknasyon.desk360.helper.Helper
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
-
 
 open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
@@ -214,16 +213,16 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     override fun onBackPressed() {
 
-        if (currentScreenTicketList)
+        if (currentScreenTicketList) {
 
-            if (Helper.isAppRunning(this, appId)) {
-                super.onBackPressed()
-            } else {
-                val intent = packageManager.getLaunchIntentForPackage(appId!!)
-                startActivity(intent)
-                finish()
-            }
-        else
+            val am = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+            val taskInfo = am.getRunningTasks(1)[0].numRunning
+
+            val intent = packageManager.getLaunchIntentForPackage(appId!!)
+            startActivity(intent)
+            finish()
+
+        } else
             onSupportNavigateUp()
     }
 
