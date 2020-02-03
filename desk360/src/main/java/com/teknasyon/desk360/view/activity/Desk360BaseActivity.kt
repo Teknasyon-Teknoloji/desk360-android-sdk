@@ -20,6 +20,7 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.Helper
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
@@ -36,6 +37,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     var notificationToken: String? = null
     var targetId: String? = null
+    var appId: String? = null
 
     private var addBtnClicked = false
 
@@ -47,7 +49,9 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         val bundle = intent.extras
 
         bundle?.let {
+
             targetId = bundle.getString("targetId")
+            appId = bundle.getString("appId")
             notificationToken = bundle.getString("token")
         }
 
@@ -209,8 +213,16 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     override fun onBackPressed() {
+
         if (currentScreenTicketList)
-            super.onBackPressed()
+
+            if (Helper.isAppRunning(this, appId)) {
+                super.onBackPressed()
+            } else {
+                val intent = packageManager.getLaunchIntentForPackage(appId!!)
+                startActivity(intent)
+                finish()
+            }
         else
             onSupportNavigateUp()
     }
