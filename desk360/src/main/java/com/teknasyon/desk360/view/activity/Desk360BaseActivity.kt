@@ -216,11 +216,17 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         if (currentScreenTicketList) {
 
             val am = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
-            val taskInfo = am.getRunningTasks(1)[0].numRunning
+            val runningActivities = am.getRunningTasks(1)[0].numRunning
 
-            val intent = packageManager.getLaunchIntentForPackage(appId!!)
-            startActivity(intent)
-            finish()
+            if (runningActivities == 1) {
+
+                val intent = packageManager.getLaunchIntentForPackage(appId!!)
+                startActivity(intent)
+                finish()
+
+            } else {
+                super.onBackPressed()
+            }
 
         } else
             onSupportNavigateUp()
