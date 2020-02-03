@@ -47,8 +47,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         val bundle = intent.extras
 
         bundle?.let {
-            notificationToken = bundle.getString("token")
             targetId = bundle.getString("targetId")
+            notificationToken = bundle.getString("token")
         }
 
         binding = Desk360FragmentMainBinding.inflate(layoutInflater)
