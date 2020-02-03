@@ -21,6 +21,7 @@ class Desk360SplashActivity : AppCompatActivity() {
             targetId = bundle.getString("targetId")
         }
 
-        GetTypesViewModel(this,notificationToken,targetId)
+        val getTypesViewModel = GetTypesViewModel(this, notificationToken, targetId)
+        getTypesViewModel.getTypes()
     }
 }

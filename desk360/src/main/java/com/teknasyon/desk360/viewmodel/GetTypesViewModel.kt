@@ -20,7 +20,7 @@ class GetTypesViewModel(
     private val targetId: String?
 ) : ViewModel() {
 
-    private fun getTypes() {
+    fun getTypes() {
 
         val map = HashMap<String, String>()
         map["language_code"] = Desk360Constants.language_code.toString()
