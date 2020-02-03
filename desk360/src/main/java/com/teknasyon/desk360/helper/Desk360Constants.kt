@@ -85,7 +85,7 @@ object Desk360Constants {
         appId: String,
         baseURL: String,
         deviceToken: String
-    ) {
+    ): Intent {
 
         val intent = Intent(activity, Desk360SplashActivity::class.java)
 
@@ -98,8 +98,7 @@ object Desk360Constants {
         intent.putExtra("device_token", deviceToken)
         intent.putExtra("appId", appId)
 
-        activity.startActivity(intent)
-        activity.finish()
+        return intent
     }
 
     fun countryCode(): String {
