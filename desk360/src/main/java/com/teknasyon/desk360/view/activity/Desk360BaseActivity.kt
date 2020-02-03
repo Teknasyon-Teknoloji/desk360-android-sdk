@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
@@ -173,7 +174,9 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
         return if (currentScreenTicketList) {
-            super.onBackPressed()
+
+            checkRunningActivities()
+
             true
         } else
             findNavController(this, R.id.my_nav_host_fragment).navigateUp()
@@ -215,21 +218,28 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         if (currentScreenTicketList) {
 
-            val am = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
-            val runningActivities = am.getRunningTasks(1)[0].numRunning
-
-            if (runningActivities == 1) {
-
-                val intent = packageManager.getLaunchIntentForPackage(appId!!)
-                startActivity(intent)
-                finish()
-
-            } else {
-                super.onBackPressed()
-            }
+            checkRunningActivities()
 
         } else
             onSupportNavigateUp()
+    }
+
+    private fun checkRunningActivities() {
+
+        val am = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        val runningActivities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            am.appTasks.size
+        } else {
+            am.getRunningTasks(1)[0].numRunning
+        }
+
+        if (runningActivities == 1) {
+            val intent = packageManager.getLaunchIntentForPackage(appId!!)
+            startActivity(intent)
+            finish()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
