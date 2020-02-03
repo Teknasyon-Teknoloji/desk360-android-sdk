@@ -1,9 +1,12 @@
 package com.teknasyon.desk360.helper
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.telephony.TelephonyManager
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
+import com.teknasyon.desk360.view.activity.Desk360SplashActivity
 import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import org.json.JSONObject
 import java.util.*
@@ -73,6 +76,31 @@ object Desk360Constants {
         return true
     }
 
+    fun startDesk360(
+        activity: Activity,
+        token: String,
+        targetId: String,
+        appKey: String,
+        appVersion: String,
+        appId: String,
+        baseURL: String,
+        deviceToken: String
+    ) {
+
+        val intent = Intent(activity, Desk360SplashActivity::class.java)
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.putExtra("token", token)
+        intent.putExtra("targetId", targetId)
+        intent.putExtra("app_key", appKey)
+        intent.putExtra("app_version", appVersion)
+        intent.putExtra("baseURL", baseURL)
+        intent.putExtra("device_token", deviceToken)
+        intent.putExtra("appId", appId)
+
+        activity.startActivity(intent)
+        activity.finish()
+    }
 
     fun countryCode(): String {
 
