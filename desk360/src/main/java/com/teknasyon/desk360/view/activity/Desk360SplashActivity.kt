@@ -1,11 +1,11 @@
 package com.teknasyon.desk360.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 
 class Desk360SplashActivity : AppCompatActivity() {
 
@@ -34,7 +34,8 @@ class Desk360SplashActivity : AppCompatActivity() {
             )
         }
 
-        val getTypesViewModel = GetTypesViewModel(this, notificationToken, targetId)
-        getTypesViewModel.getTypes()
+        val intent = Intent(this,Desk360BaseActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

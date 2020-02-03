@@ -19,7 +19,7 @@ object Desk360Constants {
     var app_version: String? = null
     var language_code: String? = null
     var time_zone: String? = null
-    var jsonObject: JSONObject?=null
+    var jsonObject: JSONObject? = null
     var baseURL: String? = null
     var currentType: Desk360ConfigResponse? = null
         get() {
@@ -33,7 +33,7 @@ object Desk360Constants {
         app_version: String,
         baseURL: String? = "http://teknasyon.desk360.com/",
         device_token: String? = null,
-        json_object: JSONObject?=null,
+        json_object: JSONObject? = null,
         app_language: String = ""
     ): Boolean {
 
@@ -59,22 +59,19 @@ object Desk360Constants {
         this.app_version = app_version
         if (app_language == "") {
             this.language_code = Locale.getDefault().language
-        }else{
-            this.language_code=app_language
+        } else {
+            this.language_code = app_language
         }
-        if(json_object!=null){
-            this.jsonObject=json_object
+        if (json_object != null) {
+            this.jsonObject = json_object
         }
         this.time_zone = TimeZone.getDefault().id
         this.baseURL = baseURL
 
-        //val response = Desk360Config.instance.getDesk360Preferences()?.types
-        //currentType = response
-        //GetTypesViewModel()
+        GetTypesViewModel()
 
         return true
     }
-
 
 
     fun countryCode(): String {
