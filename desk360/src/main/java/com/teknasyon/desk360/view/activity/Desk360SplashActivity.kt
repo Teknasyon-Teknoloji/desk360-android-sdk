@@ -35,8 +35,8 @@ class Desk360SplashActivity : AppCompatActivity() {
         }
 
         val intent = Intent(this, Desk360BaseActivity::class.java)
-        intent.putExtra(targetId, "targetId")
-        intent.putExtra(notificationToken, "token")
+        intent.putExtra("targetId", targetId)
+        intent.putExtra("token", notificationToken)
         startActivity(intent)
         finish()
     }
