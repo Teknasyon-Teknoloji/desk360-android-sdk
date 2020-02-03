@@ -227,11 +227,13 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     private fun checkRunningActivities() {
 
         val am = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
-        val runningActivities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            am.appTasks.size
-        } else {
-            am.getRunningTasks(1)[0].numRunning
-        }
+
+        val runningActivities =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                am.appTasks[0].taskInfo.numActivities
+            } else {
+                am.getRunningTasks(1)[0].numRunning
+            }
 
         if (runningActivities == 1) {
             val intent = packageManager.getLaunchIntentForPackage(appId!!)
