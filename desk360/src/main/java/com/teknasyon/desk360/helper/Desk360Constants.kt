@@ -68,9 +68,9 @@ object Desk360Constants {
         this.time_zone = TimeZone.getDefault().id
         this.baseURL = baseURL
 
-        val response = Desk360Config.instance.getDesk360Preferences()?.types
-        currentType = response
-        GetTypesViewModel()
+        //val response = Desk360Config.instance.getDesk360Preferences()?.types
+        //currentType = response
+        //GetTypesViewModel()
 
         return true
     }
