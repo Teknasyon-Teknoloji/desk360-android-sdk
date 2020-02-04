@@ -77,7 +77,7 @@ object Desk360Constants {
     }
 
     fun startDesk360(
-        activity: Activity,
+        context: Context,
         token: String,
         targetId: String,
         appKey: String,
@@ -87,7 +87,7 @@ object Desk360Constants {
         deviceToken: String
     ): Intent {
 
-        val intent = Intent(activity, Desk360SplashActivity::class.java)
+        val intent = Intent(context, Desk360SplashActivity::class.java)
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.putExtra("token", token)
