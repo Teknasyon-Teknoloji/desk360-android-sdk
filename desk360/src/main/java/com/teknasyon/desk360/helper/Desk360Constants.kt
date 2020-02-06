@@ -82,7 +82,6 @@ object Desk360Constants {
         targetId: String,
         appKey: String,
         appVersion: String,
-        appId: String,
         baseURL: String,
         deviceToken: String
     ): Intent {
@@ -96,7 +95,7 @@ object Desk360Constants {
         intent.putExtra("app_version", appVersion)
         intent.putExtra("baseURL", baseURL)
         intent.putExtra("device_token", deviceToken)
-        intent.putExtra("appId", appId)
+        intent.putExtra("appId", context.applicationInfo)
 
         return intent
     }
