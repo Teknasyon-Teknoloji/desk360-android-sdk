@@ -95,7 +95,7 @@ object Desk360Constants {
         intent.putExtra("app_version", appVersion)
         intent.putExtra("baseURL", baseURL)
         intent.putExtra("device_token", deviceToken)
-        intent.putExtra("appId", context.applicationInfo)
+        intent.putExtra("appId", context.applicationInfo.processName)
 
         return intent
     }
