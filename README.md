@@ -181,7 +181,8 @@ override fun onMessageReceived(remoteMessage: RemoteMessage) {
 ### Handling "target_category"
 ```
 
-"target_category" is the flag to open Desk360. If ( "target_category" == "Desk360Deeplink" )  then you must open Desk360 with notification, if not your custom notification scenario is valid.
+"target_category" is the flag to open Desk360. If ( "target_category" == "Desk360Deeplink" )  
+then you must open Desk360 with notification, if not your custom notification scenario is valid.
 
 Example (In your firebaseMessagingService class) :
 
@@ -202,7 +203,8 @@ Example (In your firebaseMessagingService class) :
         pendingIntent = if (targetCategory == "Desk360Deeplink") {
             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         } else {
-            PendingIntent.getActivity(this, 0, Intent(this, SplashActivity::class.java), PendingIntent.FLAG_ONE_SHOT)
+            PendingIntent.getActivity(this, 0, Intent(this, SplashActivity::class.java),
+	    PendingIntent.FLAG_ONE_SHOT)
         }
 
 ```
