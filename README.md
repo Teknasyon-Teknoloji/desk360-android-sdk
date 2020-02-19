@@ -223,8 +223,26 @@ Example (In your firebaseMessagingService class) :
                 	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 	intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 	startActivity(intent)
-                	finish()			
+                	finish()		
+
 ```
+### Open Desk360 without Notification Service
+```
+If your app will not use notification then you must give token empty string and for targetId "-1"
+
+val intent = Desk360Constants.startDesk360(
+                        context = this,
+                        token = " ",
+                        targetId = "-1",
+                        appKey = BuildConfig.DESK360_API_KEY,
+                        appVersion = BuildConfig.VERSION_NAME,
+                        baseURL = BuildConfig.DESK360_URL,
+                        deviceToken = utils.readDeviceUDID())
+			
+                	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                	intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                	startActivity(intent)
+                	finish()		
 
 # Versioning
 
