@@ -48,7 +48,7 @@ Add the dependency
 
 ```
 dependencies {
-        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.5.0'
+        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.6.10'
 }
 ```
 
@@ -85,39 +85,29 @@ Or Maven
 
 
 
-##### Start Desk360 with app_key -and an optinal device_token-.
-
-> Note: If no device_token is provided , Desk360 will generate random token which might cause your app to lose tickets when the app is deleted.
-
-
+##### Start Desk360 #####
 
 ```
 import com.teknasyon.desk360.helper.Desk360Config
 ```
 
 ```
-Desk360Config().context = yourContext
-
-
-Desk360Constants.desk360Config(
-  app_key = BuildConfig.DESK360_APP_KEY,
-  app_version = BuildConfig.VERSION_NAME,
-  baseURL = BuildConfig.DESK360_BASE_URL,
-  app_language = langCode, // optional any language code like "tr","en","ru"
-  json_object = yourJsonObject, // optional
-  device_token = SmartAlarm.instance.getAresPreferences()?.adId
-)
-startActivity(Intent(context, Desk360BaseActivity::class.java))
-
-##### fun desk360Config(app_key: String, device_token: String?= null,json_object: JSONObject?=null,app_language: String = "")
+##### fun Desk360Constants.startDesk360(context: Context,
+					token: String,
+					targetId: String,
+					appKey: String,
+					appVersion: String,
+					baseURL: String,
+					deviceToken: String):Intent
 
 | Parameters   | Description                                                  |
 | ------------ | ------------------------------------------------------------ |
-| app_key      | Uniqe token request from [http://desk360.com]                |
-| device_token | This parameters  values has a optionally ,  If you do not specify any value, the Desk360 sdksi generates a random deviceId.<br/>  *DeviceId created by Desk360; Resets when user uninstall and reinstall application* |
-| json_object  | This parameter is optionally and avaible to send your json object by this parameter.|
-| app_language | This parameter is optionally too.If you dont use this parameter, Desk360 SDK uses system defualt language.If you want to use this parameter, you must send language code here.|
-####
+| token        | your firebase token |
+| targetId     | ticket id from firebase message body  
+| appKey       | desk360 Api Key
+| appVersion   | your application's build number
+| baseURL      | desk360 Url
+| deviceToken  | your device id
 
 ##### Add below activiy to your AndroidManifest.xml file into application tag.
 
@@ -130,14 +120,129 @@ startActivity(Intent(context, Desk360BaseActivity::class.java))
 </application>
 ```
 
+```
+### GetFirebase Token
+```
 
-=======
+FirebaseInstanceId.getInstance().instanceId
+
+                .addOnCompleteListener { task ->
+		
+                    if (task.isSuccessful && task.result != null) {
+                        MyApplication.instance.fireBaseToken = task.result!!.token
+                    }
+                }	
+
+```
+### Parse "targetId" from Firebase Notification Body (Starting Activity)
+```
+
+When your application is killed the notification body will be in your starting activity's extra.
+
+val bundle = intent.extras
+        bundle?.let {
+            val hermes = bundle.getString("hermes")
+            hermes?.let {
+                val targetDetail = JSONObject(hermes).getJSONObject("target_detail")
+                targetDetail?.let {
+                    MyApplication.instance.targetId = targetDetail.getString("target_id")
+                    MyApplication.instance.targetType = targetDetail.getString("target_category")
+                }
+            }
+        }
+
+```
+### Parse "targetId" from Firebase Notification Body (Firebase Notification Service)
+```
+
+When your application is on foreground onMessageReceived will handle notification body.
+
+override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
+
+        val title = remoteMessage.notification!!.title
+        val message = remoteMessage.notification!!.body
+
+        val hermes = remoteMessage.data["hermes"]
+
+        hermes?.let {
+
+            val targetDetail = JSONObject(hermes).getJSONObject("target_detail")
+
+            targetDetail?.let {
+
+                targetId = targetDetail.getString("target_id")
+                targetCategory = targetDetail.getString("target_category")
+            }
+        }
+    }
+    
+```
+### Handling "target_category"
+```
+
+"target_category" is the flag to open Desk360. If ( "target_category" == "Desk360Deeplink" )  
+then you must open Desk360 with notification, if not your custom notification scenario is valid.
+
+Example (In your firebaseMessagingService class) :
+
+ val intent = Desk360Constants.startDesk360(
+                context = this,
+                token = MyApplication.instance.fireBaseToken,
+                targetId = targetId!!,
+                appKey = BuildConfig.DESK360_API_KEY,
+                appVersion = BuildConfig.VERSION_NAME,
+                baseURL = BuildConfig.DESK360_URL,
+                deviceToken = utils.readDeviceUDID())
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+
+        val pendingIntent: PendingIntent?
+
+        pendingIntent = if (targetCategory == "Desk360Deeplink") {
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        } else {
+            PendingIntent.getActivity(this, 0, Intent(this, SplashActivity::class.java),
+	    PendingIntent.FLAG_ONE_SHOT)
+        }
+
+```
 ### Use Desk 360
-
-```
- startActivity(Intent(context, Desk360BaseActivity::class.java))
 ```
 
+ val intent = Desk360Constants.startDesk360(
+                        context = this,
+                        token = token,
+                        targetId = MyApplication.instance.targetId,
+                        appKey = BuildConfig.DESK360_API_KEY,
+                        appVersion = BuildConfig.VERSION_NAME,
+                        baseURL = BuildConfig.DESK360_URL,
+                        deviceToken = utils.readDeviceUDID())
+			
+                	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                	intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                	startActivity(intent)
+                	finish()		
+
+```
+### Open Desk360 without Notification Service
+```
+If your app will not use notification then you must give token empty string and for targetId "-1"
+
+val intent = Desk360Constants.startDesk360(
+                        context = this,
+                        token = " ",
+                        targetId = "-1",
+                        appKey = BuildConfig.DESK360_API_KEY,
+                        appVersion = BuildConfig.VERSION_NAME,
+                        baseURL = BuildConfig.DESK360_URL,
+                        deviceToken = utils.readDeviceUDID())
+			
+                	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                	intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                	startActivity(intent)
+                	finish()		
 
 # Versioning
 
