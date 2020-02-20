@@ -48,7 +48,7 @@ Add the dependency
 
 ```
 dependencies {
-        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.6.10'
+        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.6.13'
 }
 ```
 
