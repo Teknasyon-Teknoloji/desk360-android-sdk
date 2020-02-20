@@ -76,7 +76,7 @@ object Desk360Constants {
         return true
     }
 
-    fun startDesk360(
+    fun initDesk360(
         context: Context,
         token: String,
         targetId: String,
@@ -98,6 +98,25 @@ object Desk360Constants {
         intent.putExtra("appId", context.applicationInfo.processName)
 
         return intent
+    }
+
+    fun getTicketId(hermes: String?): String? {
+
+        hermes?.let {
+
+            val targetDetail = JSONObject(hermes).getJSONObject("target_detail")
+            targetDetail?.let {
+
+                val targetCategory = targetDetail.getString("target_category")
+                targetCategory?.let {
+
+                    if (targetCategory == "Desk360Deeplink") {
+                        return targetDetail.getString("target_id")
+                    }
+                }
+            }
+        }
+        return null
     }
 
     fun countryCode(): String {

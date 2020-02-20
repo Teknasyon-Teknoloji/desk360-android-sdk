@@ -9,9 +9,10 @@ import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.model.Desk360NewSupportResponse
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.model.Desk360TypeResponse
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Response
 import java.io.File
@@ -62,9 +63,8 @@ open class AddNewTicketViewModel : ViewModel() {
             filePart = MultipartBody.Part.createFormData(
                 "attachment",
                 file.name,
-                RequestBody.create(
-                    MediaType.parse(getFileType(resultLoadFiles)), file
-                )
+                file
+                    .asRequestBody(getFileType(resultLoadFiles).toMediaTypeOrNull())
             )
         }
 

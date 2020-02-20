@@ -47,7 +47,9 @@ import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
 import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 
@@ -410,7 +412,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         optionsList.run {
                             this[position].let { it1 ->
                                 val customSelectboxId = RequestBody.create(
-                                    MediaType.parse("text/plain"), it1.order.toString()
+                                    "text/plain".toMediaTypeOrNull(), it1.order.toString()
                                 )
 
                                 params[customSelectBoxField[i].name.toString()] =
@@ -725,36 +727,38 @@ open class Desk360AddNewTicketFragment : Fragment(),
         if (nameFieldFill && emailFieldFill && messageLength > 0 && selectedItem) {
             for (i in 0 until customInputViewList.size) {
                 val customInputData = RequestBody.create(
-                    MediaType.parse("text/plain"),
+                    "text/plain".toMediaTypeOrNull(),
                     customInputViewList[i].holder.textInputEditText?.text.toString()
                 )
                 params[customInputField[i].name.toString()] = customInputData
             }
             for (i in customTextAreaViewList.indices) {
                 val customInputData = RequestBody.create(
-                    MediaType.parse("text/plain"),
+                    "text/plain".toMediaTypeOrNull(),
                     customTextAreaViewList[i].holder.textAreaEditText?.text.toString()
                 )
                 params[customTextAreaField[i].name.toString()] = customInputData
             }
 
-            val json: MediaType? = MediaType.parse("application/json; charset=utf-8")
+            val json: MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
 
-            val email = RequestBody.create(MediaType.parse("text/plain"), emailData!!)
-            val name = RequestBody.create(MediaType.parse("text/plain"), nameData)
-            val message = RequestBody.create(MediaType.parse("text/plain"), messageData)
+            val email = emailData!!.toRequestBody("text/plain".toMediaTypeOrNull())
+            val name = nameData.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val message = messageData.toString()
+                .toRequestBody("text/plain".toMediaTypeOrNull())
             val typeId =
-                RequestBody.create(MediaType.parse("text/plain"), selectedTypeId.toString())
-            val source = RequestBody.create(MediaType.parse("text/plain"), "App")
-            val platform = RequestBody.create(MediaType.parse("text/plain"), "Android")
-            val settings = RequestBody.create(json, Desk360Constants.jsonObject.toString())
+                selectedTypeId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val source = "App".toRequestBody("text/plain".toMediaTypeOrNull())
+            val platform = "Android".toRequestBody("text/plain".toMediaTypeOrNull())
+            val settings = Desk360Constants.jsonObject.toString().toRequestBody(json)
             val countryCode =
                 RequestBody.create(
-                    MediaType.parse("text/plain"),
+                    "text/plain".toMediaTypeOrNull(),
                     Desk360Constants.countryCode().toUpperCase()
                 )
             val notificationToken =
-                RequestBody.create(MediaType.parse("text/plain"), activity.notificationToken)
+                activity.notificationToken.toString()
+                    .toRequestBody("text/plain".toMediaTypeOrNull())
 
             params["name"] = name
             params["email"] = email
@@ -770,7 +774,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             }
 
             binding.loadingProgress.visibility = View.VISIBLE
-            activity?.window?.setFlags(
+            activity.window?.setFlags(
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
             )
