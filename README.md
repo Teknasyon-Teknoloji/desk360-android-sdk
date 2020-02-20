@@ -215,8 +215,8 @@ If your app will not use notification then you must give token "" and for target
 
 val intent = Desk360Constants.initDesk360(
                     context = this,
-                    token = "your firebase token",
-                    targetId = "targetId from notification body",
+                    token = "",
+                    targetId = "",
                     appKey = "desk360 api key",
                     appVersion = "app version",
                     baseURL = "desk360 url",
