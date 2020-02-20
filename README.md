@@ -232,7 +232,7 @@ If your app will not use notification then you must give token empty string and 
 
 val intent = Desk360Constants.startDesk360(
                         context = this,
-                        token = " ",
+                        token = "",
                         targetId = "-1",
                         appKey = BuildConfig.DESK360_API_KEY,
                         appVersion = BuildConfig.VERSION_NAME,
