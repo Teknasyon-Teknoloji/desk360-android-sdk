@@ -102,19 +102,23 @@ object Desk360Constants {
 
     fun getTicketId(hermes: String?): String? {
 
-        hermes?.let {
+        try {
+            hermes?.let {
 
-            val targetDetail = JSONObject(hermes).getJSONObject("target_detail")
-            targetDetail?.let {
+                val targetDetail = JSONObject(hermes).getJSONObject("target_detail")
+                targetDetail?.let {
 
-                val targetCategory = targetDetail.getString("target_category")
-                targetCategory?.let {
+                    val targetCategory = targetDetail.getString("target_category")
+                    targetCategory?.let {
 
-                    if (targetCategory == "Desk360Deeplink") {
-                        return targetDetail.getString("target_id")
+                        if (targetCategory == "Desk360Deeplink") {
+                            return targetDetail.getString("target_id")
+                        }
                     }
                 }
             }
+        } catch (e: Exception) {
+            return null
         }
         return null
     }
