@@ -48,7 +48,7 @@ Add the dependency
 
 ```
 dependencies {
-        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.6.13'
+        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.6.14'
 }
 ```
 
@@ -105,7 +105,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
 | token        | your firebase token |
 | targetId     | ticket id from firebase message body  
 | appKey       | desk360 Api Key will provided when you get the license
-| appVersion   | your application's build number
+| appVersion   | your application's version number
 | deviceToken  | your device id
 | isTest       | boolean flag for test or prod api
 
