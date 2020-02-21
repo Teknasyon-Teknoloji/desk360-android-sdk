@@ -48,7 +48,7 @@ Add the dependency
 
 ```
 dependencies {
-        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.6.10'
+        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.6.13'
 }
 ```
 
@@ -141,15 +141,12 @@ When your application is killed the notification body will be in your starting a
 
 val bundle = intent.extras
         bundle?.let {
-            val hermes = bundle.getString("hermes")
+	
+	val hermes = bundle?.getString("hermes")
             hermes?.let {
-                val targetDetail = JSONObject(hermes).getJSONObject("target_detail")
-                targetDetail?.let {
-                    MyApplication.instance.targetId = targetDetail.getString("target_id")
-                    MyApplication.instance.targetType = targetDetail.getString("target_category")
-                }
-            }
-        }
+		val targetId = Desk360Constants.getTicketId(hermes)
+    	}	
+  }
 
 ```
 ### Parse "targetId" from Firebase Notification Body (Firebase Notification Service)
@@ -160,90 +157,75 @@ When your application is on foreground onMessageReceived will handle notificatio
 override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        val title = remoteMessage.notification!!.title
-        val message = remoteMessage.notification!!.body
-
         val hermes = remoteMessage.data["hermes"]
 
         hermes?.let {
-
-            val targetDetail = JSONObject(hermes).getJSONObject("target_detail")
-
-            targetDetail?.let {
-
-                targetId = targetDetail.getString("target_id")
-                targetCategory = targetDetail.getString("target_category")
-            }
-        }
+	val targetId = Desk360Constants.getTicketId(hermes)
     }
     
 ```
-### Handling "target_category"
+### Handling "targetId"
 ```
 
-"target_category" is the flag to open Desk360. If ( "target_category" == "Desk360Deeplink" )  
-then you must open Desk360 with notification, if not your custom notification scenario is valid.
+"if target_id is not null you must open Desk360SplasActivity if not you must open your starting activity"
 
 Example (In your firebaseMessagingService class) :
 
- val intent = Desk360Constants.startDesk360(
-                context = this,
-                token = MyApplication.instance.fireBaseToken,
-                targetId = targetId!!,
-                appKey = BuildConfig.DESK360_API_KEY,
-                appVersion = BuildConfig.VERSION_NAME,
-                baseURL = BuildConfig.DESK360_URL,
-                deviceToken = utils.readDeviceUDID())
+ val pendingIntent: PendingIntent?
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        pendingIntent = targetId?.let { targetId ->
 
-        val pendingIntent: PendingIntent?
+            val intent = Desk360Constants.initDesk360(
+                    context = this,
+                    token = "your firebase token",
+                    targetId = "targetId from notification body",
+                    appKey = "desk360 api key",
+                    appVersion = "app version",
+                    baseURL = "desk360 url",
+                    deviceToken = "your device id")
+		    
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
-        pendingIntent = if (targetCategory == "Desk360Deeplink") {
             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-        } else {
-            PendingIntent.getActivity(this, 0, Intent(this, SplashActivity::class.java),
-	    PendingIntent.FLAG_ONE_SHOT)
+        } ?: run {
+            PendingIntent.getActivity(this, 0, Intent(this, YourStartingActivity::class.java), PendingIntent.FLAG_ONE_SHOT)
         }
 
 ```
 ### Use Desk 360
 ```
 
- val intent = Desk360Constants.startDesk360(
-                        context = this,
-                        token = token,
-                        targetId = MyApplication.instance.targetId,
-                        appKey = BuildConfig.DESK360_API_KEY,
-                        appVersion = BuildConfig.VERSION_NAME,
-                        baseURL = BuildConfig.DESK360_URL,
-                        deviceToken = utils.readDeviceUDID())
-			
-                	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                	intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                	startActivity(intent)
-                	finish()		
+ val intent = Desk360Constants.initDesk360(
+                    context = this,
+                    token = "your firebase token",
+                    targetId = "targetId from notification body",
+                    appKey = "desk360 api key",
+                    appVersion = "app version",
+                    baseURL = "desk360 url",
+                    deviceToken = "your device id")
+
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP )
+                    startActivity(intent)
+                    finish()		
 
 ```
 ### Open Desk360 without Notification Service
 ```
-If your app will not use notification then you must give token empty string and for targetId "-1"
+If your app will not use notification then you must give token "" and for targetId ""
 
-val intent = Desk360Constants.startDesk360(
-                        context = this,
-                        token = "",
-                        targetId = "-1",
-                        appKey = BuildConfig.DESK360_API_KEY,
-                        appVersion = BuildConfig.VERSION_NAME,
-                        baseURL = BuildConfig.DESK360_URL,
-                        deviceToken = utils.readDeviceUDID())
-			
-                	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                	intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                	startActivity(intent)
-                	finish()		
+val intent = Desk360Constants.initDesk360(
+                    context = this,
+                    token = "",
+                    targetId = "",
+                    appKey = "desk360 api key",
+                    appVersion = "app version",
+                    baseURL = "desk360 url",
+                    deviceToken = "your device id")
 
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP )
+                    startActivity(intent)
+                    finish()		
+		    
 # Versioning
 
 We use [SemVer](http://semver.org/) for versioning.
