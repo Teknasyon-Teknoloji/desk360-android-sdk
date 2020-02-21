@@ -84,11 +84,11 @@ Or Maven
 # Usage
 
 
-
 ##### Start Desk360 #####
 
 ```
-import com.teknasyon.desk360.helper.Desk360Config
+import com.teknasyon.desk360.helper.Desk360Constants
+
 ```
 
 ```
@@ -97,8 +97,8 @@ import com.teknasyon.desk360.helper.Desk360Config
 					targetId: String,
 					appKey: String,
 					appVersion: String,
-					baseURL: String,
-					deviceToken: String):Intent
+					deviceToken: String,
+					isTest: Boolean):Intent
 
 | Parameters   | Description                                                  |
 | ------------ | ------------------------------------------------------------ |
@@ -106,19 +106,19 @@ import com.teknasyon.desk360.helper.Desk360Config
 | targetId     | ticket id from firebase message body  
 | appKey       | desk360 Api Key
 | appVersion   | your application's build number
-| baseURL      | desk360 Url
 | deviceToken  | your device id
-
-##### Add below activiy to your AndroidManifest.xml file into application tag.
+| isTest       | boolean flag for test or prod api
 
 ```
+### Add to your AndroidManifest.xml
+```
+
 <application
 	...
 	<activity
      android:name="com.teknasyon.desk360.view.activity.Desk360BaseActivity"
      android:windowSoftInputMode="stateHidden|adjustResize"/>
 </application>
-```
 
 ```
 ### GetFirebase Token
@@ -129,7 +129,7 @@ FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener { task ->
 		
                     if (task.isSuccessful && task.result != null) {
-                        MyApplication.instance.fireBaseToken = task.result!!.token
+                       val token = task.result!!.token
                     }
                 }	
 
@@ -181,8 +181,8 @@ Example (In your firebaseMessagingService class) :
                     targetId = "targetId from notification body",
                     appKey = "desk360 api key",
                     appVersion = "app version",
-                    baseURL = "desk360 url",
-                    deviceToken = "your device id")
+                    deviceToken = "your device id",
+		    isTest: "boolean flag for test or prod api")
 		    
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
@@ -201,8 +201,8 @@ Example (In your firebaseMessagingService class) :
                     targetId = "targetId from notification body",
                     appKey = "desk360 api key",
                     appVersion = "app version",
-                    baseURL = "desk360 url",
-                    deviceToken = "your device id")
+                    deviceToken = "your device id",
+		    isTest: "boolean flag for test or prod api")
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP )
                     startActivity(intent)
@@ -220,12 +220,14 @@ val intent = Desk360Constants.initDesk360(
                     appKey = "desk360 api key",
                     appVersion = "app version",
                     baseURL = "desk360 url",
-                    deviceToken = "your device id")
+                    deviceToken = "your device id",
+		    isTest: "boolean flag for test or prod api")
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP )
                     startActivity(intent)
                     finish()		
-		    
+```
+
 # Versioning
 
 We use [SemVer](http://semver.org/) for versioning.
