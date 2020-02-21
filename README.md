@@ -104,7 +104,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
 | ------------ | ------------------------------------------------------------ |
 | token        | your firebase token |
 | targetId     | ticket id from firebase message body  
-| appKey       | desk360 Api Key
+| appKey       | desk360 Api Key will provided when you get the license
 | appVersion   | your application's build number
 | deviceToken  | your device id
 | isTest       | boolean flag for test or prod api
