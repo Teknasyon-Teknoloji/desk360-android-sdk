@@ -117,7 +117,8 @@ import com.teknasyon.desk360.helper.Desk360Constants
 	...
 	<activity
      android:name="com.teknasyon.desk360.view.activity.Desk360BaseActivity"
-     android:windowSoftInputMode="stateHidden|adjustResize"/>
+     android:windowSoftInputMode="stateHidden|adjustResize"
+     android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 </application>
 
 ```
