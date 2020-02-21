@@ -50,8 +50,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         bundle?.let {
 
-            targetId = bundle.getString("targetId")
             appId = bundle.getString("appId")
+            targetId = bundle.getString("targetId")
             notificationToken = bundle.getString("token")
         }
 

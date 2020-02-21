@@ -47,7 +47,7 @@ class Desk360RetrofitFactory private constructor() {
             unSecureRetrofitInstance = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
-                .baseUrl(Desk360Constants.baseURL)
+                .baseUrl(Desk360Constants.baseURL!!)
                 .build()
 
         val client1 = httpClientWithoutHeader.build()
@@ -55,7 +55,7 @@ class Desk360RetrofitFactory private constructor() {
             secureRetrofitInstance = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client1)
-                .baseUrl(Desk360Constants.baseURL)
+                .baseUrl(Desk360Constants.baseURL!!)
                 .build()
 
         sslService = secureRetrofitInstance!!.create(SslService::class.java)

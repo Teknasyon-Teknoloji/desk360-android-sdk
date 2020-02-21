@@ -1,16 +1,12 @@
 package com.teknasyon.desk360.viewmodel
 
-import android.content.Intent
 import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360StylesRetrofitFactory
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
-import com.teknasyon.desk360.view.activity.Desk360SplashActivity
 import retrofit2.Call
 import retrofit2.Response
 

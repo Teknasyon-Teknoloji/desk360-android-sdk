@@ -13,7 +13,6 @@ class Desk360SplashActivity : AppCompatActivity() {
     private var targetId: String? = null
     private var appId: String? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -22,9 +21,9 @@ class Desk360SplashActivity : AppCompatActivity() {
         val bundle = intent.extras
         bundle?.let {
 
-            notificationToken = bundle.getString("token")
-            targetId = bundle.getString("targetId")
             appId = bundle.getString("appId")
+            targetId = bundle.getString("targetId")
+            notificationToken = bundle.getString("token")
 
             Desk360Config().context = this
             Desk360Constants.currentTheme = 1
@@ -32,7 +31,7 @@ class Desk360SplashActivity : AppCompatActivity() {
             Desk360Constants.desk360Config(
                 app_key = bundle.getString("app_key")!!,
                 app_version = bundle.getString("app_version")!!,
-                baseURL = bundle.getString("baseURL"),
+                isTest = bundle.getBoolean("isTest"),
                 device_token = bundle.getString("device_token")
             )
         }

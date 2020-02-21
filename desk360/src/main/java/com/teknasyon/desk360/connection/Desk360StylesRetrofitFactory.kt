@@ -42,7 +42,7 @@ class Desk360StylesRetrofitFactory private constructor() {
             unSecureRetrofitInstance = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
-                .baseUrl(Desk360Constants.baseURL)
+                .baseUrl(Desk360Constants.baseURL!!)
                 .build()
 
         sslService = unSecureRetrofitInstance!!.create(SslService::class.java)

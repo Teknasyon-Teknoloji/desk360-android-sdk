@@ -1,6 +1,5 @@
 package com.teknasyon.desk360.helper
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -34,7 +33,7 @@ object Desk360Constants {
     fun desk360Config(
         app_key: String,
         app_version: String,
-        baseURL: String? = "http://teknasyon.desk360.com/",
+        isTest: Boolean,
         device_token: String? = null,
         json_object: JSONObject? = null,
         app_language: String = ""
@@ -52,10 +51,6 @@ object Desk360Constants {
         if (time_zone == "")
             return false
 
-
-        if (baseURL == "")
-            return false
-
         if (device_token != null && device_token != "")
             Desk360Config.instance.getDesk360Preferences()?.adId = device_token
         this.app_key = app_key
@@ -69,7 +64,12 @@ object Desk360Constants {
             this.jsonObject = json_object
         }
         this.time_zone = TimeZone.getDefault().id
-        this.baseURL = baseURL
+
+        baseURL = if (isTest) {
+            "http://52.59.142.138:10380/"
+        } else {
+            "http://teknasyon.desk360.com/"
+        }
 
         GetTypesViewModel()
 
@@ -80,20 +80,21 @@ object Desk360Constants {
         context: Context,
         token: String,
         targetId: String,
-        appKey: String,
         appVersion: String,
-        baseURL: String,
-        deviceToken: String
+        deviceToken: String,
+        appKey: String,
+        isTest: Boolean
     ): Intent {
 
         val intent = Intent(context, Desk360SplashActivity::class.java)
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        intent.putExtra("isTest", isTest)
         intent.putExtra("token", token)
         intent.putExtra("targetId", targetId)
         intent.putExtra("app_key", appKey)
         intent.putExtra("app_version", appVersion)
-        intent.putExtra("baseURL", baseURL)
         intent.putExtra("device_token", deviceToken)
         intent.putExtra("appId", context.applicationInfo.processName)
 
