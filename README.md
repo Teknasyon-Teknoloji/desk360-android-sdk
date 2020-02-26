@@ -48,10 +48,11 @@ Add the dependency
 
 ```
 dependencies {
-        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.6.14'
+        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:latest_release'
 }
 ```
 
+(Please change latest_release with : https://img.shields.io/jitpack/v/github/Teknasyon-Teknoloji/desk360-android-sdk)
 
 
 Or Maven
