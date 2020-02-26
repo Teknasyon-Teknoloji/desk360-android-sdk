@@ -224,14 +224,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
 
         rootParamsLayout.setMargins(24, 24, 24, 24)
-        errorLabelTextColor = ColorStateList(
-            arrayOf(
-                intArrayOf()
-            ),
-            intArrayOf(
-                Color.parseColor(editTextStyleModel?.error_label_text_color)
-            )
-        )
+
+        val states = Array(0, init = { IntArray(0) })
+        val colors = IntArray(1, init = { 0 })
+        colors[0] = Color.parseColor(editTextStyleModel?.error_label_text_color)
+        errorLabelTextColor = ColorStateList(states, colors)
 
         /**
          * find custom fields

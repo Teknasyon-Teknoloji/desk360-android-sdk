@@ -15,7 +15,6 @@ class Desk360CreateScreenButtonIcon : ImageView {
         } else {
             this.visibility= View.VISIBLE
         }
-
     }
 
     constructor(context: Context) : super(context)

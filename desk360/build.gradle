@@ -11,8 +11,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 4
-        versionName "0.6.14"
+        versionCode 5
+        versionName "0.6.15"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,6 +26,8 @@ android {
 
         debug {
             minifyEnabled false
+            debuggable true
+
         }
     }
     dataBinding {
@@ -44,6 +46,12 @@ android {
     dokka {
         outputFormat = 'gfm'
         outputDirectory = "$buildDir/javadoc"
+    }
+
+    android {
+        lintOptions {
+            abortOnError false
+        }
     }
 }
 

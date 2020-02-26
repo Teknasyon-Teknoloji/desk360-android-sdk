@@ -13,7 +13,7 @@ class Desk360SuccessScreenButtonIcon : ImageView {
         if (Desk360Constants.currentType?.data?.ticket_success_screen?.button_icon_is_hidden == true) {
             this.visibility= View.VISIBLE
         } else {
-            this.visibility= View.INVISIBLE
+            this.visibility= View.GONE
         }
 
     }
