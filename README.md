@@ -93,7 +93,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
 ```
 
 ```
-##### fun Desk360Constants.startDesk360(context: Context,
+##### fun Desk360Constants.initDesk360(context: Context,
 					token: String,
 					targetId: String,
 					appKey: String,
