@@ -18,8 +18,10 @@ class GetTypesViewModel : ViewModel() {
 
     private fun getTypes() {
 
-        val map = HashMap<String, String>()
-        map["language_code"] = Desk360Constants.language_code.toString()
+        val map = HashMap<String, String?>()
+
+        map["language_code"] =  Desk360Constants.language_code.toString()
+        map["language_code_tag"] =  Desk360Constants.language_tag
 
         Desk360StylesRetrofitFactory.instance.sslService.getTypes(map)
             .enqueue(object : BaseCallback<Desk360ConfigResponse>() {

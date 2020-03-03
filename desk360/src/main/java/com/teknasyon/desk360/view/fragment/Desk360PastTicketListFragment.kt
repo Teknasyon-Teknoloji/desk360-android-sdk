@@ -78,6 +78,7 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             }
         })
 
+        binding.root.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_backgroud_color))
     }
 
     private fun setViews() {

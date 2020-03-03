@@ -13,11 +13,10 @@ class Desk360TicketListEditTextSendMessage : EditText {
     init {
 
         this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_text_color))
-        this.textSize =
-            Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_font_size!!.toFloat()
-        this.hint =
-            Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_place_holder_text
+        this.textSize = Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_font_size!!.toFloat()
+        this.hint = Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_place_holder_text
         this.setHintTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_place_holder_color))
+
         when (Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_font_weight) {
             100 -> {
                 val face = Typeface.createFromAsset(context?.assets, "Montserrat-Thin.ttf")

@@ -3,16 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <RelativeLayout
 
-    <com.teknasyon.desk360.themev2.Desk360TicketListRootLayout
-
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+
             android:id="@+id/no_expire_empty_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -20,9 +22,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+
                 android:id="@+id/noExpiredImageEmpty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,72 +35,30 @@
 
 
             <com.teknasyon.desk360.themev2.Desk360PastEmptyTicketSubTitle
+
                 android:id="@+id/no_expired_text_empty"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
+                android:ellipsize="end"
                 android:gravity="center_horizontal"
                 android:letterSpacing="0.03"
-                android:maxLines="4"
-                android:ellipsize="end"
                 android:lineSpacingExtra="3sp"
-                tools:text="You have no resolved support requests"
+                android:maxLines="4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/no_expired_image_empty"
-                tools:ignore="MissingConstraints" />
-
-
-<!--            <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton-->
-<!--                android:id="@+id/open_messageform_from_expired_list"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="55dp"-->
-<!--                android:layout_centerVertical="true"-->
-<!--                android:layout_marginBottom="32dp"-->
-<!--                android:gravity="center"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/no_expired_text_empty"-->
-<!--                app:layout_constraintVertical_bias="0.85">-->
-
-
-<!--                <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonText-->
-<!--                    android:id="@+id/ticket_list_empty_button_text_past"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:drawablePadding="16dp"-->
-<!--                    android:gravity="center"-->
-<!--                    android:padding="8dp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    tools:ignore="MissingConstraints"-->
-<!--                    tools:text="Bize Yazın" />-->
-
-
-<!--                <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonIcon-->
-<!--                    android:id="@+id/ticket_list_empty_button_icon_past"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@+id/ticket_list_empty_button_text_past"-->
-<!--                    app:layout_constraintEnd_toStartOf="@+id/ticket_list_empty_button_text_past"-->
-<!--                    app:layout_constraintTop_toTopOf="@+id/ticket_list_empty_button_text_past" />-->
-
-
-<!--            </com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton>-->
-
-
+                app:layout_constraintTop_toBottomOf="@+id/noExpiredImageEmpty"
+                tools:ignore="MissingConstraints"
+                tools:text="You have no resolved support requests" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+
             android:id="@+id/past_ticket_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -108,6 +70,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-    </com.teknasyon.desk360.themev2.Desk360TicketListRootLayout>
+
+    </RelativeLayout>
 
 </layout>

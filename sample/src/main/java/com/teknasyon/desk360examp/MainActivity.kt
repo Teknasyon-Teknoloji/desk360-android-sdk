@@ -1,13 +1,11 @@
 package com.teknasyon.desk360examp
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -25,15 +23,22 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     private fun setupNavigation() {
+
         Desk360Config.instance.context = this
-        Desk360Constants.desk360Config(
-            app_key = BuildConfig.APP_KEY,
-            app_version = BuildConfig.VERSION_NAME,
-            baseURL = "http://52.59.142.138:10380/",
-            device_token = "deskt36012"
+
+
+        Desk360Constants.currentTheme = 1
+        val intent = Desk360Constants.initDesk360(
+            this,
+            "",
+            "",
+            BuildConfig.VERSION_NAME,
+            "deskt36012",
+            BuildConfig.APP_KEY,
+            true
         )
 
-        startActivity(Intent(this, Desk360BaseActivity::class.java))
+        startActivity(intent)
     }
 
     private fun getObj(): JSONObject {

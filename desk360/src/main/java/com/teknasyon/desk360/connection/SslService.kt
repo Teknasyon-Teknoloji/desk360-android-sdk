@@ -16,6 +16,6 @@ interface SslService {
     fun register(@Body register: Desk360Register): Call<Desk360RegisterResponse>
 
     @POST("api/v1/sdk/configurations")
-    fun getTypes(@Body language_code: HashMap<String, String>): Call<Desk360ConfigResponse>
+    fun getTypes(@Body language_code: HashMap<String, String?>): Call<Desk360ConfigResponse>
 
 }

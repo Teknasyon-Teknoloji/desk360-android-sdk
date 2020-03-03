@@ -20,6 +20,7 @@ object Desk360Constants {
     var app_key: String? = null
     var app_version: String? = null
     var language_code: String? = null
+    var language_tag: String? = null
     var time_zone: String? = null
     var jsonObject: JSONObject? = null
     var baseURL: String? = null
@@ -55,11 +56,19 @@ object Desk360Constants {
             Desk360Config.instance.getDesk360Preferences()?.adId = device_token
         this.app_key = app_key
         this.app_version = app_version
+
         if (app_language == "") {
             this.language_code = Locale.getDefault().language
         } else {
             this.language_code = app_language
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.language_tag = Locale.getDefault().toLanguageTag().toLowerCase()
+        } else {
+            this.language_tag = null
+        }
+
         if (json_object != null) {
             this.jsonObject = json_object
         }
