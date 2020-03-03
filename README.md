@@ -48,10 +48,11 @@ Add the dependency
 
 ```
 dependencies {
-        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:0.6.14'
+        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:latest_release'
 }
 ```
 
+(Please change latest_release with : https://img.shields.io/jitpack/v/github/Teknasyon-Teknoloji/desk360-android-sdk)
 
 
 Or Maven
@@ -92,7 +93,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
 ```
 
 ```
-##### fun Desk360Constants.startDesk360(context: Context,
+##### fun Desk360Constants.initDesk360(context: Context,
 					token: String,
 					targetId: String,
 					appKey: String,
