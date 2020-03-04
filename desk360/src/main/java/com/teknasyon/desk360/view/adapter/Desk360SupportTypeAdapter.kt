@@ -10,14 +10,9 @@ import android.widget.TextView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360SupportTypeAdapter(
-    context: Context, resourceId: Int,
-    private val objects: List<String>
-) : ArrayAdapter<String>(context, resourceId, objects) {
-    override fun getDropDownView(
-        position: Int, convertView: View?,
-        parent: ViewGroup
-    ): View {
+class Desk360SupportTypeAdapter(context: Context, resourceId: Int, private val objects: List<String>) : ArrayAdapter<String>(context, resourceId, objects) {
+
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         return getCustomView(position, parent)
     }
 
@@ -26,8 +21,11 @@ class Desk360SupportTypeAdapter(
     }
 
     private fun getCustomView(position: Int, parent: ViewGroup): View {
+
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
         val row = inflater.inflate(R.layout.desk360_type_dropdown, parent, false)
+
         if (Desk360Constants.currentType?.data?.create_screen?.form_style_id == 3)
             row.setBackgroundColor(
                 Color.parseColor(

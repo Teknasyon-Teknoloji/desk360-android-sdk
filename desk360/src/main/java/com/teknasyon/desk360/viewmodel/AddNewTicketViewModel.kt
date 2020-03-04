@@ -26,36 +26,7 @@ open class AddNewTicketViewModel : ViewModel() {
     var typeList: MutableLiveData<ArrayList<Desk360Type>>? = MutableLiveData()
     var addedTicket: MutableLiveData<String> = MutableLiveData()
 
-
-    init {
-        getTypeList()
-    }
-
-    private fun getTypeList() {
-        Desk360RetrofitFactory.instance.httpService.getTypeList()
-            .enqueue(object : BaseCallback<Desk360TypeResponse>() {
-                override fun onResponseSuccess(
-                    call: Call<Desk360TypeResponse>,
-                    response: Response<Desk360TypeResponse>
-                ) {
-                    if (response.isSuccessful && response.body() != null) {
-                        Desk360Config.instance.getDesk360Preferences()?.subjects = response.body()
-                        typeList?.value = response.body()!!.data
-                        Desk360Config.instance.getDesk360Preferences()?.subjects
-                    } else {
-                        typeList?.value =
-                            Desk360Config.instance.getDesk360Preferences()?.subjects?.data
-                    }
-                }
-            })
-    }
-
-    fun addSupportTicket(
-        ticketItem: HashMap<String, RequestBody>,
-        file: File?,
-        resultLoadFiles: Int
-    ) {
-
+    fun addSupportTicket(ticketItem: HashMap<String, RequestBody>, file: File?, resultLoadFiles: Int) {
 
         var filePart: MultipartBody.Part? = null
 
@@ -67,7 +38,6 @@ open class AddNewTicketViewModel : ViewModel() {
                     .asRequestBody(getFileType(resultLoadFiles).toMediaTypeOrNull())
             )
         }
-
 
         Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem, filePart)
             .enqueue(object : BaseCallback<Desk360NewSupportResponse>() {
@@ -87,7 +57,7 @@ open class AddNewTicketViewModel : ViewModel() {
 
     private fun getFileType(resultLoadFiles: Int): String {
 
-        if (resultLoadFiles == 1223) return "video/*"
-        else return "image/*"
+        return if (resultLoadFiles == 1223) "video/*"
+        else "image/*"
     }
 }

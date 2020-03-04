@@ -185,12 +185,13 @@ open class Desk360AddNewTicketFragment : Fragment(),
         //progress background companents set clickable false
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         viewModel = AddNewTicketViewModel()
-        typeList = Desk360Config.instance.getDesk360Preferences()?.subjects?.data
-        viewModel?.typeList?.observe(this, observer)
+        typeList = Desk360Config.instance.getDesk360Preferences()?.types!!.data.create_screen.types
+        //viewModel?.typeList?.observe(this, observer)
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
         (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.VISIBLE
         listOfType.clear()
 
+        listOfType.add("")
         typeList?.let {
             for (i in 0 until it.size) {
                 listOfType.add(it[i].title.toString())
@@ -335,7 +336,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     }
 
                     selectedItem = true
-                    typeList?.let { it[position].let { it1 -> selectedTypeId = it1.id!! } }
+                    typeList?.let { it[position-1].let { it1 -> selectedTypeId = it1.id!! } }
                     (subjectTypeSpinner?.holder?.selectBox?.selectedView as TextView).setTextColor(
                         Color.parseColor(editTextStyleModel.form_input_focus_color)
                     )
@@ -636,7 +637,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         viewModel?.let {
             with(viewModel!!) {
-                typeList?.removeObserver(observer)
+                //typeList?.removeObserver(observer)
 //              subjectFieldFill.removeObserver(observerSubject)
                 addedTicket.removeObserver(observerAddedTicket)
             }

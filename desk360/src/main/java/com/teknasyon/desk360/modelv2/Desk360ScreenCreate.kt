@@ -1,5 +1,7 @@
 package com.teknasyon.desk360.modelv2
 
+import com.teknasyon.desk360.model.Desk360Type
+
 class Desk360ScreenCreate {
 
     var title = "Bize Ulaşın"
@@ -30,5 +32,6 @@ class Desk360ScreenCreate {
     var form_input_focus_border_color = "#000000"
     var form_input_place_holder_color = "#a6a6a8"
     var form_input_focus_background_color = "#F7F7F7"
+    val types: ArrayList<Desk360Type>? = null
 }
 
