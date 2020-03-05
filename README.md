@@ -227,13 +227,26 @@ val intent = Desk360Constants.initDesk360(
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP )
                     startActivity(intent)
-                    finish()		
+                    finish()
+
+
 ```
+# ProGuard
+```
+
+If you are using proguard you must add this rules to avoid further compile issues.
+
+-keep class com.teknasyon.desk360.model.** { *; }
+-keepnames class com.teknasyon.desk360.model.** { *; }
+-keep class com.teknasyon.desk360.modelv2.** { *; }
+-keepnames class com.teknasyon.desk360.modelv2.** { *; }
+
+```
+
 
 # Versioning
 
 We use [SemVer](http://semver.org/) for versioning.
-
 
 
 # Support
