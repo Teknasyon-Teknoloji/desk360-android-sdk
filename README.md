@@ -96,9 +96,10 @@ import com.teknasyon.desk360.helper.Desk360Constants
 ##### fun Desk360Constants.initDesk360(context: Context,
 					token: String,
 					targetId: String,
-					appKey: String,
 					appVersion: String,
 					deviceToken: String,
+					appKey: String,
+					appLanguage: String,
 					isTest: Boolean):Intent
 
 | Parameters   | Description                                                  |
@@ -107,7 +108,8 @@ import com.teknasyon.desk360.helper.Desk360Constants
 | targetId     | ticket id from firebase message body  
 | appKey       | desk360 Api Key will provided when you get the license
 | appVersion   | your application's version number
-| deviceToken  | your device id
+| deviceToken  | your Android device id
+| appLanguage  | ISO 639-1 Code	for sdk language: "en","fr,"tr
 | isTest       | boolean flag for test or prod api
 
 ```
@@ -181,9 +183,10 @@ Example (In your firebaseMessagingService class) :
                     context = this,
                     token = "your firebase token",
                     targetId = "targetId from notification body",
-                    appKey = "desk360 api key",
                     appVersion = "app version",
-                    deviceToken = "your device id",
+                    deviceToken = "your Android device id",
+                    appKey = "desk360 api key",
+                    appLanguage = "your selected ISO 639-1 Code for language"
 		    isTest: "boolean flag for test or prod api")
 		    
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -197,14 +200,15 @@ Example (In your firebaseMessagingService class) :
 ### Use Desk 360
 ```
 
- val intent = Desk360Constants.initDesk360(
-                    context = this,
-                    token = "your firebase token",
-                    targetId = "targetId from notification body",
-                    appKey = "desk360 api key",
-                    appVersion = "app version",
-                    deviceToken = "your device id",
-		    isTest: "boolean flag for test or prod api")
+  val intent = Desk360Constants.initDesk360(
+                     context = this,
+                     token = "your firebase token",
+                     targetId = "targetId from notification body",
+                     appVersion = "app version",
+                     deviceToken = "your Android device id",
+                     appKey = "desk360 api key",
+                     appLanguage = "your selected ISO 639-1 Code for language"
+ 		    isTest: "boolean flag for test or prod api")
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP )
                     startActivity(intent)
@@ -213,22 +217,26 @@ Example (In your firebaseMessagingService class) :
 ```
 ### Open Desk360 without Notification Service
 ```
-If your app will not use notification then you must give token "" and for targetId ""
+If your app will not use notification then you must set token "" and for targetId ""
 
-val intent = Desk360Constants.initDesk360(
+ val intent = Desk360Constants.initDesk360(
                     context = this,
-                    token = "",
-                    targetId = "",
-                    appKey = "desk360 api key",
+                    token = "your firebase token",
+                    targetId = "targetId from notification body",
                     appVersion = "app version",
-                    baseURL = "desk360 url",
-                    deviceToken = "your device id",
+                    deviceToken = "your Android device id",
+                    appKey = "desk360 api key",
+                    appLanguage = "your selected ISO 639-1 Code for language"
 		    isTest: "boolean flag for test or prod api")
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP )
                     startActivity(intent)
                     finish()
+```
+### Language
+```
 
+If you don't want to use custom language then you must set to "" , desk360 sdk will use your Android device language
 
 ```
 # ProGuard
