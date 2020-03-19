@@ -59,13 +59,15 @@ object Desk360Constants {
 
         if (app_language == "") {
             this.language_code = Locale.getDefault().language
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                this.language_tag = Locale.getDefault().toLanguageTag().toLowerCase()
+            } else {
+                this.language_tag = null
+            }
+
         } else {
             this.language_code = app_language
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.language_tag = Locale.getDefault().toLanguageTag().toLowerCase()
-        } else {
             this.language_tag = null
         }
 
@@ -92,6 +94,7 @@ object Desk360Constants {
         appVersion: String,
         deviceToken: String,
         appKey: String,
+        appLanguage:String,
         isTest: Boolean
     ): Intent {
 
@@ -104,6 +107,7 @@ object Desk360Constants {
         intent.putExtra("targetId", targetId)
         intent.putExtra("app_key", appKey)
         intent.putExtra("app_version", appVersion)
+        intent.putExtra("app_language", appLanguage)
         intent.putExtra("device_token", deviceToken)
         intent.putExtra("appId", context.applicationInfo.processName)
 

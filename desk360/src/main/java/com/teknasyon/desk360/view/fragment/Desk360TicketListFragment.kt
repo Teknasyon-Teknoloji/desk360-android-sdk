@@ -20,6 +20,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
+import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -55,6 +56,9 @@ open class Desk360TicketListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        GetTypesViewModel()
+
         binding?.emptysAddNewTicketButtonTicketList?.setOnClickListener {
             Navigation
                 .findNavController(binding!!.root)
@@ -198,7 +202,9 @@ open class Desk360TicketListFragment : Fragment() {
     }
 
     private fun setUnreadTicketSize(sizeUnread: Int) {
+
         if (sizeUnread == 0) binding!!.textTicketsCurrentCount.visibility = View.INVISIBLE
+
         else binding!!.textTicketsCurrentCount.visibility = View.VISIBLE
 
         if (sizeUnread > 99) {

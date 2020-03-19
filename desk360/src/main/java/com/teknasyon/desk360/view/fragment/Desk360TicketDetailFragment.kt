@@ -24,9 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketDetailBinding
-import com.teknasyon.desk360.helper.Desk360CustomStyle
-import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.helper.RxBus
+import com.teknasyon.desk360.helper.*
+import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
@@ -37,8 +36,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
-
 open class Desk360TicketDetailFragment : Fragment() {
+
     private var binding: Desk360FragmentTicketDetailBinding? = null
     private var ticketDetailAdapter: Desk360TicketDetailListAdapter? = null
     private val gradientDrawable = GradientDrawable()
@@ -46,26 +45,52 @@ open class Desk360TicketDetailFragment : Fragment() {
     private var ticketStatus: String? = null
     private var backButtonAction: Disposable? = null
 
+    private val preferencesManager = PreferencesManager()
+    private var cacheDesk360TicketResponse: Desk360TicketResponse? = null
+
     private var observer = Observer<Desk360TicketResponse> {
+
         binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
 
         if (it != null) {
-            ticketDetailAdapter = Desk360TicketDetailListAdapter(it.messages!!,it.attachment_url,context)
+
+            preferencesManager.writeObject(ticketId.toString(), it)
+            cacheDesk360TicketResponse = preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
+
+            ticketDetailAdapter = Desk360TicketDetailListAdapter(cacheDesk360TicketResponse!!.messages!!, cacheDesk360TicketResponse!!.attachment_url, context)
+
             val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+
             binding?.messageDetailRecyclerView?.apply {
                 this.layoutManager = layoutManager
                 adapter = ticketDetailAdapter
-                scrollToPosition(it.messages?.size!! - 1)
+                scrollToPosition(cacheDesk360TicketResponse!!.messages?.size!! - 1)
             }
         }
     }
 
     private var addMessageObserver = Observer<Desk360Message> {
+
         binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
 
         if (it != null) {
+
+            cacheDesk360TicketResponse = preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
+
+            viewModel?.ticketDetailList?.value?.messages?.clear()
+            viewModel?.ticketDetailList?.value?.messages?.addAll(cacheDesk360TicketResponse!!.messages!!)
             viewModel?.ticketDetailList?.value?.messages?.add(it)
-            ticketDetailAdapter?.notifyDataSetChanged()
+
+            ticketDetailAdapter = Desk360TicketDetailListAdapter(
+                viewModel?.ticketDetailList?.value?.messages!!,
+                cacheDesk360TicketResponse!!.attachment_url,
+                context
+            )
+
+            val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            binding!!.messageDetailRecyclerView.layoutManager = layoutManager
+            binding!!.messageDetailRecyclerView.adapter = ticketDetailAdapter
+
             viewModel?.ticketDetailList?.value?.messages?.size?.minus(1)
                 ?.let { it1 -> binding?.messageDetailRecyclerView?.scrollToPosition(it1) }
             binding?.messageEditText?.setText("")
@@ -73,36 +98,74 @@ open class Desk360TicketDetailFragment : Fragment() {
     }
 
     private var viewModel: TicketDetailViewModel? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
-            DataBindingUtil.inflate(
-                inflater,
-                R.layout.desk360_fragment_ticket_detail,
-                container,
-                false
-            )
+
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.desk360_fragment_ticket_detail,
+            container,
+            false
+        )
+
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
-        binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
+
+        cacheDesk360TicketResponse =
+            preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
+
+        cacheDesk360TicketResponse?.let {
+
+            cacheDesk360TicketResponse!!.messages?.let {
+
+                if (cacheDesk360TicketResponse!!.messages!!.isNotEmpty()) {
+                    binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
+                } else {
+                    binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
+                }
+
+                ticketDetailAdapter = Desk360TicketDetailListAdapter(
+                    cacheDesk360TicketResponse!!.messages!!,
+                    cacheDesk360TicketResponse!!.attachment_url,
+                    context
+                )
+
+                val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+
+                binding?.messageDetailRecyclerView?.apply {
+                    this.layoutManager = layoutManager
+                    adapter = ticketDetailAdapter
+                    scrollToPosition(cacheDesk360TicketResponse!!.messages?.size!! - 1)
+                }
+            }
+        } ?: run {
+            binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
+        }
+
         viewModel = ticketId?.let { TicketDetailViewModel(it) }
+
         viewModel?.ticketDetailList?.observe(this, observer)
 
-        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.GONE
+        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.GONE
 
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
+
         Desk360CustomStyle.setStyle(
             Desk360Constants.currentType?.data?.first_screen?.button_style_id,
             binding!!.addNewTicketButton,
             context!!
         )
+
         binding?.addNewMessageButton?.setOnClickListener {
+
             binding?.messageEditText?.text?.trim()?.apply {
                 if (isNotEmpty() && toString().isNotEmpty()) {
                     ticketId?.let { it1 ->
@@ -114,28 +177,30 @@ open class Desk360TicketDetailFragment : Fragment() {
                 }
             }
         }
+
         binding?.ticketDetailButtonIcon?.setImageResource(R.drawable.zarf)
         binding?.ticketDetailButtonIcon?.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
-
-        DrawableCompat.setTint(binding!!.messageEditText.background, ContextCompat.getColor(context!!,R.color.colorHintDesk360 ))
-
-
-        val states = arrayOf(
-            intArrayOf(android.R.attr.state_focused),
-            intArrayOf(android.R.attr.state_enabled)
+        DrawableCompat.setTint(
+            binding!!.messageEditText.background,
+            ContextCompat.getColor(context!!, R.color.colorHintDesk360)
         )
 
-        val colors = intArrayOf(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_active_color),
+        val states = ArrayCreator.createDoubleArray(1, 2)
+        states[0][0] = android.R.attr.state_focused
+        states[0][1] = android.R.attr.state_enabled
+
+        val colors = ArrayCreator.createSingleArray(2)
+        colors[0] =
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_active_color)
+        colors[1] =
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color)
-        )
 
+        val myList = ColorStateList(states, colors)
 
-        val myList =  ColorStateList(states, colors)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             binding!!.messageEditText.backgroundTintList = myList
         }
@@ -149,32 +214,33 @@ open class Desk360TicketDetailFragment : Fragment() {
         gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_background_color))
 
         binding?.addNewMessageButton?.setImageResource(R.drawable.message_send_icon_blue)
+
         binding?.addNewMessageButton?.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
         binding?.messageEditText?.addTextChangedListener(object : TextWatcher {
+
             override fun afterTextChanged(s: Editable?) {
-                Log.d("addTextChangedListener", "afterTextChanged")
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Log.d("addTextChangedListener", "beforeTextChanged")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
                 if (s?.length == 0) {
                     binding?.addNewMessageButton?.setColorFilter(
                         Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
+
                 } else {
                     binding?.addNewMessageButton?.setColorFilter(
                         Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
-
                 }
             }
 
@@ -190,7 +256,9 @@ open class Desk360TicketDetailFragment : Fragment() {
     }
 
     private fun expireControl() {
+
         if (ticketStatus == "expired") {
+
             binding?.layoutSendNewMessageNormal?.visibility = View.GONE
             binding?.addNewTicketButton?.visibility = View.VISIBLE
             backButtonAction =
@@ -219,6 +287,7 @@ open class Desk360TicketDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (arguments != null) {
             ticketId = arguments!!.getInt("ticket_id")
             ticketStatus = arguments!!.getString("ticket_status")
@@ -227,6 +296,7 @@ open class Desk360TicketDetailFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+
         viewModel?.ticketDetailList?.removeObserver(observer)
         viewModel?.addMessageItem?.removeObserver(addMessageObserver)
         if (backButtonAction?.isDisposed == false)
@@ -235,6 +305,7 @@ open class Desk360TicketDetailFragment : Fragment() {
     }
 
     private fun hideSoftKeyboard() {
+
         activity?.let {
             val view = activity!!.currentFocus
             if (view != null) {
@@ -244,5 +315,4 @@ open class Desk360TicketDetailFragment : Fragment() {
             }
         }
     }
-
 }

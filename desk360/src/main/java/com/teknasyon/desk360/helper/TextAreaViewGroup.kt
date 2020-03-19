@@ -74,6 +74,7 @@ fun TextInputEditText.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
 fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
 
     if (style.form_style_id == 3) {
+
         val colorStateList = ColorStateList(
             arrayOf(
                 intArrayOf(-android.R.attr.state_focused),
@@ -112,6 +113,7 @@ fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
             this.backgroundTintList = colorStateList
         }
         this.hintTextColor = colorHintStateListNormal
+
     } else {
 
         val states = Array(2, init = { IntArray(1) })

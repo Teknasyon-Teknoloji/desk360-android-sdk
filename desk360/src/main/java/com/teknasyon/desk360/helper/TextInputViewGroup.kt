@@ -83,11 +83,12 @@ fun TextInputEditText.setDesk360InputStyle(style: Desk360ScreenCreate) {
             //line
             this.setPadding(0, 24, 0, 24)
 
-            val states = Array(2, init = { IntArray(1) })
-            states[0] = IntArray(1) {-android.R.attr.state_focused}
-            states[1] = IntArray(1) {android.R.attr.state_focused}
+            val states = ArrayCreator.createDoubleArray(1, 2)
+            states[0][0] = -android.R.attr.state_focused
+            states[0][1] = android.R.attr.state_focused
 
-            val colors = IntArray(2, init = { 0 })
+            val colors = ArrayCreator.createSingleArray(2)
+
             colors[0] = Color.parseColor(style.form_input_border_color)
             colors[1] = Color.parseColor(style.form_input_focus_border_color)
 

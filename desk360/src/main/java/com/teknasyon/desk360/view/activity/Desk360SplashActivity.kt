@@ -32,7 +32,8 @@ class Desk360SplashActivity : AppCompatActivity() {
                 app_key = bundle.getString("app_key")!!,
                 app_version = bundle.getString("app_version")!!,
                 isTest = bundle.getBoolean("isTest"),
-                device_token = bundle.getString("device_token")
+                device_token = bundle.getString("device_token"),
+                app_language = bundle.getString("app_language")!!
             )
         }
 

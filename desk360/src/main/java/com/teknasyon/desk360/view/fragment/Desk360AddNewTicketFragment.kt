@@ -24,6 +24,7 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -108,21 +109,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
         LinearLayout.LayoutParams.WRAP_CONTENT
     )
 
-    private var observer = Observer<ArrayList<Desk360Type>> {
-        binding.loadingProgress?.visibility = View.GONE
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        if (it != null) {
-            listOfType.clear()
-            typeList?.clear()
-            typeList = it
-
-            for (i in 0 until it.size) {
-                listOfType.add(it[i].title.toString())
-            }
-            myAdapter?.notifyDataSetChanged()
-        }
-    }
-
     private fun observerName() {
         nameField?.holder?.textInputEditText?.isEnabled = true
         nameField?.holder?.textInputEditText?.requestFocus()
@@ -197,14 +183,13 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 listOfType.add(it[i].title.toString())
             }
         }
-        myAdapter =
-            context?.let { it1 ->
-                Desk360SupportTypeAdapter(
-                    it1,
-                    R.layout.desk360_type_dropdown,
-                    listOfType
-                )
-            }
+        myAdapter = context?.let { it1 ->
+            Desk360SupportTypeAdapter(
+                it1,
+                R.layout.desk360_type_dropdown,
+                listOfType
+            )
+        }
 
         binding.createTicketButton?.setOnClickListener {
             binding.createTicketButton.isClickable = false
@@ -216,6 +201,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             binding.fileNameIcon.visibility = View.INVISIBLE
             binding.fileNameTextCreateTicketScreen.visibility = View.INVISIBLE
         }
+
         binding.fileNameTextCreateTicketScreen.visibility = View.INVISIBLE
         binding.fileNameIcon.visibility = View.INVISIBLE
 
@@ -226,10 +212,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         rootParamsLayout.setMargins(24, 24, 24, 24)
 
-        val states = Array(0, init = { IntArray(0) })
-        val colors = IntArray(1, init = { 0 })
+        val colors = ArrayCreator.createSingleArray(2)
         colors[0] = Color.parseColor(editTextStyleModel?.error_label_text_color)
-        errorLabelTextColor = ColorStateList(states, colors)
+
+        val colorStateList = ColorStateList(ArrayCreator.createDoubleArray(1, 1), colors)
+
+        errorLabelTextColor = colorStateList
 
         /**
          * find custom fields
@@ -297,9 +285,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
         subjectTypeSpinner =
             SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
 
-        binding.createScreenRootView.addView(
-            subjectTypeSpinner?.createSpinner()
-        )
+        binding.createScreenRootView.addView(subjectTypeSpinner?.createSpinner())
+
         subjectTypeSpinner?.holder?.selectBox?.onItemSelectedListener =
             (object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -312,20 +299,23 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     position: Int,
                     id: Long
                 ) {
+
                     if (position == 0) {
                         selectedItem = false
+
                         if (editTextStyleModel.form_style_id == 3) {
+
                             view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_background_color))
                             subjectTypeSpinner?.holder?.shadowBorder?.setStroke(editTextStyleModel.form_input_border_color)
                             subjectTypeSpinner?.holder?.selectBoxCardView?.setCardBackgroundColor(
-                                Color.parseColor(
-                                    editTextStyleModel.form_input_background_color
-                                )
+                                Color.parseColor(editTextStyleModel.form_input_background_color)
                             )
                         }
                         return
                     }
+
                     if (editTextStyleModel.form_style_id == 3) {
+
                         subjectTypeSpinner?.holder?.shadowBorder?.setStroke(editTextStyleModel.form_input_focus_border_color)
                         view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_focus_background_color))
                         subjectTypeSpinner?.holder?.selectBoxCardView?.setCardBackgroundColor(
@@ -336,21 +326,24 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     }
 
                     selectedItem = true
-                    typeList?.let { it[position-1].let { it1 -> selectedTypeId = it1.id!! } }
+                    typeList?.let { it[position - 1].let { it1 -> selectedTypeId = it1.id!! } }
                     (subjectTypeSpinner?.holder?.selectBox?.selectedView as TextView).setTextColor(
                         Color.parseColor(editTextStyleModel.form_input_focus_color)
                     )
                 }
             })
+
         subjectTypeSpinner?.holder?.selectBox?.adapter = myAdapter
 
         for (i in customSelectBoxField.indices) {
+
             val spinnerItem =
                 SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
-            binding.createScreenRootView.addView(
-                spinnerItem.createSpinner()
-            )
+
+            binding.createScreenRootView.addView(spinnerItem.createSpinner())
+
             customSelectBoxViewList.add(spinnerItem)
+
             val optionsList = arrayListOf<Desk360Options>()
             optionsList.add(
                 Desk360Options(
@@ -360,14 +353,14 @@ open class Desk360AddNewTicketFragment : Fragment(),
             )
             customSelectBoxField[i].options?.let { it1 -> optionsList.addAll(it1) }
 
-            val myAdapter =
-                context?.let { it1 ->
-                    Desk360CustomSupportTypeAdapter(
-                        it1,
-                        R.layout.desk360_type_dropdown,
-                        optionsList
-                    )
-                }
+            val myAdapter = context?.let { it1 ->
+                Desk360CustomSupportTypeAdapter(
+                    it1,
+                    R.layout.desk360_type_dropdown,
+                    optionsList
+                )
+            }
+
             spinnerItem.holder.selectBox?.adapter = myAdapter
 
             spinnerItem.holder.selectBox?.onItemSelectedListener =
@@ -382,12 +375,13 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         id: Long
                     ) {
                         if (position == 0) {
+
                             (spinnerItem.holder.selectBox?.selectedView as TextView).setTextColor(
-                                Color.parseColor(
-                                    editTextStyleModel.form_input_color
-                                )
+                                Color.parseColor(editTextStyleModel.form_input_color)
                             )
+
                             if (editTextStyleModel.form_style_id == 3) {
+
                                 view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_background_color))
                                 spinnerItem.holder.shadowBorder?.setStroke(editTextStyleModel.form_input_border_color)
                                 spinnerItem.holder.selectBoxCardView?.setCardBackgroundColor(
@@ -396,6 +390,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                                     )
                                 )
                             }
+
                             return
                         }
 
@@ -404,9 +399,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                                 editTextStyleModel.form_input_focus_color
                             )
                         )
-                        (spinnerItem.holder.selectBox?.selectedView as TextView).setTextColor(
-                            Color.parseColor(editTextStyleModel.form_input_focus_color)
-                        )
+
                         optionsList.run {
                             this[position].let { it1 ->
                                 val customSelectboxId = RequestBody.create(
@@ -419,12 +412,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         }
 
                         if (editTextStyleModel.form_style_id == 3) {
+
                             spinnerItem.holder.shadowBorder?.setStroke(editTextStyleModel.form_input_focus_border_color)
                             view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_focus_background_color))
                             spinnerItem.holder.selectBoxCardView?.setCardBackgroundColor(
-                                Color.parseColor(
-                                    editTextStyleModel.form_input_focus_background_color
-                                )
+                                Color.parseColor(editTextStyleModel.form_input_focus_background_color)
                             )
                         }
                     }
@@ -434,6 +426,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         /**
          * message filed
          */
+
         messageField = TextAreaViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
         binding.createScreenRootView.addView(
             messageField?.createEditText(

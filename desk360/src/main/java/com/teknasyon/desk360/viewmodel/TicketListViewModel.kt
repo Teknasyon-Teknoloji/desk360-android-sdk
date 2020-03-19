@@ -17,12 +17,8 @@ import retrofit2.Call
 import retrofit2.Response
 import java.util.*
 
-/**
- * Created by seyfullah on 24,May,2019
- *
- */
-
 open class TicketListViewModel : ViewModel() {
+
     var ticketSize: MutableLiveData<Int>? = MutableLiveData()
     var ticketList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
     var expiredList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
@@ -33,43 +29,46 @@ open class TicketListViewModel : ViewModel() {
         Desk360Constants.getDeviceId()
     }
 
-    private fun getTicketList() {
-        Desk360RetrofitFactory.instance.httpService.getTicket()
-            .enqueue(object : BaseCallback<Desk360TicketListResponse>() {
+    fun getTicketList(showLoading: Boolean) {
 
-                override fun onResponseSuccess(
-                    call: Call<Desk360TicketListResponse>,
-                    response: Response<Desk360TicketListResponse>
-                ) {
-                    if (response.isSuccessful && response.body() != null) {
-                        ticketSize?.value = response.body()?.data?.size
-                        val unreadList =
-                            response.body()!!.data?.filter { unread -> unread.status == "unread" } as ArrayList<Desk360TicketResponse>
+        if(showLoading) {
+            progress?.set(View.VISIBLE)
+        }
 
-                        RxBus.publish(hashMapOf("sizeTicketList" to response.body()!!.data?.size))
-                        RxBus.publish(hashMapOf("unReadSizeTicketList" to unreadList.size))
+        Desk360RetrofitFactory.instance.httpService.getTicket().enqueue(object : BaseCallback<Desk360TicketListResponse>() {
 
-                        ticketList?.value =
-                            response.body()!!.data?.filter { it.status != "expired" } as ArrayList<Desk360TicketResponse>
+            override fun onResponseSuccess(call: Call<Desk360TicketListResponse>, response: Response<Desk360TicketListResponse>) {
 
-                        expiredList?.value =
-                            response.body()!!.data?.filter { it.status == "expired" } as ArrayList<Desk360TicketResponse>
+                if (response.isSuccessful && response.body() != null) {
 
-                    } else {
-                        ticketList?.value = null
-                    }
-                    progress?.set(View.GONE)
+                    ticketSize?.value = response.body()?.data?.size
+
+                    val unreadList = response.body()!!.data?.filter { unread -> unread.status == "unread" } as ArrayList<Desk360TicketResponse>
+
+                    RxBus.publish(hashMapOf("sizeTicketList" to response.body()!!.data?.size))
+                    RxBus.publish(hashMapOf("unReadSizeTicketList" to unreadList.size))
+
+                    ticketList?.value = response.body()!!.data?.filter { it.status != "expired" } as ArrayList<Desk360TicketResponse>
+
+                    expiredList?.value = response.body()!!.data?.filter { it.status == "expired" } as ArrayList<Desk360TicketResponse>
+
+                } else {
+
+                    ticketList?.value = null
                 }
 
-                override fun onFailure(call: Call<Desk360TicketListResponse>, t: Throwable) {
-                    super.onFailure(call, t)
-                    progress?.set(View.GONE)
-                }
-            })
+                progress?.set(View.GONE)
+            }
+
+            override fun onFailure(call: Call<Desk360TicketListResponse>, t: Throwable) {
+                super.onFailure(call, t)
+                progress?.set(View.GONE)
+            }
+        })
     }
 
-    fun register() {
-        progress?.set(View.VISIBLE)
+    fun register(showLoading: Boolean) {
+
         val register = Desk360Register()
         register.app_key = Desk360Constants.app_key
         register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId
@@ -78,25 +77,23 @@ open class TicketListViewModel : ViewModel() {
         register.language_code = Desk360Constants.language_code
         register.time_zone = Desk360Constants.time_zone
 
-        Desk360RetrofitFactory.instance.sslService.register(register)
-            .enqueue(object : BaseCallback<Desk360RegisterResponse>() {
-                override fun onResponseSuccess(
-                    call: Call<Desk360RegisterResponse>,
-                    response: Response<Desk360RegisterResponse>
-                ) {
-                    if (response.isSuccessful && response.body() != null) {
-                        Desk360Config.instance.getDesk360Preferences()?.data =
-                            response.body()!!.data
-                        Desk360Config.instance.getDesk360Preferences()?.meta =
-                            response.body()!!.meta
-                        getTicketList()
-                    }
-                }
+        Desk360RetrofitFactory.instance.sslService.register(register).enqueue(object : BaseCallback<Desk360RegisterResponse>() {
 
-                override fun onFailure(call: Call<Desk360RegisterResponse>, t: Throwable) {
-                    super.onFailure(call, t)
-                    progress?.set(View.GONE)
+            override fun onResponseSuccess(call: Call<Desk360RegisterResponse>, response: Response<Desk360RegisterResponse>) {
+
+                if (response.isSuccessful && response.body() != null) {
+
+                    Desk360Config.instance.getDesk360Preferences()?.data = response.body()!!.data
+                    Desk360Config.instance.getDesk360Preferences()?.meta = response.body()!!.meta
+
+                    getTicketList(showLoading)
                 }
-            })
+            }
+
+            override fun onFailure(call: Call<Desk360RegisterResponse>, t: Throwable) {
+                super.onFailure(call, t)
+                progress?.set(View.GONE)
+            }
+        })
     }
 }
