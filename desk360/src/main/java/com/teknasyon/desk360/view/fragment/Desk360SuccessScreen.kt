@@ -1,6 +1,7 @@
 package com.teknasyon.desk360.view.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
 
 class Desk360SuccessScreen : Fragment() {
+
     private lateinit var binding: Desk360SuccessScreenLayoutBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,10 +37,11 @@ class Desk360SuccessScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.successScreenOpenMessageForm.setOnClickListener {
-            Navigation
-                .findNavController(it)
-                .navigateUp()
+
+//            Navigation.findNavController(it).navigateUp()
+            Navigation.findNavController(activity!!,R.id.my_nav_host_fragment).navigate(R.id.action_thanksFragment_to_ticketListFragment)
         }
 
         (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.VISIBLE

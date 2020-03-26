@@ -7,6 +7,7 @@ import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.model.Desk360NewSupportResponse
+import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.model.Desk360TypeResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -23,8 +24,9 @@ import java.io.File
  *
  */
 open class AddNewTicketViewModel : ViewModel() {
+
     var typeList: MutableLiveData<ArrayList<Desk360Type>>? = MutableLiveData()
-    var addedTicket: MutableLiveData<String> = MutableLiveData()
+    var addedTicket: MutableLiveData<Desk360TicketResponse> = MutableLiveData()
 
     fun addSupportTicket(ticketItem: HashMap<String, RequestBody>, file: File?, resultLoadFiles: Int) {
 
@@ -47,7 +49,7 @@ open class AddNewTicketViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful && response.body() != null) {
                         addedTicket.value =
-                            response.body()!!.data?.name //todo işlem bittiğinde ticket ana sayfasına dönecek
+                            response.body()!!.data!! //todo işlem bittiğinde ticket ana sayfasına dönecek
                     } else {
                         addedTicket.value = null
                     }

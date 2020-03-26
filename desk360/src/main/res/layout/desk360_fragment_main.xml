@@ -8,6 +8,8 @@
     </data>
 
     <com.teknasyon.desk360.themev2.Desk360MainBackground
+
+        android:id="@+id/main_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -31,8 +33,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="@string/SUPPORT_TITLE" />
+                android:paddingBottom="8dp" />
 
         </com.teknasyon.desk360.helper.Desk360Toolbar>
 
@@ -60,6 +61,8 @@
             tools:ignore="MissingConstraints">
 
             <ImageView
+
+                android:id="@+id/logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/desk360bottomlogo"
@@ -69,7 +72,6 @@
                 app:layout_constraintTop_toTopOf="parent">
 
             </ImageView>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -16,11 +16,18 @@ open class Desk360Preferences : PreferencesManager() {
 
     var types: Desk360ConfigResponse?
         get() {
-            return getObject<Desk360ConfigResponse>(TYPES, Desk360ConfigResponse::class.java)
-                ?: Desk360ConfigResponse()
+            return getObject<Desk360ConfigResponse>(TYPES, Desk360ConfigResponse::class.java) ?: Desk360ConfigResponse()
         }
         set(types) {
             putObject(TYPES, types!!)
+        }
+
+    var isTypeFetched: Boolean
+        get() {
+            return getObject<Boolean>(TYPEFETCHED, Boolean::class.java) ?: false
+        }
+        set(isTypeFetched) {
+            putObject(TYPEFETCHED, isTypeFetched)
         }
 
     var subjects: Desk360TypeResponse?
@@ -38,9 +45,11 @@ open class Desk360Preferences : PreferencesManager() {
         set(adId) = setString(AD_ID, adId ?: "")
 
     companion object {
+
         private const val META = "meta"
         private const val DATA = "data"
         private const val TYPES = "types"
+        private const val TYPEFETCHED = "isTypeFetched"
         private const val SUBJECTS = "subjects"
         private const val AD_ID = "device_id"
     }

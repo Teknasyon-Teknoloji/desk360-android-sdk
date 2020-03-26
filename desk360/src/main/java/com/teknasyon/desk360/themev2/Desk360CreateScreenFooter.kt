@@ -11,10 +11,11 @@ class Desk360CreateScreenFooter : TextView {
 
 
     init {
+
         this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
-        this.textSize =
-            Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
+        this.textSize = Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
         this.text = Desk360Constants.currentType?.data?.create_screen?.bottom_note_text
+
         if (Desk360Constants.currentType?.data?.create_screen?.bottom_note_is_hidden!!) {
             this.visibility = View.VISIBLE
         } else {

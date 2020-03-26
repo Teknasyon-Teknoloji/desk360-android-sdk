@@ -37,7 +37,6 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
     private lateinit var desk360BaseActivity: Desk360BaseActivity
 
     private var isPushed: Boolean = false
-    private var isRegistered: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -79,16 +78,28 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        desk360BaseActivity.changeMainUI()
+
+        binding.currentTicketList.visibility = View.INVISIBLE
+        binding.emptyLayoutCurrent.visibility = View.INVISIBLE
+
         val preferencesManager = PreferencesManager()
 
-        try {
-            cacheTickets = preferencesManager.readObject("tickets", CacheTicket::class.java) as ArrayList<Desk360TicketResponse>
-            ticketAdapter = Desk360TicketListAdapter(context, cacheTickets)
-        } catch (e:Exception){
-            ticketAdapter = Desk360TicketListAdapter(context, this.tickets)
+        cacheTickets = try {
+            preferencesManager.readObject(
+                "tickets",
+                CacheTicket::class.java
+            ) as ArrayList<Desk360TicketResponse>
+        } catch (e: Exception) {
+            this.tickets
         }
 
-        binding.currentTicketList?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        ticketAdapter = Desk360TicketListAdapter(context, cacheTickets)
+
+        setViews()
+
+        binding.currentTicketList?.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.currentTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
 
@@ -121,14 +132,8 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
                 this.tickets.clear()
                 this.tickets.addAll(it)
 
-                preferencesManager.writeObject("tickets",this.tickets)
-                cacheTickets = preferencesManager.readObject("tickets", CacheTicket::class.java) as ArrayList<Desk360TicketResponse>
-
-                ticketAdapter = Desk360TicketListAdapter(context, cacheTickets)
-
-                binding.currentTicketList?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                binding.currentTicketList?.adapter = ticketAdapter
-                ticketAdapter?.clickItem = this
+                preferencesManager.writeObject("tickets", this.tickets)
+                swapTicketAdapter(preferencesManager)
 
                 setViews()
 
@@ -156,13 +161,29 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
         val showLoading = cacheTickets.isEmpty()
 
+
         if (!isRegistered) {
-            isRegistered = true
             viewModel?.register(showLoading)
 
         } else {
+            //swapTicketAdapter(preferencesManager)
             viewModel?.getTicketList(showLoading)
         }
+    }
+
+    private fun swapTicketAdapter(preferencesManager: PreferencesManager) {
+
+        cacheTickets = preferencesManager.readObject(
+            "tickets",
+            CacheTicket::class.java
+        ) as ArrayList<Desk360TicketResponse>
+
+        ticketAdapter = Desk360TicketListAdapter(context, cacheTickets)
+
+        binding.currentTicketList?.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.currentTicketList?.adapter = ticketAdapter
+        ticketAdapter?.clickItem = this
     }
 
     private fun forcePushToTicketDetail() {
@@ -188,21 +209,28 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
     private fun setViews() {
 
-        viewModel!!.progress!!.set(View.GONE)
+        viewModel?.let {
+            viewModel!!.progress!!.set(View.GONE)
+        }
 
-        if (tickets.isEmpty()) {
+        desk360BaseActivity.notifyToolBar(cacheTickets)
+
+        if (cacheTickets.isEmpty()) {
+
             binding.currentTicketList.visibility = View.INVISIBLE
             binding.emptyLayoutCurrent.visibility = View.VISIBLE
 
-            Log.e("empty", "empty")
-
         } else {
+
             binding.currentTicketList.visibility = View.VISIBLE
             binding.emptyLayoutCurrent.visibility = View.INVISIBLE
         }
     }
 
     companion object {
+
+        var ticketSize = 0
+        var isRegistered: Boolean = false
 
         fun newInstance(): Desk360CurrentTicketFragment {
             val args = Bundle()

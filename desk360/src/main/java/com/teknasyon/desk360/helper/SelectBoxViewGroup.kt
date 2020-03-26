@@ -8,11 +8,12 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginStart
 import androidx.fragment.app.Fragment
 import com.teknasyon.desk360.modelv2.Desk360ScreenCreate
 
+
 class SelectBoxViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
+
     var holder: MyHolder
     var view: View? = null
 
@@ -44,24 +45,63 @@ class SelectBoxViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
     }
 
     fun createSpinner(): View? {
+
+        val fourDp = Util.changeDp(holder.selectBox?.context, 4f)
+        val sixDp = Util.changeDp(holder.selectBox?.context, 4f)
+        val eightDp = Util.changeDp(holder.selectBox?.context, 8f)
+        val tenDp = Util.changeDp(holder.selectBox?.context, 10f)
+        val twelveDp = Util.changeDp(holder.selectBox?.context, 13f)
+
         holder.underline?.visibility = View.INVISIBLE
         holder.selectBoxCardView?.visibility = View.INVISIBLE
+
         holder.strokeView?.setStroke(style)
+
         when (style.form_style_id) {
+
             3 -> {
+
+                holder.selectBox?.setPadding(fourDp, twelveDp, fourDp, twelveDp)
+
                 holder.shadowBorder?.setStroke(style.form_input_border_color)
                 holder.selectBoxCardView?.visibility = View.VISIBLE
+
+                holder.strokeView?.setPadding(
+                    0,
+                    Util.changeDp(holder.strokeView?.context, 10f),
+                    0,
+                    Util.changeDp(holder.strokeView?.context, 10f)
+                )
             }
             2 -> {
+
+                holder.selectBox?.setPadding(fourDp, sixDp, fourDp, sixDp)
+
                 holder.selectBoxCardView?.setBackgroundColor(
                     Color.parseColor(
                         Desk360Constants.currentType?.data?.general_settings?.main_background_color
                             ?: "#FFFFFF"
                     )
                 )
+
+                holder.strokeView?.setPadding(
+                    0,
+                    Util.changeDp(holder.strokeView?.context, 14f),
+                    0,
+                    Util.changeDp(holder.strokeView?.context, 8f)
+                )
             }
             else -> {
+
                 holder.selectBox?.setPadding(0, 0, 0, 0)
+                setMargin(holder.selectBox)
+
+                holder.strokeView?.setPadding(0,
+                    Util.changeDp(holder.strokeView?.context, 11f),
+                    0,
+                    Util.changeDp(holder.strokeView?.context, 24f)
+                )
+
                 holder.selectBoxCardView?.setBackgroundColor(
                     Color.parseColor(
                         Desk360Constants.currentType?.data?.general_settings?.main_background_color
@@ -97,11 +137,11 @@ fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
 fun ConstraintLayout.setStroke(style: Desk360ScreenCreate) {
     when (style.form_style_id) {
         1 -> {
-            setPadding(0, 0, 0, 0)
+            setPadding(3, 0, 3, 0)
             //line
         }
         2 -> {
-            setPadding(8, 0, 0, 0)
+            setPadding(6, 0, 0, 0)
             //box
         }
         else -> {
@@ -110,13 +150,22 @@ fun ConstraintLayout.setStroke(style: Desk360ScreenCreate) {
     }
 }
 
+fun setMargin(selectBox: Spinner?) {
+
+    val params = ConstraintLayout.LayoutParams(
+        ConstraintLayout.LayoutParams.MATCH_PARENT,
+        ConstraintLayout.LayoutParams.WRAP_CONTENT
+    )
+    params.setMargins(0, 8, 0, 8)
+    selectBox?.layoutParams = params
+}
 
 fun LinearLayout.setStroke(borderColor: String) {
     //shadow
     val gd = GradientDrawable()
     gd.setColor(Color.TRANSPARENT)
     gd.cornerRadius = 16f
-    gd.setStroke(3, Color.parseColor(borderColor))
+    gd.setStroke(1, Color.parseColor(borderColor))
     this.background = gd
 }
 

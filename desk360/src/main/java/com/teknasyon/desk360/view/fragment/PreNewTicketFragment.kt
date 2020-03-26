@@ -33,6 +33,7 @@ class PreNewTicketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.preScreenButton.setOnClickListener {
             Navigation
                 .findNavController(it)
@@ -42,22 +43,42 @@ class PreNewTicketFragment : Fragment() {
                 )
         }
 
-        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility=View.VISIBLE
+        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.VISIBLE
+        (activity as Desk360BaseActivity).changeMainUI()
 
+        Desk360CustomStyle.setFontWeight(
+            binding.preScreenButtonText,
+            context,
+            Desk360Constants.currentType?.data?.create_pre_screen?.button_text_font_weight
+        )
 
-        Desk360CustomStyle.setFontWeight(binding.preScreenButtonText,context,Desk360Constants.currentType?.data?.create_pre_screen?.button_text_font_weight)
+        Desk360CustomStyle.setFontWeight(
+            binding.preScreenDesc,
+            context,
+            Desk360Constants.currentType?.data?.create_pre_screen?.description_font_weight
+        )
+        Desk360CustomStyle.setFontWeight(
+            binding.subTitlePreScreen,
+            context,
+            Desk360Constants.currentType?.data?.create_pre_screen?.sub_title_font_weight
+        )
 
-        Desk360CustomStyle.setFontWeight(binding.preScreenDesc,context,Desk360Constants.currentType?.data?.create_pre_screen?.description_font_weight)
-        Desk360CustomStyle.setFontWeight(binding.subTitlePreScreen,context,Desk360Constants.currentType?.data?.create_pre_screen?.sub_title_font_weight)
-
-        Desk360CustomStyle.setStyle(Desk360Constants.currentType?.data?.create_pre_screen?.button_style_id,binding.preScreenButton,context!!)
+        Desk360CustomStyle.setStyle(
+            Desk360Constants.currentType?.data?.create_pre_screen?.button_style_id,
+            binding.preScreenButton,
+            context!!
+        )
         binding.preScreennButtonIcon.setImageResource(R.drawable.zarf)
         binding.preScreennButtonIcon.setColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_text_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
-        Desk360CustomStyle.setFontWeight(binding.txtBottomFooterPreScreen,context,Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight)
+        Desk360CustomStyle.setFontWeight(
+            binding.txtBottomFooterPreScreen,
+            context,
+            Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
+        )
         binding.txtBottomFooterPreScreen.movementMethod = ScrollingMovementMethod()
 
     }

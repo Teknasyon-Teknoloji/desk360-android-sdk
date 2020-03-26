@@ -10,4 +10,5 @@ class Desk360Message {
     var message: String? = null
     var created: String? = null
     var is_answer: Boolean = false
+    var tick: Boolean = true
 }

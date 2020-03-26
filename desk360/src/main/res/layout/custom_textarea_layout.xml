@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:paddingTop="4dp"
     tools:context=".view.activity.Desk360BaseActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +32,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+
         android:id="@+id/textarea_layout"
         android:layout_width="0dp"
         android:layout_height="172dp"
@@ -54,13 +56,16 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayout">
 
         <com.google.android.material.textfield.TextInputEditText
+
             android:id="@+id/textarea_edit_text"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:gravity="start"
+            android:gravity="top"
             android:inputType="text|textAutoComplete|textMultiLine|textLongMessage"
             android:maxLines="6"
             android:minLines="6"
             android:padding="12dp" />
+
     </com.google.android.material.textfield.TextInputLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,6 +31,8 @@
     <color name="colorDesk360Type4Progress">#3f4b60</color>
     <color name="spinnerBgGray">#f7f7f7</color>
 
+    <color name="double_tick_color">#cacaca</color>
+
 
 
 </resources>

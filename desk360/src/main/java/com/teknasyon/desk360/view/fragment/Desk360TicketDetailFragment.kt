@@ -7,6 +7,7 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -35,6 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
+import java.util.*
 
 open class Desk360TicketDetailFragment : Fragment() {
 
@@ -48,6 +50,8 @@ open class Desk360TicketDetailFragment : Fragment() {
     private val preferencesManager = PreferencesManager()
     private var cacheDesk360TicketResponse: Desk360TicketResponse? = null
 
+    private lateinit var desk360BaseActivity: Desk360BaseActivity
+
     private var observer = Observer<Desk360TicketResponse> {
 
         binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
@@ -55,9 +59,16 @@ open class Desk360TicketDetailFragment : Fragment() {
         if (it != null) {
 
             preferencesManager.writeObject(ticketId.toString(), it)
-            cacheDesk360TicketResponse = preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
+            cacheDesk360TicketResponse = preferencesManager.readObject(
+                ticketId.toString(),
+                Desk360TicketResponse::class.java
+            )
 
-            ticketDetailAdapter = Desk360TicketDetailListAdapter(cacheDesk360TicketResponse!!.messages!!, cacheDesk360TicketResponse!!.attachment_url, context)
+            ticketDetailAdapter = Desk360TicketDetailListAdapter(
+                cacheDesk360TicketResponse!!.messages!!,
+                cacheDesk360TicketResponse!!.attachment_url,
+                context
+            )
 
             val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
@@ -75,29 +86,27 @@ open class Desk360TicketDetailFragment : Fragment() {
 
         if (it != null) {
 
-            cacheDesk360TicketResponse = preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
-
-            viewModel?.ticketDetailList?.value?.messages?.clear()
-            viewModel?.ticketDetailList?.value?.messages?.addAll(cacheDesk360TicketResponse!!.messages!!)
-            viewModel?.ticketDetailList?.value?.messages?.add(it)
-
-            ticketDetailAdapter = Desk360TicketDetailListAdapter(
-                viewModel?.ticketDetailList?.value?.messages!!,
-                cacheDesk360TicketResponse!!.attachment_url,
-                context
+            cacheDesk360TicketResponse = preferencesManager.readObject(
+                ticketId.toString(),
+                Desk360TicketResponse::class.java
             )
+            val tickets = cacheDesk360TicketResponse!!.messages
+            tickets!![tickets.size - 1] = it
 
-            val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            binding!!.messageDetailRecyclerView.layoutManager = layoutManager
-            binding!!.messageDetailRecyclerView.adapter = ticketDetailAdapter
+            preferencesManager.writeObject(ticketId.toString(), cacheDesk360TicketResponse!!)
 
-            viewModel?.ticketDetailList?.value?.messages?.size?.minus(1)
-                ?.let { it1 -> binding?.messageDetailRecyclerView?.scrollToPosition(it1) }
+            Handler().postDelayed({ addTicketToCache(null) }, 300)
+
             binding?.messageEditText?.setText("")
         }
     }
 
     private var viewModel: TicketDetailViewModel? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        desk360BaseActivity = context as Desk360BaseActivity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -112,12 +121,17 @@ open class Desk360TicketDetailFragment : Fragment() {
             false
         )
 
+        desk360BaseActivity.contactUsMainBottomBar.visibility = View.GONE
+
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
+
+        desk360BaseActivity.contactUsMainBottomBar.visibility = View.GONE
+        desk360BaseActivity.changeMainUI()
 
         cacheDesk360TicketResponse =
             preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
@@ -154,8 +168,6 @@ open class Desk360TicketDetailFragment : Fragment() {
 
         viewModel?.ticketDetailList?.observe(this, observer)
 
-        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.GONE
-
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
 
         Desk360CustomStyle.setStyle(
@@ -168,6 +180,16 @@ open class Desk360TicketDetailFragment : Fragment() {
 
             binding?.messageEditText?.text?.trim()?.apply {
                 if (isNotEmpty() && toString().isNotEmpty()) {
+
+                    val message = Desk360Message()
+                    message.id = -1
+                    message.is_answer = false
+                    message.message = this.toString()
+                    message.created = Util.convertDateToString(Date(), "yyyy-MM-dd HH:mm:ss")
+                    message.tick = false
+
+                    addTicketToCache(message)
+
                     ticketId?.let { it1 ->
                         viewModel?.addMessage(
                             it1,
@@ -314,5 +336,33 @@ open class Desk360TicketDetailFragment : Fragment() {
                 imm.hideSoftInputFromWindow(view.windowToken, 0)
             }
         }
+    }
+
+    private fun addTicketToCache(desk360Message: Desk360Message?) {
+
+        cacheDesk360TicketResponse =
+            preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
+
+        viewModel?.ticketDetailList?.value?.messages?.clear()
+        viewModel?.ticketDetailList?.value?.messages?.addAll(cacheDesk360TicketResponse!!.messages!!)
+
+        desk360Message?.let {
+
+            viewModel?.ticketDetailList?.value?.messages?.add(desk360Message)
+            cacheDesk360TicketResponse?.messages?.add(desk360Message)
+            preferencesManager.writeObject(ticketId.toString(), cacheDesk360TicketResponse!!)
+        }
+
+        ticketDetailAdapter = Desk360TicketDetailListAdapter(
+            viewModel?.ticketDetailList?.value?.messages!!,
+            cacheDesk360TicketResponse!!.attachment_url,
+            context
+        )
+
+        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding!!.messageDetailRecyclerView.layoutManager = layoutManager
+        binding!!.messageDetailRecyclerView.adapter = ticketDetailAdapter
+
+        binding?.messageDetailRecyclerView?.scrollToPosition(cacheDesk360TicketResponse!!.messages!!.size - 1)
     }
 }

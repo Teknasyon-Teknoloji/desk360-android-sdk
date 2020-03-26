@@ -16,7 +16,7 @@ class Desk360StylesRetrofitFactory private constructor() {
     init {
         val logging = HttpLoggingInterceptor()
 
-        logging.level = HttpLoggingInterceptor.Level.NONE
+        logging.level = HttpLoggingInterceptor.Level.BODY
 
         val timeoutInterval = 60
         val httpClientWithHeader = OkHttpClient.Builder()
@@ -38,6 +38,7 @@ class Desk360StylesRetrofitFactory private constructor() {
         }
 
         val client = httpClientWithHeader.build()
+
         if (unSecureRetrofitInstance == null)
             unSecureRetrofitInstance = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -49,8 +50,11 @@ class Desk360StylesRetrofitFactory private constructor() {
     }
 
     companion object {
+
         private var INSTANCE: Desk360StylesRetrofitFactory? = null
+
         val instance: Desk360StylesRetrofitFactory
+
             get() {
                 if (INSTANCE == null) {
                     INSTANCE = Desk360StylesRetrofitFactory()

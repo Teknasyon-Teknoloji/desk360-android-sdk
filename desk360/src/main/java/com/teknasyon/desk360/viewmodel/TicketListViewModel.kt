@@ -13,6 +13,7 @@ import com.teknasyon.desk360.model.Desk360Register
 import com.teknasyon.desk360.model.Desk360RegisterResponse
 import com.teknasyon.desk360.model.Desk360TicketListResponse
 import com.teknasyon.desk360.model.Desk360TicketResponse
+import com.teknasyon.desk360.view.fragment.Desk360CurrentTicketFragment
 import retrofit2.Call
 import retrofit2.Response
 import java.util.*
@@ -49,6 +50,7 @@ open class TicketListViewModel : ViewModel() {
                     RxBus.publish(hashMapOf("unReadSizeTicketList" to unreadList.size))
 
                     ticketList?.value = response.body()!!.data?.filter { it.status != "expired" } as ArrayList<Desk360TicketResponse>
+                    Desk360CurrentTicketFragment.ticketSize = (ticketList?.value as ArrayList<Desk360TicketResponse>).size
 
                     expiredList?.value = response.body()!!.data?.filter { it.status == "expired" } as ArrayList<Desk360TicketResponse>
 

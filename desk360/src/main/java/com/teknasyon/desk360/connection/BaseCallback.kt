@@ -20,6 +20,7 @@ abstract class BaseCallback<T> : Callback<T> {
     private val retryCount = 0
 
     var listener: ResponseListener? = null
+
     override fun onResponse(call: Call<T>, response: Response<T>) {
         if (response.code() == 400) {
             if (!response.isSuccessful) {
@@ -47,16 +48,12 @@ abstract class BaseCallback<T> : Callback<T> {
 
                                 }
 
-                                override fun onResponse(
-                                    callRegister: Call<Desk360RegisterResponse>,
-                                    response: Response<Desk360RegisterResponse>
-                                ) {
+                                override fun onResponse(callRegister: Call<Desk360RegisterResponse>, response: Response<Desk360RegisterResponse>) {
 
                                     if (response.isSuccessful && response.body() != null) {
-                                        Desk360Config.instance.getDesk360Preferences()?.data =
-                                            response.body()!!.data
-                                        Desk360Config.instance.getDesk360Preferences()?.meta =
-                                            response.body()!!.meta
+
+                                        Desk360Config.instance.getDesk360Preferences()?.data = response.body()!!.data
+                                        Desk360Config.instance.getDesk360Preferences()?.meta = response.body()!!.meta
 
                                         cloneRequest?.enqueue(this@BaseCallback)
 
@@ -64,8 +61,8 @@ abstract class BaseCallback<T> : Callback<T> {
                                 }
 
                             })
-
                     }
+
                     return
 
                 } catch (e: JSONException) {
@@ -83,6 +80,7 @@ abstract class BaseCallback<T> : Callback<T> {
     abstract fun onResponseSuccess(call: Call<T>, response: Response<T>)
 
     override fun onFailure(call: Call<T>, t: Throwable) {
+
         t.message?.let { Log.e("desk360-Failure", it) }
         listener?.let {
             listener!!.connectionError("", 123)

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -23,6 +24,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
@@ -39,6 +41,8 @@ import com.karumi.dexter.listener.single.PermissionListener
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.*
+import com.teknasyon.desk360.model.CacheTicket
+import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.modelv2.Desk360CustomFields
 import com.teknasyon.desk360.modelv2.Desk360Options
@@ -73,8 +77,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     private var typeList: ArrayList<Desk360Type>? = null
 
-    private val editTextStyleModel =
-        Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen
+    private val editTextStyleModel = Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen
     private var customInputField: List<Desk360CustomFields> = arrayListOf()
     private var customSelectBoxField: List<Desk360CustomFields> = arrayListOf()
     private var customTextAreaField: List<Desk360CustomFields> = arrayListOf()
@@ -109,6 +112,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
         LinearLayout.LayoutParams.WRAP_CONTENT
     )
 
+    private val preferencesManager = PreferencesManager()
+
     private fun observerName() {
         nameField?.holder?.textInputEditText?.isEnabled = true
         nameField?.holder?.textInputEditText?.requestFocus()
@@ -136,8 +141,13 @@ open class Desk360AddNewTicketFragment : Fragment(),
         )
     }
 
-    private var observerAddedTicket = Observer<String> {
+    private var observerAddedTicket = Observer<Desk360TicketResponse> {
+
         if (it != null) {
+
+            //activity.isNewTicketAdded = true
+            //addTicketToCache(it)
+
             view?.let { it1 ->
                 remove()
                 Navigation.findNavController(it1)
@@ -148,11 +158,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     )
             }
 
-            val imm = activity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view!!.windowToken, 0)
         }
         binding.createTicketButton.isClickable = true
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -168,13 +179,19 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //progress background companents set clickable false
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+
+        activity.changeMainUI()
+
+        activity.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        activity.contactUsMainBottomBar.visibility = View.VISIBLE
+
+        keyboardListener()
+
         viewModel = AddNewTicketViewModel()
+
         typeList = Desk360Config.instance.getDesk360Preferences()?.types!!.data.create_screen.types
-        //viewModel?.typeList?.observe(this, observer)
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
-        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.VISIBLE
+
         listOfType.clear()
 
         listOfType.add("")
@@ -232,6 +249,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
          * name filed
          */
         nameField = TextInputViewGroup(editTextStyleModel!!, this@Desk360AddNewTicketFragment)
+
         binding.createScreenRootView.addView(
             nameField?.createEditText(
                 Desk360Constants.currentType?.data?.general_settings?.name_field_text ?: "Name"
@@ -257,8 +275,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 Desk360Constants.currentType?.data?.general_settings?.email_field_text ?: "Email"
             )
         )
-        eMailField?.holder?.textInputEditText?.inputType =
-            InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        eMailField?.holder?.textInputEditText?.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+
         eMailField?.holder?.textInputEditText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -282,8 +300,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         /**
          * subject filed
          */
-        subjectTypeSpinner =
-            SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
+        subjectTypeSpinner = SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
 
         binding.createScreenRootView.addView(subjectTypeSpinner?.createSpinner())
 
@@ -337,8 +354,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         for (i in customSelectBoxField.indices) {
 
-            val spinnerItem =
-                SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
+            val spinnerItem = SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
 
             binding.createScreenRootView.addView(spinnerItem.createSpinner())
 
@@ -402,9 +418,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
                         optionsList.run {
                             this[position].let { it1 ->
-                                val customSelectboxId = RequestBody.create(
-                                    "text/plain".toMediaTypeOrNull(), it1.order.toString()
-                                )
+                                val customSelectboxId = it1.order.toString()
+                                    .toRequestBody("text/plain".toMediaTypeOrNull())
 
                                 params[customSelectBoxField[i].name.toString()] =
                                     customSelectboxId
@@ -428,12 +443,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
          */
 
         messageField = TextAreaViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
-        binding.createScreenRootView.addView(
-            messageField?.createEditText(
-                Desk360Constants.currentType?.data?.general_settings?.message_field_text
-                    ?: "Message"
-            )
-        )
+        binding.createScreenRootView.addView(messageField?.createEditText(Desk360Constants.currentType?.data?.general_settings?.message_field_text ?: "Message"))
 
         nameField?.holder?.textInputLayout?.setErrorTextColor(errorLabelTextColor)
         eMailField?.holder?.textInputLayout?.setErrorTextColor(errorLabelTextColor)
@@ -445,13 +455,15 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         messageField?.holder?.textAreaEditText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 messageQuality(s)
             }
         })
+
+        Util.setEditTextScrollable(messageField?.holder?.textAreaEditText!!)
+
         Desk360CustomStyle.setFontWeight(
             binding.createScreenButtonText,
             context,
@@ -463,29 +475,20 @@ open class Desk360AddNewTicketFragment : Fragment(),
             context!!
         )
 
-        binding.textPathCreateTicketScreen.text =
-            Desk360Constants.currentType?.data?.general_settings?.add_file_text
+        binding.textPathCreateTicketScreen.text = Desk360Constants.currentType?.data?.general_settings?.add_file_text
 
         binding.pathIconn.setImageResource(R.drawable.path_icon_desk360)
-        binding.pathIconn.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.label_text_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
+        binding.pathIconn.setColorFilter(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.label_text_color), PorterDuff.Mode.SRC_ATOP)
 
 
         binding.fileNameIcon.setBackgroundResource(R.drawable.document_cancel_icon)
-        binding.fileNameIcon.background.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
+        binding.fileNameIcon.background.setColorFilter(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_color), PorterDuff.Mode.SRC_ATOP)
 
         if (Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!) {
             binding.pathIconn.visibility = View.VISIBLE
-
         } else {
             binding.pathIconn.visibility = View.INVISIBLE
         }
-
 
         binding.createScreenButtonIcon.setImageResource(R.drawable.zarf)
         binding.createScreenButtonIcon.setColorFilter(
@@ -500,11 +503,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         for (i in customTextAreaField.indices) {
 
-            val customTextAreaViewGroup =
-                TextAreaViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
-            binding.createScreenRootView.addView(
-                customTextAreaViewGroup.createEditText(customTextAreaField[i].place_holder ?: "")
-            )
+            val customTextAreaViewGroup = TextAreaViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
+            binding.createScreenRootView.addView(customTextAreaViewGroup.createEditText(customTextAreaField[i].place_holder ?: ""))
 
             customTextAreaViewList.add(customTextAreaViewGroup)
         }
@@ -530,14 +530,14 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         //file = File(pathUri?.let { getRealPathFromURI(it) })
                         val cachFile = File(
                             context!!.cacheDir, DocumentFile.fromSingleUri(
-                                activity!!,
+                                activity,
                                 pathUri
                             )?.name?.replace(" ", "")
                         )
                         try {
                             val inputStream = context!!.contentResolver.openInputStream(
                                 DocumentFile.fromSingleUri(
-                                    activity!!,
+                                    activity,
                                     pathUri
                                 )?.uri
                             )
@@ -594,7 +594,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
     private fun showAlert() {
-        activity?.let {
+        activity.let {
             val alert = AlertDialog.Builder(it)
             alert.setMessage(Desk360Constants.currentType?.data?.general_settings?.file_size_error_text)
                 ?: ""
@@ -606,7 +606,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
 
     }
-
 
     private fun remove(): Boolean {
         return try {
@@ -625,9 +624,23 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     }
 
+    private fun addTicketToCache(desk360TicketResponse: Desk360TicketResponse?){
+
+        desk360TicketResponse?.let {
+
+            val cacheTickets = preferencesManager
+                .readObject("tickets", CacheTicket::class.java)
+                    as ArrayList<Desk360TicketResponse>
+
+            cacheTickets.add(0,desk360TicketResponse)
+
+            preferencesManager.writeObject("tickets", cacheTickets)
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        activity.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         viewModel?.let {
             with(viewModel!!) {
                 //typeList?.removeObserver(observer)
@@ -643,8 +656,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
     fun nameQuality(s: CharSequence) {
+
         nameData = s.toString().trim()
+
         nameFieldFill = when {
+
             s.isEmpty() -> {
                 nameField?.holder?.textInputLayout?.error =
                     Desk360Constants.currentType?.data?.general_settings?.required_field_message
@@ -652,6 +668,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 nameField?.holder?.textInputLayout?.isErrorEnabled = true
                 false
             }
+
             else -> {
                 nameField?.holder?.textInputLayout?.isErrorEnabled = false
                 nameField?.holder?.textInputLayout?.error = null
@@ -661,7 +678,9 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
     fun emailQuality(s: CharSequence) {
+
         emailData = s.toString().trim()
+
         emailFieldFill = when {
             s.isEmpty() -> {
                 false
@@ -685,6 +704,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
     fun messageQuality(s: CharSequence) {
+
         messageData = s.toString().trim()
         messageLength = messageData!!.length
         messageFieldFill = when {
@@ -717,17 +737,13 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private fun validateAllField() {
         if (nameFieldFill && emailFieldFill && messageLength > 0 && selectedItem) {
             for (i in 0 until customInputViewList.size) {
-                val customInputData = RequestBody.create(
-                    "text/plain".toMediaTypeOrNull(),
-                    customInputViewList[i].holder.textInputEditText?.text.toString()
-                )
+                val customInputData = customInputViewList[i].holder.textInputEditText?.text.toString()
+                    .toRequestBody("text/plain".toMediaTypeOrNull())
                 params[customInputField[i].name.toString()] = customInputData
             }
             for (i in customTextAreaViewList.indices) {
-                val customInputData = RequestBody.create(
-                    "text/plain".toMediaTypeOrNull(),
-                    customTextAreaViewList[i].holder.textAreaEditText?.text.toString()
-                )
+                val customInputData = customTextAreaViewList[i].holder.textAreaEditText?.text.toString()
+                    .toRequestBody("text/plain".toMediaTypeOrNull())
                 params[customTextAreaField[i].name.toString()] = customInputData
             }
 
@@ -743,10 +759,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
             val platform = "Android".toRequestBody("text/plain".toMediaTypeOrNull())
             val settings = Desk360Constants.jsonObject.toString().toRequestBody(json)
             val countryCode =
-                RequestBody.create(
-                    "text/plain".toMediaTypeOrNull(),
-                    Desk360Constants.countryCode().toUpperCase()
-                )
+                Desk360Constants.countryCode().toUpperCase()
+                    .toRequestBody("text/plain".toMediaTypeOrNull())
             val notificationToken =
                 activity.notificationToken.toString()
                     .toRequestBody("text/plain".toMediaTypeOrNull())
@@ -808,6 +822,31 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
     }
 
+    private fun keyboardListener(){
+
+        val constraintLayout = binding.baseLayout
+        constraintLayout.viewTreeObserver.addOnGlobalLayoutListener {
+
+            val rec = Rect()
+            constraintLayout.getWindowVisibleDisplayFrame(rec)
+
+            //finding screen height
+            val screenHeight = constraintLayout.rootView.height
+
+            //finding keyboard height
+            val keypadHeight = screenHeight - rec.bottom
+
+            if (keypadHeight > screenHeight * 0.15) {
+                activity.contactUsMainBottomBar.visibility = View.GONE
+            } else {
+
+                if(!activity.isTicketDetailFragment){
+                    activity.contactUsMainBottomBar.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
     override fun onButtonClicked(typeOfAttachment: Int) {
         Dexter.withActivity(activity)
             .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -832,7 +871,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         RESULT_LOAD_FILES = 1223
                         val intent = Intent()
                         intent.type = "video/.mp4"
-                        intent.action = Intent.ACTION_GET_CONTENT;
+                        intent.action = Intent.ACTION_GET_CONTENT
                         startActivityForResult(
                             Intent.createChooser(intent, "Select Video"),
                             RESULT_LOAD_FILES
@@ -853,5 +892,4 @@ open class Desk360AddNewTicketFragment : Fragment(),
             })
             .check()
     }
-
 }

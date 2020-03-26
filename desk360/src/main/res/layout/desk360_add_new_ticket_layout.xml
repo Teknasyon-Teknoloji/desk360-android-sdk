@@ -98,6 +98,7 @@
                 tools:ignore="MissingConstraints" />
 
             <com.teknasyon.desk360.themev2.Desk360FileNameText
+
                 android:id="@+id/file_name_text_create_ticket_screen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,6 +113,7 @@
                 tools:text="sabir..jpg" />
 
             <com.teknasyon.desk360.themev2.Desk360CreateScreenButton
+
                 android:id="@+id/create_ticket_button"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -128,6 +130,7 @@
 
 
                 <com.teknasyon.desk360.themev2.Desk360CreateScreenButtonText
+
                     android:id="@+id/create_screen_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,6 +147,7 @@
 
 
                 <com.teknasyon.desk360.themev2.Desk360CreateScreenButtonIcon
+
                     android:id="@+id/createScreenButtonIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,11 +155,10 @@
                     app:layout_constraintEnd_toStartOf="@+id/create_screen_button_text"
                     app:layout_constraintTop_toTopOf="@+id/create_screen_button_text" />
 
-
             </com.teknasyon.desk360.themev2.Desk360CreateScreenButton>
 
-
             <com.teknasyon.desk360.themev2.Desk360CreateScreenFooter
+
                 android:id="@+id/text_footer_create_ticket_screen"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

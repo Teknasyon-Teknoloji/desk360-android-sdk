@@ -16,11 +16,12 @@ import com.teknasyon.desk360.databinding.Desk360SendMessageItemLayoutBinding
 import com.teknasyon.desk360.model.Desk360Message
 import kotlinx.android.synthetic.main.desk360_incoming_message_item_layout.view.*
 import kotlinx.android.synthetic.main.desk360_send_message_item_layout.view.*
+import kotlinx.android.synthetic.main.desk360_success_screen_layout.view.*
 
 
 class Desk360TicketDetailListAdapter(
     private val ticketList: ArrayList<Desk360Message>,
-    private val url: String?,private val context : Context?
+    private val url: String?, private val context: Context?
 
 ) : RecyclerView.Adapter<Desk360TicketDetailListAdapter.ViewHolder>() {
 
@@ -46,52 +47,72 @@ class Desk360TicketDetailListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val message = ticketList[position]
+
         if (holder.itemViewType == 1) {
+
             holder.itemView.message_send.text = message.message
             holder.itemView.date_send.text = message.created
             holder.itemView.webView.visibility = View.GONE
             holder.itemView.imageUrl.visibility = View.GONE
             holder.itemView.videoView.visibility = View.GONE
-            if (url != null && url != "" && position == 0) {
-                if (url.substring(url.length - 3) == "pdf") {
-                    holder.itemView.webView.visibility = View.VISIBLE
-                    holder.itemView.webView.loadUrl("https://desk-360.s3.amazonaws.com/attachment/52/desk360test/QOFN3o0jaPtdPnVmNJJpPSZtErvTHR1mKMvkr7i3.pdf")
-                    val webSettings: WebSettings = holder.itemView.webView.settings
-                    webSettings.javaScriptEnabled = true
-                    webSettings.builtInZoomControls = true
-                    val myPdfUrl =
-                        "https://desk-360.s3.amazonaws.com/attachment/52/desk360test/QOFN3o0jaPtdPnVmNJJpPSZtErvTHR1mKMvkr7i3.pdf"
-                    val url = "https://docs.google.com/viewer?embedded=true&url=$myPdfUrl"
-                    holder.itemView.webView.loadUrl(url)
 
-                } else if (url.substring(url.length - 3) == "mp4") {
-                    holder.itemView.videoView.visibility = View.VISIBLE
-                    val video: Uri = Uri.parse(url)
-                    val mediaController =  MediaController(context);
-                    mediaController.setAnchorView( holder.itemView.videoView)
-                    holder.itemView.videoView.setMediaController(mediaController)
-                    holder.itemView.videoView.setVideoURI(video)
-                    holder.itemView.videoView.setOnPreparedListener { mp ->
-                        mp.isLooping = true
-                        holder.itemView.videoView.start()
+            if (message.tick) {
+                holder.itemView.message_tick.setImageResource(R.drawable.cift)
+
+            } else {
+                holder.itemView.message_tick.setImageResource(R.drawable.tek)
+            }
+
+            if (url != null && url != "" && position == 0) {
+
+                when {
+                    url.substring(url.length - 3) == "pdf" -> {
+
+                        holder.itemView.webView.visibility = View.VISIBLE
+                        holder.itemView.webView.loadUrl("https://desk-360.s3.amazonaws.com/attachment/52/desk360test/QOFN3o0jaPtdPnVmNJJpPSZtErvTHR1mKMvkr7i3.pdf")
+                        val webSettings: WebSettings = holder.itemView.webView.settings
+                        webSettings.javaScriptEnabled = true
+                        webSettings.builtInZoomControls = true
+                        val myPdfUrl =
+                            "https://desk-360.s3.amazonaws.com/attachment/52/desk360test/QOFN3o0jaPtdPnVmNJJpPSZtErvTHR1mKMvkr7i3.pdf"
+                        val url = "https://docs.google.com/viewer?embedded=true&url=$myPdfUrl"
+                        holder.itemView.webView.loadUrl(url)
+
                     }
-                } else {
-                    holder.itemView.imageUrl.visibility = View.VISIBLE
-                    Picasso.get().load(url).into(holder.itemView.imageUrl)
+                    url.substring(url.length - 3) == "mp4" -> {
+
+                        holder.itemView.videoView.visibility = View.VISIBLE
+                        val video: Uri = Uri.parse(url)
+                        val mediaController = MediaController(context);
+                        mediaController.setAnchorView(holder.itemView.videoView)
+                        holder.itemView.videoView.setMediaController(mediaController)
+                        holder.itemView.videoView.setVideoURI(video)
+                        holder.itemView.videoView.setOnPreparedListener { mp ->
+                            mp.isLooping = true
+                            holder.itemView.videoView.start()
+                        }
+                    }
+                    else -> {
+
+                        holder.itemView.imageUrl.visibility = View.VISIBLE
+                        Picasso.get().load(url).into(holder.itemView.imageUrl)
+                    }
                 }
 
 
             } else {
+
                 holder.itemView.videoView.visibility = View.GONE
                 holder.itemView.imageUrl.visibility = View.GONE
                 holder.itemView.webView.visibility = View.GONE
             }
 
         } else {
+
             holder.itemView.message_incoming.text = message.message
             holder.itemView.date_incoming.text = message.created
-
         }
 
 

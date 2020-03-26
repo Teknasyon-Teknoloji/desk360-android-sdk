@@ -18,7 +18,9 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"
             app:popUpToInclusive="false"/>
+
         <action
+
             android:id="@+id/action_ticketListFragment_to_preNewTicketFragment"
             app:destination="@id/preNewTicketFragment"
             app:enterAnim="@anim/from_right"
@@ -27,11 +29,14 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"
             app:popUpToInclusive="false" />
+
     </fragment>
+
     <fragment
         android:id="@+id/ticketDetailFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360TicketDetailFragment"
         tools:layout="@layout/desk360_fragment_ticket_detail">
+
         <action
             android:id="@+id/action_ticketDetailFragment_to_addNewTicketFragment"
             app:destination="@id/addNewTicketFragment"
@@ -45,13 +50,13 @@
             android:name="ticket_status"
             android:defaultValue="Expired"
             app:argType="string" />
+
     </fragment>
+
     <fragment
         android:id="@+id/addNewTicketFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360AddNewTicketFragment"
-
-        tools:layout="@layout/desk360_add_new_ticket_layout"
-        >
+        tools:layout="@layout/desk360_add_new_ticket_layout">
         <action
             android:id="@+id/action_addNewTicketFragment_to_thanksFragment"
             app:destination="@id/thanksFragment"
@@ -60,11 +65,15 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
     </fragment>
+
     <fragment
+
         android:id="@+id/preNewTicketFragment"
         android:name="com.teknasyon.desk360.view.fragment.PreNewTicketFragment"
         tools:layout="@layout/fragment_pre_new_ticket">
+
         <action
+
             android:id="@+id/action_preNewTicketFragment_to_addNewTicketFragment"
             app:destination="@id/addNewTicketFragment"
             app:enterAnim="@anim/from_right"
@@ -73,27 +82,34 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"
             app:popUpToInclusive="false" />
+
     </fragment>
+
     <fragment
+
         android:id="@+id/thanksFragment"
         android:name="com.teknasyon.desk360.view.fragment.Desk360SuccessScreen"
         tools:layout="@layout/desk360_success_screen_layout">
+
         <action
+
             android:id="@+id/action_thanksFragment_to_ticketListFragment"
             app:destination="@id/ticketListFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
+            app:popUpTo="@+id/base_navigation"
+            app:popUpToInclusive="true"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+
     </fragment>
+
     <action
+
         android:id="@+id/action_global_ticketDetailFragment"
         app:destination="@id/ticketDetailFragment"
         app:launchSingleTop="false"
         app:popUpTo="@+id/ticketListFragment"
         app:popUpToInclusive="false" />
-    <fragment
-        android:id="@+id/exampleFragment"
-        android:name="com.teknasyon.desk360.view.fragment.ExampleFragment"
-        android:label="ExampleFragment" />
+
 </navigation>

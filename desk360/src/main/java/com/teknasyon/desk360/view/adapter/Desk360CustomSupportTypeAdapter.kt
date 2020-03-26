@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Util
 import com.teknasyon.desk360.modelv2.Desk360Options
 class Desk360CustomSupportTypeAdapter(
     context: Context, resourceId: Int,
@@ -38,8 +39,19 @@ class Desk360CustomSupportTypeAdapter(
                     ?: "#ffffff"
             )
         )
+
+        if (Desk360Constants.currentType?.data?.create_screen?.form_style_id == 2) {
+            row.setPadding(
+                Util.changeDp(context,8f), Util.changeDp(context,8f), Util.changeDp(context,8f),
+                Util.changeDp(context,8f) )
+        } else if (Desk360Constants.currentType?.data?.create_screen?.form_style_id == 1) {
+            row.setPadding(Util.changeDp(context,15f), Util.changeDp(context,8f), Util.changeDp(context,15f), Util.changeDp(context,8f))
+        }
+
         val label = row.findViewById<View>(R.id.dropdown) as TextView
         if (position == 0) {
+
+            label.text = Desk360Constants.currentType?.data?.general_settings?.subject_field_text
             label.text = objects[0].value
             label.setTextColor(
                 Color.parseColor(

@@ -1,5 +1,6 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -17,6 +18,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.PreferencesManager
 import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360TicketResponse
+import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 
@@ -29,6 +31,7 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
 
     private var viewModel: TicketListViewModel? = null
 
+    private lateinit var desk360BaseActivity: Desk360BaseActivity
     private lateinit var binding: FragmentPastTicketListBinding
 
     override fun selectTicket(item: Desk360TicketResponse, position: Int) {
@@ -44,6 +47,12 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        desk360BaseActivity = context as Desk360BaseActivity
+    }
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         super.onCreateView(inflater, container, savedInstanceState)
@@ -57,6 +66,8 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        desk360BaseActivity.changeMainUI()
 
         val preferencesManager = PreferencesManager()
 

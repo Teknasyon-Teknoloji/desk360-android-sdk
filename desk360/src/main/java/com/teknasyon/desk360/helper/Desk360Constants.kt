@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.telephony.TelephonyManager
+import android.util.Log
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import com.teknasyon.desk360.view.activity.Desk360SplashActivity
+import com.teknasyon.desk360.view.fragment.Desk360CurrentTicketFragment
 import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import org.json.JSONObject
 import java.util.*
@@ -37,7 +39,8 @@ object Desk360Constants {
         isTest: Boolean,
         device_token: String? = null,
         json_object: JSONObject? = null,
-        app_language: String = ""
+        app_language: String = "",
+        desk360ConfigResponse: (status: Boolean) -> Unit = {}
     ): Boolean {
 
         if (app_key == "")
@@ -82,9 +85,46 @@ object Desk360Constants {
             "http://teknasyon.desk360.com/"
         }
 
-        GetTypesViewModel()
+        val call = GetTypesViewModel()
+
+        Desk360Config.instance.getDesk360Preferences()?.data?.let {
+
+            if (Util.isTokenExpired(it.expired_at)) {
+
+                call.register { status ->
+
+                    if (status) {
+                        checkType(desk360ConfigResponse, call)
+                    } // TODO REGISTER OLAMAZ ISE BAKILACAK
+                }
+            } else {
+                checkType(desk360ConfigResponse, call)
+            }
+
+        } ?: run {
+
+            call.register { status ->
+
+                if (status) {
+                    checkType(desk360ConfigResponse, call)
+                } // TODO REGISTER OLAMAZ ISE BAKILACAK
+            }
+        }
 
         return true
+    }
+
+    private fun checkType(desk360ConfigResponse: (status: Boolean) -> Unit, call: GetTypesViewModel) {
+
+        val isTypeFetched = Desk360Config.instance.getDesk360Preferences()!!.isTypeFetched
+
+        if (isTypeFetched) {
+            desk360ConfigResponse(true)
+        } else {
+            call.getTypes { configurationsResponse ->
+                desk360ConfigResponse(configurationsResponse)
+            }
+        }
     }
 
     fun initDesk360(
@@ -94,7 +134,7 @@ object Desk360Constants {
         appVersion: String,
         deviceToken: String,
         appKey: String,
-        appLanguage:String,
+        appLanguage: String,
         isTest: Boolean
     ): Intent {
 

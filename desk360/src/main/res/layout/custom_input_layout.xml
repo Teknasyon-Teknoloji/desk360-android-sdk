@@ -62,6 +62,9 @@
 
             android:id="@+id/input_edit_text"
             android:layout_width="match_parent"
+            android:drawablePadding="2.5dp"
+            android:drawableStart="@drawable/ic_tint_padding"
+            android:drawableLeft="@drawable/ic_tint_padding"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:gravity="start"

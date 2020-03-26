@@ -12,12 +12,14 @@
 
 
     <com.teknasyon.desk360.themev2.Desk360TicketListRootLayout
+
         android:id="@+id/ticket_list_empty_current_root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+
             android:id="@+id/empty_layout_current"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,6 +30,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+
                 android:id="@+id/image_empty_current"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,6 +41,7 @@
                 app:layout_constraintVertical_bias="0.13999999" />
 
             <com.teknasyon.desk360.themev2.Desk360CurrentEmptyTicketSubTitle
+
                 android:id="@+id/empty_current_subTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -58,6 +62,7 @@
 
 
             <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton
+
                 android:id="@+id/open_messageform_empty_current_list"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -72,6 +77,7 @@
 
 
                 <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonText
+
                     android:id="@+id/ticket_list_empty_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -88,6 +94,7 @@
 
 
                 <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonIcon
+
                     android:id="@+id/ticketListEmptyButtonIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -102,12 +109,14 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
+
             android:id="@+id/current_ticket_list"
             android:layout_width="match_parent"
             android:visibility="invisible"
             android:layout_height="match_parent" />
 
         <com.teknasyon.desk360.helper.Desk360Loading
+
             android:id="@+id/loading_current_ticket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

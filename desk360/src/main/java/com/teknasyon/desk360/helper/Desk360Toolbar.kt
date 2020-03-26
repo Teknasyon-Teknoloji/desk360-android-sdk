@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.Toolbar
 
 class Desk360Toolbar : Toolbar {
+
     init {
         this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_background_color))
         this.setTitleTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))

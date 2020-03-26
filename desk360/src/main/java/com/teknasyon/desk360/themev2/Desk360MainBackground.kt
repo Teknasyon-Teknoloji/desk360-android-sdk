@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.teknasyon.desk360.helper.Desk360Constants
 
-
 class Desk360MainBackground : ConstraintLayout {
 
     init {

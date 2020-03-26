@@ -9,6 +9,7 @@
     android:padding="0dp">
 
     <LinearLayout
+
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -20,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
+
             android:id="@+id/select_box_card_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,6 +34,7 @@
             android:paddingBottom="0dp"
             android:shape="ring"
             app:cardCornerRadius="8dp"
+            android:clipToPadding="false"
             app:cardElevation="8dp"
             app:cardUseCompatPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -39,9 +42,11 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </LinearLayout>
 
     <LinearLayout
+
         android:id="@+id/shadow_border"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -58,16 +63,17 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayout" />
 
     <Spinner
+
         android:id="@+id/select_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clipChildren="false"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:clipChildren="false"
         android:gravity="center_vertical"
         android:hapticFeedbackEnabled="false"
         android:paddingStart="4dp"
@@ -92,4 +98,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/select_box"
         app:layout_constraintEnd_toEndOf="@+id/select_box"
         app:layout_constraintStart_toStartOf="@+id/select_box" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
