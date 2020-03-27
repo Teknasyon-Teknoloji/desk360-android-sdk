@@ -97,9 +97,9 @@ class SelectBoxViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
                 setMargin(holder.selectBox)
 
                 holder.strokeView?.setPadding(0,
-                    Util.changeDp(holder.strokeView?.context, 11f),
+                    Util.changeDp(holder.strokeView?.context, 9f),
                     0,
-                    Util.changeDp(holder.strokeView?.context, 24f)
+                    Util.changeDp(holder.strokeView?.context, 26f)
                 )
 
                 holder.selectBoxCardView?.setBackgroundColor(

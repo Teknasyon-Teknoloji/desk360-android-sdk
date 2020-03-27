@@ -4,7 +4,10 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.Spinner
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -70,15 +73,15 @@ class TextAreaViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
 
             1 -> {
                 //line
-                val five = Util.changeDp(holder.textAreaLayout?.context,7f)
 
-                holder.textAreaLayout?.setPadding(0, five, 0, 0)
+                holder.textAreaLayout?.setPadding(0, 0, 0, 0)
                 holder.textAreaLayout?.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
             }
         }
         return view
     }
 }
+
 
 fun TextInputEditText.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
 

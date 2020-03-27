@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.teknasyon.desk360.R
 import com.teknasyon.desk360.modelv2.Desk360ScreenCreate
 
 class TextInputViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
@@ -29,13 +30,13 @@ class TextInputViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
     init {
 
         view = viewGroup.layoutInflater.inflate(
-            com.teknasyon.desk360.R.layout.custom_input_layout,
+            R.layout.custom_input_layout,
             null
         )
         holder = MyHolder()
-        holder.textInputEditText = view?.findViewById(com.teknasyon.desk360.R.id.input_edit_text)
-        holder.textInputLayout = view?.findViewById(com.teknasyon.desk360.R.id.input_layout)
-        holder.cardView = view?.findViewById(com.teknasyon.desk360.R.id.input_card_view)
+        holder.textInputEditText = view?.findViewById(R.id.input_edit_text)
+        holder.textInputLayout = view?.findViewById(R.id.input_layout)
+        holder.cardView = view?.findViewById(R.id.input_card_view)
         holder.cardView?.setCardBackgroundColor(Color.parseColor(style.form_input_background_color))
     }
 

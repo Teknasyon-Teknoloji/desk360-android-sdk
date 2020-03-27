@@ -45,7 +45,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     var isMainLoadingShown = false
     var isTicketDetailFragment = false
 
-    private var binding: Desk360FragmentMainBinding? = null
+    var binding: Desk360FragmentMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -162,7 +162,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             Desk360Constants.currentType?.data?.general_settings?.header_text_font_size!!.toFloat()
     }
 
-    private fun setMainTitle(titleHead: String?, titleTextView: TextView?) {
+    fun setMainTitle(titleHead: String?, titleTextView: TextView?) {
 
         when {
             titleHead?.length!! < 29 -> titleTextView?.text = titleHead

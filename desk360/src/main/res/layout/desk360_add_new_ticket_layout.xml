@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:orientation="vertical"
@@ -78,9 +79,6 @@
                 tools:ignore="MissingConstraints"
                 tools:text="Dosya Seçiniz" />
 
-            <!--            android:text="@{viewModel.observable.messageLengthData}"-->
-
-
             <TextView
                 android:id="@+id/fileNameIcon"
                 android:layout_width="22dp"
@@ -118,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginTop="64dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="5dp"
                 android:imeOptions="actionGo"
                 android:textAllCaps="false"
                 app:layout_constraintBottom_toTopOf="@+id/text_footer_create_ticket_screen"

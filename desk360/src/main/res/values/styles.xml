@@ -22,4 +22,5 @@
         <item name="colorAccent">@color/dark_theme_toolbar_bg_color</item>
         <item name="colorControlNormal">@color/white</item>
     </style>
+
 </resources>
