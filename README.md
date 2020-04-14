@@ -122,7 +122,37 @@ import com.teknasyon.desk360.helper.Desk360Constants
      android:name="com.teknasyon.desk360.view.activity.Desk360BaseActivity"
      android:windowSoftInputMode="stateHidden|adjustResize"
      android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
 </application>
+
+```
+### Network Security Config
+```
+
+Create network security config xml and add it to your application
+
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">teknasyon.desk360.com</domain>
+    </domain-config>
+</network-security-config>
+
+<application
+	...
+    android:networkSecurityConfig="@xml/network_security_config"
+
+ </application>
+
+
+or you can just add this line to your application
+
+<application
+	...
+    android:usesCleartextTraffic="true"
+
+ </application>
+
 
 ```
 ### GetFirebase Token
