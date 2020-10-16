@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="30dp"
+    android:layout_marginRight="30dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+
+        android:id="@+id/rl_image_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:visibility="visible" />
+
+        <RelativeLayout
+
+            android:id="@+id/rl_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_image"
+            android:layout_marginBottom="10dp">
+
+            <VideoView
+
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@color/colorDesk360Transparent" />
+
+            <ImageView
+
+                android:id="@+id/iv_videoView_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/white"
+                android:contentDescription="@null">
+
+            </ImageView>
+
+            <ProgressBar
+
+                android:id="@+id/pb_vw_progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:indeterminateDrawable="@drawable/progress_bar">
+
+            </ProgressBar>
+
+            <ImageView
+
+                android:id="@+id/iv_video_play"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_play_button"
+                android:visibility="gone">
+
+            </ImageView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.teknasyon.desk360.themev2.Desk360IncomingAttachmentText
+
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toStartOf="@+id/iv_download"
+            android:layout_toLeftOf="@+id/iv_download"
+            android:drawableStart="@drawable/ic_png"
+            android:drawableLeft="@drawable/ic_png"
+            android:drawablePadding="10dp"
+            android:ellipsize="end"
+            android:lineSpacingExtra="7sp"
+            android:maxLines="1"
+            android:paddingBottom="8dp" />
+
+        <ImageView
+
+            android:id="@+id/iv_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingBottom="5dp"
+            android:src="@drawable/ic_download_image" />
+
+    </RelativeLayout>
+
+</LinearLayout>

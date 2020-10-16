@@ -4,19 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.telephony.TelephonyManager
-import android.util.Log
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import com.teknasyon.desk360.view.activity.Desk360SplashActivity
-import com.teknasyon.desk360.view.fragment.Desk360CurrentTicketFragment
 import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import org.json.JSONObject
 import java.util.*
 
-/**
- * Created by seyfullah on 09/04/2019.
- */
-
 object Desk360Constants {
+
+    const val downloadPath = "/storage/emulated/0/Download/"
+    const val filePath = "/storage/emulated/0/Download/"
 
     var currentTheme: Int = 1
     var app_key: String? = null
@@ -95,7 +92,7 @@ object Desk360Constants {
 
                     if (status) {
                         checkType(desk360ConfigResponse, call)
-                    } // TODO REGISTER OLAMAZ ISE BAKILACAK
+                    }
                 }
             } else {
                 checkType(desk360ConfigResponse, call)
@@ -107,14 +104,17 @@ object Desk360Constants {
 
                 if (status) {
                     checkType(desk360ConfigResponse, call)
-                } // TODO REGISTER OLAMAZ ISE BAKILACAK
+                }
             }
         }
 
         return true
     }
 
-    private fun checkType(desk360ConfigResponse: (status: Boolean) -> Unit, call: GetTypesViewModel) {
+    private fun checkType(
+        desk360ConfigResponse: (status: Boolean) -> Unit,
+        call: GetTypesViewModel
+    ) {
 
         val isTypeFetched = Desk360Config.instance.getDesk360Preferences()!!.isTypeFetched
 
@@ -166,6 +166,7 @@ object Desk360Constants {
                     targetCategory?.let {
 
                         if (targetCategory == "Desk360Deeplink") {
+                            RxBus.publish("refreshTickets")
                             return targetDetail.getString("target_id")
                         }
                     }
@@ -184,10 +185,6 @@ object Desk360Constants {
         return if (tm.networkCountryIso != null && tm.networkCountryIso != "") tm.networkCountryIso else Locale.getDefault().country
     }
 
-    /**
-     * Generated a unique [deviceId]
-     *
-     */
     fun getDeviceId() {
         val devicesId = Desk360Config.instance.getDesk360Preferences()?.adId
         if (devicesId != null && devicesId != "") {

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="62" height="62" viewBox="0 0 62 62">
+    <defs>
+        <filter id="9npcaeygfa" width="128.1%" height="128.1%" x="-9.6%" y="-9%" filterUnits="objectBoundingBox">
+            <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
+        </filter>
+        <path id="zoozm6yceb" d="M18.45 21.06l15.798-.954c.857-.052 1.594.601 1.646 1.458.004.063.004.125 0 .188L34.94 37.55c-.052.858-.789 1.51-1.646 1.459-.38-.023-.737-.184-1.006-.453L17.444 23.712c-.608-.607-.608-1.592 0-2.2.268-.268.626-.429 1.006-.452z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g transform="translate(-189 -894) translate(190 895)">
+                <circle cx="30" cy="30" r="30" stroke="#FFF" stroke-width=".9"/>
+                <g transform="rotate(45 25.5 30.5)">
+                    <use fill="#000" filter="url(#9npcaeygfa)" xlink:href="#zoozm6yceb"/>
+                    <use fill="#FFF" xlink:href="#zoozm6yceb"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

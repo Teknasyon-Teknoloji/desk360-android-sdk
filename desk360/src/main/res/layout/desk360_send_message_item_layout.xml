@@ -52,12 +52,12 @@
                     android:id="@+id/message_tick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@null"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:tint="@color/double_tick_color"
                     android:layout_marginBottom="10dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/cift"
+                    android:tint="@color/double_tick_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
@@ -87,34 +87,22 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
+
             android:id="@+id/imageUrl"
             android:layout_width="200dp"
             android:layout_height="300dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
+            android:contentDescription="@null"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             tools:ignore="MissingConstraints" />
 
-        <WebView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:background="#5E78B7"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            tools:ignore="MissingConstraints,WebViewLayout" />
+        <RelativeLayout
 
-
-        <VideoView
-            android:id="@+id/videoView"
+            android:id="@+id/rl_webView"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginTop="24dp"
@@ -123,7 +111,87 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                tools:ignore="MissingConstraints,WebViewLayout" />
+
+            <ProgressBar
+
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:indeterminateDrawable="@drawable/progress_bar">
+
+            </ProgressBar>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:id="@+id/rl_videoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/colorDesk360Transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+            <VideoView
+
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@color/colorDesk360Transparent" />
+
+            <ImageView
+
+                android:id="@+id/videoView_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:background="@color/white"
+                android:contentDescription="@null">
+
+            </ImageView>
+
+            <ProgressBar
+
+                android:id="@+id/vw_progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:indeterminateDrawable="@drawable/progress_bar">
+
+            </ProgressBar>
+
+            <ImageView
+
+                android:id="@+id/iv_play"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_play_button"
+                android:visibility="gone">
+
+            </ImageView>
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

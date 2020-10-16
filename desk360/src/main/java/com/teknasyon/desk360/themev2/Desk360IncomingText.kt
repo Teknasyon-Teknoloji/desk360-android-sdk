@@ -12,12 +12,11 @@ import com.teknasyon.desk360.helper.Desk360Constants
 
 class Desk360IncomingText : TextView {
 
-
     init {
 
         when (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_box_style) {
-            1 -> {
 
+            1 -> {
                 this.setBackgroundResource(R.drawable.incoming_message_layout_type1)
             }
             2-> {
