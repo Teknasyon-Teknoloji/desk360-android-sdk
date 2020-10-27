@@ -1,5 +1,6 @@
 package com.teknasyon.desk360examp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -17,9 +18,11 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         openContact = findViewById(R.id.openContactUs)
-        openContact?.setOnClickListener { setupNavigation() }
+        openContact?.setOnClickListener {
+            setupNavigation()
+        }
 
-
+        startService(Intent(this, MyService::class.java))
     }
 
     private fun setupNavigation() {
@@ -29,13 +32,14 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
 
         Desk360Constants.currentTheme = 1
         val intent = Desk360Constants.initDesk360(
-            this,
-            "",
-            "",
-            BuildConfig.VERSION_NAME,
-            "deskt36012",
-            BuildConfig.APP_KEY,
-            true
+            context = this,
+            token = "",
+            targetId = "",
+            appVersion = BuildConfig.VERSION_NAME,
+            deviceToken = "deskt36012",
+            appKey = BuildConfig.APP_KEY,
+            appLanguage = "tr",
+            isTest = true
         )
 
         startActivity(intent)

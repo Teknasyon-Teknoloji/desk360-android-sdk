@@ -180,7 +180,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         Handler().removeCallbacksAndMessages(null)
         Handler().postDelayed({ addBtnClicked = false }, 800)
 
-        Log.e("exception","girdi")
+        Log.e("exception", "girdi")
 
         if (cacheTickets!!.size > 0) {
             setMainTitle(
@@ -255,12 +255,15 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         val am = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
 
-        val runningActivities =
+        val runningActivities = try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 am.appTasks[0].taskInfo.numActivities
             } else {
                 am.getRunningTasks(1)[0].numRunning
             }
+        } catch (e: Throwable) {
+            0
+        }
 
         if (runningActivities == 1) {
             val intent = packageManager.getLaunchIntentForPackage(appId!!)

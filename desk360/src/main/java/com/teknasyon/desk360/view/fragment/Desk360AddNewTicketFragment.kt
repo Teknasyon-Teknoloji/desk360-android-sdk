@@ -25,9 +25,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -88,6 +86,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var customSelectBoxViewList: ArrayList<SelectBoxViewGroup> = arrayListOf()
     private var customTextAreaViewList: ArrayList<TextAreaViewGroup> = arrayListOf()
     private var myAdapter: Desk360SupportTypeAdapter? = null
+
     //Validate variables
     private var nameData: String? = null
     private var emailData: String? = null
