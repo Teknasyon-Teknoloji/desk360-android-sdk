@@ -11,6 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustResize">
