@@ -6,7 +6,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 class Desk360RetrofitFactory private constructor() {
 
@@ -21,11 +20,11 @@ class Desk360RetrofitFactory private constructor() {
 
         logging.level = HttpLoggingInterceptor.Level.BODY
 
-        val timeoutInterval = 60
+//        val timeoutInterval = 60
         val httpClientWithHeader = OkHttpClient.Builder()
         httpClientWithHeader.addInterceptor(logging)
-        httpClientWithHeader.connectTimeout(timeoutInterval.toLong(), TimeUnit.SECONDS)
-        httpClientWithHeader.readTimeout(timeoutInterval.toLong(), TimeUnit.SECONDS)
+//        httpClientWithHeader.connectTimeout(timeoutInterval.toLong(), TimeUnit.SECONDS)
+//        httpClientWithHeader.readTimeout(timeoutInterval.toLong(), TimeUnit.SECONDS)
 
         httpClientWithHeader.addInterceptor { chain ->
             var request = chain.request()
@@ -39,8 +38,8 @@ class Desk360RetrofitFactory private constructor() {
 
         val httpClientWithoutHeader = OkHttpClient.Builder()
         httpClientWithoutHeader.addInterceptor(logging)
-        httpClientWithoutHeader.connectTimeout(timeoutInterval.toLong(), TimeUnit.SECONDS)
-        httpClientWithoutHeader.readTimeout(timeoutInterval.toLong(), TimeUnit.SECONDS)
+//        httpClientWithoutHeader.connectTimeout(timeoutInterval.toLong(), TimeUnit.SECONDS)
+//        httpClientWithoutHeader.readTimeout(timeoutInterval.toLong(), TimeUnit.SECONDS)
 
         val client = httpClientWithHeader.build()
         if (unSecureRetrofitInstance == null)

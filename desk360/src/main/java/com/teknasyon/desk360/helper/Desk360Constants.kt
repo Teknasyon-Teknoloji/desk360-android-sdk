@@ -1,26 +1,24 @@
 package com.teknasyon.desk360.helper
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.telephony.TelephonyManager
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import com.teknasyon.desk360.view.activity.Desk360SplashActivity
-import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import org.json.JSONObject
 import java.util.*
 
 object Desk360Constants {
-
-    const val downloadPath = "/storage/emulated/0/Download/"
-    const val filePath = "/storage/emulated/0/Download/"
-
     var currentTheme: Int = 1
-    var app_key: String? = null
-    var app_version: String? = null
-    var language_code: String? = null
-    var language_tag: String? = null
-    var time_zone: String? = null
+    var appKey: String? = null
+    var appVersion: String? = null
+    var languageCode: String? = null
+    var languageTag: String? = null
+    var timeZone: String? = null
+    private var isTest: Boolean = false
+    private var deviceToken: String? = null
     var jsonObject: JSONObject? = null
     var baseURL: String? = null
     var currentType: Desk360ConfigResponse? = null
@@ -30,80 +28,46 @@ object Desk360Constants {
         }
 
 
-    fun desk360Config(
-        app_key: String,
-        app_version: String,
+    internal fun desk360Config(
+        appKey: String,
+        appVersion: String,
         isTest: Boolean,
-        device_token: String? = null,
-        json_object: JSONObject? = null,
-        app_language: String = "",
+        deviceToken: String? = null,
+        jsonObject: JSONObject? = null,
+        appLanguage: String = "",
         desk360ConfigResponse: (status: Boolean) -> Unit = {}
     ): Boolean {
 
-        if (app_key == "")
+        if (appKey == "")
             return false
 
-        if (app_version == "")
+        if (appVersion == "")
             return false
 
-        if (language_code == "")
+        if (languageCode == "")
             return false
 
-        if (time_zone == "")
+        if (timeZone == "")
             return false
 
-        if (device_token != null && device_token != "")
-            Desk360Config.instance.getDesk360Preferences()?.adId = device_token
-        this.app_key = app_key
-        this.app_version = app_version
+        configure(appKey, appVersion, isTest, deviceToken, jsonObject, appLanguage)
 
-        if (app_language == "") {
-            this.language_code = Locale.getDefault().language
+        val preferences = Desk360Config.instance.getDesk360Preferences()?.data
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.language_tag = Locale.getDefault().toLanguageTag().toLowerCase()
-            } else {
-                this.language_tag = null
-            }
-
-        } else {
-            this.language_code = app_language
-            this.language_tag = null
-        }
-
-        if (json_object != null) {
-            this.jsonObject = json_object
-        }
-        this.time_zone = TimeZone.getDefault().id
-
-        baseURL = if (isTest) {
-            "http://52.59.142.138:10380/"
-        } else {
-            "http://teknasyon.desk360.com/"
-        }
-
-        val call = GetTypesViewModel()
-
-        Desk360Config.instance.getDesk360Preferences()?.data?.let {
-
-            if (Util.isTokenExpired(it.expired_at)) {
-
-                call.register { status ->
-
+        if (preferences != null) {
+            if (Util.isTokenExpired(preferences.expired_at)) {
+                register { status ->
                     if (status) {
-                        checkType(desk360ConfigResponse, call)
+                        checkType(desk360ConfigResponse)
                     }
                 }
             } else {
-                checkType(desk360ConfigResponse, call)
+                checkType(desk360ConfigResponse)
             }
-
-        } ?: run {
-
-            call.register { status ->
-
+        } else {
+            register { status ->
                 if (status) {
-                    checkType(desk360ConfigResponse, call)
+                    checkType(desk360ConfigResponse)
                 }
             }
         }
@@ -111,17 +75,74 @@ object Desk360Constants {
         return true
     }
 
-    private fun checkType(
-        desk360ConfigResponse: (status: Boolean) -> Unit,
-        call: GetTypesViewModel
+    fun configure(
+        appKey: String,
+        appVersion: String,
+        isTest: Boolean,
+        deviceToken: String? = null,
+        jsonObject: JSONObject? = null,
+        appLanguage: String = "",
+        theme: Int = 1
     ) {
+        this.appKey = appKey
+        this.appVersion = appVersion
+        this.jsonObject = jsonObject
+        this.currentTheme = theme
 
-        val isTypeFetched = Desk360Config.instance.getDesk360Preferences()!!.isTypeFetched
+        this.timeZone = TimeZone.getDefault().id
+
+        this.isTest = isTest
+        this.baseURL = if (isTest) {
+            "http://52.59.142.138:10380/"
+        } else {
+            "https://teknasyon.desk360.com/"
+        }
+
+        this.deviceToken = deviceToken
+        if (!deviceToken.isNullOrBlank())
+            Desk360Config.instance.getDesk360Preferences()?.adId = deviceToken
+
+        if (appLanguage == "") {
+            this.languageCode = Locale.getDefault().language
+            this.languageTag = toBcp47Language(Locale.getDefault())
+        } else {
+            this.languageCode = appLanguage
+        }
+    }
+
+    fun openDesk360(
+        activity: Activity,
+        targetId: String? = null,
+        notificationToken: String? = null
+    ) {
+        val deviceToken =
+            this.deviceToken ?: throw Exception("call Desk360Constants::configure first")
+        val appKey = this.appKey ?: throw Exception("call Desk360Constants::configure first")
+        val intent = initDesk360(
+            activity,
+            notificationToken ?: "",
+            targetId ?: "",
+            appVersion ?: activity.packageManager.getPackageInfo(
+                activity.packageName,
+                0
+            ).versionName,
+            deviceToken,
+            appKey,
+            languageCode ?: "",
+            isTest
+        )
+        activity.startActivityForResult(intent, 9000)
+    }
+
+    private fun checkType(
+        desk360ConfigResponse: (status: Boolean) -> Unit
+    ) {
+        val isTypeFetched = Desk360Config.instance.getDesk360Preferences()?.isTypeFetched == true
 
         if (isTypeFetched) {
             desk360ConfigResponse(true)
         } else {
-            call.getTypes { configurationsResponse ->
+            getTypes { configurationsResponse ->
                 desk360ConfigResponse(configurationsResponse)
             }
         }
@@ -149,7 +170,6 @@ object Desk360Constants {
         intent.putExtra("app_version", appVersion)
         intent.putExtra("app_language", appLanguage)
         intent.putExtra("device_token", deviceToken)
-        intent.putExtra("appId", context.applicationInfo.processName)
 
         return intent
     }
@@ -200,5 +220,62 @@ object Desk360Constants {
         deviceId.let {
             Desk360Config.instance.getDesk360Preferences()!!.adId = it
         }
+    }
+
+    /**
+     * Modified from:
+     * https://github.com/apache/cordova-plugin-globalization/blob/master/src/android/Globalization.java
+     *
+     * Returns a well-formed ITEF BCP 47 language tag representing this locale string
+     * identifier for the client's current locale
+     *
+     * @return String: The BCP 47 language tag for the current locale
+     */
+    private fun toBcp47Language(loc: Locale): String? {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return loc.toLanguageTag()
+        }
+
+        // we will use a dash as per BCP 47
+        val SEP = '-'
+        var language = loc.language
+        var region = loc.country
+        var variant = loc.variant
+
+        // special case for Norwegian Nynorsk since "NY" cannot be a variant as per BCP 47
+        // this goes before the string matching since "NY" wont pass the variant checks
+        if (language == "no" && region == "NO" && variant == "NY") {
+            language = "nn"
+            region = "NO"
+            variant = ""
+        }
+        if (language.isEmpty() || !language.matches("\\p{Alpha}{2,8}".toRegex())) {
+            language = "und" // Follow the Locale#toLanguageTag() implementation
+            // which says to return "und" for Undetermined
+        } else if (language == "iw") {
+            language = "he" // correct deprecated "Hebrew"
+        } else if (language == "in") {
+            language = "id" // correct deprecated "Indonesian"
+        } else if (language == "ji") {
+            language = "yi" // correct deprecated "Yiddish"
+        }
+
+        // ensure valid country code, if not well formed, it's omitted
+        if (!region.matches("\\p{Alpha}{2}|\\p{Digit}{3}".toRegex())) {
+            region = ""
+        }
+
+        // variant subtags that begin with a letter must be at least 5 characters long
+        if (!variant.matches("\\p{Alnum}{5,8}|\\p{Digit}\\p{Alnum}{3}".toRegex())) {
+            variant = ""
+        }
+        val bcp47Tag = StringBuilder(language)
+        if (region.isNotEmpty()) {
+            bcp47Tag.append(SEP).append(region)
+        }
+        if (variant.isNotEmpty()) {
+            bcp47Tag.append(SEP).append(variant)
+        }
+        return bcp47Tag.toString()
     }
 }

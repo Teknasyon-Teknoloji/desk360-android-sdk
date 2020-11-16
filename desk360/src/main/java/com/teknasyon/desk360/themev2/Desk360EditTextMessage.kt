@@ -3,35 +3,25 @@ package com.teknasyon.desk360.themev2
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.widget.EditText
+import androidx.appcompat.R
+import androidx.appcompat.widget.AppCompatEditText
 import com.teknasyon.desk360.helper.Desk360Constants
 
 
-class Desk360EditTextMessage : EditText {
+class Desk360EditTextMessage @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = R.attr.editTextStyle
+) : AppCompatEditText(context, attrs, defStyle) {
+
     init {
-
-        when (Desk360Constants.currentTheme) {
-            1 -> {
-                this.setTextColor(Color.BLACK)
-            }
-            4 -> {
-                this.setTextColor(Color.WHITE)
-            }
-
-            else -> {
-                this.setTextColor(Color.BLACK)
-            }
+        val color = when (Desk360Constants.currentTheme) {
+            1 -> Color.BLACK
+            4 -> Color.WHITE
+            else -> Color.BLACK
         }
+
+        setTextColor(color)
     }
 
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
-        context,
-        attrs,
-        defStyle
-    )
 }

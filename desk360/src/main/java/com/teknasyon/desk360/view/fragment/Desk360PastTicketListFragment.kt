@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
@@ -18,7 +18,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.PreferencesManager
 import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360TicketResponse
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
+import com.teknasyon.desk360.view.activity.Desk360Activity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 
@@ -31,7 +31,7 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
 
     private var viewModel: TicketListViewModel? = null
 
-    private lateinit var desk360BaseActivity: Desk360BaseActivity
+    private lateinit var desk360Activity: Desk360Activity
     private lateinit var binding: FragmentPastTicketListBinding
 
     override fun selectTicket(item: Desk360TicketResponse, position: Int) {
@@ -49,7 +49,7 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        desk360BaseActivity = context as Desk360BaseActivity
+        desk360Activity = context as Desk360Activity
     }
 
 
@@ -67,7 +67,7 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        desk360BaseActivity.changeMainUI()
+        desk360Activity.changeMainUI()
 
         val preferencesManager = PreferencesManager()
 
@@ -78,8 +78,9 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
             ticketAdapter = Desk360TicketListAdapter(context, this.tickets)
         }
 
-        binding.pastTicketList?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.pastTicketList?.adapter = ticketAdapter
+        binding.pastTicketList.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.pastTicketList.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
 
         binding.noExpiredImageEmpty.requestLayout()
@@ -87,7 +88,7 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
 
         binding.noExpiredImageEmpty.setColorFilter(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color), PorterDuff.Mode.SRC_ATOP)
 
-        viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(TicketListViewModel::class.java)
 
         viewModel?.expiredList?.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -99,8 +100,9 @@ class Desk360PastTicketListFragment : Fragment(), Desk360TicketListAdapter.Ticke
                 cacheTickets = preferencesManager.readObject("pastTickets", CacheTicket::class.java) as ArrayList<Desk360TicketResponse>
 
                 ticketAdapter = Desk360TicketListAdapter(context, cacheTickets)
-                binding.pastTicketList?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                binding.pastTicketList?.adapter = ticketAdapter
+                binding.pastTicketList.layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                binding.pastTicketList.adapter = ticketAdapter
                 ticketAdapter?.clickItem = this
 
                 setViews()

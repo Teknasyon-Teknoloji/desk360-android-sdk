@@ -3,11 +3,11 @@ package com.teknasyon.desk360.view.adapter
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
@@ -39,7 +39,7 @@ class Desk360TicketListAdapter(
             when (ticketList[position].status) {
                 "unread" -> {
                     message_status.setBackgroundResource(R.drawable.zarf)
-                    message_status.background?.setColorFilter(
+                    message_status.background?.colorFilter = PorterDuffColorFilter(
                         Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_icon_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
@@ -48,7 +48,7 @@ class Desk360TicketListAdapter(
                 "read", "open" -> {
                     ticket_subject.setTypeface(null, Typeface.NORMAL)
                     message_status.setBackgroundResource(R.drawable.message_icon_read)
-                    message_status.background?.setColorFilter(
+                    message_status.background?.colorFilter = PorterDuffColorFilter(
                         Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_icon_color),
                         PorterDuff.Mode.SRC_ATOP
                     )

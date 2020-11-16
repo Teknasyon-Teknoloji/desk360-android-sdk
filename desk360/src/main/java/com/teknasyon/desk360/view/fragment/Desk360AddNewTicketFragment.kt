@@ -1,6 +1,5 @@
 package com.teknasyon.desk360.view.fragment
 
-import android.Manifest
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
@@ -8,11 +7,10 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -25,18 +23,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.*
@@ -45,7 +38,7 @@ import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.modelv2.Desk360CustomFields
 import com.teknasyon.desk360.modelv2.Desk360Options
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
+import com.teknasyon.desk360.view.activity.Desk360Activity
 import com.teknasyon.desk360.view.adapter.Desk360CustomSupportTypeAdapter
 import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
 import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
@@ -57,12 +50,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.FileOutputStream
 
-/**
- * Created by seyfullah on 30,May,2019
- *
- */
 
-open class Desk360AddNewTicketFragment : Fragment(),
+class Desk360AddNewTicketFragment : Fragment(),
     Desk360BottomSheetDialogFragment.BottomSheetListener {
 
     private var viewModel: AddNewTicketViewModel? = null
@@ -74,7 +63,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     private lateinit var binding: Desk360AddNewTicketLayoutBinding
 
-    private var typeList: ArrayList<Desk360Type>? = null
+    private var typeList: List<Desk360Type>? = null
 
     private val editTextStyleModel =
         Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen
@@ -99,12 +88,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private val listOfType: ArrayList<String> = arrayListOf()
     private var invalidEmail: Boolean = false
 
-    private lateinit var activity: Desk360BaseActivity
+    private lateinit var activity: Desk360Activity
 
-    private var RESULT_LOAD_FILES = 1221
     var params: HashMap<String, RequestBody> = HashMap()
     var file: File? = null
     var fileName: String? = null
+    var fileType: Int = SELECT_DOC
 
     private var errorLabelTextColor: ColorStateList? = null
 
@@ -165,7 +154,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             }
 
             val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view!!.windowToken, 0)
+            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
         }
         binding.createTicketButton.isClickable = true
     }
@@ -195,8 +184,20 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         viewModel = AddNewTicketViewModel()
 
-        typeList = Desk360Config.instance.getDesk360Preferences()?.types!!.data.create_screen.types
-        viewModel?.addedTicket?.observe(this, observerAddedTicket)
+        typeList = Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen?.types
+        viewModel?.addedTicket?.observe(viewLifecycleOwner, observerAddedTicket)
+
+        viewModel?.error?.observe(viewLifecycleOwner, Observer {
+            if (!it.success && it.error != null) {
+                Log.e("error", it.error.message ?: "")
+                binding.loadingProgress.visibility = View.GONE
+                activity.window?.clearFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )
+                binding.createTicketButton.isClickable = true
+                Toast.makeText(binding.root.context, it.error.message, Toast.LENGTH_SHORT).show()
+            }
+        })
 
         listOfType.clear()
 
@@ -214,7 +215,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             )
         }
 
-        binding.createTicketButton?.setOnClickListener {
+        binding.createTicketButton.setOnClickListener {
             binding.createTicketButton.isClickable = false
             validateAllField()
         }
@@ -230,7 +231,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         binding.textPathCreateTicketScreen.setOnClickListener {
             val bottomDialog = Desk360BottomSheetDialogFragment(this)
-            fragmentManager?.let { it1 -> bottomDialog.show(it1, "bottomSheet") }
+            bottomDialog.show(parentFragmentManager, "bottomSheet")
         }
 
         rootParamsLayout.setMargins(24, 24, 24, 24)
@@ -487,7 +488,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         Desk360CustomStyle.setStyle(
             Desk360Constants.currentType?.data?.create_screen?.button_style_id,
             binding.createTicketButton,
-            context!!
+            requireContext()
         )
 
         binding.textPathCreateTicketScreen.text =
@@ -501,12 +502,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
 
         binding.fileNameIcon.setBackgroundResource(R.drawable.document_cancel_icon)
-        binding.fileNameIcon.background.setColorFilter(
+        binding.fileNameIcon.background.colorFilter = PorterDuffColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
-        if (Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!) {
+        if (Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden == true) {
             binding.pathIconn.visibility = View.VISIBLE
         } else {
             binding.pathIconn.visibility = View.INVISIBLE
@@ -545,8 +546,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
             )
         }, 35)
 
-        val cacheName = preferencesManager.readObject("userName",String::class.java)
-        val cacheMail = preferencesManager.readObject("userMail",String::class.java)
+        val cacheName = preferencesManager.readObject("userName", String::class.java)
+        val cacheMail = preferencesManager.readObject("userMail", String::class.java)
 
         cacheName?.let {
             nameField?.holder?.textInputEditText?.setText(cacheName)
@@ -560,93 +561,91 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
+        if (requestCode in arrayOf(SELECT_DOC, SELECT_IMAGE, SELECT_VIDEO)) {
 
-            RESULT_LOAD_FILES -> {
+            val pathUri = data?.data ?: return
+            val context = this.context ?: return
 
-                val pathUri = data?.data ?: return
-
-                when (RESULT_LOAD_FILES) {
-                    1221 -> {
-                        file = File(pathUri.let { ImageFilePath().getUriRealPath(context!!, it) })
-                        fileName = file?.name
-                    }
-                    1222 -> {
-                        //file = File(pathUri?.let { getRealPathFromURI(it) })
-                        val cachFile = File(
-                            context!!.cacheDir, DocumentFile.fromSingleUri(
-                                activity,
-                                pathUri
-                            )?.name?.replace(" ", "")
-                        )
-                        try {
-                            val inputStream = DocumentFile.fromSingleUri(
-                                activity,
-                                pathUri
-                            )?.uri?.let {
-                                context!!.contentResolver.openInputStream(
-                                    it
-                                )
-                            }
-                            val outputStream = FileOutputStream(cachFile)
-                            var read = 0
-                            val maxBufferSize = 1 * 1024 * 1024
-                            val bytesAvailable = inputStream?.available()
-                            //int bufferSize = 1024;
-                            val bufferSize = bytesAvailable?.let { Math.min(it, maxBufferSize) }
-                            val buffers = bufferSize?.let { ByteArray(it) }
-                            if (inputStream != null) {
-                                while (inputStream.read(buffers).also { read = it } != -1) {
-                                    outputStream.write(buffers, 0, read)
-                                }
-                            }
-//                            Log.e("File Size", "Size " + cachFile.length())
-                            inputStream?.close()
-                            outputStream.close()
-//                            Log.e("File Path", "Path " + cachFile.path)
-                        } catch (e: Exception) {
-                            Log.e("Exception", e.message)
-                        }
-//                        Log.d("pdf_path", cachFile.path + "")
-                        file = cachFile
-                        fileName = file?.name
-                    }
-                    1223 -> {
-                        file = File(pathUri.let { ImageFilePath().getUriRealPath(context!!, it) })
-                        fileName = file?.name
-                    }
+            when (requestCode) {
+                SELECT_IMAGE -> {
+                    file = context.getFile(pathUri)
+                    fileName = context.getFileName(pathUri)
+                    fileType = requestCode
                 }
-
-                file?.let {
-                    if (it.exists()) {
-                        if (!fileSizeIsHigh(it)) {
-                            fileName?.length?.let {
-                                if (it > 10) {
-                                    binding.fileNameTextCreateTicketScreen.text =
-                                        fileName?.substring(0, 8) + "..."
-                                } else {
-                                    binding.fileNameTextCreateTicketScreen.text = fileName
-                                }
-                                binding.fileNameTextCreateTicketScreen.visibility = View.VISIBLE
-                                binding.fileNameIcon.visibility = View.VISIBLE
+                SELECT_DOC -> {
+                    //file = File(pathUri?.let { getRealPathFromURI(it) })
+                    val cacheFile = File(
+                        context.cacheDir, DocumentFile.fromSingleUri(
+                            activity,
+                            pathUri
+                        )?.name?.replace(" ", "")
+                    )
+                    try {
+                        val inputStream = DocumentFile
+                            .fromSingleUri(activity, pathUri)
+                            ?.uri?.let {
+                                context.contentResolver.openInputStream(it)
                             }
-                        } else {
-                            showAlert()
+                        val outputStream = FileOutputStream(cacheFile)
+                        var read = 0
+                        val maxBufferSize = 1 * 1024 * 1024
+                        val bytesAvailable = inputStream?.available()
+                        //int bufferSize = 1024;
+                        val bufferSize = bytesAvailable?.let { it.coerceAtMost(maxBufferSize) }
+                        val buffers = bufferSize?.let { ByteArray(it) }
+                        if (inputStream != null) {
+                            while (inputStream.read(buffers).also { read = it } != -1) {
+                                outputStream.write(buffers, 0, read)
+                            }
                         }
-
-
+                        //                            Log.e("File Size", "Size " + cachFile.length())
+                        inputStream?.close()
+                        outputStream.close()
+                        //                            Log.e("File Path", "Path " + cachFile.path)
+                    } catch (e: Exception) {
+                        Log.e("Exception", e.message)
                     }
+                    //                        Log.d("pdf_path", cachFile.path + "")
+                    file = cacheFile
+                    fileName = file?.name
+                    fileType = requestCode
+                }
+                SELECT_VIDEO -> {
+                    file = context.getFile(pathUri)
+                    fileName = context.getFileName(pathUri)
+                    fileType = requestCode
                 }
             }
 
+            file?.let {
+                if (it.exists()) {
+                    if (!fileSizeIsHigh(it)) {
+                        fileName?.length?.let { length ->
+                            if (length > 10) {
+                                binding.fileNameTextCreateTicketScreen.text =
+                                    fileName?.substring(0, 8) + "..."
+                            } else {
+                                binding.fileNameTextCreateTicketScreen.text = fileName
+                            }
+                            binding.fileNameTextCreateTicketScreen.visibility = View.VISIBLE
+                            binding.fileNameIcon.visibility = View.VISIBLE
+                        }
+                    } else {
+                        showAlert()
+                    }
+
+
+                }
+            }
         }
     }
 
     private fun showAlert() {
         activity.let {
             val alert = AlertDialog.Builder(it)
-            alert.setMessage(Desk360Constants.currentType?.data?.general_settings?.file_size_error_text)
-                ?: ""
+            alert.setMessage(
+                Desk360Constants.currentType?.data?.general_settings?.file_size_error_text ?: ""
+            )
             alert.setCancelable(false)
             alert.setNegativeButton(getString(R.string.ok_button)) { _: DialogInterface, _: Int ->
                 file = null
@@ -701,7 +700,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activity = context as Desk360BaseActivity
+        activity = context as Desk360Activity
     }
 
     fun nameQuality(s: CharSequence) {
@@ -831,7 +830,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
             )
-            viewModel?.addSupportTicket(params, file, RESULT_LOAD_FILES)
+            viewModel?.addSupportTicket(params, file, fileType)
 
         } else {
             when {
@@ -895,49 +894,47 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
     }
 
-    override fun onButtonClicked(typeOfAttachment: Int) {
-        Dexter.withActivity(activity)
-            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-            .withListener(object : PermissionListener {
-                override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                    if (typeOfAttachment == 0) {
-                        RESULT_LOAD_FILES = 1221
-                        startActivityForResult(
-                            Intent(
-                                Intent.ACTION_PICK,
-                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                            ), RESULT_LOAD_FILES
-                        )
-                    } else if (typeOfAttachment == 2) {
-                        RESULT_LOAD_FILES = 1222
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            val photoPickerIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                            photoPickerIntent.type = "application/pdf"
-                            startActivityForResult(photoPickerIntent, RESULT_LOAD_FILES)
-                        }
-                    } else {
-                        RESULT_LOAD_FILES = 1223
-                        val intent = Intent()
-                        intent.type = "video/.mp4"
-                        intent.action = Intent.ACTION_GET_CONTENT
-                        startActivityForResult(
-                            Intent.createChooser(intent, "Select Video"),
-                            RESULT_LOAD_FILES
-                        )
-                    }
-                }
+    override fun onButtonClicked(typeOfAttachment: FileType) {
+        when (typeOfAttachment) {
+            FileType.IMAGE -> {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
 
-                override fun onPermissionDenied(response: PermissionDeniedResponse) {
+                intent.type = "image/png,image/jpg,image/jpeg,image/bmp,image/gif"
+                intent.putExtra(
+                    Intent.EXTRA_MIME_TYPES,
+                    arrayOf("image/png", "image/jpg", "image/jpeg", "image/bmp", "image/gif")
+                )
 
-                }
+                startActivityForResult(
+                    intent,
+                    SELECT_IMAGE
+                )
+            }
+            FileType.DOC -> {
+                val photoPickerIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                photoPickerIntent.type = "application/pdf"
+                startActivityForResult(photoPickerIntent, SELECT_DOC)
+            }
+            FileType.VIDEO -> {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
 
-                override fun onPermissionRationaleShouldBeShown(
-                    permission: PermissionRequest,
-                    token: PermissionToken
-                ) {
-                    token.continuePermissionRequest()
-                }
-            })
-            .check()
+                intent.type = "video/mp4,video/mov,video/flv,video/avi"
+                intent.putExtra(
+                    Intent.EXTRA_MIME_TYPES,
+                    arrayOf("video/mp4", "video/mov", "video/flv", "video/avi")
+                )
+
+                startActivityForResult(
+                    intent,
+                    SELECT_VIDEO
+                )
+            }
+        }
+    }
+
+    companion object {
+        const val SELECT_IMAGE = 1221
+        const val SELECT_DOC = 1222
+        const val SELECT_VIDEO = 1223
     }
 }

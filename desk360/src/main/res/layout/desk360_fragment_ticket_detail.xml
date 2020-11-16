@@ -85,19 +85,39 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent">
 
-            <com.teknasyon.desk360.themev2.Desk360TicketListEditTextSendMessage
-                android:id="@+id/messageEditText"
+            <ImageView
+                android:id="@+id/add_attachment_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="26dp"
-                android:layout_marginLeft="26dp"
                 android:layout_weight="1"
-                android:imeOptions="actionDone"
-                android:inputType="textCapSentences|textMultiLine"
-                android:isScrollContainer="true"
-                android:maxLines="6"
-                tools:hint="Mesajı Yazınız" />
+                android:orientation="vertical">
+
+                <com.teknasyon.desk360.themev2.Desk360TicketListEditTextSendMessage
+                    android:id="@+id/messageEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:isScrollContainer="true"
+                    android:maxLines="6"
+                    tools:hint="Mesajı Yazınız" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/file_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/add_new_message_button"
@@ -105,7 +125,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />

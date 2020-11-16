@@ -1,9 +1,9 @@
 package com.teknasyon.desk360.view.adapter
 
-import android.content.Context
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,397 +11,91 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.*
-import androidx.annotation.RequiresApi
-import androidx.core.view.children
-import androidx.databinding.DataBindingUtil
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.net.toUri
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.databinding.Desk360IncomingAttachmentItemLayoutBinding
-import com.teknasyon.desk360.databinding.Desk360IncomingMessageItemLayoutBinding
-import com.teknasyon.desk360.databinding.Desk360SendMessageItemLayoutBinding
-import com.teknasyon.desk360.helper.Permission
+import com.teknasyon.desk360.databinding.Desk360SendAttachmentItemLayoutBinding
+import com.teknasyon.desk360.helper.getFileIconResource
+import com.teknasyon.desk360.helper.verifyStoragePermissions
 import com.teknasyon.desk360.model.Desk360File
 import com.teknasyon.desk360.model.Desk360Message
-import com.teknasyon.desk360.themev2.Desk360ImageLayout
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
-import kotlinx.android.synthetic.main.desk360_attachment_message_item.view.*
-import kotlinx.android.synthetic.main.desk360_incoming_attachment_item_layout.view.*
-import kotlinx.android.synthetic.main.desk360_incoming_message_item_layout.view.*
-import kotlinx.android.synthetic.main.desk360_incoming_message_item_layout.view.date_incoming
-import kotlinx.android.synthetic.main.desk360_send_message_item_layout.view.*
-import kotlinx.android.synthetic.main.desk360_send_message_item_layout.view.videoView
+import com.teknasyon.desk360.themev2.Desk360IncomingAttachmentText
+import com.teknasyon.desk360.themev2.Desk360SentAttachmentText
+import com.teknasyon.desk360.databinding.Desk360IncomingAttachmentItemLayoutBinding as IncomingAttachmentBinding
+import com.teknasyon.desk360.databinding.Desk360IncomingMessageItemLayoutBinding as IncomingMessageBinding
+import com.teknasyon.desk360.databinding.Desk360SendMessageItemLayoutBinding as SentMessageBinding
 
 class Desk360TicketDetailListAdapter(
-    private val downloadFile: (Desk360File) -> Unit,
-    private val ticketList: ArrayList<Desk360Message>,
-    private val url: String?,
-    private val context: Context?
-
+    private val downloadFile: (Desk360File) -> Unit
 ) : RecyclerView.Adapter<Desk360TicketDetailListAdapter.ViewHolder>() {
+    private var ticketList: List<Desk360Message> = listOf()
+    private var url: String? = null
+
+    fun setData(ticketList: List<Desk360Message>, url: String?) {
+        this.ticketList = ticketList
+        this.url = url
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-        when (viewType) {
-
-            0 -> {
-
-                val binding = DataBindingUtil.inflate<Desk360IncomingMessageItemLayoutBinding>(
-                    LayoutInflater.from(parent.context),
-                    R.layout.desk360_incoming_message_item_layout,
-                    parent,
-                    false
-                )
-
-                return ViewHolder(binding, 0)
-
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            INCOMING_MESSAGE -> {
+                val binding = IncomingMessageBinding.inflate(inflater, parent, false)
+                IncomingViewHolder(binding)
             }
-            1 -> {
-
-                val binding = DataBindingUtil.inflate<Desk360SendMessageItemLayoutBinding>(
-                    LayoutInflater.from(parent.context),
-                    R.layout.desk360_send_message_item_layout,
-                    parent,
-                    false
-                )
-
-                return ViewHolder(binding, 1)
-
+            SENT_MESSAGE -> {
+                val binding = SentMessageBinding.inflate(inflater, parent, false)
+                SendMessageViewHolder(binding, url)
+            }
+            INCOMING_ATTACHMENT -> {
+                val binding = IncomingAttachmentBinding.inflate(inflater, parent, false)
+                IncomingAttachmentViewHolder(binding, url, downloadFile)
             }
             else -> {
-
-                val binding = DataBindingUtil.inflate<Desk360IncomingAttachmentItemLayoutBinding>(
-                    LayoutInflater.from(parent.context),
-                    R.layout.desk360_incoming_attachment_item_layout,
-                    parent,
-                    false
-                )
-
-                return ViewHolder(binding, 2)
+                val binding =
+                    Desk360SendAttachmentItemLayoutBinding.inflate(inflater, parent, false)
+                SentAttachmentViewHolder(binding, url, downloadFile)
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val message = ticketList[position]
-
-        when (holder.itemViewType) {
-
-            0 -> {
-                holder.itemView.message_incoming.text = message.message
-                holder.itemView.date_incoming.text = message.created
-            }
-
-            1 -> {
-
-                holder.itemView.message_send.text = message.message
-                holder.itemView.date_send.text = message.created
-                holder.itemView.imageUrl.visibility = View.GONE
-                holder.itemView.rl_videoView.visibility = View.GONE
-                holder.itemView.rl_webView.visibility = View.GONE
-
-                if (message.tick) {
-                    holder.itemView.message_tick.setImageResource(R.drawable.cift)
-                } else {
-                    holder.itemView.message_tick.setImageResource(R.drawable.tek)
-                }
-
-                if (url != null && url != "" && position == 0) {
-
-                    holder.itemView.rl_webView.visibility = View.VISIBLE
-
-                    when {
-
-                        url.substring(url.length - 3) == "pdf" -> {
-
-                            val webSettings: WebSettings = holder.itemView.webView.settings
-                            webSettings.javaScriptEnabled = true
-                            webSettings.builtInZoomControls = true
-
-                            val url = "https://docs.google.com/viewer?embedded=true&url=$url"
-                            holder.itemView.webView.loadUrl(url)
-
-                            holder.itemView.webView.webViewClient = object : WebViewClient() {
-                                override fun onPageStarted(
-                                    view: WebView?,
-                                    url: String?,
-                                    favicon: Bitmap?
-                                ) {
-                                    holder.itemView.progressBar.visibility = View.GONE
-                                }
-                            }
-                        }
-
-                        url.substring(url.length - 3) == "mp4" -> {
-
-                            holder.itemView.rl_videoView.visibility = View.VISIBLE
-                            holder.itemView.rl_webView.visibility = View.GONE
-
-                            val video: Uri = Uri.parse(url)
-                            val mediaController = MediaController(context)
-                            mediaController.setAnchorView(holder.itemView.videoView)
-                            holder.itemView.videoView.setMediaController(mediaController)
-                            holder.itemView.videoView.setVideoURI(video)
-                            holder.itemView.videoView.setOnPreparedListener { mp ->
-
-                                holder.itemView.videoView.visibility = View.VISIBLE
-                                holder.itemView.vw_progressBar.visibility = View.GONE
-                                holder.itemView.videoView_placeholder.visibility = View.GONE
-                                holder.itemView.invalidate()
-                                holder.itemView.videoView.start()
-                                mp.isLooping = true
-
-                            }
-                        }
-
-                        else -> {
-
-                            holder.itemView.imageUrl.visibility = View.VISIBLE
-                            Picasso.get().load(url).into(holder.itemView.imageUrl)
-                        }
-                    }
-
-                } else {
-
-                    holder.itemView.videoView.visibility = View.GONE
-                    holder.itemView.imageUrl.visibility = View.GONE
-                    holder.itemView.webView.visibility = View.GONE
-                }
-            }
-
-            2 -> {
-
-                holder.itemView.ll_images.removeAllViews()
-
-                holder.itemView.image_message_incoming.text = message.message
-
-                val images = ticketList[position].attachments?.images
-                val videos = ticketList[position].attachments?.videos
-                val files = ticketList[position].attachments?.files
-                val others = ticketList[position].attachments?.others
-
-                if (images?.isNotEmpty()!!) {
-                    images.forEach { it ->
-                        addAttachment(holder, it, "Picture")
-                    }
-                }
-
-                if (videos?.isNotEmpty()!!) {
-                    videos.forEach { it ->
-                        addAttachment(holder, it, "Video")
-                    }
-                }
-
-                if (files?.isNotEmpty()!!) {
-                    files.forEach { it ->
-                        addAttachment(holder, it, "File")
-                    }
-                }
-
-                if (others?.isNotEmpty()!!) {
-                    others.forEach { it ->
-                        addAttachment(holder, it, "Other")
-                    }
-                }
-
-                holder.itemView.date_incoming.text = message.created
-            }
-        }
+        holder.bind(message)
     }
 
-    private fun addAttachment(holder: ViewHolder, file: Desk360File, type: String) {
+    private fun hasAttachments(message: Desk360Message): Boolean {
 
-        holder.itemView.ll_images.visibility = View.VISIBLE
+        val attachments = message.attachments
+        val hasImages = !attachments?.images.isNullOrEmpty()
+        val hasFiles = !attachments?.files.isNullOrEmpty()
+        val hasVideos = !attachments?.videos.isNullOrEmpty()
+        val hasOthers = !attachments?.others.isNullOrEmpty()
 
-        val activity = holder.itemView.ll_images.context as Desk360BaseActivity
-
-        val inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.desk360_attachment_message_item, null)
-
-        val rl = (view as LinearLayout).getChildAt(0) as RelativeLayout
-
-        val image = rl.getChildAt(0) as ImageView
-        val rlVideo = rl.getChildAt(1) as RelativeLayout
-
-        val video = rlVideo.getChildAt(0) as VideoView
-        val placeholder = rlVideo.getChildAt(1) as ImageView
-        val progressBar = rlVideo.getChildAt(2) as ProgressBar
-        val playButton = rlVideo.getChildAt(3) as ImageView
-
-        val rlFile = view.getChildAt(1) as RelativeLayout
-
-        val fileName = rlFile.getChildAt(0) as TextView
-        val save = rlFile.getChildAt(1) as ImageView
-
-        fileName.text = file.name
-
-        when (type) {
-
-            "Picture" -> { // if attachment has picture
-
-                fileName.setCompoundDrawablesWithIntrinsicBounds(setImageType(file.name), 0, 0, 0)
-
-                rlVideo.visibility = View.GONE
-
-                Glide.with(activity).load(file.url).into(image)
-
-                save.setOnClickListener {
-
-                    Permission.verifyStoragePermissions(activity)
-                    url?.let { downloadFile(file) }
-                }
-            }
-
-            "Video" -> { // if attachment has video
-
-                fileName.setCompoundDrawablesWithIntrinsicBounds(setVideoType(file.name), 0, 0, 0)
-
-                image.visibility = View.GONE
-                save.visibility = View.INVISIBLE
-
-                video.setVideoURI(Uri.parse(file.url))
-
-                video.setOnPreparedListener { mp ->
-
-                    video.seekTo(1)
-
-                    placeholder.visibility = View.GONE
-                    progressBar.visibility = View.GONE
-                    playButton.visibility = View.VISIBLE
-                    save.visibility = View.VISIBLE
-                }
-
-                video.setOnCompletionListener {
-                    playButton.visibility = View.VISIBLE
-                }
-
-                playButton.setOnClickListener {
-                    video.start()
-                    playButton.visibility = View.GONE
-                }
-
-                save.setOnClickListener {
-                    Permission.verifyStoragePermissions(activity)
-                    url?.let { downloadFile(file) }
-                }
-            }
-
-            "File", "Other" -> {
-
-                rl.visibility = View.GONE
-
-                fileName.setCompoundDrawablesWithIntrinsicBounds(setFileType(file.name), 0, 0, 0)
-
-                save.setOnClickListener {
-                    Permission.verifyStoragePermissions(activity)
-                    url?.let { downloadFile(file) }
-                }
-            }
-        }
-
-        holder.itemView.ll_images.addView(view)
-    }
-
-    private fun setImageType(name: String): Int {
-
-        return when {
-            name.contains("jpg") || name.contains("jpeg") -> {
-                R.drawable.ic_jpg
-            }
-            name.contains("gif") -> {
-                R.drawable.gif
-            }
-            name.contains("bmp") -> {
-                R.drawable.bmp
-            }
-            name.contains("png") -> {
-                R.drawable.ic_png
-            }
-            else -> R.drawable.others
-        }
-    }
-
-    private fun setVideoType(name: String): Int {
-
-        return when {
-            name.contains("mp4") -> {
-                R.drawable.mp4
-            }
-            name.contains("avi") -> {
-                R.drawable.ic_avi
-            }
-            name.contains("flv") -> {
-                R.drawable.flv
-            }
-            else -> R.drawable.others
-        }
-    }
-
-    private fun setFileType(name: String): Int {
-
-        return when {
-            name.contains("pdf") -> {
-                R.drawable.pdf
-            }
-            name.contains("doc") -> {
-                R.drawable.doc
-            }
-            name.contains("docx") -> {
-                R.drawable.docx
-            }
-            name.contains("xls") -> {
-                R.drawable.xls
-            }
-            name.contains("xlsx") -> {
-                R.drawable.xlsx
-            }
-            name.contains("zip") -> {
-                R.drawable.zip
-            }
-            name.contains("gzip") -> {
-                R.drawable.gzip
-            }
-            name.contains("rar") -> {
-                R.drawable.rar
-            }
-            else -> R.drawable.others
-        }
-    }
-
-    private fun hasAttachments(position: Int): Boolean {
-
-        val images = ticketList[position].attachments?.images
-        val files = ticketList[position].attachments?.files
-        val videos = ticketList[position].attachments?.videos
-        val others = ticketList[position].attachments?.others
-
-        return images?.isNotEmpty()!! || files?.isNotEmpty()!! || videos?.isNotEmpty()!! || others?.isNotEmpty()!!
-    }
-
-    private fun isFileVideo(name: String): Boolean {
-
-        return name.contains("mp4") ||
-                name.contains("avi") ||
-                name.contains("flv")
+        return hasImages || hasFiles || hasVideos || hasOthers
     }
 
     override fun getItemViewType(position: Int): Int {
 
-        val hasAnswer = ticketList[position].is_answer
+        val message = ticketList[position]
+        val isAnswer = message.is_answer
 
-        return if (hasAnswer) {
-
-            if (hasAttachments(position)) {
-                2
+        return if (isAnswer) {
+            if (hasAttachments(message)) {
+                INCOMING_ATTACHMENT
             } else {
-                0
+                INCOMING_MESSAGE
             }
-
         } else {
-            1
+            if (hasAttachments(message)) {
+                SENT_ATTACHMENT
+            } else {
+                SENT_MESSAGE
+            }
         }
     }
 
@@ -409,43 +103,411 @@ class Desk360TicketDetailListAdapter(
         return ticketList.size
     }
 
-    override fun onViewDetachedFromWindow(holder: ViewHolder) {
 
-        try {
+    abstract class ViewHolder(
+        binding: ViewDataBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        abstract fun bind(message: Desk360Message)
+    }
 
-            val attachmentsLayout =
-                (holder.itemView as LinearLayout).getChildAt(0) as Desk360ImageLayout
-
-            val attachmentsRoot = attachmentsLayout.getChildAt(1) as LinearLayout
-
-            attachmentsRoot.children.forEach { root ->
-
-                root.rootView.pb_vw_progressBar.visibility = View.VISIBLE
-                root.rootView.iv_video_play.visibility = View.VISIBLE
-                root.rootView.iv_videoView_placeholder.visibility = View.VISIBLE
-
-                if (isFileVideo(root.rootView.tv_type.text.toString())) {
-                    root.rootView.iv_download.visibility = View.GONE
-                }
-            }
-
-        } catch (e: Exception) {
+    class IncomingViewHolder(
+        val binding: IncomingMessageBinding
+    ) : ViewHolder(binding) {
+        override fun bind(message: Desk360Message) {
+            binding.messageIncoming.text = message.message
+            binding.dateIncoming.text = message.created
         }
     }
 
-    class ViewHolder(binding: Any?, viewType: Int) : RecyclerView.ViewHolder(
+    class SendMessageViewHolder(
+        val binding: SentMessageBinding,
+        private val url: String?
+    ) : ViewHolder(binding) {
+        @SuppressLint("SetJavaScriptEnabled")
+        override fun bind(message: Desk360Message) {
 
-        when (viewType) {
+            binding.messageSend.text = message.message
+            binding.dateSend.text = message.created
+            binding.imageUrl.visibility = View.GONE
+            binding.rlVideoView.visibility = View.GONE
+            binding.rlWebView.visibility = View.GONE
 
-            0 -> {
-                (binding as Desk360IncomingMessageItemLayoutBinding).root
+            if (message.tick) {
+                binding.messageTick.setImageResource(R.drawable.cift)
+            } else {
+                binding.messageTick.setImageResource(R.drawable.tek)
             }
-            1 -> {
-                (binding as Desk360SendMessageItemLayoutBinding).root
-            }
-            else -> {
-                (binding as Desk360IncomingAttachmentItemLayoutBinding).root
+
+
+            if (!url.isNullOrEmpty() && adapterPosition == 0) {
+                when {
+                    url.endsWith("pdf", true) -> {
+                        binding.rlWebView.visibility = View.VISIBLE
+                        binding.rlVideoView.visibility = View.GONE
+                        val webSettings: WebSettings = binding.webView.settings
+                        webSettings.javaScriptEnabled = true
+                        webSettings.builtInZoomControls = true
+
+                        val url = "https://docs.google.com/viewer?embedded=true&url=$url"
+                        binding.webView.loadUrl(url)
+
+                        binding.webView.webViewClient = object : WebViewClient() {
+                            override fun onPageStarted(
+                                view: WebView?,
+                                url: String?,
+                                favicon: Bitmap?
+                            ) {
+                                binding.progressBar.visibility = View.GONE
+                            }
+                        }
+                    }
+                    url.endsWith("mp4", true) -> {
+                        binding.rlVideoView.visibility = View.VISIBLE
+                        binding.rlWebView.visibility = View.GONE
+
+                        val mediaController = MediaController(binding.root.context)
+                        mediaController.setAnchorView(binding.videoView)
+                        binding.videoView.setMediaController(mediaController)
+                        binding.videoView.setVideoURI(url.toUri())
+                        binding.videoView.setOnPreparedListener { mp ->
+                            binding.videoView.visibility = View.VISIBLE
+                            binding.vwProgressBar.visibility = View.GONE
+                            binding.videoViewPlaceholder.visibility = View.GONE
+                            binding.videoView.start()
+                            mp.isLooping = true
+                        }
+                    }
+                    else -> {
+                        binding.rlWebView.visibility = View.GONE
+                        binding.rlVideoView.visibility = View.GONE
+                        binding.imageUrl.visibility = View.VISIBLE
+                        Picasso.get()
+                            .load(url)
+                            .placeholder(R.drawable.sent_message_layout_type4)
+                            .into(binding.imageUrl)
+                    }
+                }
+
+            } else {
+                binding.videoView.visibility = View.GONE
+                binding.imageUrl.visibility = View.GONE
+                binding.webView.visibility = View.GONE
             }
         }
-    )
+    }
+
+    abstract class AttachmentViewHolder(binding: ViewDataBinding) : ViewHolder(binding)
+
+    class IncomingAttachmentViewHolder(
+        val binding: IncomingAttachmentBinding,
+        private val url: String?,
+        private val downloadFile: (Desk360File) -> Unit
+    ) : AttachmentViewHolder(binding) {
+        override fun bind(message: Desk360Message) {
+
+            binding.llImages.removeAllViews()
+
+            binding.imageMessageIncoming.text = message.message
+
+            var height = 0
+
+            if (message.views == null) {
+                val views = mutableListOf<View>()
+                message.attachments?.let { attachments ->
+                    attachments.images.forEach {
+                        views.add(createAttachment(it, "Picture"))
+                        height += 237
+                    }
+                    attachments.videos.forEach {
+                        views.add(createAttachment(it, "Video"))
+                        height += 237
+                    }
+                    attachments.files.forEach {
+                        views.add(createAttachment(it, "File"))
+                        height += 37
+                    }
+                    attachments.others.forEach {
+                        views.add(createAttachment(it, "Other"))
+                        height += 37
+                    }
+                }
+
+                message.views = views
+            }
+
+            message.views?.forEach {
+                binding.llImages.addView(it)
+            }
+
+            binding.dateIncoming.text = message.created
+        }
+
+        private fun createAttachment(file: Desk360File, type: String): View {
+            binding.llImages.visibility = View.VISIBLE
+
+            val activity = binding.llImages.context as Activity
+
+            val inflater = LayoutInflater.from(binding.root.context)
+            val view = inflater.inflate(
+                R.layout.desk360_incoming_attachment_message_item,
+                binding.root as? ViewGroup,
+                false
+            )
+
+            val image = view.findViewById<ImageView>(R.id.iv_image)
+            val rlVideo = view.findViewById<ConstraintLayout>(R.id.rl_video)
+
+            val video = rlVideo.findViewById<VideoView>(R.id.videoView)
+            val progressBar = rlVideo.findViewById<ProgressBar>(R.id.pb_vw_progressBar)
+            val playButton = rlVideo.findViewById<ImageView>(R.id.iv_video_play)
+
+            val rlFile = view.findViewById<RelativeLayout>(R.id.rl_file)
+
+            val fileName = rlFile.findViewById<Desk360IncomingAttachmentText>(R.id.tv_type)
+            val save = rlFile.findViewById<ImageView>(R.id.iv_download)
+
+            fileName.text = file.name
+
+            when (type) {
+
+                "Picture" -> { // if attachment has picture
+
+                    fileName.setCompoundDrawablesWithIntrinsicBounds(
+                        file.name.getFileIconResource(),
+                        0,
+                        0,
+                        0
+                    )
+
+                    rlVideo.visibility = View.GONE
+
+                    Picasso.get().load(file.url).placeholder(R.drawable.sent_message_layout_type4)
+                        .into(image)
+
+                    save.setOnClickListener {
+                        activity.verifyStoragePermissions()
+                        url?.let { downloadFile(file) }
+                    }
+                }
+
+                "Video" -> { // if attachment has video
+
+                    fileName.setCompoundDrawablesWithIntrinsicBounds(
+                        file.name.getFileIconResource(),
+                        0,
+                        0,
+                        0
+                    )
+
+                    image.visibility = View.GONE
+                    save.visibility = View.INVISIBLE
+
+                    video.setVideoURI(Uri.parse(file.url))
+
+                    video.setOnPreparedListener {
+                        video.seekTo(1)
+
+                        progressBar.visibility = View.GONE
+                        playButton.visibility = View.VISIBLE
+                        save.visibility = View.VISIBLE
+                    }
+
+                    video.setOnCompletionListener {
+                        playButton.visibility = View.VISIBLE
+                    }
+
+                    playButton.setOnClickListener {
+                        video.start()
+                        playButton.visibility = View.GONE
+                    }
+
+                    save.setOnClickListener {
+                        activity.verifyStoragePermissions()
+                        url?.let { downloadFile(file) }
+                    }
+                }
+
+                "File", "Other" -> {
+
+                    image.visibility = View.GONE
+                    rlVideo.visibility = View.GONE
+
+                    fileName.setCompoundDrawablesWithIntrinsicBounds(
+                        file.name.getFileIconResource(),
+                        0,
+                        0,
+                        0
+                    )
+
+                    save.setOnClickListener {
+                        activity.verifyStoragePermissions()
+                        url?.let { downloadFile(file) }
+                    }
+                }
+            }
+
+            return view
+        }
+
+    }
+
+    class SentAttachmentViewHolder(
+        val binding: Desk360SendAttachmentItemLayoutBinding,
+        private val url: String?,
+        private val downloadFile: (Desk360File) -> Unit
+    ) : AttachmentViewHolder(binding) {
+        override fun bind(message: Desk360Message) {
+
+            binding.llImages.removeAllViews()
+
+            binding.imageMessageSent.text = message.message
+
+            var height = 0
+
+            if (message.views == null) {
+                val views = mutableListOf<View>()
+                message.attachments?.let { attachments ->
+                    attachments.images.forEach {
+                        views.add(createAttachment(it, "Picture"))
+                        height += 237
+                    }
+                    attachments.videos.forEach {
+                        views.add(createAttachment(it, "Video"))
+                        height += 237
+                    }
+                    attachments.files.forEach {
+                        views.add(createAttachment(it, "File"))
+                        height += 37
+                    }
+                    attachments.others.forEach {
+                        views.add(createAttachment(it, "Other"))
+                        height += 37
+                    }
+                }
+
+                message.views = views
+            }
+
+            message.views?.forEach {
+                binding.llImages.addView(it)
+            }
+
+            binding.dateSend.text = message.created
+        }
+
+        private fun createAttachment(file: Desk360File, type: String): View {
+            binding.llImages.visibility = View.VISIBLE
+
+            val activity = binding.llImages.context as Activity
+
+            val inflater = LayoutInflater.from(binding.root.context)
+            val view = inflater.inflate(
+                R.layout.desk360_sent_attachment_message_item,
+                binding.root as? ViewGroup,
+                false
+            )
+
+            val image = view.findViewById<ImageView>(R.id.iv_image)
+            val rlVideo = view.findViewById<ConstraintLayout>(R.id.rl_video)
+
+            val video = rlVideo.findViewById<VideoView>(R.id.videoView)
+            val progressBar = rlVideo.findViewById<ProgressBar>(R.id.pb_vw_progressBar)
+            val playButton = rlVideo.findViewById<ImageView>(R.id.iv_video_play)
+
+            val rlFile = view.findViewById<RelativeLayout>(R.id.rl_file)
+
+            val fileName = rlFile.findViewById<Desk360SentAttachmentText>(R.id.tv_type)
+            val save = rlFile.findViewById<ImageView>(R.id.iv_download)
+
+            fileName.text = file.name
+
+            when (type) {
+
+                "Picture" -> { // if attachment has picture
+
+                    fileName.setCompoundDrawablesWithIntrinsicBounds(
+                        file.name.getFileIconResource(),
+                        0,
+                        0,
+                        0
+                    )
+
+                    rlVideo.visibility = View.GONE
+
+                    Picasso.get().load(file.url).placeholder(R.drawable.sent_message_layout_type4)
+                        .into(image)
+
+                    save.setOnClickListener {
+                        activity.verifyStoragePermissions()
+                        url?.let { downloadFile(file) }
+                    }
+                }
+
+                "Video" -> { // if attachment has video
+
+                    fileName.setCompoundDrawablesWithIntrinsicBounds(
+                        file.name.getFileIconResource(),
+                        0,
+                        0,
+                        0
+                    )
+
+                    image.visibility = View.GONE
+                    save.visibility = View.INVISIBLE
+
+                    video.setVideoURI(Uri.parse(file.url))
+
+                    video.setOnPreparedListener {
+                        video.seekTo(1)
+
+                        progressBar.visibility = View.GONE
+                        playButton.visibility = View.VISIBLE
+                        save.visibility = View.VISIBLE
+                    }
+
+                    video.setOnCompletionListener {
+                        playButton.visibility = View.VISIBLE
+                    }
+
+                    playButton.setOnClickListener {
+                        video.start()
+                        playButton.visibility = View.GONE
+                    }
+
+                    save.setOnClickListener {
+                        activity.verifyStoragePermissions()
+                        url?.let { downloadFile(file) }
+                    }
+                }
+
+                "File", "Other" -> {
+
+                    image.visibility = View.GONE
+                    rlVideo.visibility = View.GONE
+
+                    fileName.setCompoundDrawablesWithIntrinsicBounds(
+                        file.name.getFileIconResource(),
+                        0,
+                        0,
+                        0
+                    )
+
+                    save.setOnClickListener {
+                        activity.verifyStoragePermissions()
+                        url?.let { downloadFile(file) }
+                    }
+                }
+            }
+
+            return view
+        }
+
+    }
+
+    companion object {
+        const val INCOMING_MESSAGE = 0
+        const val INCOMING_ATTACHMENT = 2
+        const val SENT_MESSAGE = 1
+        const val SENT_ATTACHMENT = 3
+    }
 }

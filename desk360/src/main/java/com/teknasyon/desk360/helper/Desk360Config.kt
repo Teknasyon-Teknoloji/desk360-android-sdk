@@ -1,14 +1,14 @@
 package com.teknasyon.desk360.helper
 
 import android.content.Context
-import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 
 /**
  * Created by seyfullah on 14,June,2019
  *
  */
-open class Desk360Config {
+class Desk360Config {
     private lateinit var desk360Context: Context
+
     var context: Context
         get() {
             return desk360Context

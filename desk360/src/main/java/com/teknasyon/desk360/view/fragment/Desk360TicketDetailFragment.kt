@@ -1,13 +1,17 @@
 package com.teknasyon.desk360.view.fragment
 
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
+import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -16,33 +20,37 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.net.toUri
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.connection.HttpService
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketDetailBinding
 import com.teknasyon.desk360.helper.*
+import com.teknasyon.desk360.model.Desk360File
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360TicketResponse
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
+import com.teknasyon.desk360.view.activity.Desk360Activity
 import com.teknasyon.desk360.view.adapter.Desk360TicketDetailListAdapter
 import com.teknasyon.desk360.viewmodel.TicketDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
-import retrofit2.Retrofit
+import java.io.File
 import java.util.*
 
-open class Desk360TicketDetailFragment : Fragment() {
+class Desk360TicketDetailFragment : Fragment(),
+    Desk360BottomSheetDialogFragment.BottomSheetListener {
 
     private var binding: Desk360FragmentTicketDetailBinding? = null
-    private var ticketDetailAdapter: Desk360TicketDetailListAdapter? = null
     private val gradientDrawable = GradientDrawable()
     private var ticketId: Int? = null
     private var ticketStatus: String? = null
@@ -51,65 +59,56 @@ open class Desk360TicketDetailFragment : Fragment() {
     private val preferencesManager = PreferencesManager()
     private var cacheDesk360TicketResponse: Desk360TicketResponse? = null
 
-    private lateinit var desk360BaseActivity: Desk360BaseActivity
+    private lateinit var desk360Activity: Desk360Activity
 
-    private val retrofit = Retrofit.Builder().baseUrl("https://baseUrl").build()
-    private val fileDownloadService = retrofit.create(HttpService::class.java)
+    private val attachments: MutableList<File> = mutableListOf()
+
+    private val layoutManager by lazy {
+        LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+    }
+
+    private val adapter by lazy {
+        Desk360TicketDetailListAdapter { file ->
+            downloadFile(activity, file)
+            binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
+        }
+    }
 
     private var observer = Observer<Desk360TicketResponse> {
-
         binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
 
         if (it != null) {
-
             preferencesManager.writeObject(ticketId.toString(), it)
             cacheDesk360TicketResponse = preferencesManager.readObject(
                 ticketId.toString(),
                 Desk360TicketResponse::class.java
             )
 
-            ticketDetailAdapter = Desk360TicketDetailListAdapter(
-                { file ->
-                    viewModel?.downloadFile(
-                        Desk360Constants.downloadPath,
-                        fileDownloadService,
-                        file
-                    )
-                    binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
-                },
-                cacheDesk360TicketResponse!!.messages!!,
-                cacheDesk360TicketResponse!!.attachment_url,
-                context
+            setData(
+                cacheDesk360TicketResponse?.messages ?: listOf(),
+                cacheDesk360TicketResponse?.attachment_url
             )
-
-            val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-
-            binding?.messageDetailRecyclerView?.apply {
-                this.layoutManager = layoutManager
-                adapter = ticketDetailAdapter
-                scrollToPosition(cacheDesk360TicketResponse!!.messages?.size!! - 1)
-            }
         }
     }
 
     private var addMessageObserver = Observer<Desk360Message> {
-
         binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
 
         if (it != null) {
-
             cacheDesk360TicketResponse = preferencesManager.readObject(
                 ticketId.toString(),
                 Desk360TicketResponse::class.java
             )
-            val tickets = cacheDesk360TicketResponse!!.messages
-            tickets!![tickets.size - 1] = it
+            val tickets = cacheDesk360TicketResponse?.messages
+            tickets?.set(tickets.size - 1, it)
 
             preferencesManager.writeObject(ticketId.toString(), cacheDesk360TicketResponse!!)
 
-            Handler().postDelayed({ addTicketToCache(null) }, 300)
+            addTicketToCache(null)
 
             binding?.messageEditText?.setText("")
+            binding?.fileList?.children?.forEach { binding?.fileList?.removeView(it) }
+            attachments.clear()
         }
     }
 
@@ -118,7 +117,7 @@ open class Desk360TicketDetailFragment : Fragment() {
         if (it.isNotEmpty()) {
 
             binding?.loadingProgressTicketDetail?.visibility = View.GONE
-            ImageFilePath().refreshGallery(it, desk360BaseActivity)
+            ImageFilePath.refreshGallery(it, desk360Activity)
         }
     }
 
@@ -126,7 +125,11 @@ open class Desk360TicketDetailFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        desk360BaseActivity = context as Desk360BaseActivity
+        desk360Activity = context as Desk360Activity
+        context.registerReceiver(
+            downloadReceiver,
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+        )
     }
 
     override fun onCreateView(
@@ -142,7 +145,7 @@ open class Desk360TicketDetailFragment : Fragment() {
             false
         )
 
-        desk360BaseActivity.contactUsMainBottomBar.visibility = View.GONE
+        desk360Activity.contactUsMainBottomBar.visibility = View.GONE
 
         return binding?.root
     }
@@ -151,61 +154,44 @@ open class Desk360TicketDetailFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        desk360BaseActivity.contactUsMainBottomBar.visibility = View.GONE
-        desk360BaseActivity.changeMainUI()
+        desk360Activity.contactUsMainBottomBar.visibility = View.GONE
+        desk360Activity.changeMainUI()
 
         cacheDesk360TicketResponse =
             preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
 
-        cacheDesk360TicketResponse?.let {
-
-            cacheDesk360TicketResponse!!.messages?.let {
-
-                if (cacheDesk360TicketResponse!!.messages!!.isNotEmpty()) {
-                    binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
-                } else {
-                    binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
-                }
-
-                ticketDetailAdapter = Desk360TicketDetailListAdapter(
-                    {
-                        viewModel?.downloadFile(
-                            Desk360Constants.downloadPath,
-                            fileDownloadService,
-                            it
-                        )
-                        binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
-                    },
-                    cacheDesk360TicketResponse!!.messages!!,
-                    cacheDesk360TicketResponse!!.attachment_url,
-                    context
-                )
-
-                val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-
-                binding?.messageDetailRecyclerView?.apply {
-                    this.layoutManager = layoutManager
-                    adapter = ticketDetailAdapter
-                    scrollToPosition(cacheDesk360TicketResponse!!.messages?.size!! - 1)
-                }
+        cacheDesk360TicketResponse?.let { response ->
+            if (!response.messages.isNullOrEmpty()) {
+                binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
+            } else {
+                binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
             }
+
+            setData(response.messages ?: listOf(), response.attachment_url)
         } ?: run {
             binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
         }
 
+        binding?.messageDetailRecyclerView?.layoutManager = layoutManager
+        binding?.messageDetailRecyclerView?.adapter = adapter
+
         viewModel = ticketId?.let { TicketDetailViewModel(it) }
 
-        viewModel?.ticketDetailList?.observe(this, observer)
+        viewModel?.ticketDetailList?.observe(viewLifecycleOwner, observer)
 
-        viewModel?.addMessageItem?.observe(this, addMessageObserver)
+        viewModel?.addMessageItem?.observe(viewLifecycleOwner, addMessageObserver)
 
-        viewModel?.videoPath?.observe(this, videoPathObserver)
+        viewModel?.videoPath?.observe(viewLifecycleOwner, videoPathObserver)
 
-        Desk360CustomStyle.setStyle(
-            Desk360Constants.currentType?.data?.first_screen?.button_style_id,
-            binding!!.addNewTicketButton,
-            context!!
-        )
+        context?.let { context ->
+            binding?.addNewTicketButton?.let { button ->
+                Desk360CustomStyle.setStyle(
+                    Desk360Constants.currentType?.data?.first_screen?.button_style_id,
+                    button,
+                    context
+                )
+            }
+        }
 
         binding?.addNewMessageButton?.setOnClickListener {
 
@@ -224,7 +210,8 @@ open class Desk360TicketDetailFragment : Fragment() {
                     ticketId?.let { it1 ->
                         viewModel?.addMessage(
                             it1,
-                            binding?.messageEditText?.text.toString()
+                            binding?.messageEditText?.text.toString(),
+                            attachments
                         )
                     }
                 }
@@ -237,10 +224,14 @@ open class Desk360TicketDetailFragment : Fragment() {
             PorterDuff.Mode.SRC_ATOP
         )
 
-        DrawableCompat.setTint(
-            binding!!.messageEditText.background,
-            ContextCompat.getColor(context!!, R.color.colorHintDesk360)
-        )
+        context?.let { context ->
+            binding?.messageEditText?.background?.let { background ->
+                DrawableCompat.setTint(
+                    background,
+                    ContextCompat.getColor(context, R.color.colorHintDesk360)
+                )
+            }
+        }
 
         val states = ArrayCreator.createDoubleArray(1, 2)
         states[0][0] = android.R.attr.state_focused
@@ -272,6 +263,18 @@ open class Desk360TicketDetailFragment : Fragment() {
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
             PorterDuff.Mode.SRC_ATOP
         )
+
+        binding?.addAttachmentButton?.setImageResource(R.drawable.ic_attach)
+
+        binding?.addAttachmentButton?.setColorFilter(
+            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
+            PorterDuff.Mode.SRC_ATOP
+        )
+
+        binding?.addAttachmentButton?.setOnClickListener {
+            val bottomDialog = Desk360BottomSheetDialogFragment(this)
+            bottomDialog.show(parentFragmentManager, "bottomSheet")
+        }
 
         binding?.messageEditText?.addTextChangedListener(object : TextWatcher {
 
@@ -342,10 +345,15 @@ open class Desk360TicketDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (arguments != null) {
-            ticketId = arguments!!.getInt("ticket_id")
-            ticketStatus = arguments!!.getString("ticket_status")
+        arguments?.let {
+            ticketId = it.getInt("ticket_id")
+            ticketStatus = it.getString("ticket_status")
         }
+    }
+
+    override fun onDetach() {
+        activity?.unregisterReceiver(downloadReceiver)
+        super.onDetach()
     }
 
     override fun onDestroy() {
@@ -362,14 +370,9 @@ open class Desk360TicketDetailFragment : Fragment() {
     }
 
     private fun hideSoftKeyboard() {
-
-        activity?.let {
-            val view = activity!!.currentFocus
-            if (view != null) {
-                val imm =
-                    activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.windowToken, 0)
-            }
+        activity?.currentFocus?.let { view ->
+            val imm = view.context.getSystemService<InputMethodManager>()
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 
@@ -379,29 +382,105 @@ open class Desk360TicketDetailFragment : Fragment() {
             preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
 
         viewModel?.ticketDetailList?.value?.messages?.clear()
-        viewModel?.ticketDetailList?.value?.messages?.addAll(cacheDesk360TicketResponse!!.messages!!)
+        viewModel?.ticketDetailList?.value?.messages?.addAll(
+            cacheDesk360TicketResponse?.messages ?: listOf()
+        )
 
         desk360Message?.let {
-
             viewModel?.ticketDetailList?.value?.messages?.add(desk360Message)
             cacheDesk360TicketResponse?.messages?.add(desk360Message)
             preferencesManager.writeObject(ticketId.toString(), cacheDesk360TicketResponse!!)
         }
 
-        ticketDetailAdapter = Desk360TicketDetailListAdapter(
-            {
-                viewModel?.downloadFile(Desk360Constants.downloadPath, fileDownloadService, it)
-                binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
-            },
-            viewModel?.ticketDetailList?.value?.messages!!,
-            cacheDesk360TicketResponse!!.attachment_url,
-            context
+        setData(
+            viewModel?.ticketDetailList?.value?.messages ?: listOf(),
+            cacheDesk360TicketResponse?.attachment_url
         )
+    }
 
-        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        binding!!.messageDetailRecyclerView.layoutManager = layoutManager
-        binding!!.messageDetailRecyclerView.adapter = ticketDetailAdapter
+    private fun downloadFile(context: Context?, desk360File: Desk360File) {
+        val request = DownloadManager.Request(desk360File.url.toUri())
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, desk360File.name)
+        val manager = context?.getSystemService<DownloadManager>()
+        manager?.enqueue(request)
+    }
 
-        binding?.messageDetailRecyclerView?.scrollToPosition(cacheDesk360TicketResponse!!.messages!!.size - 1)
+    private fun setData(messages: List<Desk360Message>, url: String?) {
+        adapter.setData(messages, url)
+        binding?.messageDetailRecyclerView?.scrollToPosition(messages.size - 1)
+    }
+
+    private val downloadReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val referenceId = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            val manager = context?.getSystemService<DownloadManager>()
+            val uri = referenceId?.let { manager?.getUriForDownloadedFile(it) }
+            viewModel?.videoPath?.postValue(uri.toString())
+        }
+    }
+
+    override fun onButtonClicked(typeOfAttachment: FileType) {
+        when (typeOfAttachment) {
+            FileType.IMAGE -> {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+
+                intent.type = "image/png,image/jpg,image/jpeg,image/bmp,image/gif"
+                intent.putExtra(
+                    Intent.EXTRA_MIME_TYPES,
+                    arrayOf("image/png", "image/jpg", "image/jpeg", "image/bmp", "image/gif")
+                )
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+
+                startActivityForResult(intent, SELECT_IMAGE)
+            }
+            FileType.DOC -> {
+                val photoPickerIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                photoPickerIntent.type = "application/pdf"
+                startActivityForResult(photoPickerIntent, SELECT_DOC)
+            }
+            FileType.VIDEO -> {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+
+                intent.type = "video/mp4,video/mov,video/flv,video/avi"
+                intent.putExtra(
+                    Intent.EXTRA_MIME_TYPES,
+                    arrayOf("video/mp4", "video/mov", "video/flv", "video/avi")
+                )
+
+                startActivityForResult(intent, SELECT_VIDEO)
+            }
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode in arrayOf(SELECT_DOC, SELECT_IMAGE, SELECT_VIDEO)) {
+
+            val pathUri = data?.data ?: return
+            val context = this.context ?: return
+            val file = context.getFile(pathUri) ?: return
+            val fileName = context.getFileName(pathUri) ?: ""
+
+            val chip = Chip(context)
+            chip.text = fileName
+            chip.setChipIconResource(fileName.getFileIconResource())
+            chip.isCloseIconVisible = true
+
+            binding?.fileList?.addView(chip)
+            attachments.add(file)
+
+            chip.setOnCloseIconClickListener {
+                binding?.fileList?.removeView(chip)
+                attachments.remove(file)
+            }
+        }
+    }
+
+    companion object {
+        const val SELECT_IMAGE = 1221
+        const val SELECT_DOC = 1222
+        const val SELECT_VIDEO = 1223
     }
 }

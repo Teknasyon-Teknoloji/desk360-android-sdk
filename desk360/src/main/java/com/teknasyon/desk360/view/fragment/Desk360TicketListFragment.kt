@@ -16,15 +16,11 @@ import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayout
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
-import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.helper.Desk360CustomStyle
-import com.teknasyon.desk360.helper.PreferencesManager
-import com.teknasyon.desk360.helper.RxBus
+import com.teknasyon.desk360.helper.*
 import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360TicketResponse
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
+import com.teknasyon.desk360.view.activity.Desk360Activity
 import com.teknasyon.desk360.view.adapter.Desk360TicketPagerAdapter
-import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -34,7 +30,7 @@ import kotlinx.android.synthetic.main.desk360_fragment_ticket_list.*
 open class Desk360TicketListFragment : Fragment() {
 
     private lateinit var ticketListPagerAdapter: Desk360TicketPagerAdapter
-    private lateinit var desk360BaseActivity: Desk360BaseActivity
+    private lateinit var desk360Activity: Desk360Activity
     private var binding: Desk360FragmentTicketListBinding? = null
     private var disposable: Disposable? = null
 
@@ -42,7 +38,7 @@ open class Desk360TicketListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        desk360BaseActivity = context as Desk360BaseActivity
+        desk360Activity = context as Desk360Activity
     }
 
     override fun onCreateView(
@@ -55,10 +51,10 @@ open class Desk360TicketListFragment : Fragment() {
             binding = Desk360FragmentTicketListBinding.inflate(inflater, container, false)
         }
 
-        binding!!.ticketsTabs?.setupWithViewPager(binding?.viewPagerContainer)
+        binding?.ticketsTabs?.setupWithViewPager(binding?.viewPagerContainer)
         ticketListPagerAdapter = Desk360TicketPagerAdapter(childFragmentManager)
-        binding!!.viewPagerContainer.adapter = ticketListPagerAdapter
-        binding!!.txtBottomFooterMainTicketList?.movementMethod = ScrollingMovementMethod()
+        binding?.viewPagerContainer?.adapter = ticketListPagerAdapter
+        binding?.txtBottomFooterMainTicketList?.movementMethod = ScrollingMovementMethod()
 
         return binding?.root
     }
@@ -67,10 +63,9 @@ open class Desk360TicketListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         try {
-            desk360BaseActivity.changeMainUI()
+            desk360Activity.changeMainUI()
 
-            val call = GetTypesViewModel()
-            call.getTypes { isFetched ->
+            getTypes { isFetched ->
 
                 if (isFetched) {
                     isTypesFetched = true
@@ -79,22 +74,23 @@ open class Desk360TicketListFragment : Fragment() {
 
             binding?.emptysAddNewTicketButtonTicketList?.setOnClickListener {
 
-                desk360BaseActivity.addBtnClicked = true
+                desk360Activity.addBtnClicked = true
                 Handler().removeCallbacksAndMessages(null)
-                Handler().postDelayed({ desk360BaseActivity.addBtnClicked = false }, 800)
+                Handler().postDelayed({ desk360Activity.addBtnClicked = false }, 800)
 
                 Navigation
                     .findNavController(binding!!.root)
                     .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
             }
 
-            desk360BaseActivity.contactUsMainBottomBar.visibility = View.VISIBLE
+            desk360Activity.contactUsMainBottomBar.visibility = View.VISIBLE
 
             for (i in 0 until binding?.ticketsTabs?.tabCount!!) {
 
                 val tabItem = LayoutInflater.from(context).inflate(
                     R.layout.desk360_toolbar_title_text,
-                    null
+                    binding?.ticketsTabs,
+                    false
                 ) as TextView
 
                 tabItem.textSize =
@@ -187,9 +183,9 @@ open class Desk360TicketListFragment : Fragment() {
 
             } else {
 
-                if (!desk360BaseActivity.isMainLoadingShown) {
-                    desk360BaseActivity.isMainLoadingShown = true
-                    binding!!.loadingCurrentTicket?.visibility = View.VISIBLE
+                if (!desk360Activity.isMainLoadingShown) {
+                    desk360Activity.isMainLoadingShown = true
+                    binding?.loadingCurrentTicket?.visibility = View.VISIBLE
                 }
             }
 
@@ -243,27 +239,27 @@ open class Desk360TicketListFragment : Fragment() {
 
     private fun setViewFillLayout() {
 
-        desk360BaseActivity.toolbar_title.text =
+        desk360Activity.toolbar_title.text =
             Desk360Constants.currentType?.data?.ticket_list_screen?.title
 
-        binding!!.fillListLayout?.visibility = View.VISIBLE
-        binding!!.fragmentTicketListRoot?.visibility = View.VISIBLE
-        binding!!.loadingCurrentTicket?.visibility = View.INVISIBLE
-        binding!!.emptyListLayoutTicketList?.visibility = View.INVISIBLE
+        binding?.fillListLayout?.visibility = View.VISIBLE
+        binding?.fragmentTicketListRoot?.visibility = View.VISIBLE
+        binding?.loadingCurrentTicket?.visibility = View.INVISIBLE
+        binding?.emptyListLayoutTicketList?.visibility = View.INVISIBLE
     }
 
     private fun setViewEmptyLayout() {
 
-        desk360BaseActivity.toolbar_title.text =
+        desk360Activity.toolbar_title.text =
             Desk360Constants.currentType?.data?.first_screen?.title
 
-        binding!!.fillListLayout?.visibility = View.INVISIBLE
-        binding!!.fragmentTicketListRoot?.visibility = View.VISIBLE
-        binding!!.loadingCurrentTicket?.visibility = View.INVISIBLE
-        binding!!.emptyListLayoutTicketList?.visibility = View.VISIBLE
+        binding?.fillListLayout?.visibility = View.INVISIBLE
+        binding?.fragmentTicketListRoot?.visibility = View.VISIBLE
+        binding?.loadingCurrentTicket?.visibility = View.INVISIBLE
+        binding?.emptyListLayoutTicketList?.visibility = View.VISIBLE
 
         //Main BackGround Color
-        binding!!.txtBottomFooterMainTicketList.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
+        binding?.txtBottomFooterMainTicketList?.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
 
         setSubTitle()
 
@@ -277,67 +273,74 @@ open class Desk360TicketListFragment : Fragment() {
     private fun setFooter() {
 
         //Footer Text
-        binding!!.txtBottomFooterMainTicketList.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
-        binding!!.txtBottomFooterMainTicketList.textSize =
-            Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
+        binding?.txtBottomFooterMainTicketList?.let {
+            it.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
+            it.textSize =
+                Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
 
-        binding!!.txtBottomFooterMainTicketList.text =
-            Desk360Constants.currentType?.data?.first_screen?.bottom_note_text
-        if (!Desk360Constants.currentType?.data?.first_screen?.bottom_note_is_hidden!!) {
-            binding!!.txtBottomFooterMainTicketList.visibility = View.INVISIBLE
-        } else {
-            binding!!.txtBottomFooterMainTicketList.visibility = View.VISIBLE
+            it.text = Desk360Constants.currentType?.data?.first_screen?.bottom_note_text
+            if (Desk360Constants.currentType?.data?.first_screen?.bottom_note_is_hidden != true) {
+                it.visibility = View.INVISIBLE
+            } else {
+                it.visibility = View.VISIBLE
+            }
         }
     }
 
     private fun setButtonView() {
 
         //Button Title Text
-        binding!!.txtOpenMessageFormTicketList.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color))
-        binding!!.txtOpenMessageFormTicketList.textSize =
-            Desk360Constants.currentType?.data?.first_screen?.button_text_font_size!!.toFloat()
-        binding!!.txtOpenMessageFormTicketList.text = Desk360CustomStyle.setButtonText(
-            Desk360Constants.currentType?.data?.first_screen?.button_text!!.length,
-            Desk360Constants.currentType?.data?.first_screen?.button_text
-        )
+        binding?.txtOpenMessageFormTicketList?.let {
+            it.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color))
+            it.textSize =
+                Desk360Constants.currentType?.data?.first_screen?.button_text_font_size!!.toFloat()
+            it.text = Desk360CustomStyle.setButtonText(
+                Desk360Constants.currentType?.data?.first_screen?.button_text!!.length,
+                Desk360Constants.currentType?.data?.first_screen?.button_text
+            )
+        }
 
         //Button Image
         if (Desk360Constants.currentType?.data?.first_screen?.button_icon_is_hidden == true) {
-            binding!!.firstScreenButtonIcon.visibility = View.VISIBLE
+            binding?.firstScreenButtonIcon?.visibility = View.VISIBLE
         } else {
-            binding!!.firstScreenButtonIcon.visibility = View.INVISIBLE
+            binding?.firstScreenButtonIcon?.visibility = View.INVISIBLE
         }
     }
 
     private fun setDescriptionTitle() {
 
         //Description Title Text
-        binding!!.emptyListLayoutTicketListDesc.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.description_color))
-        binding!!.emptyListLayoutTicketListDesc.text =
-            Desk360Constants.currentType?.data?.first_screen?.description
-        binding!!.emptyListLayoutTicketListDesc.textSize =
-            Desk360Constants.currentType?.data?.first_screen?.description_font_size!!.toFloat()
+        binding?.emptyListLayoutTicketListDesc?.let {
+            it.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.description_color))
+            it.text = Desk360Constants.currentType?.data?.first_screen?.description
+            it.textSize =
+                Desk360Constants.currentType?.data?.first_screen?.description_font_size!!.toFloat()
+        }
     }
 
     private fun setSubTitle() {
-
         //Sub Title Text
-        binding!!.emptyListLayoutTicketListSubTitle.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.sub_title_color))
-        binding!!.emptyListLayoutTicketListSubTitle.text =
-            Desk360Constants.currentType?.data?.first_screen?.sub_title
-        binding!!.emptyListLayoutTicketListSubTitle.textSize =
-            Desk360Constants.currentType?.data?.first_screen?.sub_title_font_size!!.toFloat()
+        binding?.emptyListLayoutTicketListSubTitle?.let {
+            it.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.sub_title_color))
+            it.text =
+                Desk360Constants.currentType?.data?.first_screen?.sub_title
+            it.textSize =
+                Desk360Constants.currentType?.data?.first_screen?.sub_title_font_size!!.toFloat()
+        }
     }
 
     private fun setUnreadTicketSize(sizeUnread: Int) {
+        binding?.textTicketsCurrentCount?.let {
+            it.visibility = if (sizeUnread == 0)
+                View.INVISIBLE
+            else
+                View.VISIBLE
 
-        if (sizeUnread == 0) binding!!.textTicketsCurrentCount.visibility = View.INVISIBLE
-        else binding!!.textTicketsCurrentCount.visibility = View.VISIBLE
-
-        if (sizeUnread > 99) {
-            binding!!.textTicketsCurrentCount.text = "99+"
-        } else {
-            binding!!.textTicketsCurrentCount.text = "$sizeUnread"
+            it.text = if (sizeUnread > 99)
+                "99+"
+            else
+                "$sizeUnread"
         }
     }
 

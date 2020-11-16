@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.teknasyon.desk360.themev2.Desk360SentImageLayout
+            android:id="@+id/message_layout_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="8dp">
+
+            <com.teknasyon.desk360.themev2.Desk360SentAttachmentText
+                android:id="@+id/image_message_sent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:autoLink="web"
+                android:gravity="center_vertical"
+                android:paddingLeft="24dp"
+                android:paddingTop="8dp"
+                android:paddingRight="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="A paragraph of a support message paragraph of a support message" />
+
+            <LinearLayout
+                android:id="@+id/ll_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/image_message_sent" />
+
+
+            <ImageView
+                android:id="@+id/message_tick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:contentDescription="@null"
+                android:src="@drawable/cift"
+                android:tint="@color/double_tick_color"
+                app:layout_constraintTop_toBottomOf="@id/ll_images"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+            </ImageView>
+
+        </com.teknasyon.desk360.themev2.Desk360SentImageLayout>
+
+        <com.teknasyon.desk360.themev2.Desk360DetailTicketDateText
+            android:id="@+id/date_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_gravity="end|bottom"
+            tools:text="13.11.2018 10:00" />
+
+    </LinearLayout>
+
+</layout>

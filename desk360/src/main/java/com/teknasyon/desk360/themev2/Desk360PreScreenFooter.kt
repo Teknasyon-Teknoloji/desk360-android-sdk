@@ -4,15 +4,16 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360PreScreenFooter : TextView {
+class Desk360PreScreenFooter : AppCompatTextView {
 
 
     init {
         this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
-        this.textSize=Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
+        this.textSize =
+            Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
         this.text = Desk360Constants.currentType?.data?.create_pre_screen?.bottom_note_text
         if (!Desk360Constants.currentType?.data?.create_pre_screen?.bottom_note_is_hidden!!) {
             this.visibility = View.INVISIBLE

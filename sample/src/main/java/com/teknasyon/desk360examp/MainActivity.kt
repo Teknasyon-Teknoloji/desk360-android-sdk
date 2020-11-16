@@ -29,20 +29,15 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
 
         Desk360Config.instance.context = this
 
-
-        Desk360Constants.currentTheme = 1
-        val intent = Desk360Constants.initDesk360(
-            context = this,
-            token = "",
-            targetId = "",
+        Desk360Constants.configure(
             appVersion = BuildConfig.VERSION_NAME,
             deviceToken = "deskt36012",
-            appKey = BuildConfig.APP_KEY,
+            appKey = "NjuP7NKerJYj5aWPHIFf72OQpXfmSlXW",
             appLanguage = "tr",
             isTest = true
         )
 
-        startActivity(intent)
+        Desk360Constants.openDesk360(this)
     }
 
     private fun getObj(): JSONObject {

@@ -1,7 +1,6 @@
 package com.teknasyon.desk360.view.fragment
 
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +12,9 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 
-class Desk360BottomSheetDialogFragment(val listener: BottomSheetListener) :
-    BottomSheetDialogFragment() {
-
-    private var bottomSheetListener: BottomSheetListener? = null
+class Desk360BottomSheetDialogFragment(
+    private val listener: BottomSheetListener
+) : BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,49 +28,44 @@ class Desk360BottomSheetDialogFragment(val listener: BottomSheetListener) :
         val buttonImage = view.findViewById<TextView>(R.id.btnImageAttachment)
         val buttonPdf = view.findViewById<TextView>(R.id.btnPdfAttachment)
         val buttonVideo = view.findViewById<TextView>(R.id.btnvideoAttachment)
-        buttonImage.text =
-            Desk360Constants.currentType?.data?.general_settings?.attachment_images_text
-                ?: "Images"
-        buttonPdf.text =
-            Desk360Constants.currentType?.data?.general_settings?.attachment_browse_text
-                ?: "Document"
-        buttonVideo.text =
-            Desk360Constants.currentType?.data?.general_settings?.attachment_videos_text
-                ?: "Videos"
 
-        bottomSheetListener = listener
+        val generalSettings = Desk360Constants.currentType?.data?.general_settings
 
-        layout.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
-        buttonImage.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
-        buttonPdf.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
-        buttonVideo.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
+        buttonImage.text = generalSettings?.attachment_images_text ?: "Images"
+        buttonPdf.text = generalSettings?.attachment_browse_text ?: "Document"
+        buttonVideo.text = generalSettings?.attachment_videos_text ?: "Videos"
+
+        layout.setBackgroundColor(Color.parseColor(generalSettings?.main_background_color))
+        buttonImage.setTextColor(Color.parseColor(generalSettings?.header_text_color))
+        buttonPdf.setTextColor(Color.parseColor(generalSettings?.header_text_color))
+        buttonVideo.setTextColor(Color.parseColor(generalSettings?.header_text_color))
 
         Desk360CustomStyle.setFontWeight(buttonImage, context, 500)
         Desk360CustomStyle.setFontWeight(buttonPdf, context, 500)
         Desk360CustomStyle.setFontWeight(buttonVideo, context, 500)
 
         buttonImage.setOnClickListener {
-            bottomSheetListener?.onButtonClicked(0)
+            listener.onButtonClicked(FileType.IMAGE)
             dismiss()
         }
         buttonVideo.setOnClickListener {
-            bottomSheetListener?.onButtonClicked(1)
+            listener.onButtonClicked(FileType.VIDEO)
             dismiss()
         }
 
         buttonPdf.setOnClickListener {
-            bottomSheetListener?.onButtonClicked(2)
+            listener.onButtonClicked(FileType.DOC)
             dismiss()
-        }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            buttonPdf.visibility = View.GONE
         }
 
         return view
     }
 
     interface BottomSheetListener {
-        fun onButtonClicked(typeOfAttachment: Int)
+        fun onButtonClicked(typeOfAttachment: FileType)
     }
+}
+
+enum class FileType {
+    IMAGE, VIDEO, DOC
 }

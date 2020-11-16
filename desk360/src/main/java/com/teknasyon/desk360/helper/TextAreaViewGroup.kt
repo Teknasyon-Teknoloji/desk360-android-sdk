@@ -4,10 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.Spinner
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -43,9 +40,9 @@ class TextAreaViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
         holder.textAreaEditText?.setDesk360TextAreaStyle(style)
         holder.textAreaLayout?.setDesk360TextAreaStyle(style)
 
-        holder.textAreaEditText?.setOnFocusChangeListener { view, hasFocus ->
+        holder.textAreaEditText?.setOnFocusChangeListener { _, hasFocus ->
 
-            if (hasFocus || holder.textAreaEditText!!.text?.length ?: 0 > 0) {
+            if (hasFocus || holder.textAreaEditText?.text?.length ?: 0 > 0) {
                 holder.textAreaCardView?.setCardBackgroundColor(Color.parseColor(style.form_input_focus_background_color))
             } else {
                 holder.textAreaCardView?.setCardBackgroundColor(Color.parseColor(style.form_input_background_color))

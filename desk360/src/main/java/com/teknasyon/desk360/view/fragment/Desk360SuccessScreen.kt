@@ -1,12 +1,9 @@
 package com.teknasyon.desk360.view.fragment
 
-import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +14,8 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360SuccessScreenLayoutBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
+import com.teknasyon.desk360.helper.convertDpToPixel
+import com.teknasyon.desk360.view.activity.Desk360Activity
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
 
@@ -44,7 +42,7 @@ class Desk360SuccessScreen : Fragment() {
             Navigation.findNavController(activity!!,R.id.my_nav_host_fragment).navigate(R.id.action_thanksFragment_to_ticketListFragment)
         }
 
-        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.VISIBLE
+        (activity as Desk360Activity).contactUsMainBottomBar.visibility = View.VISIBLE
 
 
         Desk360CustomStyle.setFontWeight(
@@ -73,18 +71,14 @@ class Desk360SuccessScreen : Fragment() {
             context!!
         )
 
-        binding.imageReceived.layoutParams?.height = context?.let {
-            convertDpToPixel(
-                (Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
-                it
-            ).toInt()
-        }
-        binding.imageReceived.layoutParams?.width = context?.let {
-            convertDpToPixel(
-                (Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
-                it
-            ).toInt()
-        }
+        binding.imageReceived.layoutParams?.height = context?.convertDpToPixel(
+            Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size?.toFloat()!!
+        )?.toInt()
+
+        binding.imageReceived.layoutParams?.width = context?.convertDpToPixel(
+            Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size?.toFloat()!!
+        )?.toInt()
+
         binding.imageReceived.requestLayout()
 
         binding.imageReceived.setImageResource(R.drawable.received_message_image)
@@ -112,10 +106,5 @@ class Desk360SuccessScreen : Fragment() {
             binding.successScreenOpenMessageFormText.layoutParams = layoutParams
         }
     }
-
-    private fun convertDpToPixel(dp: Float, context: Context): Float {
-        return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
-    }
-
 
 }

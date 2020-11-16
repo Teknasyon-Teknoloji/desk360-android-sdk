@@ -4,33 +4,31 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
 
-class Desk360CommonFooterText : TextView {
+class Desk360CommonFooterText @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = android.R.attr.textViewStyle
+) : AppCompatTextView(context, attrs, defStyle) {
 
     init {
+        val generalSettings = Desk360Constants.currentType?.data?.general_settings
+        this.setTextColor(Color.parseColor(generalSettings?.bottom_note_color))
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
-        this.textSize=Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
+        generalSettings?.bottom_note_font_size?.toFloat()?.let {
+            this.textSize = it
+        }
 
-        this.text = Desk360Constants.currentType?.data?.first_screen?.bottom_note_text
-        if (!Desk360Constants.currentType?.data?.first_screen?.bottom_note_is_hidden!!) {
+        val firstScreen = Desk360Constants.currentType?.data?.first_screen
+        this.text = firstScreen?.bottom_note_text
+
+        if (firstScreen?.bottom_note_is_hidden != true) {
             this.visibility = View.INVISIBLE
         } else {
             this.visibility = View.VISIBLE
         }
     }
-
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
-        context,
-        attrs,
-        defStyle
-    )
 }

@@ -42,6 +42,7 @@
                     android:paddingLeft="24dp"
                     android:paddingTop="8dp"
                     android:paddingRight="24dp"
+                    android:autoLink="web"
                     android:paddingBottom="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

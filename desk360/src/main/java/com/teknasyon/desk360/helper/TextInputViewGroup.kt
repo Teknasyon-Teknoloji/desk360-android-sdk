@@ -69,8 +69,8 @@ class TextInputViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
         }
         holder.textInputLayout?.hint = hintText
 
-        holder.textInputEditText?.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus || holder.textInputEditText!!.text?.length ?: 0 > 0) {
+        holder.textInputEditText?.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus || holder.textInputEditText?.text?.length ?: 0 > 0) {
                 holder.cardView?.setCardBackgroundColor(Color.parseColor(style.form_input_focus_background_color))
             } else {
                 holder.cardView?.setCardBackgroundColor(Color.parseColor(style.form_input_background_color))

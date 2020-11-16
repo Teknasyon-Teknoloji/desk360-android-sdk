@@ -3,11 +3,11 @@ package com.teknasyon.desk360.themev2
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
 
-class Desk360MainTitle : TextView {
+class Desk360MainTitle : AppCompatTextView {
 
     init {
 

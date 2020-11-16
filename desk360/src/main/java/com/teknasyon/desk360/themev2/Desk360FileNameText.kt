@@ -5,34 +5,29 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
 
-class Desk360FileNameText : TextView {
+class Desk360FileNameText @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = android.R.attr.textViewStyle
+) : AppCompatTextView(context, attrs, defStyle) {
+
     init {
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_color))
+        val createScreen = Desk360Constants.currentType?.data?.create_screen
+        this.setTextColor(Color.parseColor(createScreen?.form_input_color))
 
-        val face = Typeface.createFromAsset(context?.assets, "Montserrat-Regular.ttf")
+        val face = Typeface.createFromAsset(context.assets, "Montserrat-Regular.ttf")
         this.typeface = face
 
-        if (Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!) {
-            this.visibility= View.VISIBLE
+        if (createScreen?.added_file_is_hidden == true) {
+            this.visibility = View.VISIBLE
         } else {
-            this.visibility= View.INVISIBLE
+            this.visibility = View.INVISIBLE
         }
 
     }
-
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
-        context,
-        attrs,
-        defStyle
-    )
 }

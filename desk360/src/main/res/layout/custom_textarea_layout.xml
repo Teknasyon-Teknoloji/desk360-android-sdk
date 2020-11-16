@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="4dp"
-    tools:context=".view.activity.Desk360BaseActivity">
+    tools:context=".view.activity.Desk360Activity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"

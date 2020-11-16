@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -15,6 +16,8 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
@@ -27,7 +30,7 @@ import com.teknasyon.desk360.model.Desk360TicketResponse
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
-open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
+class Desk360Activity : AppCompatActivity(), LifecycleOwner {
 
     private lateinit var register: MenuItem
 
@@ -38,7 +41,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     var notificationToken: String? = null
     var targetId: String? = null
-    var appId: String? = null
+    private val appId: String by lazy { applicationInfo.processName }
 
     private var currentScreenTicketList = true
     var addBtnClicked = false
@@ -53,14 +56,16 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         val bundle = intent.extras
 
         bundle?.let {
-
-            appId = bundle.getString("appId")
             targetId = bundle.getString("targetId")
             notificationToken = bundle.getString("token")
         }
 
-        binding = Desk360FragmentMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
+        val binding = DataBindingUtil.setContentView<Desk360FragmentMainBinding>(
+            this,
+            R.layout.desk360_fragment_main
+        )
+        this.binding = binding
+        setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
@@ -90,7 +95,6 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             )
 
             when (destination.id) {
-
                 R.id.preNewTicketFragment -> {
                     setMainTitle(
                         Desk360Constants.currentType?.data?.create_pre_screen?.title,
@@ -119,17 +123,17 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                     )
                     isTicketDetailFragment = false
                 }
-
-                else -> ""
             }
 
             if (destination.id == R.id.ticketListFragment || destination.id == R.id.preNewTicketFragment || destination.id == R.id.thanksFragment) {
-                toolbar.navigationIcon = resources.getDrawable(R.drawable.close_button_desk)
+                toolbar.navigationIcon =
+                    ContextCompat.getDrawable(this, R.drawable.close_button_desk)
             } else {
-                toolbar.navigationIcon = resources.getDrawable(R.drawable.back_btn_dark_theme)
+                toolbar.navigationIcon =
+                    ContextCompat.getDrawable(this, R.drawable.back_btn_dark_theme)
             }
 
-            toolbar.navigationIcon?.setColorFilter(
+            toolbar.navigationIcon?.colorFilter = PorterDuffColorFilter(
                 Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
                 PorterDuff.Mode.SRC_ATOP
             )
@@ -214,9 +218,9 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         register.isVisible = true
         register.isEnabled = true
-        register.icon = resources.getDrawable(R.drawable.add_new_message_icon_black)
+        register.icon = ContextCompat.getDrawable(this, R.drawable.add_new_message_icon_black)
 
-        register.icon?.setColorFilter(
+        register.icon?.colorFilter = PorterDuffColorFilter(
             Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
             PorterDuff.Mode.SRC_ATOP
         )
@@ -234,7 +238,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         }
         if (id == R.id.action_add_new_ticket) {
             addBtnClicked = true
-            Handler().removeCallbacksAndMessages(null);
+            Handler().removeCallbacksAndMessages(null)
             Handler().postDelayed({ addBtnClicked = false }, 800)
             findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(R.id.action_ticketListFragment_to_preNewTicketFragment)
             return true
@@ -266,7 +270,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         }
 
         if (runningActivities == 1) {
-            val intent = packageManager.getLaunchIntentForPackage(appId!!)
+            val intent = packageManager.getLaunchIntentForPackage(appId)
             startActivity(intent)
             finish()
         } else {

@@ -5,11 +5,11 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360MessageDetailImageReceiver : ImageView {
+class Desk360MessageDetailImageReceiver : AppCompatImageView {
 
 
     init {

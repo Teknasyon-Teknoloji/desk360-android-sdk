@@ -5,9 +5,9 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
-import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.convertDpToPixel
 
 class Desk360TicketDetailScreenButton : ConstraintLayout {
     private val gradientDrawable = GradientDrawable()
@@ -27,28 +27,25 @@ class Desk360TicketDetailScreenButton : ConstraintLayout {
 
         when (Desk360Constants.currentType?.data?.first_screen?.button_style_id) {
             1 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
+                gradientDrawable.cornerRadius = context.convertDpToPixel(28f)
             }
             2 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
+                gradientDrawable.cornerRadius = context.convertDpToPixel(10f)
             }
             3 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(2f, context)
+                gradientDrawable.cornerRadius = context.convertDpToPixel(2f)
             }
             4 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(0f, context)
+                gradientDrawable.cornerRadius = context.convertDpToPixel(0f)
             }
             else -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
+                gradientDrawable.cornerRadius = context.convertDpToPixel(28f)
             }
         }
 
         this.background = gradientDrawable
     }
 
-    private fun convertDpToPixel(dp: Float, context: Context): Float {
-        return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
-    }
 
     constructor(context: Context) : super(context)
 

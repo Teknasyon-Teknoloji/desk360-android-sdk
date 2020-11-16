@@ -1,6 +1,5 @@
 package com.teknasyon.desk360.view.fragment
 
-import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -8,10 +7,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
@@ -22,12 +21,13 @@ import com.teknasyon.desk360.helper.PreferencesManager
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360TicketResponse
-import com.teknasyon.desk360.view.activity.Desk360BaseActivity
+import com.teknasyon.desk360.view.activity.Desk360Activity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 
 
 class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.TicketOnClickListener {
@@ -41,13 +41,13 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
     private var viewModel: TicketListViewModel? = null
 
     private lateinit var binding: FragmentCurrentTicketListBinding
-    private lateinit var desk360BaseActivity: Desk360BaseActivity
+    private lateinit var desk360Activity: Desk360Activity
 
     private var isPushed: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        desk360BaseActivity = context as Desk360BaseActivity
+        desk360Activity = context as Desk360Activity
     }
 
     override fun selectTicket(item: Desk360TicketResponse, position: Int) {
@@ -85,7 +85,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        desk360BaseActivity.changeMainUI()
+        desk360Activity.changeMainUI()
 
         binding.swipeLayout.visibility = View.INVISIBLE
         binding.emptyLayoutCurrent.visibility = View.INVISIBLE
@@ -110,7 +110,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         binding.currentTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
 
-        viewModel = ViewModelProviders.of(activity!!).get(TicketListViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(TicketListViewModel::class.java)
 
         Desk360CustomStyle.setStyle(
             Desk360Constants.currentType?.data?.first_screen?.button_style_id,
@@ -146,7 +146,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
                 setViews()
 
-                desk360BaseActivity.targetId?.let {
+                desk360Activity.targetId?.let {
 
                     if (!isPushed) {
                         forcePushToTicketDetail()
@@ -170,22 +170,27 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
         val showLoading = cacheTickets.isEmpty()
 
-        if (!isRegistered) {
-            viewModel?.register(showLoading)
 
-        } else {
-            //swapTicketAdapter(preferencesManager)
-            viewModel?.getTicketList(showLoading)
+        lifecycleScope.launch {
+            if (!isRegistered) {
+                viewModel?.register(showLoading)
+
+            } else {
+                //swapTicketAdapter(preferencesManager)
+                viewModel?.getTicketList(showLoading)
+            }
         }
 
         ticketDisposable = RxBus.listen(String::class.java).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                if(it == "refreshTickets")
-                viewModel?.getTicketList(showLoading)
+                if (it == "refreshTickets")
+                    lifecycleScope.launch { viewModel?.getTicketList(showLoading) }
             }
 
-        binding.swipeLayout.setOnRefreshListener { viewModel?.getTicketList(showLoading) }
+        binding.swipeLayout.setOnRefreshListener {
+            lifecycleScope.launch { viewModel?.getTicketList(showLoading) }
+        }
     }
 
     override fun onDestroyView() {
@@ -212,7 +217,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
         for (item: Desk360TicketResponse in tickets) {
 
-            if (item.id.toString() == desk360BaseActivity.targetId) {
+            if (item.id.toString() == desk360Activity.targetId) {
 
                 val bundle = Bundle()
 
@@ -231,11 +236,9 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
     private fun setViews() {
 
-        viewModel?.let {
-            viewModel!!.progress!!.set(View.GONE)
-        }
+        viewModel?.progress?.set(View.GONE)
 
-        desk360BaseActivity.notifyToolBar(cacheTickets)
+        desk360Activity.notifyToolBar(cacheTickets)
 
         if (cacheTickets.isEmpty()) {
 

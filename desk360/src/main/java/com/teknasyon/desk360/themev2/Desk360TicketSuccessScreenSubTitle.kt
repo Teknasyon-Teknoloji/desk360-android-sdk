@@ -3,16 +3,18 @@ package com.teknasyon.desk360.themev2
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360TicketSuccessScreenSubTitle : TextView {
+class Desk360TicketSuccessScreenSubTitle : AppCompatTextView {
 
     init {
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.sub_title_color))
-        this.text = Desk360Constants.currentType?.data?.ticket_success_screen?.sub_title
+        val ticketSuccessScreen = Desk360Constants.currentType?.data?.ticket_success_screen
+
+        this.setTextColor(Color.parseColor(ticketSuccessScreen?.sub_title_color))
+        this.text = ticketSuccessScreen?.sub_title
         this.textSize =
-            Desk360Constants.currentType?.data?.ticket_success_screen?.sub_title_font_size!!.toFloat()
+            ticketSuccessScreen?.sub_title_font_size!!.toFloat()
     }
 
 
