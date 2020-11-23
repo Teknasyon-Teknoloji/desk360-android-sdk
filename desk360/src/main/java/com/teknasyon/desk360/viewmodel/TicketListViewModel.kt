@@ -8,6 +8,7 @@ import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Platform
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.Desk360Register
 import com.teknasyon.desk360.model.Desk360RegisterResponse
@@ -74,7 +75,8 @@ open class TicketListViewModel : ViewModel() {
         val register = Desk360Register()
         register.app_key = Desk360Constants.app_key
         register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId
-        register.app_platform = "Android"
+        register.app_platform =
+            if (Desk360Constants.platform == Platform.HUAWEI) "Huawei" else "Android"
         register.app_version = Desk360Constants.app_version
         register.language_code = Desk360Constants.language_code
         register.time_zone = Desk360Constants.time_zone

@@ -4,10 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.telephony.TelephonyManager
-import android.util.Log
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import com.teknasyon.desk360.view.activity.Desk360SplashActivity
-import com.teknasyon.desk360.view.fragment.Desk360CurrentTicketFragment
 import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import org.json.JSONObject
 import java.util.*
@@ -26,6 +24,8 @@ object Desk360Constants {
     var time_zone: String? = null
     var jsonObject: JSONObject? = null
     var baseURL: String? = null
+    var platform: Platform = Platform.GOOGLE
+
     var currentType: Desk360ConfigResponse? = null
         get() {
             field = Desk360Config.instance.getDesk360Preferences()?.types
@@ -114,7 +114,10 @@ object Desk360Constants {
         return true
     }
 
-    private fun checkType(desk360ConfigResponse: (status: Boolean) -> Unit, call: GetTypesViewModel) {
+    private fun checkType(
+        desk360ConfigResponse: (status: Boolean) -> Unit,
+        call: GetTypesViewModel
+    ) {
 
         val isTypeFetched = Desk360Config.instance.getDesk360Preferences()!!.isTypeFetched
 
@@ -135,8 +138,10 @@ object Desk360Constants {
         deviceToken: String,
         appKey: String,
         appLanguage: String,
-        isTest: Boolean
+        isTest: Boolean,
+        platform: Platform = Platform.GOOGLE
     ): Intent {
+        this.platform = platform
 
         val intent = Intent(context, Desk360SplashActivity::class.java)
 

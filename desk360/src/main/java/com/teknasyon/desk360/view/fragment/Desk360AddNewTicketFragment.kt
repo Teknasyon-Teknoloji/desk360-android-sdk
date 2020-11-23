@@ -25,9 +25,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -788,7 +786,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
             val typeId =
                 selectedTypeId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val source = "App".toRequestBody("text/plain".toMediaTypeOrNull())
-            val platform = "Android".toRequestBody("text/plain".toMediaTypeOrNull())
+            val platform =
+                (if (Desk360Constants.platform == Platform.HUAWEI) "Huawei" else "Android").toRequestBody(
+                    "text/plain".toMediaTypeOrNull()
+                )
             val settings = Desk360Constants.jsonObject.toString().toRequestBody(json)
             val countryCode =
                 Desk360Constants.countryCode().toUpperCase()

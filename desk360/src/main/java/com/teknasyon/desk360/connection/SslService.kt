@@ -13,6 +13,7 @@ import retrofit2.http.POST
  */
 interface SslService {
 
+    // TODO huawei
     @POST("api/v1/devices/register")
     fun register(@Body register: Desk360Register): Call<Desk360RegisterResponse>
 
