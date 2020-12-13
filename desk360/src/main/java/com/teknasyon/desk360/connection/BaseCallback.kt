@@ -29,40 +29,56 @@ abstract class BaseCallback<T> : Callback<T> {
                 try {
                     val jsonObject = JSONObject(response.errorBody()?.string())
 
-                    val errorCode: String =
-                        JSONObject(JSONObject(jsonObject.getString("meta")).getString("error")).getString("code")
+                    val error =
+                        JSONObject(JSONObject(jsonObject.getString("meta")).getString("error"))
 
-                    if (errorCode == "expired_at") {
-                        cloneRequest = call.clone()
-                        val register = Desk360Register()
-                        register.app_key = Desk360Constants.app_key
-                        register.device_id = Desk360Config.instance.getDesk360Preferences()?.adId
-                        register.app_platform =
+                    val errorCode: String = error.getString("code")
+
+                    when (errorCode) {
+                        "expired_at" -> {
+                            cloneRequest = call.clone()
+                            val register = Desk360Register()
+                            register.app_key = Desk360Constants.app_key
+                            register.device_id =
+                                Desk360Config.instance.getDesk360Preferences()?.adId
+                            register.app_platform =
                             if (Desk360Constants.platform == Platform.HUAWEI) "Huawei" else "Android"
-                        register.app_version = Desk360Constants.app_version
-                        register.language_code = Desk360Constants.language_code
-                        register.time_zone = Desk360Constants.time_zone
+                            register.app_version = Desk360Constants.app_version
+                            register.language_code = Desk360Constants.language_code
+                            register.time_zone = Desk360Constants.time_zone
 
-                        Desk360RetrofitFactory.instance.sslService.register(register)
-                            .enqueue(object : Callback<Desk360RegisterResponse> {
+                            Desk360RetrofitFactory.instance.sslService.register(register)
+                                .enqueue(object : Callback<Desk360RegisterResponse> {
 
-                                override fun onFailure(call: Call<Desk360RegisterResponse>, t: Throwable) {
-
-                                }
-
-                                override fun onResponse(callRegister: Call<Desk360RegisterResponse>, response: Response<Desk360RegisterResponse>) {
-
-                                    if (response.isSuccessful && response.body() != null) {
-
-                                        Desk360Config.instance.getDesk360Preferences()?.data = response.body()!!.data
-                                        Desk360Config.instance.getDesk360Preferences()?.meta = response.body()!!.meta
-
-                                        cloneRequest?.enqueue(this@BaseCallback)
+                                    override fun onFailure(
+                                        call: Call<Desk360RegisterResponse>,
+                                        t: Throwable
+                                    ) {
 
                                     }
-                                }
 
-                            })
+                                    override fun onResponse(
+                                        callRegister: Call<Desk360RegisterResponse>,
+                                        response: Response<Desk360RegisterResponse>
+                                    ) {
+
+                                        if (response.isSuccessful && response.body() != null) {
+
+                                            Desk360Config.instance.getDesk360Preferences()?.data =
+                                                response.body()!!.data
+                                            Desk360Config.instance.getDesk360Preferences()?.meta =
+                                                response.body()!!.meta
+
+                                            cloneRequest?.enqueue(this@BaseCallback)
+
+                                        }
+                                    }
+
+                                })
+                        }
+                        "required_field" -> {
+                            onError(errorCode, error.getString("message"))
+                        }
                     }
 
                     return
@@ -77,6 +93,10 @@ abstract class BaseCallback<T> : Callback<T> {
             onResponseSuccess(call, response)
 
         }
+    }
+
+    open fun onError(code: String, message: String) {
+
     }
 
     abstract fun onResponseSuccess(call: Call<T>, response: Response<T>)

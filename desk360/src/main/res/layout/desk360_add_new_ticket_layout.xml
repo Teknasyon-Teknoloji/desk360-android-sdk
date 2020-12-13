@@ -27,9 +27,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
                 android:id="@+id/textPathCreateTicketScreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="4dp"
+                android:paddingStart="8dp"
                 android:paddingLeft="8dp"
                 android:paddingTop="16dp"
                 android:paddingEnd="16dp"
@@ -108,10 +108,44 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/fileNameIcon"
                 app:layout_constraintTop_toBottomOf="@+id/create_screen_root_view"
-                tools:text="sabir..jpg" />
+                tools:text="sabir.jpg" />
+
+
+            <LinearLayout
+                android:id="@+id/form_confirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@id/create_ticket_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/file_name_text_create_ticket_screen">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        android:id="@+id/form_confirm_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/form_confirm_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#2d2d2d"
+                    android:textColorLink="#2d2d2d"
+                    tools:text="asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad asdsad " />
+            </LinearLayout>
+
 
             <com.teknasyon.desk360.themev2.Desk360CreateScreenButton
-
                 android:id="@+id/create_ticket_button"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -122,13 +156,12 @@
                 app:layout_constraintBottom_toTopOf="@+id/text_footer_create_ticket_screen"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/file_name_text_create_ticket_screen"
+                app:layout_constraintTop_toBottomOf="@+id/form_confirm"
                 app:layout_constraintVertical_bias="0.7"
                 tools:text="Gönder">
 
 
                 <com.teknasyon.desk360.themev2.Desk360CreateScreenButtonText
-
                     android:id="@+id/create_screen_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

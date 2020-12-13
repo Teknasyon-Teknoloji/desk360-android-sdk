@@ -30,15 +30,15 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
 
         Desk360Constants.currentTheme = 1
         val intent = Desk360Constants.initDesk360(
-            this,
-            "",
-            "",
-            BuildConfig.VERSION_NAME,
-            "deskt36012",
-            BuildConfig.APP_KEY,
-            "tr",
-            true,
-            Platform.GOOGLE
+            context = this,
+            token = "",
+            targetId = "",
+            appVersion = BuildConfig.VERSION_NAME,
+            deviceToken = "deskt36012",
+            appKey = BuildConfig.APP_KEY,
+            isTest = true,
+            appLanguage = "tr",
+            platform = Platform.GOOGLE
         )
 
         startActivity(intent)

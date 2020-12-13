@@ -16,6 +16,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.util.Patterns
 import android.view.*
@@ -25,7 +26,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.text.HtmlCompat
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -86,6 +89,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var customSelectBoxViewList: ArrayList<SelectBoxViewGroup> = arrayListOf()
     private var customTextAreaViewList: ArrayList<TextAreaViewGroup> = arrayListOf()
     private var myAdapter: Desk360SupportTypeAdapter? = null
+
     //Validate variables
     private var nameData: String? = null
     private var emailData: String? = null
@@ -192,6 +196,15 @@ open class Desk360AddNewTicketFragment : Fragment(),
         typeList = Desk360Config.instance.getDesk360Preferences()?.types!!.data.create_screen.types
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
 
+        viewModel?.error?.observe(this, Observer<String> { t ->
+            if (t != null) {
+                Toast.makeText(view.context, t, Toast.LENGTH_LONG).show()
+                viewModel?.error?.value = null
+                binding.loadingProgress.visibility = View.GONE
+                activity.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            }
+        })
+
         listOfType.clear()
 
         listOfType.add("")
@@ -208,9 +221,83 @@ open class Desk360AddNewTicketFragment : Fragment(),
             )
         }
 
-        binding.createTicketButton?.setOnClickListener {
+        binding.createTicketButton.setOnClickListener {
             binding.createTicketButton.isClickable = false
             validateAllField()
+        }
+
+        val createScreen = Desk360Constants.currentType?.data?.create_screen
+
+        binding.formConfirm.visibility = if (createScreen?.form_confirm_is_hidden == true)
+            View.VISIBLE
+        else
+            View.GONE
+
+        binding.formConfirmText.text = if (createScreen?.form_confirm_link.isNullOrBlank())
+            createScreen?.form_confirm_text
+        else if (createScreen?.form_confirm_link?.startsWith("http://") == true || createScreen?.form_confirm_link?.startsWith(
+                "https://"
+            ) == true
+        )
+            HtmlCompat.fromHtml(
+                """<a href="${createScreen.form_confirm_link}">${createScreen.form_confirm_text}</a>""",
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            )
+        else
+            HtmlCompat.fromHtml(
+                """<a href="http://${createScreen?.form_confirm_link}">${createScreen?.form_confirm_text}</a>""",
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            )
+
+        binding.formConfirmText.movementMethod = LinkMovementMethod.getInstance()
+        createScreen?.button_background_color?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.formConfirmCheckbox.buttonTintList =
+                    ColorStateList.valueOf(Color.parseColor(it))
+            }
+        }
+
+        binding.formConfirmCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            binding.createTicketButton.isEnabled = isChecked
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (!isChecked) {
+                    binding.createTicketButton.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                    binding.createTicketButton.backgroundTintList =
+                        ColorStateList.valueOf(Color.LTGRAY)
+
+                    binding.createScreenButtonIcon.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                    binding.createScreenButtonIcon.backgroundTintList =
+                        ColorStateList.valueOf(Color.LTGRAY)
+
+                    binding.createScreenButtonText.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                    binding.createScreenButtonText.backgroundTintList =
+                        ColorStateList.valueOf(Color.LTGRAY)
+                } else {
+                    binding.createTicketButton.backgroundTintList = null
+                    binding.createScreenButtonIcon.backgroundTintList = null
+                    binding.createScreenButtonText.backgroundTintList = null
+                }
+
+            }
+        }
+
+        if (binding.formConfirm.visibility == View.VISIBLE) {
+            binding.createTicketButton.isEnabled = false
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                binding.createTicketButton.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                binding.createTicketButton.backgroundTintList =
+                    ColorStateList.valueOf(Color.LTGRAY)
+
+                binding.createScreenButtonIcon.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                binding.createScreenButtonIcon.backgroundTintList =
+                    ColorStateList.valueOf(Color.LTGRAY)
+
+                binding.createScreenButtonText.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                binding.createScreenButtonText.backgroundTintList =
+                    ColorStateList.valueOf(Color.LTGRAY)
+            }
         }
 
         binding.fileNameIcon.setOnClickListener {
@@ -476,10 +563,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
         Desk360CustomStyle.setFontWeight(
             binding.createScreenButtonText,
             context,
-            Desk360Constants.currentType?.data?.create_screen?.button_text_font_weight
+            createScreen?.button_text_font_weight
         )
         Desk360CustomStyle.setStyle(
-            Desk360Constants.currentType?.data?.create_screen?.button_style_id,
+            createScreen?.button_style_id,
             binding.createTicketButton,
             context!!
         )
@@ -489,18 +576,18 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         binding.pathIconn.setImageResource(R.drawable.path_icon_desk360)
         binding.pathIconn.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.label_text_color),
+            Color.parseColor(createScreen?.label_text_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
 
         binding.fileNameIcon.setBackgroundResource(R.drawable.document_cancel_icon)
         binding.fileNameIcon.background.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_color),
+            Color.parseColor(createScreen?.form_input_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
-        if (Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!) {
+        if (createScreen?.added_file_is_hidden!!) {
             binding.pathIconn.visibility = View.VISIBLE
         } else {
             binding.pathIconn.visibility = View.INVISIBLE
@@ -508,7 +595,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         binding.createScreenButtonIcon.setImageResource(R.drawable.zarf)
         binding.createScreenButtonIcon.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.button_text_color),
+            Color.parseColor(createScreen.button_text_color),
             PorterDuff.Mode.SRC_ATOP
         )
         Desk360CustomStyle.setFontWeight(
@@ -534,7 +621,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         Handler().postDelayed({
             activity.setMainTitle(
-                Desk360Constants.currentType?.data?.create_screen?.title,
+                createScreen.title,
                 activity.binding?.toolbarTitle
             )
         }, 35)
@@ -809,6 +896,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
             if (!activity.notificationToken.isNullOrBlank()) {
                 params["push_token"] = notificationToken
+            }
+
+            if (Desk360Constants.currentType?.data?.create_screen?.form_confirm_is_hidden == true) {
+                params["confirm"] = (if (binding.formConfirmCheckbox.isChecked) "1" else "0")
+                    .toRequestBody("text/plain".toMediaTypeOrNull())
             }
 
             binding.loadingProgress.visibility = View.VISIBLE
