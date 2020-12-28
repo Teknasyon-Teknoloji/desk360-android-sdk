@@ -17,7 +17,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 6
-        versionName "0.6.32"
+        versionName "0.6.23-huawei"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -116,7 +116,7 @@ publishing {
     publications {
         pom(MavenPublication) {
             groupId "com.github.Teknasyon-Teknoloji"
-            version "0.6.22-huawei"
+            version "0.6.23-huawei"
             artifactId "desk360-android-sdk"
             artifact("$buildDir/outputs/aar/desk360-release.aar")
             artifact(sourceJar)
