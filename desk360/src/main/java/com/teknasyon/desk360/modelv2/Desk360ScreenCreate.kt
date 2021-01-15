@@ -32,6 +32,9 @@ class Desk360ScreenCreate {
     var form_input_focus_border_color = "#000000"
     var form_input_place_holder_color = "#a6a6a8"
     var form_input_focus_background_color = "#F7F7F7"
-    val types: ArrayList<Desk360Type>? = null
+    var types: ArrayList<Desk360Type>? = null
+    var form_confirm_is_hidden: Boolean? = false
+    var form_confirm_text: String? = null
+    var form_confirm_link: String? = null
 }
 
