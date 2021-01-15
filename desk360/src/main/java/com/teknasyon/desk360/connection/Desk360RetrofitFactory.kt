@@ -19,7 +19,7 @@ class Desk360RetrofitFactory private constructor() {
     init {
         val logging = HttpLoggingInterceptor()
 
-        logging.level = HttpLoggingInterceptor.Level.BODY
+        logging.level = HttpLoggingInterceptor.Level.NONE
 
         val timeoutInterval = 60
         val httpClientWithHeader = OkHttpClient.Builder()

@@ -53,9 +53,9 @@
             android:id="@+id/contactUsMainBottomBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorDesk360Transparent"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/colorDesk360Transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints">
@@ -66,9 +66,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/desk360bottomlogo"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
             </ImageView>

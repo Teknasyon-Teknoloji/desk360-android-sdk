@@ -24,9 +24,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.connection.HttpService
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketDetailBinding
 import com.teknasyon.desk360.helper.*
+import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
@@ -36,7 +36,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
-import retrofit2.Retrofit
 import java.util.*
 
 open class Desk360TicketDetailFragment : Fragment() {
@@ -53,9 +52,6 @@ open class Desk360TicketDetailFragment : Fragment() {
 
     private lateinit var desk360BaseActivity: Desk360BaseActivity
 
-    private val retrofit = Retrofit.Builder().baseUrl("https://baseUrl").build()
-    private val fileDownloadService = retrofit.create(HttpService::class.java)
-
     private var observer = Observer<Desk360TicketResponse> {
 
         binding?.loadingProgressTicketDetail?.visibility = View.INVISIBLE
@@ -69,14 +65,6 @@ open class Desk360TicketDetailFragment : Fragment() {
             )
 
             ticketDetailAdapter = Desk360TicketDetailListAdapter(
-                { file ->
-                    viewModel?.downloadFile(
-                        Desk360Constants.downloadPath,
-                        fileDownloadService,
-                        file
-                    )
-                    binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
-                },
                 cacheDesk360TicketResponse!!.messages!!,
                 cacheDesk360TicketResponse!!.attachment_url,
                 context
@@ -110,15 +98,6 @@ open class Desk360TicketDetailFragment : Fragment() {
             Handler().postDelayed({ addTicketToCache(null) }, 300)
 
             binding?.messageEditText?.setText("")
-        }
-    }
-
-    private var videoPathObserver = Observer<String> {
-
-        if (it.isNotEmpty()) {
-
-            binding?.loadingProgressTicketDetail?.visibility = View.GONE
-            ImageFilePath().refreshGallery(it, desk360BaseActivity)
         }
     }
 
@@ -168,14 +147,6 @@ open class Desk360TicketDetailFragment : Fragment() {
                 }
 
                 ticketDetailAdapter = Desk360TicketDetailListAdapter(
-                    {
-                        viewModel?.downloadFile(
-                            Desk360Constants.downloadPath,
-                            fileDownloadService,
-                            it
-                        )
-                        binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
-                    },
                     cacheDesk360TicketResponse!!.messages!!,
                     cacheDesk360TicketResponse!!.attachment_url,
                     context
@@ -198,8 +169,6 @@ open class Desk360TicketDetailFragment : Fragment() {
         viewModel?.ticketDetailList?.observe(this, observer)
 
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
-
-        viewModel?.videoPath?.observe(this, videoPathObserver)
 
         Desk360CustomStyle.setStyle(
             Desk360Constants.currentType?.data?.first_screen?.button_style_id,
@@ -305,7 +274,6 @@ open class Desk360TicketDetailFragment : Fragment() {
                 .findNavController(it)
                 .navigate(R.id.action_ticketDetailFragment_to_addNewTicketFragment, null)
         }
-
         expireControl()
     }
 
@@ -353,11 +321,8 @@ open class Desk360TicketDetailFragment : Fragment() {
 
         viewModel?.ticketDetailList?.removeObserver(observer)
         viewModel?.addMessageItem?.removeObserver(addMessageObserver)
-        viewModel?.videoPath?.removeObserver(videoPathObserver)
-
         if (backButtonAction?.isDisposed == false)
             backButtonAction?.dispose()
-
         hideSoftKeyboard()
     }
 
@@ -389,10 +354,6 @@ open class Desk360TicketDetailFragment : Fragment() {
         }
 
         ticketDetailAdapter = Desk360TicketDetailListAdapter(
-            {
-                viewModel?.downloadFile(Desk360Constants.downloadPath, fileDownloadService, it)
-                binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
-            },
             viewModel?.ticketDetailList?.value?.messages!!,
             cacheDesk360TicketResponse!!.attachment_url,
             context

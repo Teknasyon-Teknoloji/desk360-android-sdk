@@ -1,14 +1,13 @@
 package com.teknasyon.desk360.view.fragment
 
-import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,23 +15,17 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentCurrentTicketListBinding
-import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.PreferencesManager
-import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360TicketListAdapter
 import com.teknasyon.desk360.viewmodel.TicketListViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-
 
 class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.TicketOnClickListener {
 
-    private lateinit var ticketDisposable: Disposable
     private var ticketAdapter: Desk360TicketListAdapter? = null
 
     private var cacheTickets: ArrayList<Desk360TicketResponse> = arrayListOf()
@@ -87,7 +80,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
         desk360BaseActivity.changeMainUI()
 
-        binding.swipeLayout.visibility = View.INVISIBLE
+        binding.currentTicketList.visibility = View.INVISIBLE
         binding.emptyLayoutCurrent.visibility = View.INVISIBLE
 
         val preferencesManager = PreferencesManager()
@@ -134,8 +127,6 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
         viewModel?.ticketList?.observe(viewLifecycleOwner, Observer {
 
-            binding.swipeLayout.isRefreshing = false
-
             it?.let {
 
                 this.tickets.clear()
@@ -170,6 +161,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
         val showLoading = cacheTickets.isEmpty()
 
+
         if (!isRegistered) {
             viewModel?.register(showLoading)
 
@@ -177,20 +169,6 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
             //swapTicketAdapter(preferencesManager)
             viewModel?.getTicketList(showLoading)
         }
-
-        ticketDisposable = RxBus.listen(String::class.java).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                if(it == "refreshTickets")
-                viewModel?.getTicketList(showLoading)
-            }
-
-        binding.swipeLayout.setOnRefreshListener { viewModel?.getTicketList(showLoading) }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        ticketDisposable.dispose()
     }
 
     private fun swapTicketAdapter(preferencesManager: PreferencesManager) {
@@ -239,12 +217,12 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
 
         if (cacheTickets.isEmpty()) {
 
-            binding.swipeLayout.visibility = View.INVISIBLE
+            binding.currentTicketList.visibility = View.INVISIBLE
             binding.emptyLayoutCurrent.visibility = View.VISIBLE
 
         } else {
 
-            binding.swipeLayout.visibility = View.VISIBLE
+            binding.currentTicketList.visibility = View.VISIBLE
             binding.emptyLayoutCurrent.visibility = View.INVISIBLE
         }
     }

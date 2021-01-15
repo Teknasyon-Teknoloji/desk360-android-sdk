@@ -45,7 +45,7 @@ class Desk360TicketListAdapter(
                     )
                     ticket_subject.setTypeface(null, Typeface.BOLD)
                 }
-                "read", "open" -> {
+                "read" -> {
                     ticket_subject.setTypeface(null, Typeface.NORMAL)
                     message_status.setBackgroundResource(R.drawable.message_icon_read)
                     message_status.background?.setColorFilter(
@@ -54,7 +54,7 @@ class Desk360TicketListAdapter(
                     )
                 }
                 else -> {
-                    message_status.visibility = View.INVISIBLE
+                    message_status.visibility=View.INVISIBLE
                 }
             }
 

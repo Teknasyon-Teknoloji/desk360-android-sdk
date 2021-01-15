@@ -23,15 +23,4 @@
         <item name="colorControlNormal">@color/white</item>
     </style>
 
-    <style name="customToolbar" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:minWidth">0dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:paddingLeft">6dp</item>
-        <item name="android:paddingStart">6dp</item>
-        <item name="android:paddingEnd">6dp</item>
-        <item name="android:paddingRight">6dp</item>
-        <item name="android:scaleType">centerInside</item>
-    </style>
-
 </resources>

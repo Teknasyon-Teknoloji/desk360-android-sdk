@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.TextView
 import com.teknasyon.desk360.helper.Desk360Constants
 
-class Desk360CreateScreenUpluoadText : androidx.appcompat.widget.AppCompatTextView {
+class Desk360CreateScreenUpluoadText : TextView {
 
 
     init {

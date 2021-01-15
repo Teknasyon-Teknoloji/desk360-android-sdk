@@ -46,7 +46,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/message_small_image_incoming"
-                    tools:text="A paragraph of a support messageparagraph of a support message" />
+                    tools:text="A paragraph of a support message
+paragraph of a support message" />
 
                 <com.teknasyon.desk360.themev2.Desk360MessageDetailImageReceiver
                     android:id="@+id/message_small_image_incoming"

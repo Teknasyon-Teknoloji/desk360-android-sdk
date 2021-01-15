@@ -88,7 +88,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var customSelectBoxViewList: ArrayList<SelectBoxViewGroup> = arrayListOf()
     private var customTextAreaViewList: ArrayList<TextAreaViewGroup> = arrayListOf()
     private var myAdapter: Desk360SupportTypeAdapter? = null
-
     //Validate variables
     private var nameData: String? = null
     private var emailData: String? = null
@@ -147,11 +146,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var observerAddedTicket = Observer<Desk360TicketResponse> {
 
         if (it != null) {
-
-            if (nameData != null && emailData != null) {
-                preferencesManager.writeObject("userName", nameData!!)
-                preferencesManager.writeObject("userMail", emailData!!)
-            }
 
             //activity.isNewTicketAdded = true
             //addTicketToCache(it)
@@ -429,7 +423,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
                         optionsList.run {
                             this[position].let { it1 ->
-                                val customSelectboxId = it1.value.toString()
+                                val customSelectboxId = it1.order.toString()
                                     .toRequestBody("text/plain".toMediaTypeOrNull())
 
                                 params[customSelectBoxField[i].name.toString()] =
@@ -546,17 +540,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 activity.binding?.toolbarTitle
             )
         }, 35)
-
-        val cacheName = preferencesManager.readObject("userName",String::class.java)
-        val cacheMail = preferencesManager.readObject("userMail",String::class.java)
-
-        cacheName?.let {
-            nameField?.holder?.textInputEditText?.setText(cacheName)
-        }
-
-        cacheMail?.let {
-            eMailField?.holder?.textInputEditText?.setText(cacheMail)
-        }
     }
 
 
@@ -582,28 +565,24 @@ open class Desk360AddNewTicketFragment : Fragment(),
                             )?.name?.replace(" ", "")
                         )
                         try {
-                            val inputStream = DocumentFile.fromSingleUri(
-                                activity,
-                                pathUri
-                            )?.uri?.let {
-                                context!!.contentResolver.openInputStream(
-                                    it
-                                )
-                            }
+                            val inputStream = context!!.contentResolver.openInputStream(
+                                DocumentFile.fromSingleUri(
+                                    activity,
+                                    pathUri
+                                )?.uri
+                            )
                             val outputStream = FileOutputStream(cachFile)
                             var read = 0
                             val maxBufferSize = 1 * 1024 * 1024
-                            val bytesAvailable = inputStream?.available()
+                            val bytesAvailable = inputStream.available()
                             //int bufferSize = 1024;
-                            val bufferSize = bytesAvailable?.let { Math.min(it, maxBufferSize) }
-                            val buffers = bufferSize?.let { ByteArray(it) }
-                            if (inputStream != null) {
-                                while (inputStream.read(buffers).also { read = it } != -1) {
-                                    outputStream.write(buffers, 0, read)
-                                }
+                            val bufferSize = Math.min(bytesAvailable, maxBufferSize)
+                            val buffers = ByteArray(bufferSize)
+                            while (inputStream.read(buffers).also { read = it } != -1) {
+                                outputStream.write(buffers, 0, read)
                             }
 //                            Log.e("File Size", "Size " + cachFile.length())
-                            inputStream?.close()
+                            inputStream.close()
                             outputStream.close()
 //                            Log.e("File Path", "Path " + cachFile.path)
                         } catch (e: Exception) {
@@ -712,7 +691,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         nameFieldFill = when {
 
-            s.isEmpty() || s.length < 3 -> {
+            s.isEmpty() -> {
                 nameField?.holder?.textInputLayout?.error =
                     Desk360Constants.currentType?.data?.general_settings?.required_field_message
                         ?: "Lütfen İsim Alanını Doldurunuz"
@@ -759,7 +738,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
         messageData = s.toString().trim()
         messageLength = messageData!!.length
         messageFieldFill = when {
-
             s.isEmpty() -> {
                 messageField?.holder?.textAreaLayout?.error =
                     Desk360Constants.currentType?.data?.general_settings?.required_textarea_message
@@ -767,7 +745,13 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = true
                 false
             }
-
+            s.length < 3 -> {
+                messageField?.holder?.textAreaLayout?.error =
+                    Desk360Constants.currentType?.data?.general_settings?.required_textarea_message
+                        ?: "Mesaj Alanını Doldurunuz."
+                messageField?.holder?.textAreaLayout?.isErrorEnabled = true
+                false
+            }
             else -> {
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = false
                 messageField?.holder?.textAreaLayout?.error = null
@@ -781,9 +765,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
     private fun validateAllField() {
-
-        if (nameFieldFill && emailFieldFill && messageLength > 0 && selectedItem && messageFieldFill) {
-
+        if (nameFieldFill && emailFieldFill && messageLength > 0 && selectedItem) {
             for (i in 0 until customInputViewList.size) {
                 val customInputData =
                     customInputViewList[i].holder.textInputEditText?.text.toString()

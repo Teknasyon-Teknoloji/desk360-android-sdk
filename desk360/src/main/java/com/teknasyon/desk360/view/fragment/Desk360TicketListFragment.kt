@@ -45,14 +45,14 @@ open class Desk360TicketListFragment : Fragment() {
         desk360BaseActivity = context as Desk360BaseActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         if (binding == null) {
-            binding = Desk360FragmentTicketListBinding.inflate(inflater, container, false)
+            binding = Desk360FragmentTicketListBinding.inflate(
+                inflater, container, false
+            )
+        } else {
+
         }
 
         binding!!.ticketsTabs?.setupWithViewPager(binding?.viewPagerContainer)
@@ -191,12 +191,11 @@ open class Desk360TicketListFragment : Fragment() {
                     desk360BaseActivity.isMainLoadingShown = true
                     binding!!.loadingCurrentTicket?.visibility = View.VISIBLE
                 }
+
+                listenCurrentTicketList()
             }
-
-            listenCurrentTicketList()
-
-        } catch (e: Exception) {
-            Log.e("exception", e.toString())
+        }catch (e:Exception){
+            Log.e("exception",e.toString())
         }
     }
 
@@ -265,18 +264,34 @@ open class Desk360TicketListFragment : Fragment() {
         //Main BackGround Color
         binding!!.txtBottomFooterMainTicketList.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
 
-        setSubTitle()
+        //Sub Title Text
+        binding!!.emptyListLayoutTicketListSubTitle.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.sub_title_color))
+        binding!!.emptyListLayoutTicketListSubTitle.text =
+            Desk360Constants.currentType?.data?.first_screen?.sub_title
+        binding!!.emptyListLayoutTicketListSubTitle.textSize =
+            Desk360Constants.currentType?.data?.first_screen?.sub_title_font_size!!.toFloat()
 
-        setDescriptionTitle()
+        //Description Title Text
+        binding!!.emptyListLayoutTicketListDesc.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.description_color))
+        binding!!.emptyListLayoutTicketListDesc.text =
+            Desk360Constants.currentType?.data?.first_screen?.description
+        binding!!.emptyListLayoutTicketListDesc.textSize =
+            Desk360Constants.currentType?.data?.first_screen?.description_font_size!!.toFloat()
 
-        setButtonView()
+        binding!!.txtOpenMessageFormTicketList.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color))
+        binding!!.txtOpenMessageFormTicketList.textSize =
+            Desk360Constants.currentType?.data?.first_screen?.button_text_font_size!!.toFloat()
+        binding!!.txtOpenMessageFormTicketList.text = Desk360CustomStyle.setButtonText(
+            Desk360Constants.currentType?.data?.first_screen?.button_text!!.length,
+            Desk360Constants.currentType?.data?.first_screen?.button_text
+        )
 
-        setFooter()
-    }
+        if (Desk360Constants.currentType?.data?.first_screen?.button_icon_is_hidden == true) {
+            binding!!.firstScreenButtonIcon.visibility = View.VISIBLE
+        } else {
+            binding!!.firstScreenButtonIcon.visibility = View.INVISIBLE
+        }
 
-    private fun setFooter() {
-
-        //Footer Text
         binding!!.txtBottomFooterMainTicketList.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
         binding!!.txtBottomFooterMainTicketList.textSize =
             Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
@@ -288,45 +303,6 @@ open class Desk360TicketListFragment : Fragment() {
         } else {
             binding!!.txtBottomFooterMainTicketList.visibility = View.VISIBLE
         }
-    }
-
-    private fun setButtonView() {
-
-        //Button Title Text
-        binding!!.txtOpenMessageFormTicketList.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color))
-        binding!!.txtOpenMessageFormTicketList.textSize =
-            Desk360Constants.currentType?.data?.first_screen?.button_text_font_size!!.toFloat()
-        binding!!.txtOpenMessageFormTicketList.text = Desk360CustomStyle.setButtonText(
-            Desk360Constants.currentType?.data?.first_screen?.button_text!!.length,
-            Desk360Constants.currentType?.data?.first_screen?.button_text
-        )
-
-        //Button Image
-        if (Desk360Constants.currentType?.data?.first_screen?.button_icon_is_hidden == true) {
-            binding!!.firstScreenButtonIcon.visibility = View.VISIBLE
-        } else {
-            binding!!.firstScreenButtonIcon.visibility = View.INVISIBLE
-        }
-    }
-
-    private fun setDescriptionTitle() {
-
-        //Description Title Text
-        binding!!.emptyListLayoutTicketListDesc.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.description_color))
-        binding!!.emptyListLayoutTicketListDesc.text =
-            Desk360Constants.currentType?.data?.first_screen?.description
-        binding!!.emptyListLayoutTicketListDesc.textSize =
-            Desk360Constants.currentType?.data?.first_screen?.description_font_size!!.toFloat()
-    }
-
-    private fun setSubTitle() {
-
-        //Sub Title Text
-        binding!!.emptyListLayoutTicketListSubTitle.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.sub_title_color))
-        binding!!.emptyListLayoutTicketListSubTitle.text =
-            Desk360Constants.currentType?.data?.first_screen?.sub_title
-        binding!!.emptyListLayoutTicketListSubTitle.textSize =
-            Desk360Constants.currentType?.data?.first_screen?.sub_title_font_size!!.toFloat()
     }
 
     private fun setUnreadTicketSize(sizeUnread: Int) {
@@ -342,13 +318,11 @@ open class Desk360TicketListFragment : Fragment() {
     }
 
     override fun onResume() {
-
         super.onResume()
         viewPagerContainer.currentItem = 0
     }
 
     override fun onDestroy() {
-
         super.onDestroy()
         if (disposable?.isDisposed == false)
             disposable?.dispose()

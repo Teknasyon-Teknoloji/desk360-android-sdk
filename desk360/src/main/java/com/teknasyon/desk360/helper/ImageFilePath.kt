@@ -2,19 +2,14 @@ package com.teknasyon.desk360.helper
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.app.Activity
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
-import android.graphics.Bitmap
-import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import java.io.File
-import java.io.FileOutputStream
 
 @SuppressLint("NewApi")
 @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -37,18 +32,18 @@ class ImageFilePath {
         var ret = ""
         if (ctx != null && uri != null) {
             if (isContentUri(uri)) {
-                ret = if (uri.authority?.let { isGooglePhotoDoc(it) }!!) {
-                    uri.lastPathSegment.toString()
+                ret = if (isGooglePhotoDoc(uri.authority)) {
+                    uri.lastPathSegment
                 } else {
                     getImageRealPath(ctx.contentResolver, uri, null)
                 }
             } else if (isFileUri(uri)) {
-                ret = uri.path.toString()
+                ret = uri.path
             } else if (isDocumentUri(ctx, uri)) { // Get uri related document id.
                 val documentId = DocumentsContract.getDocumentId(uri)
                 // Get uri authority.
                 val uriAuthority = uri.authority
-                if (uriAuthority?.let { isMediaDoc(it) }!!) {
+                if (isMediaDoc(uriAuthority)) {
                     val idArr = documentId.split(":").toTypedArray()
                     if (idArr.size == 2) { // First item is document type.
                         val docType = idArr[0]
@@ -84,8 +79,7 @@ class ImageFilePath {
                         val realDocId = idArr[1]
                         if ("primary".equals(type, ignoreCase = true)) {
                             ret =
-                                Environment.getExternalStorageDirectory()
-                                    .toString() + "/" + realDocId
+                                Environment.getExternalStorageDirectory().toString() + "/" + realDocId
                         }
                     }
                 }
@@ -203,41 +197,5 @@ class ImageFilePath {
             }
         }
         return ret
-    }
-
-    fun saveImage(name: String, image: Bitmap, activity: Activity) {
-
-        val savedImagePath: String
-
-        val storageDir = File(Desk360Constants.downloadPath)
-
-        var success = true
-
-        if (!storageDir.exists()) {
-            success = storageDir.mkdirs()
-        }
-
-        if (success) {
-
-            val imageFile = File(storageDir, name)
-            savedImagePath = imageFile.absolutePath
-            refreshGallery(savedImagePath, activity)
-            try {
-                val fOut = FileOutputStream(imageFile)
-                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
-                fOut.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun refreshGallery(path: String, activity: Activity) {
-
-        val f = File(path)
-        MediaScannerConnection.scanFile(
-            activity, arrayOf(f.toString()),
-            arrayOf(f.name), null
-        )
     }
 }

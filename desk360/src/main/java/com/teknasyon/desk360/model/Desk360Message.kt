@@ -10,6 +10,5 @@ class Desk360Message {
     var message: String? = null
     var created: String? = null
     var is_answer: Boolean = false
-    var attachments: Desk360Attachment? = null
     var tick: Boolean = true
 }
