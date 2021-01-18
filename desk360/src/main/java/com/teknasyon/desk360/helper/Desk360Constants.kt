@@ -84,7 +84,7 @@ object Desk360Constants {
             baseURL = "http://52.59.142.138:10380/"
             environment = "sandbox"
         } else {
-            baseURL = "http://teknasyon.desk360.com/"
+            baseURL = "https://teknasyon.desk360.com/"
             environment = "production"
         }
 
