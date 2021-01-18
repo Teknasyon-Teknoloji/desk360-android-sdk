@@ -9,7 +9,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
@@ -251,41 +250,14 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         binding.formConfirmText.movementMethod = LinkMovementMethod.getInstance()
         createScreen?.button_background_color?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                binding.formConfirmCheckbox.buttonTintList =
-                    ColorStateList.valueOf(Color.parseColor(it))
-            }
+            binding.formConfirmCheckbox.buttonTintList =
+                ColorStateList.valueOf(Color.parseColor(it))
         }
 
         binding.formConfirmCheckbox.setOnCheckedChangeListener { _, isChecked ->
             binding.createTicketButton.isEnabled = isChecked
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if (!isChecked) {
-                    binding.createTicketButton.backgroundTintMode = PorterDuff.Mode.OVERLAY
-                    binding.createTicketButton.backgroundTintList =
-                        ColorStateList.valueOf(Color.LTGRAY)
-
-                    binding.createScreenButtonIcon.backgroundTintMode = PorterDuff.Mode.OVERLAY
-                    binding.createScreenButtonIcon.backgroundTintList =
-                        ColorStateList.valueOf(Color.LTGRAY)
-
-                    binding.createScreenButtonText.backgroundTintMode = PorterDuff.Mode.OVERLAY
-                    binding.createScreenButtonText.backgroundTintList =
-                        ColorStateList.valueOf(Color.LTGRAY)
-                } else {
-                    binding.createTicketButton.backgroundTintList = null
-                    binding.createScreenButtonIcon.backgroundTintList = null
-                    binding.createScreenButtonText.backgroundTintList = null
-                }
-
-            }
-        }
-
-        if (binding.formConfirm.visibility == View.VISIBLE) {
-            binding.createTicketButton.isEnabled = false
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (!isChecked) {
                 binding.createTicketButton.backgroundTintMode = PorterDuff.Mode.OVERLAY
                 binding.createTicketButton.backgroundTintList =
                     ColorStateList.valueOf(Color.LTGRAY)
@@ -297,7 +269,28 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 binding.createScreenButtonText.backgroundTintMode = PorterDuff.Mode.OVERLAY
                 binding.createScreenButtonText.backgroundTintList =
                     ColorStateList.valueOf(Color.LTGRAY)
+            } else {
+                binding.createTicketButton.backgroundTintList = null
+                binding.createScreenButtonIcon.backgroundTintList = null
+                binding.createScreenButtonText.backgroundTintList = null
             }
+        }
+
+        if (binding.formConfirm.visibility == View.VISIBLE) {
+            binding.createTicketButton.isEnabled = false
+
+            binding.createTicketButton.backgroundTintMode = PorterDuff.Mode.OVERLAY
+            binding.createTicketButton.backgroundTintList =
+                ColorStateList.valueOf(Color.LTGRAY)
+
+            binding.createScreenButtonIcon.backgroundTintMode = PorterDuff.Mode.OVERLAY
+            binding.createScreenButtonIcon.backgroundTintList =
+                ColorStateList.valueOf(Color.LTGRAY)
+
+            binding.createScreenButtonText.backgroundTintMode = PorterDuff.Mode.OVERLAY
+            binding.createScreenButtonText.backgroundTintList =
+                ColorStateList.valueOf(Color.LTGRAY)
+
         }
 
         binding.fileNameIcon.setOnClickListener {
@@ -984,11 +977,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         )
                     } else if (typeOfAttachment == 2) {
                         RESULT_LOAD_FILES = 1222
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            val photoPickerIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                            photoPickerIntent.type = "application/pdf"
-                            startActivityForResult(photoPickerIntent, RESULT_LOAD_FILES)
-                        }
+
+                        val photoPickerIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                        photoPickerIntent.type = "application/pdf"
+                        startActivityForResult(photoPickerIntent, RESULT_LOAD_FILES)
                     } else {
                         RESULT_LOAD_FILES = 1223
                         val intent = Intent()

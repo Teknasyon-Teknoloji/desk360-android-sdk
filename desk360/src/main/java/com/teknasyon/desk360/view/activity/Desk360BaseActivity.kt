@@ -5,7 +5,6 @@ import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -21,6 +20,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
+import com.teknasyon.desk360.helper.AndroidVersionUtils
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.model.Desk360TicketResponse
@@ -152,9 +152,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         binding!!.toolbar.setTitleTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
 
         if (Desk360Constants.currentType?.data?.general_settings?.header_shadow_is_hidden!!) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                binding!!.toolbar.elevation = 20f
-            }
+            binding!!.toolbar.elevation = 20f
         }
 
         binding!!.toolbarTitle.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
@@ -256,7 +254,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         val am = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
 
         val runningActivities =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (AndroidVersionUtils.isAtLeastMarshmallow()) {
                 am.appTasks[0].taskInfo.numActivities
             } else {
                 am.getRunningTasks(1)[0].numRunning

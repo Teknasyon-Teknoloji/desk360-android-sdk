@@ -3,7 +3,6 @@ package com.teknasyon.desk360.themev2
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -21,12 +20,9 @@ class Desk360CommonButton : ConstraintLayout {
             2,
             Color.parseColor(currentType?.data?.first_screen?.button_border_color)
         )
-        if(currentType?.data?.first_screen?.button_shadow_is_hidden==true){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.elevation=20f
-            }
+        if (currentType?.data?.first_screen?.button_shadow_is_hidden == true) {
+            this.elevation = 20f
         }
-
 
         when (currentType?.data?.first_screen?.button_style_id) {
             1 -> {

@@ -1,29 +1,16 @@
 package com.teknasyon.desk360.helper
 
-import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 
-@SuppressLint("NewApi")
-@TargetApi(Build.VERSION_CODES.KITKAT)
 class ImageFilePath {
     /* Get uri related content real local file path. */
-    fun getUriRealPath(ctx: Context, uri: Uri): String {
-        var ret = ""
-        ret = if (isAboveKitKat) { // Android OS above sdk version 19.
-            getUriRealPathAboveKitkat(ctx, uri)
-        } else { // Android OS below sdk version 19
-            getImageRealPath(ctx.contentResolver, uri, null)
-        }
-        return ret
-    }
+    fun getUriRealPath(ctx: Context, uri: Uri) = getUriRealPathAboveKitkat(ctx, uri)
 
     fun getUriRealPathAboveKitkat(
         ctx: Context?,
@@ -79,7 +66,8 @@ class ImageFilePath {
                         val realDocId = idArr[1]
                         if ("primary".equals(type, ignoreCase = true)) {
                             ret =
-                                Environment.getExternalStorageDirectory().toString() + "/" + realDocId
+                                Environment.getExternalStorageDirectory()
+                                    .toString() + "/" + realDocId
                         }
                     }
                 }
@@ -87,14 +75,6 @@ class ImageFilePath {
         }
         return ret
     }
-
-    /* Check whether current android os version is bigger than kitkat or not. */
-    val isAboveKitKat: Boolean
-        get() {
-            var ret = false
-            ret = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-            return ret
-        }
 
     /* Check whether this uri represent a document or not. */
     fun isDocumentUri(ctx: Context?, uri: Uri?): Boolean {

@@ -222,10 +222,7 @@ open class Desk360TicketDetailFragment : Fragment() {
             Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color)
 
         val myList = ColorStateList(states, colors)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            binding!!.messageEditText.backgroundTintList = myList
-        }
+        binding!!.messageEditText.backgroundTintList = myList
 
         Desk360CustomStyle.setFontWeight(
             binding!!.ticketDetailButtonText,

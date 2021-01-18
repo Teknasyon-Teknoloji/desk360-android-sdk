@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
-import android.os.Build
 import android.util.AttributeSet
 import android.widget.TextView
 import com.teknasyon.desk360.R
@@ -20,13 +19,13 @@ class Desk360IncomingText : TextView {
 
                 this.setBackgroundResource(R.drawable.incoming_message_layout_type1)
             }
-            2-> {
+            2 -> {
                 this.setBackgroundResource(R.drawable.incoming_message_layout_type2)
             }
-            3-> {
+            3 -> {
                 this.setBackgroundResource(R.drawable.incoming_message_layout_type3)
             }
-            4-> {
+            4 -> {
                 this.setBackgroundResource(R.drawable.incoming_message_layout_type4)
             }
 
@@ -37,10 +36,8 @@ class Desk360IncomingText : TextView {
         }
 
 
-        if(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_shadow_is_hidden==true){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.elevation=20f
-            }
+        if (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_shadow_is_hidden == true) {
+            this.elevation = 20f
         }
 
 
@@ -52,7 +49,7 @@ class Desk360IncomingText : TextView {
         this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_text_color))
         this.textSize =
             Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_font_size!!.toFloat()
-        
+
         when (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_font_weight) {
             100 -> {
                 val face = Typeface.createFromAsset(context?.assets, "Montserrat-Thin.ttf")

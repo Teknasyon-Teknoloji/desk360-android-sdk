@@ -62,12 +62,7 @@ object Desk360Constants {
 
         if (app_language == "") {
             this.language_code = Locale.getDefault().language
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.language_tag = Locale.getDefault().toLanguageTag().toLowerCase()
-            } else {
-                this.language_tag = null
-            }
+            this.language_tag = Locale.getDefault().toLanguageTag().toLowerCase()
 
         } else {
             this.language_code = app_language

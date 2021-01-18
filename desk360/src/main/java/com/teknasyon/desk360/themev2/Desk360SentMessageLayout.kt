@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
-import android.os.Build
 import android.util.AttributeSet
 import android.widget.TextView
 import com.teknasyon.desk360.R
@@ -37,10 +36,8 @@ class Desk360SentMessageLayout : TextView {
 
         }
 
-        if(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_shadow_is_hidden==true){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.elevation=20f
-            }
+        if (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_shadow_is_hidden == true) {
+            this.elevation = 20f
         }
 
         this.background.setColorFilter(

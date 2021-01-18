@@ -2,12 +2,8 @@ package com.teknasyon.desk360.helper
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.os.Build
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.Spinner
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -25,7 +21,10 @@ class TextAreaViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
 
     init {
 
-        view = viewGroup.layoutInflater.inflate(com.teknasyon.desk360.R.layout.custom_textarea_layout, null)
+        view = viewGroup.layoutInflater.inflate(
+            com.teknasyon.desk360.R.layout.custom_textarea_layout,
+            null
+        )
         holder = MyHolder()
 
         holder.textAreaEditText = view?.findViewById(com.teknasyon.desk360.R.id.textarea_edit_text)
@@ -94,41 +93,37 @@ fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
     if (style.form_style_id == 3) {
 
         val states2 = Array(2, init = { IntArray(1) })
-        states2[0] = IntArray(1) {android.R.attr.state_focused}
-        states2[1] = IntArray(1) {android.R.attr.state_focused}
+        states2[0] = IntArray(1) { android.R.attr.state_focused }
+        states2[1] = IntArray(1) { android.R.attr.state_focused }
 
         val colors2 = IntArray(2)
         colors2[0] = Color.parseColor(style.form_input_border_color)
         colors2[1] = Color.parseColor(style.form_input_focus_border_color)
 
-        val colorStateList = ColorStateList(states2,colors2)
+        val colorStateList = ColorStateList(states2, colors2)
 
         val states3 = Array(2, init = { IntArray(1) })
-        states3[0] = IntArray(1) {-android.R.attr.state_focused}
-        states3[1] = IntArray(1) {android.R.attr.state_focused}
+        states3[0] = IntArray(1) { -android.R.attr.state_focused }
+        states3[1] = IntArray(1) { android.R.attr.state_focused }
 
         val colors3 = IntArray(2)
         colors3[0] = Color.parseColor(style.form_input_border_color)
         colors3[1] = Color.parseColor(style.label_text_color)
 
-        val colorHintStateListNormal = ColorStateList(states3,colors3)
+        val colorHintStateListNormal = ColorStateList(states3, colors3)
 
         val states4 = Array(2, init = { IntArray(1) })
-        states4[0] = IntArray(1) {-android.R.attr.state_empty}
-        states4[1] = IntArray(1) {android.R.attr.state_empty}
+        states4[0] = IntArray(1) { -android.R.attr.state_empty }
+        states4[1] = IntArray(1) { android.R.attr.state_empty }
 
         val colors4 = IntArray(2)
         colors4[0] = Color.parseColor(style.form_input_color)
         colors4[1] = Color.parseColor(style.form_input_focus_color)
 
-        val colorHintStateListDefault = ColorStateList(states4,colors4)
+        val colorHintStateListDefault = ColorStateList(states4, colors4)
 
         this.defaultHintTextColor = colorHintStateListDefault
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.backgroundTintList = colorStateList
-        }
-
+        this.backgroundTintList = colorStateList
         this.hintTextColor = colorHintStateListNormal
 
     } else {
@@ -147,8 +142,8 @@ fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
         this.setBoxStrokeColorStateList(myColorList)
 
         val states2 = Array(2, init = { IntArray(1) })
-        states2[0] = IntArray(1) {android.R.attr.state_focused}
-        states2[1] = IntArray(1) {-android.R.attr.state_focused}
+        states2[0] = IntArray(1) { android.R.attr.state_focused }
+        states2[1] = IntArray(1) { -android.R.attr.state_focused }
 
         val colors2 = IntArray(2)
         colors2[0] = Color.parseColor(style.form_input_border_color)
@@ -157,8 +152,8 @@ fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
         val colorStateList = ColorStateList(states2, colors2)
 
         val states3 = Array(2, init = { IntArray(1) })
-        states3[0] = IntArray(1) {-android.R.attr.state_focused}
-        states3[1] = IntArray(1) {android.R.attr.state_focused}
+        states3[0] = IntArray(1) { -android.R.attr.state_focused }
+        states3[1] = IntArray(1) { android.R.attr.state_focused }
 
         val colors3 = IntArray(2)
         colors3[0] = Color.parseColor(style.form_input_border_color)
@@ -167,8 +162,8 @@ fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
         val colorHintStateListNormal = ColorStateList(states3, colors3)
 
         val states4 = Array(2, init = { IntArray(1) })
-        states4[0] = IntArray(1) {-android.R.attr.state_focused}
-        states4[1] = IntArray(1) {android.R.attr.state_focused}
+        states4[0] = IntArray(1) { -android.R.attr.state_focused }
+        states4[1] = IntArray(1) { android.R.attr.state_focused }
 
         val colors4 = IntArray(2)
         colors4[0] = Color.parseColor(style.form_input_color)
@@ -177,11 +172,7 @@ fun TextInputLayout.setDesk360TextAreaStyle(style: Desk360ScreenCreate) {
         val colorHintStateListDefault = ColorStateList(states4, colors4)
 
         this.defaultHintTextColor = colorHintStateListDefault
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.backgroundTintList = colorStateList
-        }
-
+        this.backgroundTintList = colorStateList
         this.hintTextColor = colorHintStateListNormal
     }
 }
