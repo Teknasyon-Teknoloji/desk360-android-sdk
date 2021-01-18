@@ -2,8 +2,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
 
 apply plugin: 'org.jetbrains.dokka-android'
+
+def artifactId = 'desk360-android-sdk'
+def groupId = 'com.github.Teknasyon-Teknoloji'
+def versionN = "0.6.33"
 
 android {
     compileSdkVersion 28
@@ -12,7 +17,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 6
-        versionName "0.6.32"
+        versionName versionN
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -98,6 +103,28 @@ dependencies {
 
     implementation 'io.paperdb:paperdb:2.6'
 }
-repositories {
-    mavenCentral()
+
+project.afterEvaluate {
+    publishing {
+        publications {
+            library(MavenPublication) {
+                setGroupId groupId
+                setArtifactId artifactId
+                version versionN
+                artifact bundleReleaseAar
+
+                pom.withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    configurations.compile.allDependencies.each {
+                        if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', it.group)
+                            dependencyNode.appendNode('artifactId', it.name)
+                            dependencyNode.appendNode('version', it.version)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
