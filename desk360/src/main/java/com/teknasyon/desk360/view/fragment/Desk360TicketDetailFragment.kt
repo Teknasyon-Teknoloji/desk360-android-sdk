@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketDetailBinding
 import com.teknasyon.desk360.helper.*
-import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
@@ -181,12 +180,13 @@ open class Desk360TicketDetailFragment : Fragment() {
             binding?.messageEditText?.text?.trim()?.apply {
                 if (isNotEmpty() && toString().isNotEmpty()) {
 
-                    val message = Desk360Message()
-                    message.id = -1
-                    message.is_answer = false
-                    message.message = this.toString()
-                    message.created = Util.convertDateToString(Date(), "yyyy-MM-dd HH:mm:ss")
-                    message.tick = false
+                    val message = Desk360Message(
+                        id = -1,
+                        is_answer = false,
+                        message = this.toString(),
+                        created = Util.convertDateToString(Date(), "yyyy-MM-dd HH:mm:ss"),
+                        tick = false
+                    )
 
                     addTicketToCache(message)
 

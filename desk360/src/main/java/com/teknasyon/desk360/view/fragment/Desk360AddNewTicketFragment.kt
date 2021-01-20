@@ -193,7 +193,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         viewModel = AddNewTicketViewModel()
 
-        typeList = Desk360Config.instance.getDesk360Preferences()?.types!!.data.create_screen.types
+        typeList = Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen?.types
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
 
         viewModel?.error?.observe(this, Observer<String> { t ->
@@ -412,7 +412,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         if (editTextStyleModel.form_style_id == 3) {
 
                             view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_background_color))
-                            subjectTypeSpinner?.holder?.shadowBorder?.setStroke(editTextStyleModel.form_input_border_color)
+                            editTextStyleModel.form_input_border_color?.let {
+                                subjectTypeSpinner?.holder?.shadowBorder?.setStroke(
+                                    it
+                                )
+                            }
                             subjectTypeSpinner?.holder?.selectBoxCardView?.setCardBackgroundColor(
                                 Color.parseColor(editTextStyleModel.form_input_background_color)
                             )
@@ -422,7 +426,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
                     if (editTextStyleModel.form_style_id == 3) {
 
-                        subjectTypeSpinner?.holder?.shadowBorder?.setStroke(editTextStyleModel.form_input_focus_border_color)
+                        editTextStyleModel.form_input_focus_border_color?.let {
+                            subjectTypeSpinner?.holder?.shadowBorder?.setStroke(
+                                it
+                            )
+                        }
                         view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_focus_background_color))
                         subjectTypeSpinner?.holder?.selectBoxCardView?.setCardBackgroundColor(
                             Color.parseColor(
@@ -489,7 +497,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
                             if (editTextStyleModel.form_style_id == 3) {
 
                                 view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_background_color))
-                                spinnerItem.holder.shadowBorder?.setStroke(editTextStyleModel.form_input_border_color)
+                                editTextStyleModel.form_input_border_color?.let {
+                                    spinnerItem.holder.shadowBorder?.setStroke(
+                                        it
+                                    )
+                                }
                                 spinnerItem.holder.selectBoxCardView?.setCardBackgroundColor(
                                     Color.parseColor(
                                         editTextStyleModel.form_input_background_color
@@ -518,7 +530,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
                         if (editTextStyleModel.form_style_id == 3) {
 
-                            spinnerItem.holder.shadowBorder?.setStroke(editTextStyleModel.form_input_focus_border_color)
+                            editTextStyleModel.form_input_focus_border_color?.let {
+                                spinnerItem.holder.shadowBorder?.setStroke(
+                                    it
+                                )
+                            }
                             view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_focus_background_color))
                             spinnerItem.holder.selectBoxCardView?.setCardBackgroundColor(
                                 Color.parseColor(editTextStyleModel.form_input_focus_background_color)

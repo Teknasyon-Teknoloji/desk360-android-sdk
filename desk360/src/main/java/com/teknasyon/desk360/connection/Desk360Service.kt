@@ -34,7 +34,7 @@ interface Desk360Service {
     fun getMessages(
         @Header("Authorization") token: String = "Bearer ${Desk360Config.instance.getDesk360Preferences()?.data?.access_token}",
         @Path("ticket_id") ticket_id: Int
-    ): Call<Desk360TickeMessage>
+    ): Call<Desk360TicketMessage>
 
     @POST("api/v1/tickets/{ticket_id}/messages")
     fun addMessage(
