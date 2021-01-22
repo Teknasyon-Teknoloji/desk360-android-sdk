@@ -51,6 +51,10 @@
             android:defaultValue="Expired"
             app:argType="string" />
 
+        <argument
+            android:name="ticket_id"
+            app:argType="integer" />
+
     </fragment>
 
     <fragment

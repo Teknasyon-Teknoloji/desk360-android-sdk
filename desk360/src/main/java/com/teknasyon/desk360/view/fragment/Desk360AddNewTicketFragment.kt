@@ -33,7 +33,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -154,12 +154,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
             view?.let { it1 ->
                 remove()
-                Navigation.findNavController(it1)
-                    .navigate(
-                        R.id.action_addNewTicketFragment_to_thanksFragment,
-                        null,
-                        NavOptions.Builder().setPopUpTo(R.id.addNewTicketFragment, true).build()
-                    )
+
+                findNavController().navigate(
+                    Desk360AddNewTicketFragmentDirections.actionAddNewTicketFragmentToThanksFragment(),
+                    NavOptions.Builder().setPopUpTo(R.id.addNewTicketFragment, true).build()
+                )
             }
 
             val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -637,8 +636,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         Handler().postDelayed({
             activity.setMainTitle(
-                createScreen.title,
-                activity.binding?.toolbarTitle
+                createScreen.title
             )
         }, 35)
     }
