@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -17,7 +18,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 6
-        versionName "0.6.23-huawei"
+        versionName "0.6.33"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -43,7 +43,10 @@ open class AddNewTicketViewModel : ViewModel() {
             )
         }
 
-        Desk360RetrofitFactory.instance.httpService.addTicket(ticketItem, filePart)
+        Desk360RetrofitFactory.instance.desk360Service.addTicket(
+            ticketItem = ticketItem,
+            attachment = filePart
+        )
             .enqueue(object : BaseCallback<Desk360NewSupportResponse>() {
                 override fun onResponseSuccess(
                     call: Call<Desk360NewSupportResponse>,

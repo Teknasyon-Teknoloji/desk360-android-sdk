@@ -31,7 +31,8 @@ object Desk360Constants {
             field = Desk360Config.instance.getDesk360Preferences()?.types
             return field
         }
-
+    var environment = "sandbox"
+    var country_code: String? = null
 
     fun desk360Config(
         app_key: String,
@@ -40,23 +41,16 @@ object Desk360Constants {
         device_token: String? = null,
         json_object: JSONObject? = null,
         app_language: String = "",
+        app_country_code: String? = "",
         desk360ConfigResponse: (status: Boolean) -> Unit = {}
     ): Boolean {
 
-        if (app_key == "")
-            return false
-
-        if (app_version == "")
-            return false
-
-        if (language_code == "")
-            return false
-
-        if (time_zone == "")
+        if (app_key == "" || app_version == "" || language_code == "" || time_zone == "")
             return false
 
         if (device_token != null && device_token != "")
             Desk360Config.instance.getDesk360Preferences()?.adId = device_token
+
         this.app_key = app_key
         this.app_version = app_version
 
@@ -74,15 +68,26 @@ object Desk360Constants {
             this.language_tag = null
         }
 
+        if (app_country_code.isNullOrEmpty()) {
+            this.country_code = Locale.getDefault().country.toLowerCase()
+            if (this.country_code.isNullOrEmpty()) {
+                this.country_code = "xx"
+            }
+        } else {
+            this.country_code = app_country_code.toLowerCase()
+        }
+
         if (json_object != null) {
             this.jsonObject = json_object
         }
         this.time_zone = TimeZone.getDefault().id
 
-        baseURL = if (isTest) {
-            "http://52.59.142.138:10380/"
+        if (isTest) {
+            baseURL = "http://52.59.142.138:10380/"
+            environment = "sandbox"
         } else {
-            "http://teknasyon.desk360.com/"
+            baseURL = "https://teknasyon.desk360.com/"
+            environment = "production"
         }
 
         val call = GetTypesViewModel()
@@ -139,7 +144,8 @@ object Desk360Constants {
         appKey: String,
         appLanguage: String,
         isTest: Boolean,
-        platform: Platform = Platform.GOOGLE
+        platform: Platform = Platform.GOOGLE,
+        appCountryCode: String
     ): Intent {
         this.platform = platform
 
@@ -155,6 +161,7 @@ object Desk360Constants {
         intent.putExtra("app_language", appLanguage)
         intent.putExtra("device_token", deviceToken)
         intent.putExtra("appId", context.applicationInfo.processName)
+        intent.putExtra("app_country_code", appCountryCode)
 
         return intent
     }

@@ -19,16 +19,12 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
         setContentView(R.layout.activity_main)
         openContact = findViewById(R.id.openContactUs)
         openContact?.setOnClickListener { setupNavigation() }
-
-
     }
 
     private fun setupNavigation() {
-
         Desk360Config.instance.context = this
-
-
         Desk360Constants.currentTheme = 1
+
         val intent = Desk360Constants.initDesk360(
             context = this,
             token = "",
@@ -38,26 +34,10 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
             appKey = BuildConfig.APP_KEY,
             isTest = true,
             appLanguage = "tr",
-            platform = Platform.GOOGLE
+            platform = Platform.GOOGLE,
+            appCountryCode = "de"
         )
 
         startActivity(intent)
     }
-
-    private fun getObj(): JSONObject {
-        val student1 = JSONObject()
-        try {
-            student1.put("id", "3")
-            student1.put("name", "NAME OF STUDENT")
-            student1.put("year", "3rd")
-            student1.put("curriculum", "Arts")
-            student1.put("birthday", "5/5/1993")
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-
-        return student1
-
-    }
-
 }

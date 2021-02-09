@@ -63,7 +63,7 @@ class SelectBoxViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
 
                 holder.selectBox?.setPadding(fourDp, twelveDp, fourDp, twelveDp)
 
-                holder.shadowBorder?.setStroke(style.form_input_border_color)
+                style.form_input_border_color?.let { holder.shadowBorder?.setStroke(it) }
                 holder.selectBoxCardView?.visibility = View.VISIBLE
 
                 holder.strokeView?.setPadding(
