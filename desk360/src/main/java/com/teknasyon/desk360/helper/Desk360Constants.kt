@@ -23,9 +23,8 @@ object Desk360Constants {
     var language_tag: String? = null
     var time_zone: String? = null
     var jsonObject: JSONObject? = null
-    var baseURL: String? = null
     var platform: Platform = Platform.GOOGLE
-
+    var baseURL = "https://teknasyon.desk360.com/"
     var currentType: Desk360ConfigResponse? = null
         get() {
             field = Desk360Config.instance.getDesk360Preferences()?.types
@@ -37,7 +36,7 @@ object Desk360Constants {
     fun desk360Config(
         app_key: String,
         app_version: String,
-        isTest: Boolean,
+        environment: String,
         device_token: String? = null,
         json_object: JSONObject? = null,
         app_language: String = "",
@@ -53,6 +52,7 @@ object Desk360Constants {
 
         this.app_key = app_key
         this.app_version = app_version
+        this.environment = environment
 
         if (app_language == "") {
             this.language_code = Locale.getDefault().language
@@ -69,26 +69,18 @@ object Desk360Constants {
         }
 
         if (app_country_code.isNullOrEmpty()) {
-            this.country_code = Locale.getDefault().country.toLowerCase()
+            this.country_code = Locale.getDefault().country
             if (this.country_code.isNullOrEmpty()) {
                 this.country_code = "xx"
             }
         } else {
-            this.country_code = app_country_code.toLowerCase()
+            this.country_code = app_country_code
         }
 
         if (json_object != null) {
             this.jsonObject = json_object
         }
         this.time_zone = TimeZone.getDefault().id
-
-        if (isTest) {
-            baseURL = "http://52.59.142.138:10380/"
-            environment = "sandbox"
-        } else {
-            baseURL = "https://teknasyon.desk360.com/"
-            environment = "production"
-        }
 
         val call = GetTypesViewModel()
 
@@ -143,8 +135,8 @@ object Desk360Constants {
         deviceToken: String,
         appKey: String,
         appLanguage: String,
-        isTest: Boolean,
         platform: Platform = Platform.GOOGLE,
+        environment: String,
         appCountryCode: String
     ): Intent {
         this.platform = platform
@@ -153,7 +145,7 @@ object Desk360Constants {
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        intent.putExtra("isTest", isTest)
+        intent.putExtra("environment", environment)
         intent.putExtra("token", token)
         intent.putExtra("targetId", targetId)
         intent.putExtra("app_key", appKey)

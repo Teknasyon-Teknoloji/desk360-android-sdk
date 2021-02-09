@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
             appVersion = BuildConfig.VERSION_NAME,
             deviceToken = "deskt36012",
             appKey = BuildConfig.APP_KEY,
-            isTest = true,
+            environment = "production",
             appLanguage = "tr",
             platform = Platform.GOOGLE,
             appCountryCode = "de"
