@@ -887,7 +887,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
             val typeId =
                 selectedTypeId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val source = "App".toRequestBody("text/plain".toMediaTypeOrNull())
-            val platform = "Android".toRequestBody("text/plain".toMediaTypeOrNull())
+            val platform =
+                (if (Desk360Constants.platform == Platform.HUAWEI) "Huawei" else "Android").toRequestBody(
+                    "text/plain".toMediaTypeOrNull()
+                )
             val settings = Desk360Constants.jsonObject.toString().toRequestBody(json)
             val countryCode =
                 Desk360Constants.countryCode().toUpperCase()

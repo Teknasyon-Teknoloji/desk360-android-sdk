@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Platform
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
             appKey = BuildConfig.APP_KEY,
             environment = "production",
             appLanguage = "tr",
+            platform = Platform.GOOGLE,
             appCountryCode = "de"
         )
 

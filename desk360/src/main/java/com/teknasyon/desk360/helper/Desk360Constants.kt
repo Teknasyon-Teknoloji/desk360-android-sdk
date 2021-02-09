@@ -23,6 +23,7 @@ object Desk360Constants {
     var language_tag: String? = null
     var time_zone: String? = null
     var jsonObject: JSONObject? = null
+    var platform: Platform = Platform.GOOGLE
     var baseURL = "https://teknasyon.desk360.com/"
     var currentType: Desk360ConfigResponse? = null
         get() {
@@ -134,9 +135,11 @@ object Desk360Constants {
         deviceToken: String,
         appKey: String,
         appLanguage: String,
+        platform: Platform = Platform.GOOGLE,
         environment: String,
         appCountryCode: String
     ): Intent {
+        this.platform = platform
 
         val intent = Intent(context, Desk360SplashActivity::class.java)
 
