@@ -68,6 +68,10 @@ import java.io.FileOutputStream
 open class Desk360AddNewTicketFragment : Fragment(),
     Desk360BottomSheetDialogFragment.BottomSheetListener {
 
+    companion object {
+        private const val MESSAGE_MIN_LENGTH = 3
+    }
+
     private var viewModel: AddNewTicketViewModel? = null
     private var nameField: TextInputViewGroup? = null
     private var eMailField: TextInputViewGroup? = null
@@ -830,7 +834,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = true
                 false
             }
-            s.length < 3 -> {
+            s.length < MESSAGE_MIN_LENGTH -> {
                 messageField?.holder?.textAreaLayout?.error =
                     Desk360Constants.currentType?.data?.general_settings?.required_textarea_message
                         ?: "Mesaj Alanını Doldurunuz."
@@ -850,7 +854,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
     private fun validateAllField() {
-        if (nameFieldFill && emailFieldFill && messageLength > 0 && selectedItem) {
+        if (nameFieldFill && emailFieldFill && messageLength >= MESSAGE_MIN_LENGTH && selectedItem) {
             for (i in 0 until customInputViewList.size) {
                 val customInputData =
                     customInputViewList[i].holder.textInputEditText?.text.toString()
@@ -932,7 +936,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     selectedItem = false
                     subjectTypeSpinner?.holder?.selectBox?.performClick()
                 }
-                messageLength <= 0 -> {
+                messageLength < MESSAGE_MIN_LENGTH -> {
                     messageField?.holder?.textAreaLayout?.error =
                         Desk360Constants.currentType?.data?.general_settings?.required_textarea_message
                             ?: "Mesaj Alanını Doldurunuz."
