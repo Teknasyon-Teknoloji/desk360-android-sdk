@@ -4,10 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.telephony.TelephonyManager
-import android.util.Log
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import com.teknasyon.desk360.view.activity.Desk360SplashActivity
-import com.teknasyon.desk360.view.fragment.Desk360CurrentTicketFragment
 import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import org.json.JSONObject
 import java.util.*
@@ -25,40 +23,36 @@ object Desk360Constants {
     var language_tag: String? = null
     var time_zone: String? = null
     var jsonObject: JSONObject? = null
-    var baseURL: String? = null
+    var platform: Platform = Platform.GOOGLE
+    var baseURL = "https://teknasyon.desk360.com/"
     var currentType: Desk360ConfigResponse? = null
         get() {
             field = Desk360Config.instance.getDesk360Preferences()?.types
             return field
         }
-
+    var environment = "sandbox"
+    var country_code: String? = null
 
     fun desk360Config(
         app_key: String,
         app_version: String,
-        isTest: Boolean,
+        environment: String,
         device_token: String? = null,
         json_object: JSONObject? = null,
         app_language: String = "",
+        app_country_code: String? = "",
         desk360ConfigResponse: (status: Boolean) -> Unit = {}
     ): Boolean {
 
-        if (app_key == "")
-            return false
-
-        if (app_version == "")
-            return false
-
-        if (language_code == "")
-            return false
-
-        if (time_zone == "")
+        if (app_key == "" || app_version == "" || language_code == "" || time_zone == "")
             return false
 
         if (device_token != null && device_token != "")
             Desk360Config.instance.getDesk360Preferences()?.adId = device_token
+
         this.app_key = app_key
         this.app_version = app_version
+        this.environment = environment
 
         if (app_language == "") {
             this.language_code = Locale.getDefault().language
@@ -74,16 +68,19 @@ object Desk360Constants {
             this.language_tag = null
         }
 
+        if (app_country_code.isNullOrEmpty()) {
+            this.country_code = Locale.getDefault().country
+            if (this.country_code.isNullOrEmpty()) {
+                this.country_code = "xx"
+            }
+        } else {
+            this.country_code = app_country_code
+        }
+
         if (json_object != null) {
             this.jsonObject = json_object
         }
         this.time_zone = TimeZone.getDefault().id
-
-        baseURL = if (isTest) {
-            "http://52.59.142.138:10380/"
-        } else {
-            "http://teknasyon.desk360.com/"
-        }
 
         val call = GetTypesViewModel()
 
@@ -114,7 +111,10 @@ object Desk360Constants {
         return true
     }
 
-    private fun checkType(desk360ConfigResponse: (status: Boolean) -> Unit, call: GetTypesViewModel) {
+    private fun checkType(
+        desk360ConfigResponse: (status: Boolean) -> Unit,
+        call: GetTypesViewModel
+    ) {
 
         val isTypeFetched = Desk360Config.instance.getDesk360Preferences()!!.isTypeFetched
 
@@ -135,14 +135,17 @@ object Desk360Constants {
         deviceToken: String,
         appKey: String,
         appLanguage: String,
-        isTest: Boolean
+        platform: Platform = Platform.GOOGLE,
+        environment: String,
+        appCountryCode: String
     ): Intent {
+        this.platform = platform
 
         val intent = Intent(context, Desk360SplashActivity::class.java)
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        intent.putExtra("isTest", isTest)
+        intent.putExtra("environment", environment)
         intent.putExtra("token", token)
         intent.putExtra("targetId", targetId)
         intent.putExtra("app_key", appKey)
@@ -150,6 +153,7 @@ object Desk360Constants {
         intent.putExtra("app_language", appLanguage)
         intent.putExtra("device_token", deviceToken)
         intent.putExtra("appId", context.applicationInfo.processName)
+        intent.putExtra("app_country_code", appCountryCode)
 
         return intent
     }

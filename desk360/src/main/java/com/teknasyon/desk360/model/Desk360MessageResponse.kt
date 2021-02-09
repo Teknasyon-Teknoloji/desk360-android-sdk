@@ -5,7 +5,7 @@ package com.teknasyon.desk360.model
  *
  */
 
-class Desk360MessageResponse {
-    var meta: Desk360Meta? = null
-    var data: Desk360Message? = null
-}
+data class Desk360MessageResponse(
+    val meta: Desk360Meta? = null,
+    val data: Desk360Message? = null
+)

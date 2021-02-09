@@ -1,11 +1,9 @@
 package com.teknasyon.desk360.modelv2
 
-
-class Desk360CustomFields {
-
-    var id: Int? = null
-    var name: String? = null
-    var type: String? = null
-    var options: ArrayList<Desk360Options>? = null
-    var place_holder: String? = null
-}
+data class Desk360CustomFields(
+    val id: Int? = null,
+    val name: String? = null,
+    val type: String? = null,
+    val options: ArrayList<Desk360Options>? = null,
+    val place_holder: String? = null
+)

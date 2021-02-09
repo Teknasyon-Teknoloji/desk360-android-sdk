@@ -12,5 +12,4 @@ class Desk360Register {
     var app_version: String? = null
     var language_code: String? = null
     var time_zone: String? = null
-
 }

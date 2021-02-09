@@ -1,7 +1,3 @@
 package com.teknasyon.desk360.modelv2
 
-
-class Desk360MetaV2 {
-
-    var success: Boolean = true
-}
+data class Desk360MetaV2(val success: Boolean? = true)

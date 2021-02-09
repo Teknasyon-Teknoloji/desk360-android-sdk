@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentPreNewTicketBinding
 import com.teknasyon.desk360.helper.Desk360Constants
@@ -35,12 +35,10 @@ class PreNewTicketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.preScreenButton.setOnClickListener {
-            Navigation
-                .findNavController(it)
-                .navigate(
-                    R.id.action_preNewTicketFragment_to_addNewTicketFragment, null,
-                    NavOptions.Builder().setPopUpTo(R.id.preNewTicketFragment, true).build()
-                )
+            findNavController().navigate(
+                PreNewTicketFragmentDirections.actionPreNewTicketFragmentToAddNewTicketFragment(),
+                NavOptions.Builder().setPopUpTo(R.id.preNewTicketFragment, true).build()
+            )
         }
 
         (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.VISIBLE

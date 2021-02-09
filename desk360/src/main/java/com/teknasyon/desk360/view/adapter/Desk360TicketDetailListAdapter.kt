@@ -57,13 +57,12 @@ class Desk360TicketDetailListAdapter(
             holder.itemView.webView.visibility = View.GONE
             holder.itemView.imageUrl.visibility = View.GONE
             holder.itemView.videoView.visibility = View.GONE
-
-            if (message.tick) {
-                holder.itemView.message_tick.setImageResource(R.drawable.cift)
-
-            } else {
-                holder.itemView.message_tick.setImageResource(R.drawable.tek)
-            }
+            holder.itemView.message_tick.setImageResource(
+                if (message.tick == true)
+                    R.drawable.cift
+                else
+                    R.drawable.tek
+            )
 
             if (url != null && url != "" && position == 0) {
 
@@ -118,13 +117,10 @@ class Desk360TicketDetailListAdapter(
 
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (ticketList[position].is_answer) 0 else 1
-    }
+    override fun getItemViewType(position: Int) =
+        if (ticketList[position].is_answer == true) 0 else 1
 
-    override fun getItemCount(): Int {
-        return ticketList.size
-    }
+    override fun getItemCount() = ticketList.size
 
     class ViewHolder(binding: Any?, viewType: Int) : RecyclerView.ViewHolder
         (if (viewType == 0) (binding as Desk360IncomingMessageItemLayoutBinding).root else (binding as Desk360SendMessageItemLayoutBinding).root)
