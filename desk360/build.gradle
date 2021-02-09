@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 apply plugin: 'org.jetbrains.dokka-android'
 
@@ -12,7 +13,6 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 6
-        versionName "0.6.32"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -97,7 +97,4 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation 'io.paperdb:paperdb:2.6'
-}
-repositories {
-    mavenCentral()
 }

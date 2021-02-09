@@ -5,13 +5,13 @@ package com.teknasyon.desk360.model
  *
  */
 
-class Desk360TicketResponse {
-    var id: Int? = null
-    var status: String? = null
-    var name: String? = null
-    var email: String? = null
-    var message: String? = null
-    var created: String? = null
-    var attachment_url : String?= ""
-    var messages: ArrayList<Desk360Message>? = null
-}
+data class Desk360TicketResponse(
+    val id: Int? = null,
+    val status: String? = null,
+    val name: String? = null,
+    val email: String? = null,
+    val message: String? = null,
+    val created: String? = null,
+    val attachment_url: String? = "",
+    val messages: ArrayList<Desk360Message>? = null
+)

@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
@@ -45,14 +45,16 @@ open class Desk360TicketListFragment : Fragment() {
         desk360BaseActivity = context as Desk360BaseActivity
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         if (binding == null) {
             binding = Desk360FragmentTicketListBinding.inflate(
                 inflater, container, false
             )
-        } else {
-
         }
 
         binding!!.ticketsTabs?.setupWithViewPager(binding?.viewPagerContainer)
@@ -83,9 +85,7 @@ open class Desk360TicketListFragment : Fragment() {
                 Handler().removeCallbacksAndMessages(null)
                 Handler().postDelayed({ desk360BaseActivity.addBtnClicked = false }, 800)
 
-                Navigation
-                    .findNavController(binding!!.root)
-                    .navigate(R.id.action_ticketListFragment_to_addNewTicketFragment)
+                findNavController().navigate(Desk360TicketListFragmentDirections.actionTicketListFragmentToAddNewTicketFragment())
             }
 
             desk360BaseActivity.contactUsMainBottomBar.visibility = View.VISIBLE
@@ -194,8 +194,8 @@ open class Desk360TicketListFragment : Fragment() {
 
                 listenCurrentTicketList()
             }
-        }catch (e:Exception){
-            Log.e("exception",e.toString())
+        } catch (e: Exception) {
+            Log.e("exception", e.toString())
         }
     }
 

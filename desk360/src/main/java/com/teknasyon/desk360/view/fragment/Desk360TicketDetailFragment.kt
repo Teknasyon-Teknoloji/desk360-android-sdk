@@ -17,16 +17,16 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketDetailBinding
 import com.teknasyon.desk360.helper.*
-import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
@@ -40,11 +40,11 @@ import java.util.*
 
 open class Desk360TicketDetailFragment : Fragment() {
 
+    private val args: Desk360TicketDetailFragmentArgs by navArgs()
+
     private var binding: Desk360FragmentTicketDetailBinding? = null
     private var ticketDetailAdapter: Desk360TicketDetailListAdapter? = null
     private val gradientDrawable = GradientDrawable()
-    private var ticketId: Int? = null
-    private var ticketStatus: String? = null
     private var backButtonAction: Disposable? = null
 
     private val preferencesManager = PreferencesManager()
@@ -58,9 +58,9 @@ open class Desk360TicketDetailFragment : Fragment() {
 
         if (it != null) {
 
-            preferencesManager.writeObject(ticketId.toString(), it)
+            preferencesManager.writeObject(args.ticketId.toString(), it)
             cacheDesk360TicketResponse = preferencesManager.readObject(
-                ticketId.toString(),
+                args.ticketId.toString(),
                 Desk360TicketResponse::class.java
             )
 
@@ -87,13 +87,13 @@ open class Desk360TicketDetailFragment : Fragment() {
         if (it != null) {
 
             cacheDesk360TicketResponse = preferencesManager.readObject(
-                ticketId.toString(),
+                args.ticketId.toString(),
                 Desk360TicketResponse::class.java
             )
             val tickets = cacheDesk360TicketResponse!!.messages
             tickets!![tickets.size - 1] = it
 
-            preferencesManager.writeObject(ticketId.toString(), cacheDesk360TicketResponse!!)
+            preferencesManager.writeObject(args.ticketId.toString(), cacheDesk360TicketResponse!!)
 
             Handler().postDelayed({ addTicketToCache(null) }, 300)
 
@@ -113,13 +113,7 @@ open class Desk360TicketDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.desk360_fragment_ticket_detail,
-            container,
-            false
-        )
+        binding = Desk360FragmentTicketDetailBinding.inflate(inflater, container, false)
 
         desk360BaseActivity.contactUsMainBottomBar.visibility = View.GONE
 
@@ -134,7 +128,10 @@ open class Desk360TicketDetailFragment : Fragment() {
         desk360BaseActivity.changeMainUI()
 
         cacheDesk360TicketResponse =
-            preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
+            preferencesManager.readObject(
+                args.ticketId.toString(),
+                Desk360TicketResponse::class.java
+            )
 
         cacheDesk360TicketResponse?.let {
 
@@ -164,7 +161,7 @@ open class Desk360TicketDetailFragment : Fragment() {
             binding?.loadingProgressTicketDetail?.visibility = View.VISIBLE
         }
 
-        viewModel = ticketId?.let { TicketDetailViewModel(it) }
+        viewModel = TicketDetailViewModel(args.ticketId)
 
         viewModel?.ticketDetailList?.observe(this, observer)
 
@@ -181,16 +178,17 @@ open class Desk360TicketDetailFragment : Fragment() {
             binding?.messageEditText?.text?.trim()?.apply {
                 if (isNotEmpty() && toString().isNotEmpty()) {
 
-                    val message = Desk360Message()
-                    message.id = -1
-                    message.is_answer = false
-                    message.message = this.toString()
-                    message.created = Util.convertDateToString(Date(), "yyyy-MM-dd HH:mm:ss")
-                    message.tick = false
+                    val message = Desk360Message(
+                        id = -1,
+                        is_answer = false,
+                        message = this.toString(),
+                        created = Util.convertDateToString(Date(), "yyyy-MM-dd HH:mm:ss"),
+                        tick = false
+                    )
 
                     addTicketToCache(message)
 
-                    ticketId?.let { it1 ->
+                    args.ticketId?.let { it1 ->
                         viewModel?.addMessage(
                             it1,
                             binding?.messageEditText?.text.toString()
@@ -270,16 +268,14 @@ open class Desk360TicketDetailFragment : Fragment() {
 
         binding?.layoutSendNewMessageNormal?.background = gradientDrawable
         binding?.addNewTicketButton?.setOnClickListener {
-            Navigation
-                .findNavController(it)
-                .navigate(R.id.action_ticketDetailFragment_to_addNewTicketFragment, null)
+            findNavController().navigate(Desk360TicketDetailFragmentDirections.actionTicketDetailFragmentToAddNewTicketFragment())
         }
         expireControl()
     }
 
     private fun expireControl() {
 
-        if (ticketStatus == "expired") {
+        if (args.ticketStatus == "expired") {
 
             binding?.layoutSendNewMessageNormal?.visibility = View.GONE
             binding?.addNewTicketButton?.visibility = View.VISIBLE
@@ -304,15 +300,6 @@ open class Desk360TicketDetailFragment : Fragment() {
         } else {
             binding?.layoutSendNewMessageNormal?.visibility = View.VISIBLE
             binding?.addNewTicketButton?.visibility = View.GONE
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if (arguments != null) {
-            ticketId = arguments!!.getInt("ticket_id")
-            ticketStatus = arguments!!.getString("ticket_status")
         }
     }
 
@@ -341,7 +328,10 @@ open class Desk360TicketDetailFragment : Fragment() {
     private fun addTicketToCache(desk360Message: Desk360Message?) {
 
         cacheDesk360TicketResponse =
-            preferencesManager.readObject(ticketId.toString(), Desk360TicketResponse::class.java)
+            preferencesManager.readObject(
+                args.ticketId.toString(),
+                Desk360TicketResponse::class.java
+            )
 
         viewModel?.ticketDetailList?.value?.messages?.clear()
         viewModel?.ticketDetailList?.value?.messages?.addAll(cacheDesk360TicketResponse!!.messages!!)
@@ -350,7 +340,7 @@ open class Desk360TicketDetailFragment : Fragment() {
 
             viewModel?.ticketDetailList?.value?.messages?.add(desk360Message)
             cacheDesk360TicketResponse?.messages?.add(desk360Message)
-            preferencesManager.writeObject(ticketId.toString(), cacheDesk360TicketResponse!!)
+            preferencesManager.writeObject(args.ticketId.toString(), cacheDesk360TicketResponse!!)
         }
 
         ticketDetailAdapter = Desk360TicketDetailListAdapter(

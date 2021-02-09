@@ -36,7 +36,7 @@ open class TicketListViewModel : ViewModel() {
             progress?.set(View.VISIBLE)
         }
 
-        Desk360RetrofitFactory.instance.httpService.getTicket().enqueue(object : BaseCallback<Desk360TicketListResponse>() {
+        Desk360RetrofitFactory.instance.desk360Service.getTicket().enqueue(object : BaseCallback<Desk360TicketListResponse>() {
 
             override fun onResponseSuccess(call: Call<Desk360TicketListResponse>, response: Response<Desk360TicketListResponse>) {
 
@@ -79,7 +79,7 @@ open class TicketListViewModel : ViewModel() {
         register.language_code = Desk360Constants.language_code
         register.time_zone = Desk360Constants.time_zone
 
-        Desk360RetrofitFactory.instance.sslService.register(register).enqueue(object : BaseCallback<Desk360RegisterResponse>() {
+        Desk360RetrofitFactory.instance.desk360Service.register(register).enqueue(object : BaseCallback<Desk360RegisterResponse>() {
 
             override fun onResponseSuccess(call: Call<Desk360RegisterResponse>, response: Response<Desk360RegisterResponse>) {
 

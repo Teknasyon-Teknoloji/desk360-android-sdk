@@ -45,7 +45,7 @@ abstract class BaseCallback<T> : Callback<T> {
                             register.language_code = Desk360Constants.language_code
                             register.time_zone = Desk360Constants.time_zone
 
-                            Desk360RetrofitFactory.instance.sslService.register(register)
+                            Desk360RetrofitFactory.instance.desk360Service.register(register)
                                 .enqueue(object : Callback<Desk360RegisterResponse> {
 
                                     override fun onFailure(

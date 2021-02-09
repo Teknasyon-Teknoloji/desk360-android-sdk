@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
             deviceToken = "deskt36012",
             appKey = BuildConfig.APP_KEY,
             isTest = true,
-            appLanguage = "tr"
+            appLanguage = "tr",
+            appCountryCode = "de"
         )
 
         startActivity(intent)
