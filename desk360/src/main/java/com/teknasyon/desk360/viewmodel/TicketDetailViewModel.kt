@@ -6,7 +6,7 @@ import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360MessageResponse
-import com.teknasyon.desk360.model.Desk360TickeMessage
+import com.teknasyon.desk360.model.Desk360TicketMessage
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -25,9 +25,9 @@ open class TicketDetailViewModel(private val ticketId: Int = -1) : ViewModel() {
         if (ticketId == -1)
             return
 
-        Desk360RetrofitFactory.instance.desk360Service.getMessages(ticket_id = ticketId).enqueue(object : BaseCallback<Desk360TickeMessage>() {
+        Desk360RetrofitFactory.instance.desk360Service.getMessages(ticket_id = ticketId).enqueue(object : BaseCallback<Desk360TicketMessage>() {
 
-            override fun onResponseSuccess(call: Call<Desk360TickeMessage>, response: Response<Desk360TickeMessage>) {
+            override fun onResponseSuccess(call: Call<Desk360TicketMessage>, response: Response<Desk360TicketMessage>) {
 
                 if (response.isSuccessful && response.body() != null) {
 

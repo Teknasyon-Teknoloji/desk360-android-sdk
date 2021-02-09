@@ -5,10 +5,10 @@ package com.teknasyon.desk360.model
  *
  */
 
-class Desk360Message {
-    var id: Int? = null
-    var message: String? = null
-    var created: String? = null
-    var is_answer: Boolean = false
-    var tick: Boolean = true
-}
+data class Desk360Message(
+    val id: Int? = null,
+    val message: String? = null,
+    val created: String? = null,
+    val is_answer: Boolean? = false,
+    val tick: Boolean? = true
+)

@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentCurrentTicketListBinding
-import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.PreferencesManager
 import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360TicketResponse
@@ -154,9 +154,7 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
         )
 
         binding.openMessageformEmptyCurrentList.setOnClickListener {
-            Navigation
-                .findNavController(it)
-                .navigate(R.id.action_ticketListFragment_to_preNewTicketFragment, null)
+            findNavController().navigate(Desk360TicketListFragmentDirections.actionTicketListFragmentToPreNewTicketFragment())
         }
 
         val showLoading = cacheTickets.isEmpty()
@@ -187,24 +185,14 @@ class Desk360CurrentTicketFragment : Fragment(), Desk360TicketListAdapter.Ticket
     }
 
     private fun forcePushToTicketDetail() {
-
-        for (item: Desk360TicketResponse in tickets) {
-
-            if (item.id.toString() == desk360BaseActivity.targetId) {
-
-                val bundle = Bundle()
-
-                item.id?.let { itemId -> bundle.putInt("ticket_id", itemId) }
-
-                bundle.putString("ticket_status", item.status.toString())
-
-                binding.root.let { it1 ->
-                    Navigation
-                        .findNavController(it1)
-                        .navigate(R.id.action_global_ticketDetailFragment, bundle)
-                }
+        tickets.filter { it.id != null && it.id.toString() == desk360BaseActivity.targetId }
+            .forEach { ticket ->
+                findNavController().navigate(
+                    Desk360SuccessScreenDirections.actionGlobalTicketDetailFragment(
+                        ticket.status.toString(), ticket.id!!
+                    )
+                )
             }
-        }
     }
 
     private fun setViews() {

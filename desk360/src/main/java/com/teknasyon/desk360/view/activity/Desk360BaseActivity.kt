@@ -13,8 +13,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
@@ -24,6 +24,7 @@ import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.model.Desk360TicketResponse
+import com.teknasyon.desk360.view.fragment.Desk360TicketListFragmentDirections
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
@@ -93,29 +94,25 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
                 R.id.preNewTicketFragment -> {
                     setMainTitle(
-                        Desk360Constants.currentType?.data?.create_pre_screen?.title,
-                        binding?.toolbarTitle
+                        Desk360Constants.currentType?.data?.create_pre_screen?.title
                     )
                     isTicketDetailFragment = false
                 }
                 R.id.thanksFragment -> {
                     setMainTitle(
-                        Desk360Constants.currentType?.data?.ticket_success_screen?.title,
-                        binding?.toolbarTitle
+                        Desk360Constants.currentType?.data?.ticket_success_screen?.title
                     )
                     isTicketDetailFragment = false
                 }
                 R.id.ticketDetailFragment -> {
                     setMainTitle(
-                        Desk360Constants.currentType?.data?.ticket_detail_screen?.title,
-                        binding?.toolbarTitle
+                        Desk360Constants.currentType?.data?.ticket_detail_screen?.title
                     )
                     isTicketDetailFragment = true
                 }
                 R.id.addNewTicketFragment -> {
                     setMainTitle(
-                        Desk360Constants.currentType?.data?.create_screen?.title,
-                        binding?.toolbarTitle
+                        Desk360Constants.currentType?.data?.create_screen?.title
                     )
                     isTicketDetailFragment = false
                 }
@@ -123,18 +120,18 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                 else -> ""
             }
 
-            if (destination.id == R.id.ticketListFragment || destination.id == R.id.preNewTicketFragment || destination.id == R.id.thanksFragment) {
-                toolbar.navigationIcon = resources.getDrawable(R.drawable.close_button_desk)
-            } else {
-                toolbar.navigationIcon = resources.getDrawable(R.drawable.back_btn_dark_theme)
-            }
+            toolbar.navigationIcon = ContextCompat.getDrawable(
+                this,
+                if (destination.id == R.id.ticketListFragment || destination.id == R.id.preNewTicketFragment || destination.id == R.id.thanksFragment)
+                    R.drawable.close_button_desk
+                else
+                    R.drawable.back_btn_dark_theme
+            )
 
             toolbar.navigationIcon?.setColorFilter(
                 Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
                 PorterDuff.Mode.SRC_ATOP
             )
-
-
         }
     }
 
@@ -162,11 +159,10 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             Desk360Constants.currentType?.data?.general_settings?.header_text_font_size!!.toFloat()
     }
 
-    fun setMainTitle(titleHead: String?, titleTextView: TextView?) {
-
-        when {
-            titleHead?.length!! < 29 -> titleTextView?.text = titleHead
-            else -> titleTextView?.text = titleHead.substring(0, 18) + "..."
+    fun setMainTitle(titleHead: String?) {
+        binding?.toolbarTitle?.text = when {
+            titleHead?.length!! < 29 -> titleHead
+            else -> titleHead.substring(0, 18) + "..."
         }
     }
 
@@ -180,17 +176,15 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         Handler().removeCallbacksAndMessages(null)
         Handler().postDelayed({ addBtnClicked = false }, 800)
 
-        Log.e("exception","girdi")
+        Log.e("exception", "girdi")
 
         if (cacheTickets!!.size > 0) {
             setMainTitle(
-                Desk360Constants.currentType?.data?.ticket_list_screen?.title,
-                binding?.toolbarTitle
+                Desk360Constants.currentType?.data?.ticket_list_screen?.title
             )
         } else {
             setMainTitle(
-                Desk360Constants.currentType?.data?.first_screen?.title,
-                binding?.toolbarTitle
+                Desk360Constants.currentType?.data?.first_screen?.title
             )
         }
 
@@ -236,7 +230,9 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             addBtnClicked = true
             Handler().removeCallbacksAndMessages(null);
             Handler().postDelayed({ addBtnClicked = false }, 800)
-            findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(R.id.action_ticketListFragment_to_preNewTicketFragment)
+
+            findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(Desk360TicketListFragmentDirections.actionTicketListFragmentToPreNewTicketFragment())
+
             return true
         }
 

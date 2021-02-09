@@ -1,7 +1,6 @@
 package com.teknasyon.desk360.view.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -12,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360SuccessScreenLayoutBinding
 import com.teknasyon.desk360.helper.Desk360Constants
@@ -39,9 +38,7 @@ class Desk360SuccessScreen : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.successScreenOpenMessageForm.setOnClickListener {
-
-//            Navigation.findNavController(it).navigateUp()
-            Navigation.findNavController(activity!!,R.id.my_nav_host_fragment).navigate(R.id.action_thanksFragment_to_ticketListFragment)
+            findNavController().navigate(Desk360SuccessScreenDirections.actionThanksFragmentToTicketListFragment())
         }
 
         (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.VISIBLE
@@ -101,13 +98,16 @@ class Desk360SuccessScreen : Fragment() {
 
         binding.successScreenBottomFooter.movementMethod = ScrollingMovementMethod()
 
-        binding.successScreenOpenMessageFormText.text = Desk360Constants.currentType?.data?.ticket_success_screen?.button_text
-        binding.successScreenOpenMessageFormText.textSize = Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_font_size!!.toFloat()
+        binding.successScreenOpenMessageFormText.text =
+            Desk360Constants.currentType?.data?.ticket_success_screen?.button_text
+        binding.successScreenOpenMessageFormText.textSize =
+            Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_font_size!!.toFloat()
         binding.successScreenOpenMessageFormText.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_color))
 
         if (Desk360Constants.currentType?.data?.ticket_success_screen?.button_icon_is_hidden!!) {
 
-            val layoutParams = binding.successScreenOpenMessageFormText.layoutParams as RelativeLayout.LayoutParams
+            val layoutParams =
+                binding.successScreenOpenMessageFormText.layoutParams as RelativeLayout.LayoutParams
             layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
             binding.successScreenOpenMessageFormText.layoutParams = layoutParams
         }
