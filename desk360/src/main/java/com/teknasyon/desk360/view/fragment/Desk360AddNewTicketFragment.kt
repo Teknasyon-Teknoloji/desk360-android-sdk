@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
 import android.text.Editable
+import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
@@ -70,6 +71,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     companion object {
         private const val MESSAGE_MIN_LENGTH = 3
+        private const val MESSAGE_MAX_LENGTH = 5000
+        private const val NAME_AND_EMAIL_MAX_LENGTH = 100
     }
 
     private var viewModel: AddNewTicketViewModel? = null
@@ -560,22 +563,49 @@ open class Desk360AddNewTicketFragment : Fragment(),
             )
         )
 
-        nameField?.holder?.textInputLayout?.setErrorTextColor(errorLabelTextColor)
-        eMailField?.holder?.textInputLayout?.setErrorTextColor(errorLabelTextColor)
-        messageField?.holder?.textAreaLayout?.setErrorTextColor(errorLabelTextColor)
-
-        nameField?.holder?.textInputLayout?.boxStrokeErrorColor = errorLabelTextColor
-        eMailField?.holder?.textInputLayout?.boxStrokeErrorColor = errorLabelTextColor
-        messageField?.holder?.textAreaLayout?.boxStrokeErrorColor = errorLabelTextColor
-
-        messageField?.holder?.textAreaEditText?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                messageQuality(s)
+        nameField?.holder?.apply {
+            textInputLayout?.apply {
+                setErrorTextColor(errorLabelTextColor)
+                boxStrokeErrorColor = errorLabelTextColor
             }
-        })
+
+            textInputEditText?.filters =
+                arrayOf(InputFilter.LengthFilter(NAME_AND_EMAIL_MAX_LENGTH))
+        }
+
+        eMailField?.holder?.apply {
+            textInputLayout?.apply {
+                setErrorTextColor(errorLabelTextColor)
+                boxStrokeErrorColor = errorLabelTextColor
+            }
+
+            textInputEditText?.filters =
+                arrayOf(InputFilter.LengthFilter(NAME_AND_EMAIL_MAX_LENGTH))
+        }
+
+        messageField?.holder?.textAreaLayout?.apply {
+            setErrorTextColor(errorLabelTextColor)
+            boxStrokeErrorColor = errorLabelTextColor
+        }
+
+        messageField?.holder?.textAreaEditText?.apply {
+            addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {}
+                override fun beforeTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    messageQuality(s)
+                }
+            })
+
+            filters = arrayOf(InputFilter.LengthFilter(MESSAGE_MAX_LENGTH))
+        }
 
         Util.setEditTextScrollable(messageField?.holder?.textAreaEditText!!)
 
