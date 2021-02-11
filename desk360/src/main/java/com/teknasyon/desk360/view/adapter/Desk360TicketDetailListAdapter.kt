@@ -11,7 +11,7 @@ import android.webkit.WebSettings
 import android.widget.MediaController
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360IncomingMessageItemLayoutBinding
 import com.teknasyon.desk360.databinding.Desk360SendMessageItemLayoutBinding
@@ -109,7 +109,7 @@ class Desk360TicketDetailListAdapter(
                     else -> {
 
                         holder.itemView.imageUrl.visibility = View.VISIBLE
-                        Picasso.get().load(url).into(holder.itemView.imageUrl)
+                        Glide.with(holder.itemView.imageUrl.context).load(url).into(holder.itemView.imageUrl)
                     }
                 }
 
