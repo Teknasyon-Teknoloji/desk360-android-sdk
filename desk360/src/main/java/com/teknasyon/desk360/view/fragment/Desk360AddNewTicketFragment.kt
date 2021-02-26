@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
 import android.text.Editable
+import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
@@ -33,7 +34,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -67,6 +68,12 @@ import java.io.FileOutputStream
 
 open class Desk360AddNewTicketFragment : Fragment(),
     Desk360BottomSheetDialogFragment.BottomSheetListener {
+
+    companion object {
+        private const val MESSAGE_MIN_LENGTH = 3
+        private const val MESSAGE_MAX_LENGTH = 5000
+        private const val NAME_AND_EMAIL_MAX_LENGTH = 100
+    }
 
     private var viewModel: AddNewTicketViewModel? = null
     private var nameField: TextInputViewGroup? = null
@@ -154,12 +161,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
             view?.let { it1 ->
                 remove()
-                Navigation.findNavController(it1)
-                    .navigate(
-                        R.id.action_addNewTicketFragment_to_thanksFragment,
-                        null,
-                        NavOptions.Builder().setPopUpTo(R.id.addNewTicketFragment, true).build()
-                    )
+
+                findNavController().navigate(
+                    Desk360AddNewTicketFragmentDirections.actionAddNewTicketFragmentToThanksFragment(),
+                    NavOptions.Builder().setPopUpTo(R.id.addNewTicketFragment, true).build()
+                )
             }
 
             val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -193,7 +199,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         viewModel = AddNewTicketViewModel()
 
-        typeList = Desk360Config.instance.getDesk360Preferences()?.types!!.data.create_screen.types
+        typeList = Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen?.types
         viewModel?.addedTicket?.observe(this, observerAddedTicket)
 
         viewModel?.error?.observe(this, Observer<String> { t ->
@@ -412,7 +418,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         if (editTextStyleModel.form_style_id == 3) {
 
                             view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_background_color))
-                            subjectTypeSpinner?.holder?.shadowBorder?.setStroke(editTextStyleModel.form_input_border_color)
+                            editTextStyleModel.form_input_border_color?.let {
+                                subjectTypeSpinner?.holder?.shadowBorder?.setStroke(
+                                    it
+                                )
+                            }
                             subjectTypeSpinner?.holder?.selectBoxCardView?.setCardBackgroundColor(
                                 Color.parseColor(editTextStyleModel.form_input_background_color)
                             )
@@ -422,7 +432,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
                     if (editTextStyleModel.form_style_id == 3) {
 
-                        subjectTypeSpinner?.holder?.shadowBorder?.setStroke(editTextStyleModel.form_input_focus_border_color)
+                        editTextStyleModel.form_input_focus_border_color?.let {
+                            subjectTypeSpinner?.holder?.shadowBorder?.setStroke(
+                                it
+                            )
+                        }
                         view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_focus_background_color))
                         subjectTypeSpinner?.holder?.selectBoxCardView?.setCardBackgroundColor(
                             Color.parseColor(
@@ -489,7 +503,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
                             if (editTextStyleModel.form_style_id == 3) {
 
                                 view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_background_color))
-                                spinnerItem.holder.shadowBorder?.setStroke(editTextStyleModel.form_input_border_color)
+                                editTextStyleModel.form_input_border_color?.let {
+                                    spinnerItem.holder.shadowBorder?.setStroke(
+                                        it
+                                    )
+                                }
                                 spinnerItem.holder.selectBoxCardView?.setCardBackgroundColor(
                                     Color.parseColor(
                                         editTextStyleModel.form_input_background_color
@@ -518,7 +536,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
                         if (editTextStyleModel.form_style_id == 3) {
 
-                            spinnerItem.holder.shadowBorder?.setStroke(editTextStyleModel.form_input_focus_border_color)
+                            editTextStyleModel.form_input_focus_border_color?.let {
+                                spinnerItem.holder.shadowBorder?.setStroke(
+                                    it
+                                )
+                            }
                             view?.setBackgroundColor(Color.parseColor(editTextStyleModel.form_input_focus_background_color))
                             spinnerItem.holder.selectBoxCardView?.setCardBackgroundColor(
                                 Color.parseColor(editTextStyleModel.form_input_focus_background_color)
@@ -541,22 +563,49 @@ open class Desk360AddNewTicketFragment : Fragment(),
             )
         )
 
-        nameField?.holder?.textInputLayout?.setErrorTextColor(errorLabelTextColor)
-        eMailField?.holder?.textInputLayout?.setErrorTextColor(errorLabelTextColor)
-        messageField?.holder?.textAreaLayout?.setErrorTextColor(errorLabelTextColor)
-
-        nameField?.holder?.textInputLayout?.boxStrokeErrorColor = errorLabelTextColor
-        eMailField?.holder?.textInputLayout?.boxStrokeErrorColor = errorLabelTextColor
-        messageField?.holder?.textAreaLayout?.boxStrokeErrorColor = errorLabelTextColor
-
-        messageField?.holder?.textAreaEditText?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                messageQuality(s)
+        nameField?.holder?.apply {
+            textInputLayout?.apply {
+                setErrorTextColor(errorLabelTextColor)
+                boxStrokeErrorColor = errorLabelTextColor
             }
-        })
+
+            textInputEditText?.filters =
+                arrayOf(InputFilter.LengthFilter(NAME_AND_EMAIL_MAX_LENGTH))
+        }
+
+        eMailField?.holder?.apply {
+            textInputLayout?.apply {
+                setErrorTextColor(errorLabelTextColor)
+                boxStrokeErrorColor = errorLabelTextColor
+            }
+
+            textInputEditText?.filters =
+                arrayOf(InputFilter.LengthFilter(NAME_AND_EMAIL_MAX_LENGTH))
+        }
+
+        messageField?.holder?.textAreaLayout?.apply {
+            setErrorTextColor(errorLabelTextColor)
+            boxStrokeErrorColor = errorLabelTextColor
+        }
+
+        messageField?.holder?.textAreaEditText?.apply {
+            addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {}
+                override fun beforeTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    messageQuality(s)
+                }
+            })
+
+            filters = arrayOf(InputFilter.LengthFilter(MESSAGE_MAX_LENGTH))
+        }
 
         Util.setEditTextScrollable(messageField?.holder?.textAreaEditText!!)
 
@@ -621,8 +670,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         Handler().postDelayed({
             activity.setMainTitle(
-                createScreen.title,
-                activity.binding?.toolbarTitle
+                createScreen.title
             )
         }, 35)
     }
@@ -830,7 +878,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = true
                 false
             }
-            s.length < 3 -> {
+            s.length < MESSAGE_MIN_LENGTH -> {
                 messageField?.holder?.textAreaLayout?.error =
                     Desk360Constants.currentType?.data?.general_settings?.required_textarea_message
                         ?: "Mesaj Alanını Doldurunuz."
@@ -850,7 +898,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
     private fun validateAllField() {
-        if (nameFieldFill && emailFieldFill && messageLength > 0 && selectedItem) {
+        if (nameFieldFill && emailFieldFill && messageLength >= MESSAGE_MIN_LENGTH && selectedItem) {
             for (i in 0 until customInputViewList.size) {
                 val customInputData =
                     customInputViewList[i].holder.textInputEditText?.text.toString()
@@ -873,7 +921,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
             val typeId =
                 selectedTypeId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val source = "App".toRequestBody("text/plain".toMediaTypeOrNull())
-            val platform = "Android".toRequestBody("text/plain".toMediaTypeOrNull())
+            val platform =
+                (if (Desk360Constants.platform == Platform.HUAWEI) "Huawei" else "Android").toRequestBody(
+                    "text/plain".toMediaTypeOrNull()
+                )
             val settings = Desk360Constants.jsonObject.toString().toRequestBody(json)
             val countryCode =
                 Desk360Constants.countryCode().toUpperCase()
@@ -932,7 +983,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     selectedItem = false
                     subjectTypeSpinner?.holder?.selectBox?.performClick()
                 }
-                messageLength <= 0 -> {
+                messageLength < MESSAGE_MIN_LENGTH -> {
                     messageField?.holder?.textAreaLayout?.error =
                         Desk360Constants.currentType?.data?.general_settings?.required_textarea_message
                             ?: "Mesaj Alanını Doldurunuz."
