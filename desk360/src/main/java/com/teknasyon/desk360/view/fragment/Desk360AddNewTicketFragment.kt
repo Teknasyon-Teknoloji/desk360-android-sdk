@@ -526,11 +526,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
                         optionsList.run {
                             this[position].let { it1 ->
-                                val customSelectboxId = it1.order.toString()
+                                val customSelectboxValue = it1.value.toString()
                                     .toRequestBody("text/plain".toMediaTypeOrNull())
 
                                 params[customSelectBoxField[i].name.toString()] =
-                                    customSelectboxId
+                                    customSelectboxValue
                             }
                         }
 
@@ -831,7 +831,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 nameField?.holder?.textInputLayout?.isErrorEnabled = true
                 false
             }
-
+            s.length < MESSAGE_MIN_LENGTH -> {
+                nameField?.holder?.textInputLayout?.error ="İsim bilgisi 3 karakterden küçük olamaz!"
+                nameField?.holder?.textInputLayout?.isErrorEnabled = true
+                false
+            }
             else -> {
                 nameField?.holder?.textInputLayout?.isErrorEnabled = false
                 nameField?.holder?.textInputLayout?.error = null
@@ -879,9 +883,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 false
             }
             s.length < MESSAGE_MIN_LENGTH -> {
-                messageField?.holder?.textAreaLayout?.error =
-                    Desk360Constants.currentType?.data?.general_settings?.required_textarea_message
-                        ?: "Mesaj Alanını Doldurunuz."
+                messageField?.holder?.textAreaLayout?.error = "Mesaj bilgisi 3 karakterden küçük olamaz!"
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = true
                 false
             }
@@ -984,9 +986,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     subjectTypeSpinner?.holder?.selectBox?.performClick()
                 }
                 messageLength < MESSAGE_MIN_LENGTH -> {
-                    messageField?.holder?.textAreaLayout?.error =
-                        Desk360Constants.currentType?.data?.general_settings?.required_textarea_message
-                            ?: "Mesaj Alanını Doldurunuz."
+                    messageField?.holder?.textAreaLayout?.error = "Mesaj bilgisi 3 karakterden küçük olamaz!"
                     messageFieldFill = false
                     observerMessage()
                 }
