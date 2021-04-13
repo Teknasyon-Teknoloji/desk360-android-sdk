@@ -101,13 +101,13 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var nameData: String? = null
     private var emailData: String? = null
     private var messageData: String? = null
-    private var messageLength: Int = 0
-    private var nameFieldFill: Boolean = false
-    private var emailFieldFill: Boolean = false
-    private var messageFieldFill: Boolean = false
-    private var selectedItem: Boolean = false
+    private var messageLength = 0
+    private var nameFieldFill = false
+    private var emailFieldFill = false
+    private var messageFieldFill = false
+    private var selectedItem = false
     private val listOfType: ArrayList<String> = arrayListOf()
-    private var invalidEmail: Boolean = false
+    private var invalidEmail = false
 
     private lateinit var activity: Desk360BaseActivity
 
@@ -359,6 +359,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
             }
         })
 
+        if (Desk360Constants.name?.isNotEmpty() == true) {
+            nameField?.holder?.textInputEditText?.setText(Desk360Constants.name)
+        }
+
         /**
          * email filed
          */
@@ -380,6 +384,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 emailQuality(s)
             }
         })
+
+        if (Desk360Constants.emailAddress?.isNotEmpty() == true) {
+            eMailField?.holder?.textInputEditText?.setText(Desk360Constants.emailAddress)
+        }
 
         for (i in customInputField.indices) {
             val customInputViewGroup =
@@ -832,7 +840,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 false
             }
             s.length < MESSAGE_MIN_LENGTH -> {
-                nameField?.holder?.textInputLayout?.error ="İsim bilgisi 3 karakterden küçük olamaz!"
+                nameField?.holder?.textInputLayout?.error =
+                    "İsim bilgisi 3 karakterden küçük olamaz!"
                 nameField?.holder?.textInputLayout?.isErrorEnabled = true
                 false
             }
@@ -883,7 +892,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 false
             }
             s.length < MESSAGE_MIN_LENGTH -> {
-                messageField?.holder?.textAreaLayout?.error = "Mesaj bilgisi 3 karakterden küçük olamaz!"
+                messageField?.holder?.textAreaLayout?.error =
+                    "Mesaj bilgisi 3 karakterden küçük olamaz!"
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = true
                 false
             }
@@ -986,7 +996,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     subjectTypeSpinner?.holder?.selectBox?.performClick()
                 }
                 messageLength < MESSAGE_MIN_LENGTH -> {
-                    messageField?.holder?.textAreaLayout?.error = "Mesaj bilgisi 3 karakterden küçük olamaz!"
+                    messageField?.holder?.textAreaLayout?.error =
+                        "Mesaj bilgisi 3 karakterden küçük olamaz!"
                     messageFieldFill = false
                     observerMessage()
                 }

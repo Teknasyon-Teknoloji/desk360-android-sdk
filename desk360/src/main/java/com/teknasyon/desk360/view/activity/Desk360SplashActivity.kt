@@ -32,7 +32,9 @@ class Desk360SplashActivity : AppCompatActivity() {
                 environment = bundle.getString("environment")!!,
                 device_token = bundle.getString("device_token"),
                 app_language = bundle.getString("app_language")!!,
-                app_country_code = bundle.getString("app_country_code")
+                app_country_code = bundle.getString("app_country_code"),
+                name = bundle.getString("name"),
+                emailAddress = bundle.getString("email_address")
             ) {
 
                 val intent = Intent(this, Desk360BaseActivity::class.java)

@@ -35,7 +35,9 @@ class MainActivity : AppCompatActivity(), LifecycleOwner {
             environment = "production",
             appLanguage = "tr",
             platform = Platform.GOOGLE,
-            appCountryCode = "de"
+            appCountryCode = "de",
+            name = "desk 360 name",
+            emailAddress = "sampleapp@desk360.com"
         )
 
         startActivity(intent)

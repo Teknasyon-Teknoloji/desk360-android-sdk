@@ -47,7 +47,7 @@ class TextInputViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
         else
             holder.cardView?.visibility = View.VISIBLE
 
-        holder.textInputEditText?.setDesk360InputStyle(style,holder.textInputEditText)
+        holder.textInputEditText?.setDesk360InputStyle(style, holder.textInputEditText)
         holder.textInputLayout?.setDesk360TextAreaStyle(style)
 
         when (style.form_style_id) {
@@ -94,11 +94,11 @@ fun TextInputEditText.setDesk360InputStyle(
 
         1 -> {
             //line
-            this.setPadding(0, Util.changeDp(textInputEditText?.context,0f), 0, 24)
+            this.setPadding(0, Util.changeDp(textInputEditText?.context, 0f), 0, 24)
 
             val states = Array(2, init = { IntArray(1) })
-            states[0] = IntArray(1) {-android.R.attr.state_focused}
-            states[1] = IntArray(1) {android.R.attr.state_focused}
+            states[0] = IntArray(1) { -android.R.attr.state_focused }
+            states[1] = IntArray(1) { android.R.attr.state_focused }
 
             val colors = IntArray(2, init = { 0 })
             colors[0] = Color.parseColor(style.form_input_border_color)

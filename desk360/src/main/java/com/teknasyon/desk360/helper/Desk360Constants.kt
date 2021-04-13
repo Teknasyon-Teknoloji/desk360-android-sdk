@@ -32,6 +32,8 @@ object Desk360Constants {
         }
     var environment = "sandbox"
     var country_code: String? = null
+    var name: String? = null
+    var emailAddress: String? = null
 
     fun desk360Config(
         app_key: String,
@@ -41,6 +43,8 @@ object Desk360Constants {
         json_object: JSONObject? = null,
         app_language: String = "",
         app_country_code: String? = "",
+        name: String? = null,
+        emailAddress: String? = null,
         desk360ConfigResponse: (status: Boolean) -> Unit = {}
     ): Boolean {
 
@@ -53,6 +57,8 @@ object Desk360Constants {
         this.app_key = app_key
         this.app_version = app_version
         this.environment = environment
+        this.name = name
+        this.emailAddress = emailAddress
 
         if (app_language == "") {
             this.language_code = Locale.getDefault().language
@@ -137,7 +143,9 @@ object Desk360Constants {
         appLanguage: String,
         platform: Platform = Platform.GOOGLE,
         environment: String,
-        appCountryCode: String
+        appCountryCode: String,
+        name: String? = null,
+        emailAddress: String? = null
     ): Intent {
         this.platform = platform
 
@@ -154,6 +162,8 @@ object Desk360Constants {
         intent.putExtra("device_token", deviceToken)
         intent.putExtra("appId", context.applicationInfo.processName)
         intent.putExtra("app_country_code", appCountryCode)
+        intent.putExtra("name", name)
+        intent.putExtra("email_address", emailAddress)
 
         return intent
     }
