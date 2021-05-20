@@ -4,12 +4,11 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.widget.TextView
-import com.teknasyon.desk360.helper.Desk360Constants.currentTheme
 
 class Desk360TextTitle : TextView {
     init {
 
-        when (currentTheme) {
+        when (Desk360Constants.manager?.currentTheme) {
             1, 2, 3, 5 -> {
                 this.setTextColor(Color.parseColor("#de000000"))
             }

@@ -10,7 +10,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
 class Desk360EditTextMessage : EditText {
     init {
 
-        when (Desk360Constants.currentTheme) {
+        when (Desk360Constants.manager?.currentTheme) {
             1 -> {
                 this.setTextColor(Color.BLACK)
             }

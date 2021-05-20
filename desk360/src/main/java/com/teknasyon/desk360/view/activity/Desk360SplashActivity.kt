@@ -9,6 +9,14 @@ import com.teknasyon.desk360.helper.Desk360Constants
 
 class Desk360SplashActivity : AppCompatActivity() {
 
+    companion object {
+
+        const val EXTRA_APP_ID = "EXTRA_APP_ID"
+        const val EXTRA_TARGET_ID = "EXTRA_TARGET_ID"
+        const val EXTRA_TOKEN = "EXTRA_TOKEN"
+        const val EXTRA_DEVICE_TOKEN = "EXTRA_DEVICE_TOKEN"
+    }
+
     private var notificationToken: String? = null
     private var targetId: String? = null
     private var appId: String? = null
@@ -18,29 +26,22 @@ class Desk360SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_desk_360)
 
-        intent.extras?.let {bundle ->
-            appId = bundle.getString("appId")
-            targetId = bundle.getString("targetId")
-            notificationToken = bundle.getString("token")
-
+        intent.extras?.let { bundle ->
+            appId = bundle.getString(EXTRA_APP_ID)
+            targetId = bundle.getString(EXTRA_TARGET_ID)
+            notificationToken = bundle.getString(EXTRA_TOKEN)
+            val deviceId = bundle.getString(EXTRA_DEVICE_TOKEN)
             Desk360Config().context = this
-            Desk360Constants.currentTheme = 1
+            Desk360Constants.manager?.currentTheme = 1
 
-            Desk360Constants.desk360Config(
-                app_key = bundle.getString("app_key")!!,
-                app_version = bundle.getString("app_version")!!,
-                environment = bundle.getString("environment")!!,
-                device_token = bundle.getString("device_token"),
-                app_language = bundle.getString("app_language")!!,
-                app_country_code = bundle.getString("app_country_code"),
-                name = bundle.getString("name"),
-                emailAddress = bundle.getString("email_address")
-            ) {
+            if (!deviceId.isNullOrEmpty())
+                Desk360Config.instance.getDesk360Preferences()?.adId = deviceId
 
+            Desk360Constants.desk360Config {
                 val intent = Intent(this, Desk360BaseActivity::class.java)
-                intent.putExtra("targetId", targetId)
-                intent.putExtra("token", notificationToken)
-                intent.putExtra("appId", appId)
+                intent.putExtra(EXTRA_TARGET_ID, targetId)
+                intent.putExtra(EXTRA_TOKEN, notificationToken)
+                intent.putExtra(EXTRA_APP_ID, appId)
                 startActivity(intent)
                 finish()
 

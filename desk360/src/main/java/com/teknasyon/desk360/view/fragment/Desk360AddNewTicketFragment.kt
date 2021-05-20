@@ -255,6 +255,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 HtmlCompat.FROM_HTML_MODE_COMPACT
             )
 
+        Desk360Constants.currentType?.data?.create_screen?.form_input_color?.let { color ->
+            binding.formConfirmText.setTextColor(Color.parseColor(color))
+            binding.formConfirmText.setLinkTextColor(Color.parseColor(color))
+        }
+
         binding.formConfirmText.movementMethod = LinkMovementMethod.getInstance()
         createScreen?.button_background_color?.let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -359,8 +364,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
             }
         })
 
-        if (Desk360Constants.name?.isNotEmpty() == true) {
-            nameField?.holder?.textInputEditText?.setText(Desk360Constants.name)
+        if (Desk360Constants.manager?.name?.isNotEmpty() == true) {
+            nameField?.holder?.textInputEditText?.setText(Desk360Constants.manager?.name)
         }
 
         /**
@@ -385,8 +390,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
             }
         })
 
-        if (Desk360Constants.emailAddress?.isNotEmpty() == true) {
-            eMailField?.holder?.textInputEditText?.setText(Desk360Constants.emailAddress)
+        if (Desk360Constants.manager?.emailAddress?.isNotEmpty() == true) {
+            eMailField?.holder?.textInputEditText?.setText(Desk360Constants.manager?.emailAddress)
         }
 
         for (i in customInputField.indices) {
@@ -934,10 +939,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 selectedTypeId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val source = "App".toRequestBody("text/plain".toMediaTypeOrNull())
             val platform =
-                (if (Desk360Constants.platform == Platform.HUAWEI) "Huawei" else "Android").toRequestBody(
+                (if (Desk360Constants.manager?.platform == Platform.HUAWEI) "Huawei" else "Android").toRequestBody(
                     "text/plain".toMediaTypeOrNull()
                 )
-            val settings = Desk360Constants.jsonObject.toString().toRequestBody(json)
+            val settings = Desk360Constants.manager?.jsonObject.toString().toRequestBody(json)
             val countryCode =
                 Desk360Constants.countryCode().toUpperCase()
                     .toRequestBody("text/plain".toMediaTypeOrNull())
