@@ -26,7 +26,7 @@ class Desk360RetrofitFactory private constructor() {
                 var request = chain.request()
                 request = request.newBuilder().apply {
                     addHeader("Version", BuildConfig.VERSION_NAME)
-                    addHeader("Environment", Desk360Constants.environment)
+                    Desk360Constants.manager?.environment?.let { addHeader("Environment", it) }
                 }.build()
                 chain.proceed(request)
             }

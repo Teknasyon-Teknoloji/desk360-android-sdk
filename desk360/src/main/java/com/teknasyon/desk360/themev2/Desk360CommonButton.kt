@@ -7,8 +7,7 @@ import android.os.Build
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.teknasyon.desk360.helper.Desk360Constants.currentType
-
+import com.teknasyon.desk360.helper.Desk360Constants
 
 class Desk360CommonButton : ConstraintLayout {
 
@@ -16,19 +15,20 @@ class Desk360CommonButton : ConstraintLayout {
 
     init {
 
-        gradientDrawable.setColor(Color.parseColor(currentType?.data?.first_screen?.button_background_color))
+        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_background_color))
         gradientDrawable.setStroke(
             2,
-            Color.parseColor(currentType?.data?.first_screen?.button_border_color)
+            Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_border_color)
         )
-        if(currentType?.data?.first_screen?.button_shadow_is_hidden==true){
+
+        if (Desk360Constants.currentType?.data?.first_screen?.button_shadow_is_hidden == true) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.elevation=20f
+                this.elevation = 20f
             }
         }
 
 
-        when (currentType?.data?.first_screen?.button_style_id) {
+        when (Desk360Constants.currentType?.data?.first_screen?.button_style_id) {
             1 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
             }

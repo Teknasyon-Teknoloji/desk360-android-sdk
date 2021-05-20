@@ -5,9 +5,6 @@ import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360Helper
-import com.teknasyon.desk360.helper.Desk360Constants
-import com.teknasyon.desk360.helper.Platform
-import com.teknasyon.desk360.model.Desk360Register
 import com.teknasyon.desk360.model.Desk360RegisterResponse
 import com.teknasyon.desk360.modelv2.Desk360ConfigResponse
 import retrofit2.Call

@@ -55,9 +55,9 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         bundle?.let {
 
-            appId = bundle.getString("appId")
-            targetId = bundle.getString("targetId")
-            notificationToken = bundle.getString("token")
+            appId = bundle.getString(Desk360SplashActivity.EXTRA_APP_ID)
+            targetId = bundle.getString(Desk360SplashActivity.EXTRA_TARGET_ID)
+            notificationToken = bundle.getString(Desk360SplashActivity.EXTRA_TOKEN)
         }
 
         binding = Desk360FragmentMainBinding.inflate(layoutInflater)
