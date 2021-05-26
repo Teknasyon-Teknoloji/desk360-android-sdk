@@ -93,24 +93,34 @@ import com.teknasyon.desk360.helper.Desk360Constants
 ```
 
 ```
-##### fun Desk360Constants.initDesk360(context: Context,
-					token: String,
-					targetId: String,
-					appVersion: String,
-					deviceToken: String,
-					appKey: String,
-					appLanguage: String,
-					isTest: Boolean):Intent
+##### val desk360SDKManager = Desk360SDKManager.Builder()
+            .appKey(key:String)
+            .appVersion(version:String)
+            .languageCode(code:String)
+            .environment(environment:String)
+            .platform(platform:Platform)
+            .countryCode(code:String)
+            .theme(themeId:Int)
+            .jsonObject(json:JSONObject?)
+            .build()
+
+        val desk360Client = desk360SDKManager.initialize(_targetId = "", _token =  "", _deviceToken = "")
+        desk360Client.start(this)
 
 | Parameters   | Description                                                  |
 | ------------ | ------------------------------------------------------------ |
 | token        | your firebase token |
 | targetId     | ticket id from firebase message body  
+| deviceToken  | your Android device id
 | appKey       | desk360 Api Key will provided when you get the license
 | appVersion   | your application's version number
-| deviceToken  | your Android device id
-| appLanguage  | ISO 639-1 Code	for sdk language: "en","fr,"tr
-| isTest       | boolean flag for test or prod api
+| languageCode | ISO 639-1 Code	for sdk language: "en","fr,"tr
+| environment  | flag for sandbox or production api, Environment object class should be used
+| platform     | mobile platform: Platform.GOOGLE or Platform.HUAWEI
+| countryCode  | country code: "tr", "us", "de"
+| theme        | custom theme id
+| jsonObject   | for custom datas
+
 
 ```
 ### Add to your AndroidManifest.xml
@@ -209,17 +219,25 @@ Example (In your firebaseMessagingService class) :
 
         pendingIntent = targetId?.let { targetId ->
 
-            val intent = Desk360Constants.initDesk360(
-                    context = this,
-                    token = "your firebase token",
-                    targetId = "targetId from notification body",
-                    appVersion = "app version",
-                    deviceToken = "your Android device id",
-                    appKey = "desk360 api key",
-                    appLanguage = "your selected ISO 639-1 Code for language"
-		    isTest: "boolean flag for test or prod api")
-		    
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            val desk360SDKManager = Desk360SDKManager.Builder()
+            .appKey("app key")
+            .appVersion("app version")
+            .languageCode("your selected ISO 639-1 Code for language: tr, en")
+            .environment("environment info: Environment.PRODUCTION or Environment.SANDBOX" )
+            .platform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
+            .countryCode("country code: tr, de")
+            .theme("theme id")
+            .jsonObject("for custom data")
+            .addIntentFlags(arrayOf(Intent.FLAG_ACTIVITY_CLEAR_TOP, Intent.FLAG_ACTIVITY_SINGLE_TOP))
+            .build()
+
+        val desk360Client = desk360SDKManager.initialize(
+            _targetId = "targetId from notification body",
+            _token = "your firebase token",
+            _deviceToken = "your Android device id"
+        )
+
+        val intent = desk360Client.getIntent(this)
 
             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         } ?: run {
@@ -230,38 +248,52 @@ Example (In your firebaseMessagingService class) :
 ### Use Desk 360
 ```
 
-  val intent = Desk360Constants.initDesk360(
-                     context = this,
-                     token = "your firebase token",
-                     targetId = "targetId from notification body",
-                     appVersion = "app version",
-                     deviceToken = "your Android device id",
-                     appKey = "desk360 api key",
-                     appLanguage = "your selected ISO 639-1 Code for language"
- 		    isTest: "boolean flag for test or prod api")
+        val desk360SDKManager = Desk360SDKManager.Builder()
+            .appKey("app key")
+            .appVersion("app version")
+            .languageCode("your selected ISO 639-1 Code for language: tr, en")
+            .environment("environment info: Environment.PRODUCTION or Environment.SANDBOX" )
+            .platform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
+            .countryCode("country code: tr, de")
+            .theme("theme id")
+            .jsonObject("for custom data")
+            .addIntentFlags(arrayOf(Intent.FLAG_ACTIVITY_CLEAR_TOP, Intent.FLAG_ACTIVITY_SINGLE_TOP))
+            .build()
 
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP )
-                    startActivity(intent)
-                    finish()		
+        val desk360Client = desk360SDKManager.initialize(
+            _targetId = "targetId from notification body",
+            _token = "your firebase token",
+            _deviceToken = "your Android device id"
+        )
+
+        desk360Client.start(this)
+        finish()		
 
 ```
 ### Open Desk360 without Notification Service
 ```
 If your app will not use notification then you must set token "" and for targetId ""
 
- val intent = Desk360Constants.initDesk360(
-                    context = this,
-                    token = "your firebase token",
-                    targetId = "targetId from notification body",
-                    appVersion = "app version",
-                    deviceToken = "your Android device id",
-                    appKey = "desk360 api key",
-                    appLanguage = "your selected ISO 639-1 Code for language"
-		    isTest: "boolean flag for test or prod api")
+        val desk360SDKManager = Desk360SDKManager.Builder()
+            .appKey("app key")
+            .appVersion("app version")
+            .languageCode("your selected ISO 639-1 Code for language: tr, en")
+            .environment("environment info: Environment.PRODUCTION or Environment.SANDBOX" )
+            .platform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
+            .countryCode("country code: tr, de")
+            .theme("theme id")
+            .jsonObject("for custom data")
+            .addIntentFlags(arrayOf(Intent.FLAG_ACTIVITY_CLEAR_TOP, Intent.FLAG_ACTIVITY_SINGLE_TOP))
+            .build()
 
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP )
-                    startActivity(intent)
-                    finish()
+        val desk360Client = desk360SDKManager.initialize(
+            _targetId = "targetId from notification body",
+            _token = "your firebase token",
+            _deviceToken = "your Android device id"
+        )
+
+        desk360Client.start(this)
+        finish()
 ```
 ### Language
 ```
