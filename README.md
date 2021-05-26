@@ -97,7 +97,7 @@ import com.teknasyon.desk360.helper.Desk360Constants
             .appKey(key:String)
             .appVersion(version:String)
             .languageCode(code:String)
-            .environment(environment:String)
+            .environment(environment:Environment)
             .platform(platform:Platform)
             .countryCode(code:String)
             .theme(themeId:Int)
