@@ -219,27 +219,26 @@ Example (In your firebaseMessagingService class) :
 
         pendingIntent = targetId?.let { targetId ->
 
-            val desk360SDKManager = Desk360SDKManager.Builder()
-            .appKey("app key")
-            .appVersion("app version")
-            .languageCode("your selected ISO 639-1 Code for language: tr, en")
-            .environment("environment info: Environment.PRODUCTION or Environment.SANDBOX" )
-            .platform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
-            .countryCode("country code: tr, de")
-            .theme("theme id")
-            .jsonObject("for custom data")
-            .addIntentFlags(arrayOf(Intent.FLAG_ACTIVITY_CLEAR_TOP, Intent.FLAG_ACTIVITY_SINGLE_TOP))
-            .build()
+             val desk360SDKManager = Desk360SDKManager.Builder()
+                      .appKey("app key")
+                      .appVersion("app version")
+                      .languageCode("your selected ISO 639-1 Code for language: tr, en")
+                      .environment("environment info: Environment.PRODUCTION or Environment.SANDBOX" )
+                      .platform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
+                      .countryCode("country code: tr, de")
+                      .theme("theme id")
+                      .jsonObject("for custom data")
+                      .addIntentFlags(arrayOf(Intent.FLAG_ACTIVITY_CLEAR_TOP, Intent.FLAG_ACTIVITY_SINGLE_TOP))
+                      .build()
 
-        val desk360Client = desk360SDKManager.initialize(
-            _targetId = "targetId from notification body",
-            _token = "your firebase token",
-            _deviceToken = "your Android device id"
-        )
+             val desk360Client = desk360SDKManager.initialize(
+                      _targetId = "targetId from notification body",
+                      _token = "your firebase token",
+                      _deviceToken = "your Android device id"
+             )
 
-        val intent = desk360Client.getIntent(this)
-
-            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+             val intent = desk360Client.getIntent(this)
+             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         } ?: run {
             PendingIntent.getActivity(this, 0, Intent(this, YourStartingActivity::class.java), PendingIntent.FLAG_ONE_SHOT)
         }
