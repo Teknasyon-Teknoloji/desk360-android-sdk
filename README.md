@@ -88,7 +88,10 @@ Or Maven
 ##### Start Desk360 #####
 
 ```
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360Config
+import com.teknasyon.desk360.helper.Desk360SDKManager
+import com.teknasyon.desk360.helper.Environment
+import com.teknasyon.desk360.helper.Platform
 
 ```
 
