@@ -29,6 +29,7 @@ class Desk360SDKManager internal constructor(builder: Builder) {
     val name = builder.name
     val emailAddress = builder.emailAddress
     val intentFlags = builder.intentFlags
+    val enableHelpMode = builder.enableHelpMode
 
     class Builder {
         internal var currentTheme: Int = 1
@@ -44,6 +45,7 @@ class Desk360SDKManager internal constructor(builder: Builder) {
         internal var name: String? = null
         internal var emailAddress: String? = null
         internal var intentFlags: Array<Int>? = null
+        internal var enableHelpMode = true
 
         fun theme(theme: Int) = apply {
             this.currentTheme = theme
@@ -118,6 +120,10 @@ class Desk360SDKManager internal constructor(builder: Builder) {
 
         fun addIntentFlags(intentFlags: Array<Int>) = apply {
             this.intentFlags = intentFlags
+        }
+
+        fun enableHelpMode(enableHelpMode: Boolean) = apply {
+            this.enableHelpMode = enableHelpMode
         }
 
         fun build() = Desk360SDKManager(this)

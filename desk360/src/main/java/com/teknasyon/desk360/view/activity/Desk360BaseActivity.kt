@@ -11,6 +11,7 @@ import android.os.Handler
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -133,6 +134,9 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                 PorterDuff.Mode.SRC_ATOP
             )
         }
+
+        binding?.logo?.visibility =
+            if (Desk360Constants.currentType?.data?.general_settings?.copyright_logo_is_show == true) View.VISIBLE else View.GONE
     }
 
     fun notifyToolBar(cacheTickets: ArrayList<Desk360TicketResponse>) {
@@ -231,7 +235,13 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             Handler().removeCallbacksAndMessages(null);
             Handler().postDelayed({ addBtnClicked = false }, 800)
 
-            findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(Desk360TicketListFragmentDirections.actionTicketListFragmentToPreNewTicketFragment())
+            findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(
+                when (Desk360Constants.manager?.enableHelpMode) {
+                    true -> Desk360TicketListFragmentDirections.actionTicketListFragmentToPreNewTicketFragment()
+                    else -> Desk360TicketListFragmentDirections.actionTicketListFragmentToAddNewTicketFragment()
+                }
+            )
+
 
             return true
         }
