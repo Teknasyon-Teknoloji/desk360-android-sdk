@@ -68,6 +68,16 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+
+        <action
+            android:id="@+id/action_addNewTicketFragment_to_ticketListFragment"
+            app:destination="@id/ticketListFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popUpTo="@+id/base_navigation"
+            app:popUpToInclusive="true"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
 
     <fragment

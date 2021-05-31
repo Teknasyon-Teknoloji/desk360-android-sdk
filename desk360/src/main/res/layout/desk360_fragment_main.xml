@@ -8,7 +8,6 @@
     </data>
 
     <com.teknasyon.desk360.themev2.Desk360MainBackground
-
         android:id="@+id/main_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -43,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:defaultNavHost="true"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toTopOf="@+id/contactUsMainBottomBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -163,7 +163,10 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 remove()
 
                 findNavController().navigate(
-                    Desk360AddNewTicketFragmentDirections.actionAddNewTicketFragmentToThanksFragment(),
+                    when (Desk360Constants.manager?.enableHelpMode) {
+                        true -> Desk360AddNewTicketFragmentDirections.actionAddNewTicketFragmentToThanksFragment()
+                        else -> Desk360AddNewTicketFragmentDirections.actionAddNewTicketFragmentToTicketListFragment()
+                    },
                     NavOptions.Builder().setPopUpTo(R.id.addNewTicketFragment, true).build()
                 )
             }
