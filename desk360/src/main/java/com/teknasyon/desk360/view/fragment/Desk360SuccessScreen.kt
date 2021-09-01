@@ -17,105 +17,101 @@ import com.teknasyon.desk360.databinding.Desk360SuccessScreenLayoutBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
-import kotlinx.android.synthetic.main.desk360_fragment_main.*
-
 
 class Desk360SuccessScreen : Fragment() {
+    private var binding: Desk360SuccessScreenLayoutBinding? = null
 
-    private lateinit var binding: Desk360SuccessScreenLayoutBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Desk360SuccessScreenLayoutBinding.inflate(inflater, container, false).also {
             binding = it
-            binding.lifecycleOwner = viewLifecycleOwner
+            binding?.lifecycleOwner = viewLifecycleOwner
             return it.root
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as Desk360BaseActivity).binding.contactUsMainBottomBar.visibility = View.VISIBLE
 
-        binding.successScreenOpenMessageForm.setOnClickListener {
-            findNavController().navigate(Desk360SuccessScreenDirections.actionThanksFragmentToTicketListFragment())
-        }
+        binding?.apply {
+            successScreenOpenMessageForm.setOnClickListener {
+                findNavController().navigate(Desk360SuccessScreenDirections.actionThanksFragmentToTicketListFragment())
+            }
 
-        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.VISIBLE
+            Desk360CustomStyle.setFontWeight(
+                successScreenBottomFooter,
+                context,
+                Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
+            )
+            Desk360CustomStyle.setFontWeight(
+                successScreenOpenMessageFormText,
+                context,
+                Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_font_weight
+            )
+            Desk360CustomStyle.setFontWeight(
+                successScreenSubtitle,
+                context,
+                Desk360Constants.currentType?.data?.ticket_success_screen?.sub_title_font_weight
+            )
+            Desk360CustomStyle.setFontWeight(
+                successScreenDescription,
+                context,
+                Desk360Constants.currentType?.data?.ticket_success_screen?.description_font_weight
+            )
+            Desk360CustomStyle.setStyle(
+                Desk360Constants.currentType?.data?.ticket_success_screen?.button_style_id,
+                successScreenOpenMessageForm,
+                context!!
+            )
 
+            imageReceived.layoutParams?.height = context?.let {
+                convertDpToPixel(
+                    (Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
+                    it
+                ).toInt()
+            }
 
-        Desk360CustomStyle.setFontWeight(
-            binding.successScreenBottomFooter,
-            context,
-            Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
-        )
-        Desk360CustomStyle.setFontWeight(
-            binding.successScreenOpenMessageFormText,
-            context,
-            Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_font_weight
-        )
-        Desk360CustomStyle.setFontWeight(
-            binding.successScreenSubtitle,
-            context,
-            Desk360Constants.currentType?.data?.ticket_success_screen?.sub_title_font_weight
-        )
-        Desk360CustomStyle.setFontWeight(
-            binding.successScreenDescription,
-            context,
-            Desk360Constants.currentType?.data?.ticket_success_screen?.description_font_weight
-        )
-        Desk360CustomStyle.setStyle(
-            Desk360Constants.currentType?.data?.ticket_success_screen?.button_style_id,
-            binding.successScreenOpenMessageForm,
-            context!!
-        )
+            imageReceived.layoutParams?.width = context?.let {
+                convertDpToPixel(
+                    (Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
+                    it
+                ).toInt()
+            }
 
-        binding.imageReceived.layoutParams?.height = context?.let {
-            convertDpToPixel(
-                (Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
-                it
-            ).toInt()
-        }
-        binding.imageReceived.layoutParams?.width = context?.let {
-            convertDpToPixel(
-                (Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
-                it
-            ).toInt()
-        }
-        binding.imageReceived.requestLayout()
+            imageReceived.requestLayout()
+            imageReceived.setImageResource(R.drawable.received_message_image)
+            imageReceived.setColorFilter(
+                Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.icon_color),
+                PorterDuff.Mode.SRC_ATOP
+            )
 
-        binding.imageReceived.setImageResource(R.drawable.received_message_image)
-        binding.imageReceived.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.icon_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
+            successScreenButtonIcon.setImageResource(R.drawable.zarf)
+            successScreenButtonIcon.setColorFilter(
+                Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_color),
+                PorterDuff.Mode.SRC_ATOP
+            )
 
-        binding.successScreenButtonIcon.setImageResource(R.drawable.zarf)
-        binding.successScreenButtonIcon.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
+            successScreenBottomFooter.movementMethod = ScrollingMovementMethod()
+            successScreenOpenMessageFormText.text =
+                Desk360Constants.currentType?.data?.ticket_success_screen?.button_text
+            successScreenOpenMessageFormText.textSize =
+                Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_font_size!!.toFloat()
+            successScreenOpenMessageFormText.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_color))
 
-        binding.successScreenBottomFooter.movementMethod = ScrollingMovementMethod()
+            if (Desk360Constants.currentType?.data?.ticket_success_screen?.button_icon_is_hidden!!) {
 
-        binding.successScreenOpenMessageFormText.text =
-            Desk360Constants.currentType?.data?.ticket_success_screen?.button_text
-        binding.successScreenOpenMessageFormText.textSize =
-            Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_font_size!!.toFloat()
-        binding.successScreenOpenMessageFormText.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_color))
-
-        if (Desk360Constants.currentType?.data?.ticket_success_screen?.button_icon_is_hidden!!) {
-
-            val layoutParams =
-                binding.successScreenOpenMessageFormText.layoutParams as RelativeLayout.LayoutParams
-            layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
-            binding.successScreenOpenMessageFormText.layoutParams = layoutParams
+                val layoutParams =
+                    successScreenOpenMessageFormText.layoutParams as RelativeLayout.LayoutParams
+                layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+                successScreenOpenMessageFormText.layoutParams = layoutParams
+            }
         }
     }
 
     private fun convertDpToPixel(dp: Float, context: Context): Float {
         return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
-
-
 }

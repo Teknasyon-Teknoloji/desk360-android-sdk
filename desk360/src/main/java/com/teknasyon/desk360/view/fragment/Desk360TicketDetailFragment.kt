@@ -35,14 +35,12 @@ import com.teknasyon.desk360.viewmodel.TicketDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.desk360_fragment_main.*
 import java.util.*
 
 open class Desk360TicketDetailFragment : Fragment() {
-
     private val args: Desk360TicketDetailFragmentArgs by navArgs()
-
     private var binding: Desk360FragmentTicketDetailBinding? = null
+
     private var ticketDetailAdapter: Desk360TicketDetailListAdapter? = null
     private val gradientDrawable = GradientDrawable()
     private var backButtonAction: Disposable? = null
@@ -50,7 +48,7 @@ open class Desk360TicketDetailFragment : Fragment() {
     private val preferencesManager = PreferencesManager()
     private var cacheDesk360TicketResponse: Desk360TicketResponse? = null
 
-    private lateinit var desk360BaseActivity: Desk360BaseActivity
+    private var desk360BaseActivity: Desk360BaseActivity? = null
 
     private var observer = Observer<Desk360TicketResponse> {
 
@@ -114,18 +112,16 @@ open class Desk360TicketDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = Desk360FragmentTicketDetailBinding.inflate(inflater, container, false)
-
-        desk360BaseActivity.contactUsMainBottomBar.visibility = View.GONE
+        desk360BaseActivity?.binding?.contactUsMainBottomBar?.visibility = View.GONE
 
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
 
-        desk360BaseActivity.contactUsMainBottomBar.visibility = View.GONE
-        desk360BaseActivity.changeMainUI()
+        desk360BaseActivity?.binding?.contactUsMainBottomBar?.visibility = View.GONE
+        desk360BaseActivity?.changeMainUI()
 
         cacheDesk360TicketResponse =
             preferencesManager.readObject(
@@ -188,7 +184,7 @@ open class Desk360TicketDetailFragment : Fragment() {
 
                     addTicketToCache(message)
 
-                    args.ticketId?.let { it1 ->
+                    args.ticketId.let { it1 ->
                         viewModel?.addMessage(
                             it1,
                             binding?.messageEditText?.text.toString()

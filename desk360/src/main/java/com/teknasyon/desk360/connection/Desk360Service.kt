@@ -33,13 +33,13 @@ interface Desk360Service {
     @GET("api/v1/tickets/{ticket_id}")
     fun getMessages(
         @Header("Authorization") token: String = "Bearer ${Desk360Config.instance.getDesk360Preferences()?.data?.access_token}",
-        @Path("ticket_id") ticket_id: Int
+        @Path("ticket_id") ticketId: Int
     ): Call<Desk360TicketMessage>
 
     @POST("api/v1/tickets/{ticket_id}/messages")
     fun addMessage(
         @Header("Authorization") token: String = "Bearer ${Desk360Config.instance.getDesk360Preferences()?.data?.access_token}",
-        @Path("ticket_id") ticket_id: Int,
+        @Path("ticket_id") ticketId: Int,
         @Query("message") message: String
     ): Call<Desk360MessageResponse>
 }

@@ -2,6 +2,7 @@ package com.teknasyon.desk360.connection
 
 import com.teknasyon.desk360.BuildConfig
 import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Environment
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,7 +27,7 @@ class Desk360RetrofitFactory private constructor() {
                 var request = chain.request()
                 request = request.newBuilder().apply {
                     addHeader("Version", BuildConfig.VERSION_NAME)
-                    Desk360Constants.manager?.environment?.let { addHeader("Environment", it) }
+                    addHeader("Environment", Environment.PRODUCTION)
                 }.build()
                 chain.proceed(request)
             }
@@ -36,7 +37,7 @@ class Desk360RetrofitFactory private constructor() {
             retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
-                .baseUrl(Desk360Constants.baseURL!!)
+                .baseUrl(Desk360Constants.baseURL)
                 .build()
 
         desk360Service = retrofit!!.create(Desk360Service::class.java)

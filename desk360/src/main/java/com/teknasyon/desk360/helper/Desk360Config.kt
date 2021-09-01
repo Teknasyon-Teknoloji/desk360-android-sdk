@@ -1,7 +1,6 @@
 package com.teknasyon.desk360.helper
 
 import android.content.Context
-import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 
 /**
  * Created by seyfullah on 14,June,2019

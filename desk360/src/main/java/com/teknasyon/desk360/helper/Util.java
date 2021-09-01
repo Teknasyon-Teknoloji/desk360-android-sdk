@@ -1,11 +1,9 @@
 package com.teknasyon.desk360.helper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.widget.EditText;
-
-import androidx.core.content.ContextCompat;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,16 +12,13 @@ import java.util.Locale;
 
 public class Util {
 
+    @SuppressLint("ClickableViewAccessibility")
     public static void setEditTextScrollable(EditText edittext){
-
         edittext.setOnTouchListener((view, event) -> {
-
             if (view.getId() == edittext.getId()) {
                 view.getParent().requestDisallowInterceptTouchEvent(true);
-                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_UP:
-                        view.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
+                if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                    view.getParent().requestDisallowInterceptTouchEvent(false);
                 }
             }
             return false;

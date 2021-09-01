@@ -14,78 +14,110 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.teknasyon.desk360.themev2.Desk360LayoutTicket
 
+            <com.teknasyon.desk360.themev2.Desk360TicketListRootLayout
                 android:id="@+id/fill_list_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
-                <FrameLayout
-                    android:id="@+id/containerTabs"
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+
+                    android:id="@+id/empty_layout_current"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <ImageView
 
-                    <com.teknasyon.desk360.themev2.Desk360TicketListTabLayout
-                        android:id="@+id/tickets_tabs"
-                        android:layout_width="match_parent"
+                        android:id="@+id/image_empty_current"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:tabInlineLabel="true"
-                        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-                        tools:ignore="MissingConstraints">
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.13999999" />
 
-                        <com.google.android.material.tabs.TabItem
-                            android:id="@+id/current_tickets"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            tools:text="Current" />
+                    <com.teknasyon.desk360.themev2.Desk360CurrentEmptyTicketSubTitle
 
-                        <com.google.android.material.tabs.TabItem
-                            android:id="@+id/past_tickets"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            tools:text="Past" />
-
-                    </com.teknasyon.desk360.themev2.Desk360TicketListTabLayout>
-
-                    <TextView
-                        android:id="@+id/text_tickets_current_count"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center|top"
-                        android:layout_marginEnd="48dp"
-                        android:layout_marginRight="48dp"
-                        android:background="@drawable/desk360_circle_bg_blue"
-                        android:gravity="center"
-                        android:textColor="#ffffff"
-                        android:textSize="12sp"
-                        android:visibility="invisible"
+                        android:id="@+id/empty_current_subTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginRight="32dp"
+                        android:gravity="center_horizontal"
+                        android:letterSpacing="0.03"
+                        android:maxLines="4"
+                        android:ellipsize="end"
+                        android:lineSpacingExtra="3sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/image_empty_current"
                         tools:ignore="MissingConstraints" />
 
-                </FrameLayout>
+
+                    <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton
+
+                        android:id="@+id/open_messageform_empty_current_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="32dp"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/empty_current_subTitle"
+                        app:layout_constraintVertical_bias="0.85">
 
 
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewPagerContainer"
+                        <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonText
+
+                            android:id="@+id/ticket_list_empty_button_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawablePadding="16dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="MissingConstraints"
+                            tools:text="Bize Yazın" />
+
+
+                        <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonIcon
+
+                            android:id="@+id/ticketListEmptyButtonIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="@+id/ticket_list_empty_button_text"
+                            app:layout_constraintEnd_toStartOf="@+id/ticket_list_empty_button_text"
+                            app:layout_constraintTop_toTopOf="@+id/ticket_list_empty_button_text" />
+
+
+                    </com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/current_ticket_list"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/containerTabs" />
+                    android:visibility="invisible"
+                    android:layout_height="match_parent" />
 
-
-            </com.teknasyon.desk360.themev2.Desk360LayoutTicket>
+            </com.teknasyon.desk360.themev2.Desk360TicketListRootLayout>
 
             <com.teknasyon.desk360.themev2.Desk360MainBackground
 

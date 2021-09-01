@@ -12,6 +12,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 abstract class BaseCallback<T> : Callback<T> {
@@ -32,9 +33,7 @@ abstract class BaseCallback<T> : Callback<T> {
                     val error =
                         JSONObject(JSONObject(jsonObject.getString("meta")).getString("error"))
 
-                    val errorCode: String = error.getString("code")
-
-                    when (errorCode) {
+                    when (val errorCode: String = error.getString("code")) {
                         "expired_at" -> {
                             cloneRequest = call.clone()
                             val register = Desk360Register()
@@ -45,7 +44,6 @@ abstract class BaseCallback<T> : Callback<T> {
                             if (Desk360Constants.manager?.platform == Platform.HUAWEI) "Huawei" else "Android"
                             register.app_version = Desk360Constants.manager?.appVersion
                             register.language_code = Desk360Constants.manager?.languageCode
-                            register.time_zone = Desk360Constants.manager?.timeZone
 
                             Desk360RetrofitFactory.instance.desk360Service.register(register)
                                 .enqueue(object : Callback<Desk360RegisterResponse> {

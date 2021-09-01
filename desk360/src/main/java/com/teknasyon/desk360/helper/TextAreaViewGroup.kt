@@ -4,10 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.Spinner
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout

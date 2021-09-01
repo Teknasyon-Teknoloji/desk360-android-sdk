@@ -8,13 +8,9 @@ import com.google.gson.Gson
 import java.lang.reflect.Type
 
 open class PreferencesManager {
-    private val preferences: SharedPreferences
-    private val gson: Gson
-
-    init {
-        preferences = Desk360Config.instance.context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)!!
-        gson = Gson()
-    }
+    private val preferences: SharedPreferences =
+        Desk360Config.instance.context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)!!
+    private val gson = Gson()
 
     @SuppressLint("ApplySharedPref")
     internal fun setString(tag: String, value: String) {
@@ -37,9 +33,7 @@ open class PreferencesManager {
     fun <T> getObject(key: String, type: Type? = null, clazz: Class<T>? = null): T? {
         if (preferences.contains(key)) {
             val preferenceTarget = preferences.getString(key, "")
-            if (preferenceTarget != "") {
-                return gson.fromJson<T>(preferenceTarget, type ?: clazz)
-            }
+            if (preferenceTarget != "") return gson.fromJson<T>(preferenceTarget, type ?: clazz)
         }
         return null
     }

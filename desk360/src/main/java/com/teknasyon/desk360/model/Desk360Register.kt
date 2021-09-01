@@ -1,5 +1,7 @@
 package com.teknasyon.desk360.model
 
+import java.util.*
+
 /**
  * Created by seyfullah on 24,May,2019
  *
@@ -11,5 +13,5 @@ class Desk360Register {
     var app_platform: String? = null
     var app_version: String? = null
     var language_code: String? = null
-    var time_zone: String? = null
+    var time_zone: String? = TimeZone.getDefault().id
 }
