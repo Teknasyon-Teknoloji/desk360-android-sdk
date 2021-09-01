@@ -52,6 +52,20 @@ dependencies {
 }
 ```
 
+Add Data and View Binding enable script
+
+```
+apply plugin: 'kotlin-kapt'
+
+android {
+    
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+}
+```
+
 (Please change latest_release with : https://img.shields.io/jitpack/v/github/Teknasyon-Teknoloji/desk360-android-sdk)
 
 
