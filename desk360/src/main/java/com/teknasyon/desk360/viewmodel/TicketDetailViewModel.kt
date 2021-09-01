@@ -25,7 +25,7 @@ open class TicketDetailViewModel(private val ticketId: Int = -1) : ViewModel() {
         if (ticketId == -1)
             return
 
-        Desk360RetrofitFactory.instance.desk360Service.getMessages(ticket_id = ticketId).enqueue(object : BaseCallback<Desk360TicketMessage>() {
+        Desk360RetrofitFactory.instance.desk360Service.getMessages(ticketId = ticketId).enqueue(object : BaseCallback<Desk360TicketMessage>() {
 
             override fun onResponseSuccess(call: Call<Desk360TicketMessage>, response: Response<Desk360TicketMessage>) {
 
@@ -44,7 +44,7 @@ open class TicketDetailViewModel(private val ticketId: Int = -1) : ViewModel() {
 
     fun addMessage(id: Int, message: String) {
 
-        Desk360RetrofitFactory.instance.desk360Service.addMessage(ticket_id = id, message = message).enqueue(object : BaseCallback<Desk360MessageResponse>() {
+        Desk360RetrofitFactory.instance.desk360Service.addMessage(ticketId = id, message = message).enqueue(object : BaseCallback<Desk360MessageResponse>() {
 
             override fun onResponseSuccess(call: Call<Desk360MessageResponse>, response: Response<Desk360MessageResponse>) {
 

@@ -1,6 +1,7 @@
 package com.teknasyon.desk360.view.fragment
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
@@ -53,7 +54,6 @@ import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 import com.teknasyon.desk360.view.adapter.Desk360CustomSupportTypeAdapter
 import com.teknasyon.desk360.view.adapter.Desk360SupportTypeAdapter
 import com.teknasyon.desk360.viewmodel.AddNewTicketViewModel
-import kotlinx.android.synthetic.main.desk360_fragment_main.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
@@ -82,7 +82,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private var subjectTypeSpinner: SelectBoxViewGroup? = null
     private var selectedTypeId = 1
 
-    private lateinit var binding: Desk360AddNewTicketLayoutBinding
+    private var binding: Desk360AddNewTicketLayoutBinding? = null
 
     private var typeList: ArrayList<Desk360Type>? = null
 
@@ -153,15 +153,9 @@ open class Desk360AddNewTicketFragment : Fragment(),
     }
 
     private var observerAddedTicket = Observer<Desk360TicketResponse> {
-
         if (it != null) {
-
-            //activity.isNewTicketAdded = true
-            //addTicketToCache(it)
-
-            view?.let { it1 ->
+            view?.let { _ ->
                 remove()
-
                 findNavController().navigate(
                     when (Desk360Constants.manager?.enableHelpMode) {
                         true -> Desk360AddNewTicketFragmentDirections.actionAddNewTicketFragmentToThanksFragment()
@@ -174,7 +168,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             val imm = activity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view!!.windowToken, 0)
         }
-        binding.createTicketButton.isClickable = true
+        binding?.createTicketButton?.isClickable = true
     }
 
 
@@ -185,7 +179,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     ): View? {
         Desk360AddNewTicketLayoutBinding.inflate(inflater, container, false).also {
             binding = it
-            binding.lifecycleOwner = viewLifecycleOwner
+            binding?.lifecycleOwner = viewLifecycleOwner
             return it.root
         }
     }
@@ -196,7 +190,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         activity.changeMainUI()
 
         activity.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        activity.contactUsMainBottomBar.visibility = View.VISIBLE
+        activity.binding.contactUsMainBottomBar.visibility = View.VISIBLE
 
         keyboardListener()
 
@@ -209,7 +203,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             if (t != null) {
                 Toast.makeText(view.context, t, Toast.LENGTH_LONG).show()
                 viewModel?.error?.value = null
-                binding.loadingProgress.visibility = View.GONE
+                binding?.loadingProgress?.visibility = View.GONE
                 activity.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
         })
@@ -230,19 +224,19 @@ open class Desk360AddNewTicketFragment : Fragment(),
             )
         }
 
-        binding.createTicketButton.setOnClickListener {
-            binding.createTicketButton.isClickable = false
+        binding?.createTicketButton?.setOnClickListener {
+            binding?.createTicketButton?.isClickable = false
             validateAllField()
         }
 
         val createScreen = Desk360Constants.currentType?.data?.create_screen
 
-        binding.formConfirm.visibility = if (createScreen?.form_confirm_is_hidden == true)
+        binding?.formConfirm?.visibility = if (createScreen?.form_confirm_is_hidden == true)
             View.VISIBLE
         else
             View.GONE
 
-        binding.formConfirmText.text = if (createScreen?.form_confirm_link.isNullOrBlank())
+        binding?.formConfirmText?.text = if (createScreen?.form_confirm_link.isNullOrBlank())
             createScreen?.form_confirm_text
         else if (createScreen?.form_confirm_link?.startsWith("http://") == true || createScreen?.form_confirm_link?.startsWith(
                 "https://"
@@ -259,71 +253,71 @@ open class Desk360AddNewTicketFragment : Fragment(),
             )
 
         Desk360Constants.currentType?.data?.create_screen?.form_input_color?.let { color ->
-            binding.formConfirmText.setTextColor(Color.parseColor(color))
-            binding.formConfirmText.setLinkTextColor(Color.parseColor(color))
+            binding?.formConfirmText?.setTextColor(Color.parseColor(color))
+            binding?.formConfirmText?.setLinkTextColor(Color.parseColor(color))
         }
 
-        binding.formConfirmText.movementMethod = LinkMovementMethod.getInstance()
+        binding?.formConfirmText?.movementMethod = LinkMovementMethod.getInstance()
         createScreen?.button_background_color?.let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                binding.formConfirmCheckbox.buttonTintList =
+                binding?.formConfirmCheckbox?.buttonTintList =
                     ColorStateList.valueOf(Color.parseColor(it))
             }
         }
 
-        binding.formConfirmCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            binding.createTicketButton.isEnabled = isChecked
+        binding?.formConfirmCheckbox?.setOnCheckedChangeListener { _, isChecked ->
+            binding?.createTicketButton?.isEnabled = isChecked
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (!isChecked) {
-                    binding.createTicketButton.backgroundTintMode = PorterDuff.Mode.OVERLAY
-                    binding.createTicketButton.backgroundTintList =
+                    binding?.createTicketButton?.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                    binding?.createTicketButton?.backgroundTintList =
                         ColorStateList.valueOf(Color.LTGRAY)
 
-                    binding.createScreenButtonIcon.backgroundTintMode = PorterDuff.Mode.OVERLAY
-                    binding.createScreenButtonIcon.backgroundTintList =
+                    binding?.createScreenButtonIcon?.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                    binding?.createScreenButtonIcon?.backgroundTintList =
                         ColorStateList.valueOf(Color.LTGRAY)
 
-                    binding.createScreenButtonText.backgroundTintMode = PorterDuff.Mode.OVERLAY
-                    binding.createScreenButtonText.backgroundTintList =
+                    binding?.createScreenButtonText?.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                    binding?.createScreenButtonText?.backgroundTintList =
                         ColorStateList.valueOf(Color.LTGRAY)
                 } else {
-                    binding.createTicketButton.backgroundTintList = null
-                    binding.createScreenButtonIcon.backgroundTintList = null
-                    binding.createScreenButtonText.backgroundTintList = null
+                    binding?.createTicketButton?.backgroundTintList = null
+                    binding?.createScreenButtonIcon?.backgroundTintList = null
+                    binding?.createScreenButtonText?.backgroundTintList = null
                 }
 
             }
         }
 
-        if (binding.formConfirm.visibility == View.VISIBLE) {
-            binding.createTicketButton.isEnabled = false
+        if (binding?.formConfirm?.visibility == View.VISIBLE) {
+            binding?.createTicketButton?.isEnabled = false
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                binding.createTicketButton.backgroundTintMode = PorterDuff.Mode.OVERLAY
-                binding.createTicketButton.backgroundTintList =
+                binding?.createTicketButton?.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                binding?.createTicketButton?.backgroundTintList =
                     ColorStateList.valueOf(Color.LTGRAY)
 
-                binding.createScreenButtonIcon.backgroundTintMode = PorterDuff.Mode.OVERLAY
-                binding.createScreenButtonIcon.backgroundTintList =
+                binding?.createScreenButtonIcon?.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                binding?.createScreenButtonIcon?.backgroundTintList =
                     ColorStateList.valueOf(Color.LTGRAY)
 
-                binding.createScreenButtonText.backgroundTintMode = PorterDuff.Mode.OVERLAY
-                binding.createScreenButtonText.backgroundTintList =
+                binding?.createScreenButtonText?.backgroundTintMode = PorterDuff.Mode.OVERLAY
+                binding?.createScreenButtonText?.backgroundTintList =
                     ColorStateList.valueOf(Color.LTGRAY)
             }
         }
 
-        binding.fileNameIcon.setOnClickListener {
+        binding?.fileNameIcon?.setOnClickListener {
             file = null
-            binding.fileNameIcon.visibility = View.INVISIBLE
-            binding.fileNameTextCreateTicketScreen.visibility = View.INVISIBLE
+            binding?.fileNameIcon?.visibility = View.INVISIBLE
+            binding?.fileNameTextCreateTicketScreen?.visibility = View.INVISIBLE
         }
 
-        binding.fileNameTextCreateTicketScreen.visibility = View.INVISIBLE
-        binding.fileNameIcon.visibility = View.INVISIBLE
+        binding?.fileNameTextCreateTicketScreen?.visibility = View.INVISIBLE
+        binding?.fileNameIcon?.visibility = View.INVISIBLE
 
-        binding.textPathCreateTicketScreen.setOnClickListener {
+        binding?.textPathCreateTicketScreen?.setOnClickListener {
             val bottomDialog = Desk360BottomSheetDialogFragment(this)
             fragmentManager?.let { it1 -> bottomDialog.show(it1, "bottomSheet") }
         }
@@ -351,7 +345,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
          */
         nameField = TextInputViewGroup(editTextStyleModel!!, this@Desk360AddNewTicketFragment)
 
-        binding.createScreenRootView.addView(
+        binding?.createScreenRootView?.addView(
             nameField?.createEditText(
                 Desk360Constants.currentType?.data?.general_settings?.name_field_text ?: "Name"
             )
@@ -375,7 +369,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
          * email filed
          */
         eMailField = TextInputViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
-        binding.createScreenRootView.addView(
+        binding?.createScreenRootView?.addView(
             eMailField?.createEditText(
                 Desk360Constants.currentType?.data?.general_settings?.email_field_text ?: "Email"
             )
@@ -400,7 +394,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         for (i in customInputField.indices) {
             val customInputViewGroup =
                 TextInputViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
-            binding.createScreenRootView.addView(
+            binding?.createScreenRootView?.addView(
                 customInputViewGroup.createEditText(customInputField[i].place_holder ?: "")
             )
 
@@ -413,7 +407,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         subjectTypeSpinner =
             SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
 
-        binding.createScreenRootView.addView(subjectTypeSpinner?.createSpinner())
+        binding?.createScreenRootView?.addView(subjectTypeSpinner?.createSpinner())
 
         subjectTypeSpinner?.holder?.selectBox?.onItemSelectedListener =
             (object : AdapterView.OnItemSelectedListener {
@@ -476,7 +470,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             val spinnerItem =
                 SelectBoxViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
 
-            binding.createScreenRootView.addView(spinnerItem.createSpinner())
+            binding?.createScreenRootView?.addView(spinnerItem.createSpinner())
 
             customSelectBoxViewList.add(spinnerItem)
 
@@ -572,7 +566,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         messageField = TextAreaViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
 
-        binding.createScreenRootView.addView(
+        binding?.createScreenRootView?.addView(
             messageField?.createEditText(
                 Desk360Constants.currentType?.data?.general_settings?.message_field_text
                     ?: "Message"
@@ -625,55 +619,56 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         Util.setEditTextScrollable(messageField?.holder?.textAreaEditText!!)
 
-        Desk360CustomStyle.setFontWeight(
-            binding.createScreenButtonText,
-            context,
-            createScreen?.button_text_font_weight
-        )
-        Desk360CustomStyle.setStyle(
-            createScreen?.button_style_id,
-            binding.createTicketButton,
-            context!!
-        )
+        binding?.apply {
+            Desk360CustomStyle.setFontWeight(
+                createScreenButtonText,
+                context,
+                createScreen?.button_text_font_weight
+            )
+            Desk360CustomStyle.setStyle(
+                createScreen?.button_style_id,
+                createTicketButton,
+                context!!
+            )
 
-        binding.textPathCreateTicketScreen.text =
-            Desk360Constants.currentType?.data?.general_settings?.add_file_text
+           textPathCreateTicketScreen.text =
+                Desk360Constants.currentType?.data?.general_settings?.add_file_text
 
-        binding.pathIconn.setImageResource(R.drawable.path_icon_desk360)
-        binding.pathIconn.setColorFilter(
-            Color.parseColor(createScreen?.label_text_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
+            pathIconn.setImageResource(R.drawable.path_icon_desk360)
+            pathIconn.setColorFilter(
+                Color.parseColor(createScreen?.label_text_color),
+                PorterDuff.Mode.SRC_ATOP
+            )
 
+            fileNameIcon.setBackgroundResource(R.drawable.document_cancel_icon)
+            fileNameIcon.background.setColorFilter(
+                Color.parseColor(createScreen?.form_input_color),
+                PorterDuff.Mode.SRC_ATOP
+            )
 
-        binding.fileNameIcon.setBackgroundResource(R.drawable.document_cancel_icon)
-        binding.fileNameIcon.background.setColorFilter(
-            Color.parseColor(createScreen?.form_input_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
+            if (createScreen?.added_file_is_hidden!!) {
+                pathIconn.visibility = View.VISIBLE
+            } else {
+                pathIconn.visibility = View.INVISIBLE
+            }
 
-        if (createScreen?.added_file_is_hidden!!) {
-            binding.pathIconn.visibility = View.VISIBLE
-        } else {
-            binding.pathIconn.visibility = View.INVISIBLE
+            createScreenButtonIcon.setImageResource(R.drawable.zarf)
+            createScreenButtonIcon.setColorFilter(
+                Color.parseColor(createScreen.button_text_color),
+                PorterDuff.Mode.SRC_ATOP
+            )
+            Desk360CustomStyle.setFontWeight(
+                textFooterCreateTicketScreen,
+                context,
+                Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
+            )
         }
-
-        binding.createScreenButtonIcon.setImageResource(R.drawable.zarf)
-        binding.createScreenButtonIcon.setColorFilter(
-            Color.parseColor(createScreen.button_text_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
-        Desk360CustomStyle.setFontWeight(
-            binding.textFooterCreateTicketScreen,
-            context,
-            Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
-        )
 
         for (i in customTextAreaField.indices) {
 
             val customTextAreaViewGroup =
                 TextAreaViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
-            binding.createScreenRootView.addView(
+            binding?.createScreenRootView?.addView(
                 customTextAreaViewGroup.createEditText(
                     customTextAreaField[i].place_holder ?: ""
                 )
@@ -682,16 +677,17 @@ open class Desk360AddNewTicketFragment : Fragment(),
             customTextAreaViewList.add(customTextAreaViewGroup)
         }
 
-        binding.viewModel = viewModel
+        binding?.viewModel = viewModel
 
         Handler().postDelayed({
             activity.setMainTitle(
-                createScreen.title
+                createScreen?.title
             )
         }, 35)
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -714,30 +710,34 @@ open class Desk360AddNewTicketFragment : Fragment(),
                             )?.name?.replace(" ", "")
                         )
                         try {
-                            val inputStream = context!!.contentResolver.openInputStream(
-                                DocumentFile.fromSingleUri(
-                                    activity,
-                                    pathUri
-                                )?.uri
-                            )
+                            val inputStream = DocumentFile.fromSingleUri(
+                                activity,
+                                pathUri
+                            )?.uri?.let {
+                                context!!.contentResolver.openInputStream(
+                                    it
+                                )
+                            }
                             val outputStream = FileOutputStream(cachFile)
                             var read = 0
                             val maxBufferSize = 1 * 1024 * 1024
-                            val bytesAvailable = inputStream.available()
+                            val bytesAvailable = inputStream?.available()
                             //int bufferSize = 1024;
-                            val bufferSize = Math.min(bytesAvailable, maxBufferSize)
-                            val buffers = ByteArray(bufferSize)
-                            while (inputStream.read(buffers).also { read = it } != -1) {
+                            val bufferSize = bytesAvailable?.let { Math.min(it, maxBufferSize) }
+                            val buffers = bufferSize?.let { ByteArray(it) }
+                            while (inputStream?.read(buffers).also {
+                                    if (it != null) {
+                                        read = it
+                                    }
+                                } != -1) {
                                 outputStream.write(buffers, 0, read)
                             }
-//                            Log.e("File Size", "Size " + cachFile.length())
-                            inputStream.close()
+                            inputStream?.close()
                             outputStream.close()
-//                            Log.e("File Path", "Path " + cachFile.path)
                         } catch (e: Exception) {
-                            Log.e("Exception", e.message)
+                            Log.e("Exception", e.message.toString())
                         }
-//                        Log.d("pdf_path", cachFile.path + "")
+
                         file = cachFile
                         fileName = file?.name
                     }
@@ -750,15 +750,15 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 file?.let {
                     if (it.exists()) {
                         if (!fileSizeIsHigh(it)) {
-                            fileName?.length?.let {
-                                if (it > 10) {
-                                    binding.fileNameTextCreateTicketScreen.text =
+                            fileName?.length?.let { length ->
+                                if (length > 10) {
+                                    binding?.fileNameTextCreateTicketScreen?.text =
                                         fileName?.substring(0, 8) + "..."
                                 } else {
-                                    binding.fileNameTextCreateTicketScreen.text = fileName
+                                    binding?.fileNameTextCreateTicketScreen?.text = fileName
                                 }
-                                binding.fileNameTextCreateTicketScreen.visibility = View.VISIBLE
-                                binding.fileNameIcon.visibility = View.VISIBLE
+                                binding?.fileNameTextCreateTicketScreen?.visibility = View.VISIBLE
+                                binding?.fileNameIcon?.visibility = View.VISIBLE
                             }
                         } else {
                             showAlert()
@@ -801,20 +801,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         return ((file.length() / 1024) / 1024).toInt() >= 20
 
-    }
-
-    private fun addTicketToCache(desk360TicketResponse: Desk360TicketResponse?) {
-
-        desk360TicketResponse?.let {
-
-            val cacheTickets = preferencesManager
-                .readObject("tickets", CacheTicket::class.java)
-                    as ArrayList<Desk360TicketResponse>
-
-            cacheTickets.add(0, desk360TicketResponse)
-
-            preferencesManager.writeObject("tickets", cacheTickets)
-        }
     }
 
     override fun onDestroy() {
@@ -967,11 +953,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
             }
 
             if (Desk360Constants.currentType?.data?.create_screen?.form_confirm_is_hidden == true) {
-                params["confirm"] = (if (binding.formConfirmCheckbox.isChecked) "1" else "0")
+                params["confirm"] = (if (binding?.formConfirmCheckbox?.isChecked == true) "1" else "0")
                     .toRequestBody("text/plain".toMediaTypeOrNull())
             }
 
-            binding.loadingProgress.visibility = View.VISIBLE
+            binding?.loadingProgress?.visibility = View.VISIBLE
             activity.window?.setFlags(
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
@@ -1010,30 +996,34 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     observerMessage()
                 }
             }
-            binding.createTicketButton.isClickable = true
+            binding?.createTicketButton?.isClickable = true
         }
     }
 
     private fun keyboardListener() {
 
-        val constraintLayout = binding.baseLayout
-        constraintLayout.viewTreeObserver.addOnGlobalLayoutListener {
+        val constraintLayout = binding?.baseLayout
+        constraintLayout?.viewTreeObserver?.addOnGlobalLayoutListener {
 
             val rec = Rect()
             constraintLayout.getWindowVisibleDisplayFrame(rec)
 
             //finding screen height
-            val screenHeight = constraintLayout.rootView.height
+            val screenHeight = constraintLayout.rootView?.height
 
             //finding keyboard height
-            val keypadHeight = screenHeight - rec.bottom
+            val keypadHeight = screenHeight?.minus(rec.bottom)
 
-            if (keypadHeight > screenHeight * 0.15) {
-                activity.contactUsMainBottomBar.visibility = View.GONE
-            } else {
+            if (screenHeight != null) {
+                if (keypadHeight != null) {
+                    if (keypadHeight > screenHeight * 0.15) {
+                        activity.binding.contactUsMainBottomBar.visibility = View.GONE
+                    } else {
 
-                if (!activity.isTicketDetailFragment) {
-                    activity.contactUsMainBottomBar.visibility = View.VISIBLE
+                        if (!activity.isTicketDetailFragment) {
+                            activity.binding.contactUsMainBottomBar.visibility = View.VISIBLE
+                        }
+                    }
                 }
             }
         }

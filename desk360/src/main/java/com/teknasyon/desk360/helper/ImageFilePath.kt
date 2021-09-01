@@ -25,14 +25,14 @@ class ImageFilePath {
         return ret
     }
 
-    fun getUriRealPathAboveKitkat(
+    private fun getUriRealPathAboveKitkat(
         ctx: Context?,
         uri: Uri?
     ): String {
-        var ret = ""
+        var ret:String? = ""
         if (ctx != null && uri != null) {
             if (isContentUri(uri)) {
-                ret = if (isGooglePhotoDoc(uri.authority)) {
+                ret = if (uri.authority?.let { isGooglePhotoDoc(it) } == true) {
                     uri.lastPathSegment
                 } else {
                     getImageRealPath(ctx.contentResolver, uri, null)
@@ -43,7 +43,7 @@ class ImageFilePath {
                 val documentId = DocumentsContract.getDocumentId(uri)
                 // Get uri authority.
                 val uriAuthority = uri.authority
-                if (isMediaDoc(uriAuthority)) {
+                if (uriAuthority?.let { isMediaDoc(it) } == true) {
                     val idArr = documentId.split(":").toTypedArray()
                     if (idArr.size == 2) { // First item is document type.
                         val docType = idArr[0]
@@ -52,12 +52,16 @@ class ImageFilePath {
                         // Get content uri by document type.
                         var mediaContentUri =
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                        if ("image" == docType) {
-                            mediaContentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                        } else if ("video" == docType) {
-                            mediaContentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                        } else if ("audio" == docType) {
-                            mediaContentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                        when (docType) {
+                            "image" -> {
+                                mediaContentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                            }
+                            "video" -> {
+                                mediaContentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                            }
+                            "audio" -> {
+                                mediaContentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                            }
                         }
                         // Get where clause with real document id.
                         val whereClause =
@@ -65,14 +69,14 @@ class ImageFilePath {
                         ret =
                             getImageRealPath(ctx.contentResolver, mediaContentUri, whereClause)
                     }
-                } else if (isDownloadDoc(uriAuthority)) { // Build download uri.
+                } else if (uriAuthority?.let { isDownloadDoc(it) } == true) { // Build download uri.
                     val downloadUri =
                         Uri.parse("content://downloads/public_downloads")
                     // Append download document id at uri end.
                     val downloadUriAppendId =
                         ContentUris.withAppendedId(downloadUri, java.lang.Long.valueOf(documentId))
                     ret = getImageRealPath(ctx.contentResolver, downloadUriAppendId, null)
-                } else if (isExternalStoreDoc(uriAuthority)) {
+                } else if (uriAuthority?.let { isExternalStoreDoc(it) } == true) {
                     val idArr = documentId.split(":").toTypedArray()
                     if (idArr.size == 2) {
                         val type = idArr[0]
@@ -85,11 +89,11 @@ class ImageFilePath {
                 }
             }
         }
-        return ret
+        return ret ?: ""
     }
 
     /* Check whether current android os version is bigger than kitkat or not. */
-    val isAboveKitKat: Boolean
+    private val isAboveKitKat: Boolean
         get() {
             var ret = false
             ret = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
@@ -97,7 +101,7 @@ class ImageFilePath {
         }
 
     /* Check whether this uri represent a document or not. */
-    fun isDocumentUri(ctx: Context?, uri: Uri?): Boolean {
+    private fun isDocumentUri(ctx: Context?, uri: Uri?): Boolean {
         var ret = false
         if (ctx != null && uri != null) {
             ret = DocumentsContract.isDocumentUri(ctx, uri)
@@ -108,7 +112,7 @@ class ImageFilePath {
     /* Check whether this uri is a content uri or not.
      *  content uri like content://media/external/images/media/1302716
      *  */
-    fun isContentUri(uri: Uri?): Boolean {
+    private fun isContentUri(uri: Uri?): Boolean {
         var ret = false
         if (uri != null) {
             val uriSchema = uri.scheme
@@ -122,7 +126,7 @@ class ImageFilePath {
     /* Check whether this uri is a file uri or not.
      *  file uri like file:///storage/41B7-12F1/DCIM/Camera/IMG_20180211_095139.jpg
      * */
-    fun isFileUri(uri: Uri?): Boolean {
+    private fun isFileUri(uri: Uri?): Boolean {
         var ret = false
         if (uri != null) {
             val uriSchema = uri.scheme
@@ -143,7 +147,7 @@ class ImageFilePath {
     }
 
     /* Check whether this document is provided by DownloadsProvider. */
-    fun isDownloadDoc(uriAuthority: String): Boolean {
+    private fun isDownloadDoc(uriAuthority: String): Boolean {
         var ret = false
         if ("com.android.providers.downloads.documents" == uriAuthority) {
             ret = true
@@ -152,7 +156,7 @@ class ImageFilePath {
     }
 
     /* Check whether this document is provided by MediaProvider. */
-    fun isMediaDoc(uriAuthority: String): Boolean {
+    private fun isMediaDoc(uriAuthority: String): Boolean {
         var ret = false
         if ("com.android.providers.media.documents" == uriAuthority) {
             ret = true
@@ -161,7 +165,7 @@ class ImageFilePath {
     }
 
     /* Check whether this document is provided by google photos. */
-    fun isGooglePhotoDoc(uriAuthority: String): Boolean {
+    private fun isGooglePhotoDoc(uriAuthority: String): Boolean {
         var ret = false
         if ("com.google.android.apps.photos.content" == uriAuthority) {
             ret = true
@@ -170,7 +174,7 @@ class ImageFilePath {
     }
 
     /* Return uri represented document file real local path.*/
-    fun getImageRealPath(
+    private fun getImageRealPath(
         contentResolver: ContentResolver,
         uri: Uri,
         whereClause: String?
@@ -183,12 +187,16 @@ class ImageFilePath {
             val moveToFirst = cursor.moveToFirst()
             if (moveToFirst) { // Get columns name by uri type.
                 var columnName = MediaStore.Images.Media.DATA
-                if (uri === MediaStore.Images.Media.EXTERNAL_CONTENT_URI) {
-                    columnName = MediaStore.Images.Media.DATA
-                } else if (uri === MediaStore.Audio.Media.EXTERNAL_CONTENT_URI) {
-                    columnName = MediaStore.Audio.Media.DATA
-                } else if (uri === MediaStore.Video.Media.EXTERNAL_CONTENT_URI) {
-                    columnName = MediaStore.Video.Media.DATA
+                when (uri) {
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI -> {
+                        columnName = MediaStore.Images.Media.DATA
+                    }
+                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI -> {
+                        columnName = MediaStore.Audio.Media.DATA
+                    }
+                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI -> {
+                        columnName = MediaStore.Video.Media.DATA
+                    }
                 }
                 // Get column index.
                 val imageColumnIndex = cursor.getColumnIndex(columnName)

@@ -1,6 +1,5 @@
 package com.teknasyon.desk360.view.activity
 
-import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Color
@@ -8,11 +7,9 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -24,45 +21,38 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.binding
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.fragment.Desk360TicketListFragmentDirections
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.desk360_fragment_main.*
 
 open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
-
-    private lateinit var register: MenuItem
-
     private var cacheTickets: ArrayList<Desk360TicketResponse>? = null
     private var navController: NavController? = null
     private var disposable: Disposable? = null
     private var localMenu: Menu? = null
 
     var notificationToken: String? = null
-    var targetId: String? = null
-    var appId: String? = null
+    var ticketId: String? = null
+    private var appId: String? = null
 
     private var currentScreenTicketList = true
     var addBtnClicked = false
     var isMainLoadingShown = false
     var isTicketDetailFragment = false
 
-    var binding: Desk360FragmentMainBinding? = null
+    val binding: Desk360FragmentMainBinding by binding(R.layout.desk360_fragment_main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val bundle = intent.extras
-
-        bundle?.let {
-
+        intent.extras?.let { bundle ->
             appId = bundle.getString(Desk360SplashActivity.EXTRA_APP_ID)
-            targetId = bundle.getString(Desk360SplashActivity.EXTRA_TARGET_ID)
+            ticketId = bundle.getString(Desk360SplashActivity.EXTRA_TARGET_ID)
             notificationToken = bundle.getString(Desk360SplashActivity.EXTRA_TOKEN)
         }
 
-        binding = Desk360FragmentMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
+        setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
@@ -86,7 +76,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             }
 
             Desk360CustomStyle.setFontWeight(
-                binding!!.toolbarTitle,
+                binding.toolbarTitle,
                 this,
                 Desk360Constants.currentType?.data?.general_settings?.header_text_font_weight
             )
@@ -121,7 +111,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                 else -> ""
             }
 
-            toolbar.navigationIcon = ContextCompat.getDrawable(
+            binding?.toolbar?.navigationIcon = ContextCompat.getDrawable(
                 this,
                 if (destination.id == R.id.ticketListFragment || destination.id == R.id.preNewTicketFragment || destination.id == R.id.thanksFragment)
                     R.drawable.close_button_desk
@@ -129,7 +119,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                     R.drawable.back_btn_dark_theme
             )
 
-            toolbar.navigationIcon?.setColorFilter(
+            binding?.toolbar?.navigationIcon?.setColorFilter(
                 Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
                 PorterDuff.Mode.SRC_ATOP
             )
@@ -146,21 +136,19 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     fun changeMainUI() {
+        binding?.apply {
+            mainBackground.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
+            toolbar.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_background_color))
+            toolbar.setTitleTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
 
-        binding!!.mainBackground.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
-
-        binding!!.toolbar.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_background_color))
-        binding!!.toolbar.setTitleTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
-
-        if (Desk360Constants.currentType?.data?.general_settings?.header_shadow_is_hidden!!) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                binding!!.toolbar.elevation = 20f
+            if (Desk360Constants.currentType?.data?.general_settings?.header_shadow_is_hidden == true && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                toolbar.elevation = 20f
             }
-        }
 
-        binding!!.toolbarTitle.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
-        binding!!.toolbarTitle.textSize =
-            Desk360Constants.currentType?.data?.general_settings?.header_text_font_size!!.toFloat()
+            toolbarTitle.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
+            toolbarTitle.textSize =
+                Desk360Constants.currentType?.data?.general_settings?.header_text_font_size!!.toFloat()
+        }
     }
 
     fun setMainTitle(titleHead: String?) {
@@ -171,7 +159,6 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-
         if (addBtnClicked) {
             return false
         }
@@ -180,9 +167,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         Handler().removeCallbacksAndMessages(null)
         Handler().postDelayed({ addBtnClicked = false }, 800)
 
-        Log.e("exception", "girdi")
-
-        if (cacheTickets!!.size > 0) {
+        if (cacheTickets?.isNotEmpty() == true) {
             setMainTitle(
                 Desk360Constants.currentType?.data?.ticket_list_screen?.title
             )
@@ -204,35 +189,31 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-
         localMenu = menu
         menuInflater.inflate(R.menu.menu_main, menu)
 
-        register = menu.findItem(R.id.action_add_new_ticket)
-
-        register.isVisible = true
-        register.isEnabled = true
-        register.icon = resources.getDrawable(R.drawable.add_new_message_icon_black)
-
-        register.icon?.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
+        menu.findItem(R.id.action_add_new_ticket)?.apply {
+            isVisible = true
+            isEnabled = true
+            icon = resources.getDrawable(R.drawable.add_new_message_icon_black)
+            icon.setColorFilter(
+                Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
+                PorterDuff.Mode.SRC_ATOP
+            )
+        }
 
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         val id = item.itemId
 
-        if (addBtnClicked) {
+        if (addBtnClicked)
             return true
 
-        }
         if (id == R.id.action_add_new_ticket) {
             addBtnClicked = true
-            Handler().removeCallbacksAndMessages(null);
+            Handler().removeCallbacksAndMessages(null)
             Handler().postDelayed({ addBtnClicked = false }, 800)
 
             findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(
@@ -250,22 +231,20 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     override fun onBackPressed() {
-
-        if (currentScreenTicketList) {
+        if (currentScreenTicketList)
             checkRunningActivities()
-        } else
+        else
             onSupportNavigateUp()
     }
 
     private fun checkRunningActivities() {
-
-        val am = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        val activityManager = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
 
         val runningActivities =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                am.appTasks[0].taskInfo.numActivities
+                activityManager.appTasks[0].taskInfo.numActivities
             } else {
-                am.getRunningTasks(1)[0].numRunning
+                activityManager.getRunningTasks(1)[0].numRunning
             }
 
         if (runningActivities == 1) {
@@ -277,20 +256,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         }
     }
 
-    fun blockUI(activity: Activity, status: Boolean) {
-
-        if (status) {
-            activity.window.setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-            )
-        } else {
-            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        }
-    }
-
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val register: MenuItem = menu.findItem(R.id.action_add_new_ticket)
+        val register = menu.findItem(R.id.action_add_new_ticket)
 
         try {
             register.isVisible = currentScreenTicketList && cacheTickets!!.size > 0

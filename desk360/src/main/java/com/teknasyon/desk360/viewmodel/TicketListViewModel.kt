@@ -14,7 +14,6 @@ import com.teknasyon.desk360.model.Desk360Register
 import com.teknasyon.desk360.model.Desk360RegisterResponse
 import com.teknasyon.desk360.model.Desk360TicketListResponse
 import com.teknasyon.desk360.model.Desk360TicketResponse
-import com.teknasyon.desk360.view.fragment.Desk360CurrentTicketFragment
 import retrofit2.Call
 import retrofit2.Response
 import java.util.*
@@ -51,8 +50,6 @@ open class TicketListViewModel : ViewModel() {
                     RxBus.publish(hashMapOf("unReadSizeTicketList" to unreadList.size))
 
                     ticketList?.value = response.body()!!.data?.filter { it.status != "expired" } as ArrayList<Desk360TicketResponse>
-                    Desk360CurrentTicketFragment.ticketSize = (ticketList?.value as ArrayList<Desk360TicketResponse>).size
-
                     expiredList?.value = response.body()!!.data?.filter { it.status == "expired" } as ArrayList<Desk360TicketResponse>
 
                 } else {
@@ -78,7 +75,6 @@ open class TicketListViewModel : ViewModel() {
             if (Desk360Constants.manager?.platform == Platform.HUAWEI) "Huawei" else "Android"
         register.app_version = Desk360Constants.manager?.appVersion
         register.language_code = Desk360Constants.manager?.languageCode
-        register.time_zone = Desk360Constants.manager?.timeZone
 
         Desk360RetrofitFactory.instance.desk360Service.register(register).enqueue(object : BaseCallback<Desk360RegisterResponse>() {
 

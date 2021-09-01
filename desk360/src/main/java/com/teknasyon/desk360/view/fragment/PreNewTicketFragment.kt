@@ -15,70 +15,69 @@ import com.teknasyon.desk360.databinding.FragmentPreNewTicketBinding
 import com.teknasyon.desk360.helper.Desk360Constants
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
-import kotlinx.android.synthetic.main.desk360_fragment_main.*
-
 
 class PreNewTicketFragment : Fragment() {
-    private lateinit var binding: FragmentPreNewTicketBinding
+    private var binding: FragmentPreNewTicketBinding? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         FragmentPreNewTicketBinding.inflate(inflater, container, false).also {
             binding = it
-            binding.lifecycleOwner = viewLifecycleOwner
+            binding?.lifecycleOwner = viewLifecycleOwner
             return it.root
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.preScreenButton.setOnClickListener {
-            findNavController().navigate(
-                PreNewTicketFragmentDirections.actionPreNewTicketFragmentToAddNewTicketFragment(),
-                NavOptions.Builder().setPopUpTo(R.id.preNewTicketFragment, true).build()
-            )
-        }
-
-        (activity as Desk360BaseActivity).contactUsMainBottomBar.visibility = View.VISIBLE
+        (activity as Desk360BaseActivity).binding.contactUsMainBottomBar.visibility = View.VISIBLE
         (activity as Desk360BaseActivity).changeMainUI()
 
-        Desk360CustomStyle.setFontWeight(
-            binding.preScreenButtonText,
-            context,
-            Desk360Constants.currentType?.data?.create_pre_screen?.button_text_font_weight
-        )
+        binding?.apply {
+            preScreenButton.setOnClickListener {
+                findNavController().navigate(
+                    PreNewTicketFragmentDirections.actionPreNewTicketFragmentToAddNewTicketFragment(),
+                    NavOptions.Builder().setPopUpTo(R.id.preNewTicketFragment, true).build()
+                )
+            }
 
-        Desk360CustomStyle.setFontWeight(
-            binding.preScreenDesc,
-            context,
-            Desk360Constants.currentType?.data?.create_pre_screen?.description_font_weight
-        )
-        Desk360CustomStyle.setFontWeight(
-            binding.subTitlePreScreen,
-            context,
-            Desk360Constants.currentType?.data?.create_pre_screen?.sub_title_font_weight
-        )
+            Desk360CustomStyle.setFontWeight(
+                preScreenButtonText,
+                context,
+                Desk360Constants.currentType?.data?.create_pre_screen?.button_text_font_weight
+            )
 
-        Desk360CustomStyle.setStyle(
-            Desk360Constants.currentType?.data?.create_pre_screen?.button_style_id,
-            binding.preScreenButton,
-            context!!
-        )
-        binding.preScreennButtonIcon.setImageResource(R.drawable.zarf)
-        binding.preScreennButtonIcon.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_text_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
+            Desk360CustomStyle.setFontWeight(
+                preScreenDesc,
+                context,
+                Desk360Constants.currentType?.data?.create_pre_screen?.description_font_weight
+            )
+            Desk360CustomStyle.setFontWeight(
+                subTitlePreScreen,
+                context,
+                Desk360Constants.currentType?.data?.create_pre_screen?.sub_title_font_weight
+            )
 
-        Desk360CustomStyle.setFontWeight(
-            binding.txtBottomFooterPreScreen,
-            context,
-            Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
-        )
-        binding.txtBottomFooterPreScreen.movementMethod = ScrollingMovementMethod()
+            Desk360CustomStyle.setStyle(
+                Desk360Constants.currentType?.data?.create_pre_screen?.button_style_id,
+                preScreenButton,
+                context!!
+            )
+            preScreennButtonIcon.setImageResource(R.drawable.zarf)
+            preScreennButtonIcon.setColorFilter(
+                Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_text_color),
+                PorterDuff.Mode.SRC_ATOP
+            )
 
+            Desk360CustomStyle.setFontWeight(
+                txtBottomFooterPreScreen,
+                context,
+                Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
+            )
+            txtBottomFooterPreScreen.movementMethod = ScrollingMovementMethod()
+        }
     }
 
 }

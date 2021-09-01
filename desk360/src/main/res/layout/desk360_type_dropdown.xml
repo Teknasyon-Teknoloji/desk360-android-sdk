@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.teknasyon.desk360.helper.Desk360TextTitle xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dropdown"
@@ -10,6 +10,7 @@
     android:paddingStart="16dp"
     android:paddingLeft="6dp"
     android:paddingTop="8dp"
+    android:textColor="@color/light_theme_text_color"
     android:paddingBottom="8dp"
     android:singleLine="true"
     android:textSize="18sp"

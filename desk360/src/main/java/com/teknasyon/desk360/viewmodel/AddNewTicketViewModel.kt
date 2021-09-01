@@ -1,13 +1,11 @@
 package com.teknasyon.desk360.viewmodel
 
-
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
 import com.teknasyon.desk360.connection.Desk360RetrofitFactory
 import com.teknasyon.desk360.model.Desk360NewSupportResponse
 import com.teknasyon.desk360.model.Desk360TicketResponse
-import com.teknasyon.desk360.model.Desk360Type
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -16,14 +14,11 @@ import retrofit2.Call
 import retrofit2.Response
 import java.io.File
 
-
 /**
  * Created by seyfullah on 30,May,2019
  *
  */
 open class AddNewTicketViewModel : ViewModel() {
-
-    var typeList: MutableLiveData<ArrayList<Desk360Type>>? = MutableLiveData()
     var addedTicket: MutableLiveData<Desk360TicketResponse> = MutableLiveData()
     val error = MutableLiveData<String>()
 
