@@ -48,7 +48,7 @@ Add the dependency
 
 ```
 dependencies {
-        implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:latest_release'
+    implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:latest_release'
 }
 ```
 
@@ -90,55 +90,51 @@ Or Maven
 ```
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360SDKManager
-import com.teknasyon.desk360.helper.Environment
 import com.teknasyon.desk360.helper.Platform
 
 ```
 
 ```
-##### val desk360SDKManager = Desk360SDKManager.Builder()
-            .appKey(key:String)
-            .appVersion(version:String)
-            .languageCode(code:String)
-            .environment(environment:Environment)
-            .platform(platform:Platform)
-            .countryCode(code:String)
-            .theme(themeId:Int)
-            .jsonObject(json:JSONObject?)
+#####  
+        val desk360SDKManager = Desk360SDKManager.Builder()
+            .setAppKey(key:String)
+            .setAppVersion(version:String)
+            .setLanguageCode(languageCode:String)
+            .setPlatform(platform:Platform)
+            .setCountryCode(countryCode:String)
+            .setCustomJsonObject(
+                JSONObject(
+                    "{\n" +
+                            "  \"name\":\"Desk360\",\n" +
+                            "  \"age\":3,\n" +
+                            "  \"cars\": {\n" +
+                            "    \"car1\":\"MERCEDES\",\n" +
+                            "    \"car2\":\"BMW\",\n" +
+                            "    \"car3\":\"AUDI\"\n" +
+                            "  }\n" +
+                            " }"
+                )
+            )
             .build()
 
-        val desk360Client = desk360SDKManager.initialize(_targetId = "", _token =  "", _deviceToken = "")
+        val desk360Client = desk360SDKManager.initialize("ticket id", "firebase notification token", "device id")
+
         desk360Client.start(this)
 
 | Parameters   | Description                                                  |
 | ------------ | ------------------------------------------------------------ |
 | token        | your firebase token |
-| targetId     | ticket id from firebase message body  
-| deviceToken  | your Android device id
+| ticketId     | ticket id from firebase message body  
+| deviceId     | your Android device id
 | appKey       | desk360 Api Key will provided when you get the license
 | appVersion   | your application's version number
 | languageCode | ISO 639-1 Code	for sdk language: "en","fr,"tr
-| environment  | flag for sandbox or production api, Environment object class should be used
 | platform     | mobile platform: Platform.GOOGLE or Platform.HUAWEI
 | countryCode  | country code: "tr", "us", "de"
-| theme        | custom theme id
 | jsonObject   | for custom datas
 
-
-```
-### Add to your AndroidManifest.xml
 ```
 
-<application
-	...
-	<activity
-     android:name="com.teknasyon.desk360.view.activity.Desk360BaseActivity"
-     android:windowSoftInputMode="stateHidden|adjustResize"
-     android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
-</application>
-
-```
 ### Network Security Config
 ```
 
@@ -222,22 +218,19 @@ Example (In your firebaseMessagingService class) :
 
         pendingIntent = targetId?.let { targetId ->
 
-             val desk360SDKManager = Desk360SDKManager.Builder()
-                      .appKey("app key")
-                      .appVersion("app version")
-                      .languageCode("your selected ISO 639-1 Code for language: tr, en")
-                      .environment("environment info: Environment.PRODUCTION or Environment.SANDBOX" )
-                      .platform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
-                      .countryCode("country code: tr, de")
-                      .theme("theme id")
-                      .jsonObject("for custom data")
-                      .addIntentFlags(arrayOf(Intent.FLAG_ACTIVITY_CLEAR_TOP, Intent.FLAG_ACTIVITY_SINGLE_TOP))
-                      .build()
+        val desk360SDKManager = Desk360SDKManager.Builder()
+            .setAppKey("app key")
+            .setAppVersion("app version")
+            .setLanguageCode("your selected ISO 639-1 Code for language: tr, en")
+            .setPlatform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
+            .setCountryCode("country code: tr, de")
+            .setCustomJsonObject("for custom data")
+            .build()
 
              val desk360Client = desk360SDKManager.initialize(
-                      _targetId = "targetId from notification body",
-                      _token = "your firebase token",
-                      _deviceToken = "your Android device id"
+                      _ticketId = "targetId from notification body",
+                      _notificationToken = "your firebase token",
+                      _deviceId = "your Android device id"
              )
 
              val intent = desk360Client.getIntent(this)
@@ -249,24 +242,20 @@ Example (In your firebaseMessagingService class) :
 ```
 ### Use Desk 360
 ```
-
-        val desk360SDKManager = Desk360SDKManager.Builder()
-            .appKey("app key")
-            .appVersion("app version")
-            .languageCode("your selected ISO 639-1 Code for language: tr, en")
-            .environment("environment info: Environment.PRODUCTION or Environment.SANDBOX" )
-            .platform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
-            .countryCode("country code: tr, de")
-            .theme("theme id")
-            .jsonObject("for custom data")
-            .addIntentFlags(arrayOf(Intent.FLAG_ACTIVITY_CLEAR_TOP, Intent.FLAG_ACTIVITY_SINGLE_TOP))
+       val desk360SDKManager = Desk360SDKManager.Builder()
+            .setAppKey("app key")
+            .setAppVersion("app version")
+            .setLanguageCode("your selected ISO 639-1 Code for language: tr, en")
+            .setPlatform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
+            .setCountryCode("country code: tr, de")
+            .setCustomJsonObject("for custom data")
             .build()
 
-        val desk360Client = desk360SDKManager.initialize(
-            _targetId = "targetId from notification body",
-            _token = "your firebase token",
-            _deviceToken = "your Android device id"
-        )
+             val desk360Client = desk360SDKManager.initialize(
+                      _ticketId = "targetId from notification body",
+                      _notificationToken = "your firebase token",
+                      _deviceId = "your Android device id"
+             )
 
         desk360Client.start(this)
         finish()		
@@ -276,23 +265,20 @@ Example (In your firebaseMessagingService class) :
 ```
 If your app will not use notification then you must set token "" and for targetId ""
 
-        val desk360SDKManager = Desk360SDKManager.Builder()
-            .appKey("app key")
-            .appVersion("app version")
-            .languageCode("your selected ISO 639-1 Code for language: tr, en")
-            .environment("environment info: Environment.PRODUCTION or Environment.SANDBOX" )
-            .platform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
-            .countryCode("country code: tr, de")
-            .theme("theme id")
-            .jsonObject("for custom data")
-            .addIntentFlags(arrayOf(Intent.FLAG_ACTIVITY_CLEAR_TOP, Intent.FLAG_ACTIVITY_SINGLE_TOP))
+       val desk360SDKManager = Desk360SDKManager.Builder()
+            .setAppKey("app key")
+            .setAppVersion("app version")
+            .setLanguageCode("your selected ISO 639-1 Code for language: tr, en")
+            .setPlatform("mobile platform: Platform.GOOGLE or Platform.HUAWEI")
+            .setCountryCode("country code: tr, de")
+            .setCustomJsonObject("for custom data")
             .build()
 
-        val desk360Client = desk360SDKManager.initialize(
-            _targetId = "targetId from notification body",
-            _token = "your firebase token",
-            _deviceToken = "your Android device id"
-        )
+             val desk360Client = desk360SDKManager.initialize(
+                      _ticketId = "targetId from notification body",
+                      _notificationToken = "your firebase token",
+                      _deviceId = "your Android device id"
+             )
 
         desk360Client.start(this)
         finish()
