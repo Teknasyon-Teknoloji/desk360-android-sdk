@@ -7,25 +7,23 @@ import android.os.Build
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 
 class Desk360TicketSuccessScreenButton : ConstraintLayout {
     private val gradientDrawable = GradientDrawable()
 
     init {
-        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_background_color))
+        gradientDrawable.setColor(Color.parseColor(Desk360SDK.config?.data?.ticket_success_screen?.button_background_color))
         gradientDrawable.setStroke(
             2,
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_border_color)
+            Color.parseColor(Desk360SDK.config?.data?.ticket_success_screen?.button_border_color)
         )
 
-        if(Desk360Constants.currentType?.data?.ticket_success_screen?.button_shadow_is_hidden==true){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.elevation=20f
-            }
+        if (Desk360SDK.config?.data?.ticket_success_screen?.button_shadow_is_hidden == true && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.elevation = 20f
         }
 
-        when (Desk360Constants.currentType?.data?.ticket_success_screen?.button_style_id) {
+        when (Desk360SDK.config?.data?.ticket_success_screen?.button_style_id) {
             1 -> {
                 gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
             }

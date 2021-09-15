@@ -4,20 +4,21 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
-import android.widget.EditText
-import com.teknasyon.desk360.helper.Desk360Constants
+import androidx.appcompat.widget.AppCompatEditText
+import com.teknasyon.desk360.helper.Desk360SDK
 
 
-class Desk360TicketListEditTextSendMessage : EditText {
+class Desk360TicketListEditTextSendMessage : AppCompatEditText {
 
     init {
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_text_color))
-        this.textSize = Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_font_size!!.toFloat()
-        this.hint = Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_place_holder_text
-        this.setHintTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_place_holder_color))
+        this.setTextColor(Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.write_message_text_color))
+        this.textSize =
+            Desk360SDK.config?.data?.ticket_detail_screen?.write_message_font_size!!.toFloat()
+        this.hint = Desk360SDK.config?.data?.ticket_detail_screen?.write_message_place_holder_text
+        this.setHintTextColor(Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.write_message_place_holder_color))
 
-        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_font_weight) {
+        when (Desk360SDK.config?.data?.ticket_detail_screen?.write_message_font_weight) {
             100 -> {
                 val face = Typeface.createFromAsset(context?.assets, "Montserrat-Thin.ttf")
                 this.typeface = face
@@ -28,10 +29,6 @@ class Desk360TicketListEditTextSendMessage : EditText {
             }
             300 -> {
                 val face = Typeface.createFromAsset(context?.assets, "Montserrat-Light.ttf")
-                this.typeface = face
-            }
-            400 -> {
-                val face = Typeface.createFromAsset(context?.assets, "Montserrat-Regular.ttf")
                 this.typeface = face
             }
             500 -> {
@@ -59,9 +56,7 @@ class Desk360TicketListEditTextSendMessage : EditText {
                 this.typeface = face
             }
         }
-
     }
-
 
     constructor(context: Context) : super(context)
 

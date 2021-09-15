@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toTopOf="@+id/textPathCreateTicketScreen"
                 tools:ignore="MissingConstraints" />
 
-            <com.teknasyon.desk360.themev2.Desk360CreateScreenUpluoadText
+            <com.teknasyon.desk360.themev2.Desk360CreateScreenUploadText
                 android:id="@+id/textPathCreateTicketScreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

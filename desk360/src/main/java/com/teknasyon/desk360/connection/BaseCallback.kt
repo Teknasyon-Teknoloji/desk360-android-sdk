@@ -2,7 +2,7 @@ package com.teknasyon.desk360.connection
 
 import android.util.Log
 import com.teknasyon.desk360.helper.Desk360Config
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Platform
 import com.teknasyon.desk360.helper.ResponseListener
 import com.teknasyon.desk360.model.Desk360Register
@@ -37,13 +37,13 @@ abstract class BaseCallback<T> : Callback<T> {
                         "expired_at" -> {
                             cloneRequest = call.clone()
                             val register = Desk360Register()
-                            register.app_key = Desk360Constants.manager?.appKey
+                            register.app_key = Desk360SDK.manager?.appKey
                             register.device_id =
                                 Desk360Config.instance.getDesk360Preferences()?.adId
                             register.app_platform =
-                            if (Desk360Constants.manager?.platform == Platform.HUAWEI) "Huawei" else "Android"
-                            register.app_version = Desk360Constants.manager?.appVersion
-                            register.language_code = Desk360Constants.manager?.languageCode
+                            if (Desk360SDK.manager?.platform == Platform.HUAWEI) "Huawei" else "Android"
+                            register.app_version = Desk360SDK.manager?.appVersion
+                            register.language_code = Desk360SDK.manager?.languageCode
 
                             Desk360RetrofitFactory.instance.desk360Service.register(register)
                                 .enqueue(object : Callback<Desk360RegisterResponse> {

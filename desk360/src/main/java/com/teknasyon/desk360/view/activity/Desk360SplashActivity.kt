@@ -5,7 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.helper.Desk360Config
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
+import com.teknasyon.desk360.helper.Desk360SDKManager
 
 class Desk360SplashActivity : AppCompatActivity() {
     companion object {
@@ -20,13 +21,7 @@ class Desk360SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash_desk_360)
 
         intent.extras?.let { bundle ->
-            Desk360Config().context = this
-
-            val deviceId = bundle.getString(EXTRA_DEVICE_TOKEN)
-            if (!deviceId.isNullOrEmpty())
-                Desk360Config.instance.getDesk360Preferences()?.adId = deviceId
-
-            Desk360Constants.desk360Config {
+            Desk360SDK.desk360Config {
                 val intent = Intent(this, Desk360BaseActivity::class.java).apply {
                     putExtra(EXTRA_TARGET_ID, bundle.getString(EXTRA_TARGET_ID))
                     putExtra(EXTRA_TOKEN, bundle.getString(EXTRA_TOKEN))

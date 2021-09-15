@@ -164,7 +164,7 @@ open class Desk360TicketDetailFragment : Fragment() {
         viewModel?.addMessageItem?.observe(this, addMessageObserver)
 
         Desk360CustomStyle.setStyle(
-            Desk360Constants.currentType?.data?.first_screen?.button_style_id,
+            Desk360SDK.config?.data?.first_screen?.button_style_id,
             binding!!.addNewTicketButton,
             context!!
         )
@@ -196,7 +196,7 @@ open class Desk360TicketDetailFragment : Fragment() {
 
         binding?.ticketDetailButtonIcon?.setImageResource(R.drawable.zarf)
         binding?.ticketDetailButtonIcon?.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color),
+            Color.parseColor(Desk360SDK.config?.data?.first_screen?.button_text_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
@@ -211,9 +211,9 @@ open class Desk360TicketDetailFragment : Fragment() {
 
         val colors = ArrayCreator.createSingleArray(2)
         colors[0] =
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_active_color)
+            Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.write_message_border_active_color)
         colors[1] =
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color)
+            Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.write_message_border_color)
 
         val myList = ColorStateList(states, colors)
 
@@ -224,15 +224,15 @@ open class Desk360TicketDetailFragment : Fragment() {
         Desk360CustomStyle.setFontWeight(
             binding!!.ticketDetailButtonText,
             context,
-            Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight
+            Desk360SDK.config?.data?.first_screen?.button_text_font_weight
         )
 
-        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_background_color))
+        gradientDrawable.setColor(Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.write_message_background_color))
 
         binding?.addNewMessageButton?.setImageResource(R.drawable.message_send_icon_blue)
 
         binding?.addNewMessageButton?.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
+            Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
             PorterDuff.Mode.SRC_ATOP
         )
 
@@ -248,13 +248,13 @@ open class Desk360TicketDetailFragment : Fragment() {
 
                 if (s?.length == 0) {
                     binding?.addNewMessageButton?.setColorFilter(
-                        Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
+                        Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.write_message_button_icon_disable_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
 
                 } else {
                     binding?.addNewMessageButton?.setColorFilter(
-                        Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_button_icon_color),
+                        Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.write_message_button_icon_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
                 }

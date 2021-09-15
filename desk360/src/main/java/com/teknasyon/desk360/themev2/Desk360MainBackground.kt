@@ -4,12 +4,12 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 
 class Desk360MainBackground : ConstraintLayout {
 
     init {
-        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
+        this.setBackgroundColor(Color.parseColor(Desk360SDK.config?.data?.general_settings?.main_background_color))
     }
 
     constructor(context: Context) : super(context)

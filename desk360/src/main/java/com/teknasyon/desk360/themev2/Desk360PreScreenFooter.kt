@@ -4,23 +4,20 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
-import android.widget.TextView
-import com.teknasyon.desk360.helper.Desk360Constants
+import androidx.appcompat.widget.AppCompatTextView
+import com.teknasyon.desk360.helper.Desk360SDK
 
-class Desk360PreScreenFooter : TextView {
-
+class Desk360PreScreenFooter : AppCompatTextView {
 
     init {
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
-        this.textSize=Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
-        this.text = Desk360Constants.currentType?.data?.create_pre_screen?.bottom_note_text
-        if (!Desk360Constants.currentType?.data?.create_pre_screen?.bottom_note_is_hidden!!) {
-            this.visibility = View.INVISIBLE
-        } else {
-            this.visibility = View.VISIBLE
+        Desk360SDK.config?.data?.let { data ->
+            this.setTextColor(Color.parseColor(data.general_settings?.bottom_note_color))
+            this.textSize = data.general_settings?.bottom_note_font_size!!.toFloat()
+            this.text = data.create_pre_screen?.bottom_note_text
+            this.visibility =
+                if (!data.create_pre_screen?.bottom_note_is_hidden!!) View.INVISIBLE else View.VISIBLE
         }
     }
-
 
     constructor(context: Context) : super(context)
 
@@ -31,5 +28,4 @@ class Desk360PreScreenFooter : TextView {
         attrs,
         defStyle
     )
-
 }

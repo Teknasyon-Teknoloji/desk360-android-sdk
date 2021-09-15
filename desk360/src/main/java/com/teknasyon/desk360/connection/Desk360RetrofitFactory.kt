@@ -1,7 +1,7 @@
 package com.teknasyon.desk360.connection
 
 import com.teknasyon.desk360.BuildConfig
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Environment
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,13 +37,14 @@ class Desk360RetrofitFactory private constructor() {
             retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
-                .baseUrl(Desk360Constants.baseURL)
+                .baseUrl(baseURL)
                 .build()
 
         desk360Service = retrofit!!.create(Desk360Service::class.java)
     }
 
     companion object {
+        private var baseURL = "https://teknasyon.desk360.com/"
         private var INSTANCE: Desk360RetrofitFactory? = null
         val instance: Desk360RetrofitFactory
             get() {

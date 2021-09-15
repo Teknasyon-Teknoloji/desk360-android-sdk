@@ -157,7 +157,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             view?.let { _ ->
                 remove()
                 findNavController().navigate(
-                    when (Desk360Constants.manager?.enableHelpMode) {
+                    when (Desk360SDK.manager?.enableHelpMode) {
                         true -> Desk360AddNewTicketFragmentDirections.actionAddNewTicketFragmentToThanksFragment()
                         else -> Desk360AddNewTicketFragmentDirections.actionAddNewTicketFragmentToTicketListFragment()
                     },
@@ -229,7 +229,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             validateAllField()
         }
 
-        val createScreen = Desk360Constants.currentType?.data?.create_screen
+        val createScreen = Desk360SDK.config?.data?.create_screen
 
         binding?.formConfirm?.visibility = if (createScreen?.form_confirm_is_hidden == true)
             View.VISIBLE
@@ -252,7 +252,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 HtmlCompat.FROM_HTML_MODE_COMPACT
             )
 
-        Desk360Constants.currentType?.data?.create_screen?.form_input_color?.let { color ->
+        Desk360SDK.config?.data?.create_screen?.form_input_color?.let { color ->
             binding?.formConfirmText?.setTextColor(Color.parseColor(color))
             binding?.formConfirmText?.setLinkTextColor(Color.parseColor(color))
         }
@@ -347,7 +347,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         binding?.createScreenRootView?.addView(
             nameField?.createEditText(
-                Desk360Constants.currentType?.data?.general_settings?.name_field_text ?: "Name"
+                Desk360SDK.config?.data?.general_settings?.name_field_text ?: "Name"
             )
         )
 
@@ -361,8 +361,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
             }
         })
 
-        if (Desk360Constants.manager?.name?.isNotEmpty() == true) {
-            nameField?.holder?.textInputEditText?.setText(Desk360Constants.manager?.name)
+        if (Desk360SDK.manager?.name?.isNotEmpty() == true) {
+            nameField?.holder?.textInputEditText?.setText(Desk360SDK.manager?.name)
         }
 
         /**
@@ -371,7 +371,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         eMailField = TextInputViewGroup(editTextStyleModel, this@Desk360AddNewTicketFragment)
         binding?.createScreenRootView?.addView(
             eMailField?.createEditText(
-                Desk360Constants.currentType?.data?.general_settings?.email_field_text ?: "Email"
+                Desk360SDK.config?.data?.general_settings?.email_field_text ?: "Email"
             )
         )
         eMailField?.holder?.textInputEditText?.inputType =
@@ -387,8 +387,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
             }
         })
 
-        if (Desk360Constants.manager?.emailAddress?.isNotEmpty() == true) {
-            eMailField?.holder?.textInputEditText?.setText(Desk360Constants.manager?.emailAddress)
+        if (Desk360SDK.manager?.emailAddress?.isNotEmpty() == true) {
+            eMailField?.holder?.textInputEditText?.setText(Desk360SDK.manager?.emailAddress)
         }
 
         for (i in customInputField.indices) {
@@ -568,7 +568,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
         binding?.createScreenRootView?.addView(
             messageField?.createEditText(
-                Desk360Constants.currentType?.data?.general_settings?.message_field_text
+                Desk360SDK.config?.data?.general_settings?.message_field_text
                     ?: "Message"
             )
         )
@@ -632,7 +632,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             )
 
            textPathCreateTicketScreen.text =
-                Desk360Constants.currentType?.data?.general_settings?.add_file_text
+               Desk360SDK.config?.data?.general_settings?.add_file_text
 
             pathIconn.setImageResource(R.drawable.path_icon_desk360)
             pathIconn.setColorFilter(
@@ -660,7 +660,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             Desk360CustomStyle.setFontWeight(
                 textFooterCreateTicketScreen,
                 context,
-                Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
+                Desk360SDK.config?.data?.general_settings?.bottom_note_font_weight
             )
         }
 
@@ -775,7 +775,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
     private fun showAlert() {
         activity.let {
             val alert = AlertDialog.Builder(it)
-            alert.setMessage(Desk360Constants.currentType?.data?.general_settings?.file_size_error_text)
+            alert.setMessage(Desk360SDK.config?.data?.general_settings?.file_size_error_text)
                 ?: ""
             alert.setCancelable(false)
             alert.setNegativeButton(getString(R.string.ok_button)) { _: DialogInterface, _: Int ->
@@ -828,7 +828,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
             s.isEmpty() -> {
                 nameField?.holder?.textInputLayout?.error =
-                    Desk360Constants.currentType?.data?.general_settings?.required_field_message
+                    Desk360SDK.config?.data?.general_settings?.required_field_message
                         ?: "Lütfen İsim Alanını Doldurunuz"
                 nameField?.holder?.textInputLayout?.isErrorEnabled = true
                 false
@@ -859,7 +859,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 invalidEmail = true
                 eMailField?.holder?.textInputLayout?.isErrorEnabled = true
                 eMailField?.holder?.textInputLayout?.error =
-                    Desk360Constants.currentType?.data?.general_settings?.required_email_field_message
+                    Desk360SDK.config?.data?.general_settings?.required_email_field_message
                         ?: "Email Alanını Formatına Göre Giriniz."
                 false
             }
@@ -880,7 +880,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         messageFieldFill = when {
             s.isEmpty() -> {
                 messageField?.holder?.textAreaLayout?.error =
-                    Desk360Constants.currentType?.data?.general_settings?.required_textarea_message
+                    Desk360SDK.config?.data?.general_settings?.required_textarea_message
                         ?: "Mesaj Alanını Doldurunuz."
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = true
                 false
@@ -928,12 +928,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 selectedTypeId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             val source = "App".toRequestBody("text/plain".toMediaTypeOrNull())
             val platform =
-                (if (Desk360Constants.manager?.platform == Platform.HUAWEI) "Huawei" else "Android").toRequestBody(
+                (if (Desk360SDK.manager?.platform == Platform.HUAWEI) "Huawei" else "Android").toRequestBody(
                     "text/plain".toMediaTypeOrNull()
                 )
-            val settings = Desk360Constants.manager?.jsonObject.toString().toRequestBody(json)
+            val settings = Desk360SDK.manager?.jsonObject.toString().toRequestBody(json)
             val countryCode =
-                Desk360Constants.countryCode().toUpperCase()
+                Desk360SDK.countryCode().toUpperCase()
                     .toRequestBody("text/plain".toMediaTypeOrNull())
             val notificationToken =
                 activity.notificationToken.toString()
@@ -952,7 +952,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 params["push_token"] = notificationToken
             }
 
-            if (Desk360Constants.currentType?.data?.create_screen?.form_confirm_is_hidden == true) {
+            if (Desk360SDK.config?.data?.create_screen?.form_confirm_is_hidden == true) {
                 params["confirm"] = (if (binding?.formConfirmCheckbox?.isChecked == true) "1" else "0")
                     .toRequestBody("text/plain".toMediaTypeOrNull())
             }
@@ -968,7 +968,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             when {
                 !nameFieldFill -> {
                     nameField?.holder?.textInputLayout?.error =
-                        Desk360Constants.currentType?.data?.general_settings?.required_field_message
+                        Desk360SDK.config?.data?.general_settings?.required_field_message
                             ?: "Lütfen İsim Alanını Doldurunuz"
                     nameFieldFill = false
                     observerName()
@@ -976,11 +976,11 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 !emailFieldFill -> {
                     if (invalidEmail)
                         eMailField?.holder?.textInputLayout?.error =
-                            Desk360Constants.currentType?.data?.general_settings?.required_email_field_message
+                            Desk360SDK.config?.data?.general_settings?.required_email_field_message
                                 ?: "Email Alanını Formatına Göre Giriniz."
                     else
                         eMailField?.holder?.textInputLayout?.error =
-                            Desk360Constants.currentType?.data?.general_settings?.required_email_field_message
+                            Desk360SDK.config?.data?.general_settings?.required_email_field_message
                                 ?: "Email Alanını Lütfen Boş Bırakmayın."
                     emailFieldFill = false
                     observerEMail()

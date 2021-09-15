@@ -4,14 +4,12 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 
 class Desk360TicketRecyclerView : RecyclerView {
 
     init {
-
-        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_background_color))
-
+        this.setBackgroundColor(Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.chat_background_color))
     }
 
     constructor(context: Context) : super(context)

@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 
 
 class Desk360TicketListMessageLayout : LinearLayout {
@@ -14,10 +14,10 @@ class Desk360TicketListMessageLayout : LinearLayout {
 
     init {
 
-        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_background_color))
+        gradientDrawable.setColor(Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.write_message_background_color))
         gradientDrawable.setStroke(
             2,
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.write_message_border_color)
+            Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.write_message_border_color)
         )
         gradientDrawable.cornerRadius = 1f
         

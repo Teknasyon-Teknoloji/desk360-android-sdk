@@ -7,39 +7,39 @@ import android.os.Build
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 
 class Desk360TicketDetailScreenButton : ConstraintLayout {
     private val gradientDrawable = GradientDrawable()
 
     init {
-        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_background_color))
-        gradientDrawable.setStroke(
-            2,
-            Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_border_color)
-        )
+        Desk360SDK.config?.data?.let { data ->
+            gradientDrawable.setColor(Color.parseColor(data.first_screen?.button_background_color))
+            gradientDrawable.setStroke(
+                2,
+                Color.parseColor(data.first_screen?.button_border_color)
+            )
 
-        if(Desk360Constants.currentType?.data?.first_screen?.button_shadow_is_hidden==true){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.elevation=20f
+            if (data.first_screen?.button_shadow_is_hidden == true && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                this.elevation = 20f
             }
-        }
 
-        when (Desk360Constants.currentType?.data?.first_screen?.button_style_id) {
-            1 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
-            }
-            2 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
-            }
-            3 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(2f, context)
-            }
-            4 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(0f, context)
-            }
-            else -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
+            when (data.first_screen?.button_style_id) {
+                1 -> {
+                    gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
+                }
+                2 -> {
+                    gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
+                }
+                3 -> {
+                    gradientDrawable.cornerRadius = convertDpToPixel(2f, context)
+                }
+                4 -> {
+                    gradientDrawable.cornerRadius = convertDpToPixel(0f, context)
+                }
+                else -> {
+                    gradientDrawable.cornerRadius = convertDpToPixel(28f, context)
+                }
             }
         }
 

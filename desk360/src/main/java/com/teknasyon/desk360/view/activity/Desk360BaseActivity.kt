@@ -19,7 +19,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.binding
 import com.teknasyon.desk360.model.Desk360TicketResponse
@@ -78,32 +78,32 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             Desk360CustomStyle.setFontWeight(
                 binding.toolbarTitle,
                 this,
-                Desk360Constants.currentType?.data?.general_settings?.header_text_font_weight
+                Desk360SDK.config?.data?.general_settings?.header_text_font_weight
             )
 
             when (destination.id) {
 
                 R.id.preNewTicketFragment -> {
                     setMainTitle(
-                        Desk360Constants.currentType?.data?.create_pre_screen?.title
+                        Desk360SDK.config?.data?.create_pre_screen?.title
                     )
                     isTicketDetailFragment = false
                 }
                 R.id.thanksFragment -> {
                     setMainTitle(
-                        Desk360Constants.currentType?.data?.ticket_success_screen?.title
+                        Desk360SDK.config?.data?.ticket_success_screen?.title
                     )
                     isTicketDetailFragment = false
                 }
                 R.id.ticketDetailFragment -> {
                     setMainTitle(
-                        Desk360Constants.currentType?.data?.ticket_detail_screen?.title
+                        Desk360SDK.config?.data?.ticket_detail_screen?.title
                     )
                     isTicketDetailFragment = true
                 }
                 R.id.addNewTicketFragment -> {
                     setMainTitle(
-                        Desk360Constants.currentType?.data?.create_screen?.title
+                        Desk360SDK.config?.data?.create_screen?.title
                     )
                     isTicketDetailFragment = false
                 }
@@ -120,13 +120,13 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             )
 
             binding?.toolbar?.navigationIcon?.setColorFilter(
-                Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
+                Color.parseColor(Desk360SDK.config?.data?.general_settings?.header_icon_color),
                 PorterDuff.Mode.SRC_ATOP
             )
         }
 
         binding?.logo?.visibility =
-            if (Desk360Constants.currentType?.data?.general_settings?.copyright_logo_is_show == true) View.VISIBLE else View.GONE
+            if (Desk360SDK.config?.data?.general_settings?.copyright_logo_is_show == true) View.VISIBLE else View.GONE
     }
 
     fun notifyToolBar(cacheTickets: ArrayList<Desk360TicketResponse>) {
@@ -137,17 +137,17 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     fun changeMainUI() {
         binding?.apply {
-            mainBackground.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
-            toolbar.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_background_color))
-            toolbar.setTitleTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
+            mainBackground.setBackgroundColor(Color.parseColor(Desk360SDK.config?.data?.general_settings?.main_background_color))
+            toolbar.setBackgroundColor(Color.parseColor(Desk360SDK.config?.data?.general_settings?.header_background_color))
+            toolbar.setTitleTextColor(Color.parseColor(Desk360SDK.config?.data?.general_settings?.header_text_color))
 
-            if (Desk360Constants.currentType?.data?.general_settings?.header_shadow_is_hidden == true && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Desk360SDK.config?.data?.general_settings?.header_shadow_is_hidden == true && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 toolbar.elevation = 20f
             }
 
-            toolbarTitle.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_text_color))
+            toolbarTitle.setTextColor(Color.parseColor(Desk360SDK.config?.data?.general_settings?.header_text_color))
             toolbarTitle.textSize =
-                Desk360Constants.currentType?.data?.general_settings?.header_text_font_size!!.toFloat()
+                Desk360SDK.config?.data?.general_settings?.header_text_font_size!!.toFloat()
         }
     }
 
@@ -169,11 +169,11 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         if (cacheTickets?.isNotEmpty() == true) {
             setMainTitle(
-                Desk360Constants.currentType?.data?.ticket_list_screen?.title
+                Desk360SDK.config?.data?.ticket_list_screen?.title
             )
         } else {
             setMainTitle(
-                Desk360Constants.currentType?.data?.first_screen?.title
+                Desk360SDK.config?.data?.first_screen?.title
             )
         }
 
@@ -197,7 +197,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             isEnabled = true
             icon = resources.getDrawable(R.drawable.add_new_message_icon_black)
             icon.setColorFilter(
-                Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.header_icon_color),
+                Color.parseColor(Desk360SDK.config?.data?.general_settings?.header_icon_color),
                 PorterDuff.Mode.SRC_ATOP
             )
         }
@@ -217,7 +217,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             Handler().postDelayed({ addBtnClicked = false }, 800)
 
             findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(
-                when (Desk360Constants.manager?.enableHelpMode) {
+                when (Desk360SDK.manager?.enableHelpMode) {
                     true -> Desk360TicketListFragmentDirections.actionTicketListFragmentToPreNewTicketFragment()
                     else -> Desk360TicketListFragmentDirections.actionTicketListFragmentToAddNewTicketFragment()
                 }

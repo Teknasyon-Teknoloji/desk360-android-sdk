@@ -105,7 +105,7 @@ Or Maven
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360SDKManager
 import com.teknasyon.desk360.helper.Platform
-
+import com.teknasyon.desk360.helper.Desk360SDK
 ```
 
 ```
@@ -131,14 +131,13 @@ import com.teknasyon.desk360.helper.Platform
             )
             .build()
 
-        val desk360Client = desk360SDKManager.initialize("ticket id", "firebase notification token", "device id")
+        desk360SDKManager.initialize("firebase notification token", "device id")
 
-        desk360Client.start(this)
+        Desk360SDK.start()
 
 | Parameters   | Description                                                  |
 | ------------ | ------------------------------------------------------------ |
 | token        | your firebase token |
-| ticketId     | ticket id from firebase message body  
 | deviceId     | your Android device id
 | appKey       | desk360 Api Key will provided when you get the license
 | appVersion   | your application's version number
@@ -201,7 +200,7 @@ val bundle = intent.extras
 	
 	val hermes = bundle?.getString("hermes")
             hermes?.let {
-		val targetId = Desk360Constants.getTicketId(hermes)
+		val targetId = Desk360SDK.getTicketId(hermes)
     	}	
   }
 
@@ -217,7 +216,7 @@ override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val hermes = remoteMessage.data["hermes"]
 
         hermes?.let {
-	val targetId = Desk360Constants.getTicketId(hermes)
+	val targetId = Desk360SDK.getTicketId(hermes)
     }
     
 ```
@@ -241,13 +240,12 @@ Example (In your firebaseMessagingService class) :
             .setCustomJsonObject("for custom data")
             .build()
 
-             val desk360Client = desk360SDKManager.initialize(
-                      _ticketId = "targetId from notification body",
-                      _notificationToken = "your firebase token",
-                      _deviceId = "your Android device id"
+             desk360SDKManager.initialize(
+                      notificationToken = "your firebase token",
+                      deviceId = "your Android device id"
              )
 
-             val intent = desk360Client.getIntent(this)
+             val intent = Desk360SDK.getIntent(this)
              PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         } ?: run {
             PendingIntent.getActivity(this, 0, Intent(this, YourStartingActivity::class.java), PendingIntent.FLAG_ONE_SHOT)
@@ -265,13 +263,12 @@ Example (In your firebaseMessagingService class) :
             .setCustomJsonObject("for custom data")
             .build()
 
-             val desk360Client = desk360SDKManager.initialize(
-                      _ticketId = "targetId from notification body",
-                      _notificationToken = "your firebase token",
-                      _deviceId = "your Android device id"
-             )
+       desk360SDKManager.initialize(
+             notificationToken = "your firebase token",
+             deviceId = "your Android device id"
+       )
 
-        desk360Client.start(this)
+        Desk360SDK.start()
         finish()		
 
 ```
@@ -288,13 +285,12 @@ If your app will not use notification then you must set token "" and for targetI
             .setCustomJsonObject("for custom data")
             .build()
 
-             val desk360Client = desk360SDKManager.initialize(
-                      _ticketId = "targetId from notification body",
-                      _notificationToken = "your firebase token",
-                      _deviceId = "your Android device id"
-             )
+       desk360SDKManager.initialize(
+             notificationToken = "your firebase token",
+             deviceId = "your Android device id"
+       )
 
-        desk360Client.start(this)
+        Desk360SDK.start()
         finish()
 ```
 ### Language

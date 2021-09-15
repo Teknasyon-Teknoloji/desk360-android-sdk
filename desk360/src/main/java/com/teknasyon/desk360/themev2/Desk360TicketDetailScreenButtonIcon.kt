@@ -3,19 +3,16 @@ package com.teknasyon.desk360.themev2
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
-import com.teknasyon.desk360.helper.Desk360Constants
+import androidx.appcompat.widget.AppCompatImageView
+import com.teknasyon.desk360.helper.Desk360SDK
 
-class Desk360TicketDetailScreenButtonIcon  : ImageView {
-
+class Desk360TicketDetailScreenButtonIcon : AppCompatImageView {
 
     init {
-        if (Desk360Constants.currentType?.data?.first_screen?.button_icon_is_hidden == true) {
-            this.visibility= View.VISIBLE
-        } else {
-            this.visibility= View.INVISIBLE
-        }
-
+        this.visibility = if (Desk360SDK.config?.data?.first_screen?.button_icon_is_hidden == true)
+            View.VISIBLE
+        else
+            View.INVISIBLE
     }
 
     constructor(context: Context) : super(context)

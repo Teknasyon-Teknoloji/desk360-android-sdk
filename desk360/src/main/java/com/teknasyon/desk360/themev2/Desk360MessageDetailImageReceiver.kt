@@ -7,14 +7,14 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 
 class Desk360MessageDetailImageReceiver : ImageView {
 
 
     init {
 
-        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_box_style) {
+        when (Desk360SDK.config?.data?.ticket_detail_screen?.chat_box_style) {
             4 -> {
                 this.setImageResource(R.drawable.receiver_small_icon)
                 this.visibility = View.VISIBLE
@@ -28,7 +28,7 @@ class Desk360MessageDetailImageReceiver : ImageView {
         }
 
         this.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_sender_background_color),
+            Color.parseColor(Desk360SDK.config?.data?.ticket_detail_screen?.chat_sender_background_color),
             PorterDuff.Mode.SRC_ATOP
         )
 

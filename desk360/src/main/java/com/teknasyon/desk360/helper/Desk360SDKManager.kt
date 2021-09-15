@@ -1,5 +1,6 @@
 package com.teknasyon.desk360.helper
 
+import android.content.Context
 import androidx.annotation.NonNull
 import com.teknasyon.desk360.helper.Desk360Helper.checkNotEmpty
 import org.json.JSONObject
@@ -7,13 +8,20 @@ import java.util.*
 
 class Desk360SDKManager internal constructor(builder: Builder) {
 
-    fun initialize(_ticketId: String, _notificationToken: String?, _deviceId: String?): Desk360Client {
-        Desk360Constants.manager = this
+    /**
+     * Desk360 SDK is initialized.
+     * @param notificationToken the token of Notification for firebase
+     * @param deviceId the id of Device
+     */
+    fun initialize(notificationToken: String?, deviceId: String?) {
+        Desk360SDK.manager = this
 
-        return Desk360Client().apply {
-            ticketId = _ticketId
-            notificationToken = _notificationToken
-            deviceId = _deviceId
+        if (!deviceId.isNullOrEmpty())
+            Desk360Config.instance.getDesk360Preferences()?.adId = deviceId
+
+        Desk360SDK.client = Desk360Client().apply {
+            this.notificationToken = notificationToken
+            this.deviceId = deviceId
         }
     }
 
@@ -27,7 +35,7 @@ class Desk360SDKManager internal constructor(builder: Builder) {
     val emailAddress = builder.emailAddress
     val enableHelpMode = builder.enableHelpMode
 
-    class Builder {
+    class Builder(context: Context) {
         internal var appKey: String? = null
         internal var appVersion: String? = null
         internal var languageCode: String? = null
@@ -38,14 +46,21 @@ class Desk360SDKManager internal constructor(builder: Builder) {
         internal var emailAddress: String? = null
         internal var enableHelpMode = true
 
+        init {
+            Desk360Config().context = context
+        }
+
         /**
-         * Application Key
+         * Sets the Application Key.
+         * @param key the key of application
+         * @return Desk360SDKManager.Builder
+         * @see Desk360SDKManager.Builder
          */
         @NonNull
         fun setAppKey(key: String): Builder {
             require(key.isNotEmpty())
 
-            if (key != Desk360Constants.manager?.appKey) {
+            if (key != Desk360SDK.manager?.appKey) {
                 Desk360Config.instance.getDesk360Preferences()?.isTypeFetched = false
             }
 
@@ -55,28 +70,37 @@ class Desk360SDKManager internal constructor(builder: Builder) {
         }
 
         /**
-         * Application Version
+         * Sets the Application Version.
+         * @param version the version of application
+         * @return Desk360SDKManager.Builder
+         * @see Desk360SDKManager.Builder
          */
         @NonNull
-        fun setAppVersion(appVersion: String) = apply {
-            this.appVersion = checkNotEmpty(appVersion, "Application version cannot be empty")
+        fun setAppVersion(version: String) = apply {
+            this.appVersion = checkNotEmpty(version, "Application version cannot be empty")
         }
 
         /**
-         * Language Code
+         * Sets the Language Code.
+         * @param code the code of Language
+         * @return Desk360SDKManager.Builder
+         * @see Desk360SDKManager.Builder
          */
-        fun setLanguageCode(languageCode: String) = apply {
-            if (languageCode != Desk360Constants.manager?.languageCode) {
+        fun setLanguageCode(code: String) = apply {
+            if (code != Desk360SDK.manager?.languageCode) {
                 Desk360Config.instance.getDesk360Preferences()?.isTypeFetched = false
             }
 
-            this.languageCode = languageCode.ifEmpty { Locale.getDefault().language }
+            this.languageCode = code.ifEmpty { Locale.getDefault().language }
         }
 
         /**
-         * Platform
+         * Sets the Mobile Service Platform.
          * HUAWEI or GOOGLE
          * Default Value: GOOGLE
+         * @param platform
+         * @return Desk360SDKManager.Builder
+         * @see Desk360SDKManager.Builder
          */
         @NonNull
         fun setPlatform(platform: Platform): Builder {
@@ -87,47 +111,61 @@ class Desk360SDKManager internal constructor(builder: Builder) {
         }
 
         /**
-         * Country Code
+         * Sets the Country Code.
+         * @param code
+         * @return Desk360SDKManager.Builder
+         * @see Desk360SDKManager.Builder
          */
-        fun setCountryCode(countryCode: String?) = apply {
-            if (countryCode != Desk360Constants.manager?.countryCode) {
+        fun setCountryCode(code: String?) = apply {
+            if (code != Desk360SDK.manager?.countryCode) {
                 Desk360Config.instance.getDesk360Preferences()?.isTypeFetched = false
             }
 
-            if (countryCode.isNullOrEmpty()) {
+            if (code.isNullOrEmpty()) {
                 this.countryCode = Locale.getDefault().country
                 if (this.countryCode.isNullOrEmpty()) {
                     this.countryCode = "xx"
                 }
             } else {
-                this.countryCode = countryCode
+                this.countryCode = code
             }
         }
 
-        /** OPTIONAL
-         * User Name
+        /**
+         * Sets the User Name.
+         * @param name
+         * @return Desk360SDKManager.Builder
+         * @see Desk360SDKManager.Builder
          */
         fun setUserName(name: String) = apply {
             this.name = name
         }
 
-        /** OPTIONAL
-         * User Email Address
-         *
+        /**
+         * Sets the Email Address.
+         * @param emailAddress
+         * @return Desk360SDKManager.Builder
+         * @see Desk360SDKManager.Builder
          */
         fun setUserEmailAddress(emailAddress: String) = apply {
             this.emailAddress = emailAddress
         }
 
-        /** OPTIONAL
-         * Help Mode
+        /**
+         * Sets the Help Mode.
+         * @param enable
+         * @return Desk360SDKManager.Builder
+         * @see Desk360SDKManager.Builder
          */
-        fun enableHelpMode(enableHelpMode: Boolean) = apply {
+        fun enableHelpMode(enable: Boolean) = apply {
             this.enableHelpMode = enableHelpMode
         }
 
-        /** OPTIONAL
-         * Json Object
+        /**
+         * Sets the Json Object.
+         * @param jsonObject
+         * @return Desk360SDKManager.Builder
+         * @see Desk360SDKManager.Builder
          */
         fun setCustomJsonObject(jsonObject: JSONObject?) = apply {
             this.jsonObject = jsonObject
@@ -140,7 +178,7 @@ class Desk360SDKManager internal constructor(builder: Builder) {
             )
         )
         fun appKey(key: String) = apply {
-            if (key != Desk360Constants.manager?.appKey) {
+            if (key != Desk360SDK.manager?.appKey) {
                 Desk360Config.instance.getDesk360Preferences()?.isTypeFetched = false
             }
 
@@ -164,7 +202,7 @@ class Desk360SDKManager internal constructor(builder: Builder) {
             )
         )
         fun languageCode(languageCode: String) = apply {
-            if (languageCode != Desk360Constants.manager?.languageCode) {
+            if (languageCode != Desk360SDK.manager?.languageCode) {
                 Desk360Config.instance.getDesk360Preferences()?.isTypeFetched = false
             }
 
@@ -203,7 +241,7 @@ class Desk360SDKManager internal constructor(builder: Builder) {
             )
         )
         fun countryCode(countryCode: String?) = apply {
-            if (countryCode != Desk360Constants.manager?.countryCode) {
+            if (countryCode != Desk360SDK.manager?.countryCode) {
                 Desk360Config.instance.getDesk360Preferences()?.isTypeFetched = false
             }
 

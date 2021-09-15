@@ -5,35 +5,32 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 
-class Desk360MessageDetailImage : ImageView {
-
+class Desk360MessageDetailImage : AppCompatImageView {
 
     init {
+        Desk360SDK.config?.data?.let { data ->
+            when (data.ticket_detail_screen?.chat_box_style) {
+                4 -> {
+                    this.setImageResource(R.drawable.sent_small_icon)
+                    this.visibility = View.VISIBLE
 
-        when (Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_box_style) {
-            4 -> {
-                this.setImageResource(R.drawable.sent_small_icon)
-                this.visibility = View.VISIBLE
-
+                }
+                else -> {
+                    this.setBackgroundResource(0)
+                    this.visibility = View.GONE
+                }
             }
-            else -> {
-                this.setBackgroundResource(0)
-                this.visibility = View.GONE
-            }
 
+            this.setColorFilter(
+                Color.parseColor(data.ticket_detail_screen?.chat_receiver_background_color),
+                PorterDuff.Mode.SRC_ATOP
+            )
         }
-
-        this.setColorFilter(
-            Color.parseColor(Desk360Constants.currentType?.data?.ticket_detail_screen?.chat_receiver_background_color),
-            PorterDuff.Mode.SRC_ATOP
-        )
-
     }
-
 
     constructor(context: Context) : super(context)
 
