@@ -7,37 +7,36 @@ import android.os.Build
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 
 class Desk360TicketItemsLayout : ConstraintLayout {
 
     private val gradientDrawable = GradientDrawable()
 
     init {
+        Desk360SDK.config?.data?.let { data ->
+            gradientDrawable.setColor(Color.parseColor(data.ticket_list_screen?.ticket_item_backgroud_color))
 
-        gradientDrawable.setColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_backgroud_color))
+            when (data.ticket_list_screen?.ticket_list_type) {
+                1 -> {
+                    gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
+                }
+                2 -> {
+                    gradientDrawable.cornerRadius = convertDpToPixel(4f, context)
+                }
+                3 -> {
+                    gradientDrawable.cornerRadius = convertDpToPixel(2f, context)
+                }
+                4 -> {
+                    gradientDrawable.cornerRadius = convertDpToPixel(0f, context)
+                }
+                else -> {
+                    gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
+                }
+            }
 
-        when (Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_type) {
-            1 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
-            }
-            2 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(4f, context)
-            }
-            3 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(2f, context)
-            }
-            4 -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(0f, context)
-            }
-            else -> {
-                gradientDrawable.cornerRadius = convertDpToPixel(10f, context)
-            }
-        }
-
-        if(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_shadow_is_hidden==true){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                this.elevation=20f
+            if (data.ticket_list_screen?.ticket_item_shadow_is_hidden == true && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                this.elevation = 20f
             }
         }
 
@@ -47,7 +46,6 @@ class Desk360TicketItemsLayout : ConstraintLayout {
     private fun convertDpToPixel(dp: Float, context: Context): Float {
         return dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
-
 
     constructor(context: Context) : super(context)
 

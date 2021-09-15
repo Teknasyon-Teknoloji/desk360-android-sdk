@@ -18,7 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.PreferencesManager
 import com.teknasyon.desk360.helper.RxBus
@@ -109,7 +109,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
             }
 
             Desk360CustomStyle.setStyle(
-                Desk360Constants.currentType?.data?.first_screen?.button_style_id,
+                Desk360SDK.config?.data?.first_screen?.button_style_id,
                 emptysAddNewTicketButtonTicketList,
                 requireContext()
             )
@@ -117,31 +117,31 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
             Desk360CustomStyle.setFontWeight(
                 emptyListLayoutTicketListSubTitle,
                 context,
-                Desk360Constants.currentType?.data?.first_screen?.sub_title_font_weight
+                Desk360SDK.config?.data?.first_screen?.sub_title_font_weight
             )
 
             Desk360CustomStyle.setFontWeight(
                 emptyListLayoutTicketListDesc,
                 context,
-                Desk360Constants.currentType?.data?.first_screen?.description_font_weight
+                Desk360SDK.config?.data?.first_screen?.description_font_weight
             )
 
             Desk360CustomStyle.setFontWeight(
                 txtOpenMessageFormTicketList,
                 context,
-                Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight
+                Desk360SDK.config?.data?.first_screen?.button_text_font_weight
             )
 
             Desk360CustomStyle.setFontWeight(
                 txtBottomFooterMainTicketList,
                 context,
-                Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
+                Desk360SDK.config?.data?.general_settings?.bottom_note_font_weight
             )
 
             firstScreenButtonIcon.apply {
                 setImageResource(R.drawable.zarf)
                 setColorFilter(
-                    Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color),
+                    Color.parseColor(Desk360SDK.config?.data?.first_screen?.button_text_color),
                     PorterDuff.Mode.SRC_ATOP
                 )
             }
@@ -176,7 +176,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
 
         binding?.apply {
             Desk360CustomStyle.setStyle(
-                Desk360Constants.currentType?.data?.first_screen?.button_style_id,
+                Desk360SDK.config?.data?.first_screen?.button_style_id,
                 openMessageformEmptyCurrentList,
                 requireContext()
             )
@@ -184,14 +184,14 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
             Desk360CustomStyle.setFontWeight(
                 ticketListEmptyButtonText,
                 context,
-                Desk360Constants.currentType?.data?.first_screen?.button_text_font_weight
+                Desk360SDK.config?.data?.first_screen?.button_text_font_weight
             )
 
             imageEmptyCurrent.apply {
                 requestLayout()
                 setImageResource(R.drawable.no_expired_ticket_list_icon)
                 setColorFilter(
-                    Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_active_color),
+                    Color.parseColor(Desk360SDK.config?.data?.ticket_list_screen?.tab_text_active_color),
                     PorterDuff.Mode.SRC_ATOP
                 )
             }
@@ -199,7 +199,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
             ticketListEmptyButtonIcon.apply {
                 setImageResource(R.drawable.zarf)
                 setColorFilter(
-                    Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_text_color),
+                    Color.parseColor(Desk360SDK.config?.data?.ticket_list_screen?.ticket_list_empty_text_color),
                     PorterDuff.Mode.SRC_ATOP
                 )
             }
@@ -320,7 +320,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
 
     private fun setViewFillLayout() {
         desk360BaseActivity?.binding?.toolbarTitle?.text =
-            Desk360Constants.currentType?.data?.ticket_list_screen?.title
+            Desk360SDK.config?.data?.ticket_list_screen?.title
 
         binding?.apply {
             fillListLayout.visibility = View.VISIBLE
@@ -332,7 +332,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
 
     private fun setViewEmptyLayout() {
         desk360BaseActivity?.binding?.toolbarTitle?.text =
-            Desk360Constants.currentType?.data?.first_screen?.title
+            Desk360SDK.config?.data?.first_screen?.title
 
         binding?.apply {
             fillListLayout.visibility = View.INVISIBLE
@@ -341,45 +341,45 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
             emptyListLayoutTicketList.visibility = View.VISIBLE
 
             //Main BackGround Color
-            txtBottomFooterMainTicketList.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.main_background_color))
+            txtBottomFooterMainTicketList.setBackgroundColor(Color.parseColor(Desk360SDK.config?.data?.general_settings?.main_background_color))
 
             //Sub Title Text
-            emptyListLayoutTicketListSubTitle.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.sub_title_color))
+            emptyListLayoutTicketListSubTitle.setTextColor(Color.parseColor(Desk360SDK.config?.data?.first_screen?.sub_title_color))
             emptyListLayoutTicketListSubTitle.text =
-                Desk360Constants.currentType?.data?.first_screen?.sub_title
+                Desk360SDK.config?.data?.first_screen?.sub_title
             emptyListLayoutTicketListSubTitle.textSize =
-                Desk360Constants.currentType?.data?.first_screen?.sub_title_font_size!!.toFloat()
+                Desk360SDK.config?.data?.first_screen?.sub_title_font_size!!.toFloat()
 
             //Description Title Text
-            emptyListLayoutTicketListDesc.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.description_color))
+            emptyListLayoutTicketListDesc.setTextColor(Color.parseColor(Desk360SDK.config?.data?.first_screen?.description_color))
             emptyListLayoutTicketListDesc.text =
-                Desk360Constants.currentType?.data?.first_screen?.description
+                Desk360SDK.config?.data?.first_screen?.description
             emptyListLayoutTicketListDesc.textSize =
-                Desk360Constants.currentType?.data?.first_screen?.description_font_size!!.toFloat()
+                Desk360SDK.config?.data?.first_screen?.description_font_size!!.toFloat()
 
-            txtOpenMessageFormTicketList.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.first_screen?.button_text_color))
+            txtOpenMessageFormTicketList.setTextColor(Color.parseColor(Desk360SDK.config?.data?.first_screen?.button_text_color))
             txtOpenMessageFormTicketList.textSize =
-                Desk360Constants.currentType?.data?.first_screen?.button_text_font_size!!.toFloat()
+                Desk360SDK.config?.data?.first_screen?.button_text_font_size!!.toFloat()
             txtOpenMessageFormTicketList.text = Desk360CustomStyle.setButtonText(
-                Desk360Constants.currentType?.data?.first_screen?.button_text!!.length,
-                Desk360Constants.currentType?.data?.first_screen?.button_text
+                Desk360SDK.config?.data?.first_screen?.button_text!!.length,
+                Desk360SDK.config?.data?.first_screen?.button_text
             )
 
             firstScreenButtonIcon.visibility =
-                if (Desk360Constants.currentType?.data?.first_screen?.button_icon_is_hidden == true)
+                if (Desk360SDK.config?.data?.first_screen?.button_icon_is_hidden == true)
                     View.VISIBLE
                 else
                     View.INVISIBLE
 
-            txtBottomFooterMainTicketList.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
+            txtBottomFooterMainTicketList.setTextColor(Color.parseColor(Desk360SDK.config?.data?.general_settings?.bottom_note_color))
             txtBottomFooterMainTicketList.textSize =
-                Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
+                Desk360SDK.config?.data?.general_settings?.bottom_note_font_size!!.toFloat()
 
             txtBottomFooterMainTicketList.text =
-                Desk360Constants.currentType?.data?.first_screen?.bottom_note_text
+                Desk360SDK.config?.data?.first_screen?.bottom_note_text
 
             txtBottomFooterMainTicketList.visibility =
-                if (!Desk360Constants.currentType?.data?.first_screen?.bottom_note_is_hidden!!)
+                if (!Desk360SDK.config?.data?.first_screen?.bottom_note_is_hidden!!)
                     View.INVISIBLE
                 else
                     View.VISIBLE

@@ -5,22 +5,22 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
-import android.widget.TextView
-import com.teknasyon.desk360.helper.Desk360Constants
+import androidx.appcompat.widget.AppCompatTextView
+import com.teknasyon.desk360.helper.Desk360SDK
 
 
-class Desk360FileNameText : TextView {
+class Desk360FileNameText : AppCompatTextView {
     init {
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.create_screen?.form_input_color))
+        this.setTextColor(Color.parseColor(Desk360SDK.config?.data?.create_screen?.form_input_color))
 
         val face = Typeface.createFromAsset(context?.assets, "Montserrat-Regular.ttf")
         this.typeface = face
 
-        if (Desk360Constants.currentType?.data?.create_screen?.added_file_is_hidden!!) {
-            this.visibility= View.VISIBLE
+        if (Desk360SDK.config?.data?.create_screen?.added_file_is_hidden!!) {
+            this.visibility = View.VISIBLE
         } else {
-            this.visibility= View.INVISIBLE
+            this.visibility = View.INVISIBLE
         }
 
     }

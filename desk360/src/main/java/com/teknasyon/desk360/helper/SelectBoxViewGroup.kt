@@ -79,7 +79,7 @@ class SelectBoxViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
 
                 holder.selectBoxCardView?.setBackgroundColor(
                     Color.parseColor(
-                        Desk360Constants.currentType?.data?.general_settings?.main_background_color
+                        Desk360SDK.config?.data?.general_settings?.main_background_color
                             ?: "#FFFFFF"
                     )
                 )
@@ -104,7 +104,7 @@ class SelectBoxViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
 
                 holder.selectBoxCardView?.setBackgroundColor(
                     Color.parseColor(
-                        Desk360Constants.currentType?.data?.general_settings?.main_background_color
+                        Desk360SDK.config?.data?.general_settings?.main_background_color
                             ?: "#FFFFFF"
                     )
                 )
@@ -120,7 +120,7 @@ class SelectBoxViewGroup(val style: Desk360ScreenCreate, viewGroup: Fragment) {
 fun Spinner.setDesk360SpinnerStyle(style: Desk360ScreenCreate) {
     background.setColorFilter(
         Color.parseColor(
-            Desk360Constants.currentType?.data?.create_screen?.label_text_color
+            Desk360SDK.config?.data?.create_screen?.label_text_color
                 ?: "#000000"
         ), PorterDuff.Mode.SRC_IN
     )

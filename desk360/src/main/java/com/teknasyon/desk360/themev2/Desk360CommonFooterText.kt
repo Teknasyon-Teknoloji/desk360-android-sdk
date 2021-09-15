@@ -5,18 +5,18 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 
 
 class Desk360CommonFooterText : TextView {
 
     init {
 
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
-        this.textSize=Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
+        this.setTextColor(Color.parseColor(Desk360SDK.config?.data?.general_settings?.bottom_note_color))
+        this.textSize=Desk360SDK.config?.data?.general_settings?.bottom_note_font_size!!.toFloat()
 
-        this.text = Desk360Constants.currentType?.data?.first_screen?.bottom_note_text
-        if (!Desk360Constants.currentType?.data?.first_screen?.bottom_note_is_hidden!!) {
+        this.text = Desk360SDK.config?.data?.first_screen?.bottom_note_text
+        if (!Desk360SDK.config?.data?.first_screen?.bottom_note_is_hidden!!) {
             this.visibility = View.INVISIBLE
         } else {
             this.visibility = View.VISIBLE

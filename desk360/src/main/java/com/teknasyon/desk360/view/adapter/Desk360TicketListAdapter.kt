@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360TicketListItemBinding
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.model.Desk360TicketResponse
 
@@ -62,7 +62,7 @@ class Desk360TicketListAdapter(
                 "unread" -> {
                     binding.messageStatus.setBackgroundResource(R.drawable.zarf)
                     binding.messageStatus.background?.setColorFilter(
-                        Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_icon_color),
+                        Color.parseColor(Desk360SDK.config?.data?.ticket_list_screen?.ticket_item_icon_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
                     binding.ticketSubject.setTypeface(null, Typeface.BOLD)
@@ -71,7 +71,7 @@ class Desk360TicketListAdapter(
                     binding.ticketSubject.setTypeface(null, Typeface.NORMAL)
                     binding.messageStatus.setBackgroundResource(R.drawable.message_icon_read)
                     binding.messageStatus.background?.setColorFilter(
-                        Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_item_icon_color),
+                        Color.parseColor(Desk360SDK.config?.data?.ticket_list_screen?.ticket_item_icon_color),
                         PorterDuff.Mode.SRC_ATOP
                     )
                 }
@@ -81,7 +81,7 @@ class Desk360TicketListAdapter(
             }
 
             Desk360CustomStyle.setStyleTicket(
-                Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_type,
+                Desk360SDK.config?.data?.ticket_list_screen?.ticket_list_type,
                 binding.ticketItemRootLayout,
                 context!!
             )

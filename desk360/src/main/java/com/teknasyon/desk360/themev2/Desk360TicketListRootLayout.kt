@@ -4,13 +4,12 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 
 class Desk360TicketListRootLayout : ConstraintLayout {
 
     init {
-
-        this.setBackgroundColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_backgroud_color))
+        this.setBackgroundColor(Color.parseColor(Desk360SDK.config?.data?.ticket_list_screen?.ticket_list_backgroud_color))
     }
 
     constructor(context: Context) : super(context)

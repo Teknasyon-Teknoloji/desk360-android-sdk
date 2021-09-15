@@ -22,7 +22,6 @@ open class Desk360Config {
         return desk360Preferences
     }
 
-
     companion object {
         var INSTANCE: Desk360Config? = null
         private var desk360Preferences: Desk360Preferences? = null

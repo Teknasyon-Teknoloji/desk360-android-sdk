@@ -3,18 +3,15 @@ package com.teknasyon.desk360.themev2
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.widget.TextView
-import com.teknasyon.desk360.helper.Desk360Constants
+import androidx.appcompat.widget.AppCompatTextView
+import com.teknasyon.desk360.helper.Desk360SDK
 
-class Desk360CurrentEmptyTicketSubTitle : TextView {
+class Desk360CurrentEmptyTicketSubTitle : AppCompatTextView {
 
     init {
-
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_list_screen?.tab_text_color))
-        this.text = Desk360Constants.currentType?.data?.ticket_list_screen?.ticket_list_empty_current_text
-
+        this.setTextColor(Color.parseColor(Desk360SDK.config?.data?.ticket_list_screen?.tab_text_color))
+        this.text = Desk360SDK.config?.data?.ticket_list_screen?.ticket_list_empty_current_text
     }
-
 
     constructor(context: Context) : super(context)
 

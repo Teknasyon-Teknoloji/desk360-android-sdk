@@ -4,18 +4,16 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
-import android.widget.TextView
-import com.teknasyon.desk360.helper.Desk360Constants
+import androidx.appcompat.widget.AppCompatTextView
+import com.teknasyon.desk360.helper.Desk360SDK
 
-class Desk360TicketSuccessScreenFooter : TextView {
+class Desk360TicketSuccessScreenFooter : AppCompatTextView {
 
     init {
-
-        this.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.general_settings?.bottom_note_color))
-        this.textSize=Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_size!!.toFloat()
-
-        this.text = Desk360Constants.currentType?.data?.ticket_success_screen?.bottom_note_text
-        if (!Desk360Constants.currentType?.data?.ticket_success_screen?.bottom_note_is_hidden!!) {
+        this.setTextColor(Color.parseColor(Desk360SDK.config?.data?.general_settings?.bottom_note_color))
+        this.textSize = Desk360SDK.config?.data?.general_settings?.bottom_note_font_size!!.toFloat()
+        this.text = Desk360SDK.config?.data?.ticket_success_screen?.bottom_note_text
+        if (!Desk360SDK.config?.data?.ticket_success_screen?.bottom_note_is_hidden!!) {
             this.visibility = View.INVISIBLE
         } else {
             this.visibility = View.VISIBLE

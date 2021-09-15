@@ -12,7 +12,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentPreNewTicketBinding
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 
@@ -46,35 +46,35 @@ class PreNewTicketFragment : Fragment() {
             Desk360CustomStyle.setFontWeight(
                 preScreenButtonText,
                 context,
-                Desk360Constants.currentType?.data?.create_pre_screen?.button_text_font_weight
+                Desk360SDK.config?.data?.create_pre_screen?.button_text_font_weight
             )
 
             Desk360CustomStyle.setFontWeight(
                 preScreenDesc,
                 context,
-                Desk360Constants.currentType?.data?.create_pre_screen?.description_font_weight
+                Desk360SDK.config?.data?.create_pre_screen?.description_font_weight
             )
             Desk360CustomStyle.setFontWeight(
                 subTitlePreScreen,
                 context,
-                Desk360Constants.currentType?.data?.create_pre_screen?.sub_title_font_weight
+                Desk360SDK.config?.data?.create_pre_screen?.sub_title_font_weight
             )
 
             Desk360CustomStyle.setStyle(
-                Desk360Constants.currentType?.data?.create_pre_screen?.button_style_id,
+                Desk360SDK.config?.data?.create_pre_screen?.button_style_id,
                 preScreenButton,
                 context!!
             )
             preScreennButtonIcon.setImageResource(R.drawable.zarf)
             preScreennButtonIcon.setColorFilter(
-                Color.parseColor(Desk360Constants.currentType?.data?.create_pre_screen?.button_text_color),
+                Color.parseColor(Desk360SDK.config?.data?.create_pre_screen?.button_text_color),
                 PorterDuff.Mode.SRC_ATOP
             )
 
             Desk360CustomStyle.setFontWeight(
                 txtBottomFooterPreScreen,
                 context,
-                Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
+                Desk360SDK.config?.data?.general_settings?.bottom_note_font_weight
             )
             txtBottomFooterPreScreen.movementMethod = ScrollingMovementMethod()
         }

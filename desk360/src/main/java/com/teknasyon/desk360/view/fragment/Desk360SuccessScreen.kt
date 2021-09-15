@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360SuccessScreenLayoutBinding
-import com.teknasyon.desk360.helper.Desk360Constants
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 
@@ -44,39 +44,39 @@ class Desk360SuccessScreen : Fragment() {
             Desk360CustomStyle.setFontWeight(
                 successScreenBottomFooter,
                 context,
-                Desk360Constants.currentType?.data?.general_settings?.bottom_note_font_weight
+                Desk360SDK.config?.data?.general_settings?.bottom_note_font_weight
             )
             Desk360CustomStyle.setFontWeight(
                 successScreenOpenMessageFormText,
                 context,
-                Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_font_weight
+                Desk360SDK.config?.data?.ticket_success_screen?.button_text_font_weight
             )
             Desk360CustomStyle.setFontWeight(
                 successScreenSubtitle,
                 context,
-                Desk360Constants.currentType?.data?.ticket_success_screen?.sub_title_font_weight
+                Desk360SDK.config?.data?.ticket_success_screen?.sub_title_font_weight
             )
             Desk360CustomStyle.setFontWeight(
                 successScreenDescription,
                 context,
-                Desk360Constants.currentType?.data?.ticket_success_screen?.description_font_weight
+                Desk360SDK.config?.data?.ticket_success_screen?.description_font_weight
             )
             Desk360CustomStyle.setStyle(
-                Desk360Constants.currentType?.data?.ticket_success_screen?.button_style_id,
+                Desk360SDK.config?.data?.ticket_success_screen?.button_style_id,
                 successScreenOpenMessageForm,
                 context!!
             )
 
             imageReceived.layoutParams?.height = context?.let {
                 convertDpToPixel(
-                    (Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
+                    (Desk360SDK.config?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
                     it
                 ).toInt()
             }
 
             imageReceived.layoutParams?.width = context?.let {
                 convertDpToPixel(
-                    (Desk360Constants.currentType?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
+                    (Desk360SDK.config?.data?.ticket_success_screen?.icon_size)?.toFloat()!!,
                     it
                 ).toInt()
             }
@@ -84,24 +84,24 @@ class Desk360SuccessScreen : Fragment() {
             imageReceived.requestLayout()
             imageReceived.setImageResource(R.drawable.received_message_image)
             imageReceived.setColorFilter(
-                Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.icon_color),
+                Color.parseColor(Desk360SDK.config?.data?.ticket_success_screen?.icon_color),
                 PorterDuff.Mode.SRC_ATOP
             )
 
             successScreenButtonIcon.setImageResource(R.drawable.zarf)
             successScreenButtonIcon.setColorFilter(
-                Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_color),
+                Color.parseColor(Desk360SDK.config?.data?.ticket_success_screen?.button_text_color),
                 PorterDuff.Mode.SRC_ATOP
             )
 
             successScreenBottomFooter.movementMethod = ScrollingMovementMethod()
             successScreenOpenMessageFormText.text =
-                Desk360Constants.currentType?.data?.ticket_success_screen?.button_text
+                Desk360SDK.config?.data?.ticket_success_screen?.button_text
             successScreenOpenMessageFormText.textSize =
-                Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_font_size!!.toFloat()
-            successScreenOpenMessageFormText.setTextColor(Color.parseColor(Desk360Constants.currentType?.data?.ticket_success_screen?.button_text_color))
+                Desk360SDK.config?.data?.ticket_success_screen?.button_text_font_size!!.toFloat()
+            successScreenOpenMessageFormText.setTextColor(Color.parseColor(Desk360SDK.config?.data?.ticket_success_screen?.button_text_color))
 
-            if (Desk360Constants.currentType?.data?.ticket_success_screen?.button_icon_is_hidden!!) {
+            if (Desk360SDK.config?.data?.ticket_success_screen?.button_icon_is_hidden!!) {
 
                 val layoutParams =
                     successScreenOpenMessageFormText.layoutParams as RelativeLayout.LayoutParams
