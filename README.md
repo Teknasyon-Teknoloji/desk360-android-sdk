@@ -61,7 +61,6 @@ android {
     
     buildFeatures {
         dataBinding true
-        viewBinding true
     }
 }
 ```
@@ -110,7 +109,7 @@ import com.teknasyon.desk360.helper.Desk360SDK
 
 ```
 #####  
-        val desk360SDKManager = Desk360SDKManager.Builder()
+        val desk360SDKManager = Desk360SDKManager.Builder(context:Context)
             .setAppKey(key:String)
             .setAppVersion(version:String)
             .setLanguageCode(languageCode:String)
@@ -231,7 +230,7 @@ Example (In your firebaseMessagingService class) :
 
         pendingIntent = targetId?.let { targetId ->
 
-        val desk360SDKManager = Desk360SDKManager.Builder()
+        val desk360SDKManager = Desk360SDKManager.Builder(context)
             .setAppKey("app key")
             .setAppVersion("app version")
             .setLanguageCode("your selected ISO 639-1 Code for language: tr, en")
@@ -245,7 +244,7 @@ Example (In your firebaseMessagingService class) :
                       deviceId = "your Android device id"
              )
 
-             val intent = Desk360SDK.getIntent(this)
+             val intent = Desk360SDK.getIntent(context:Context, ticketId:String?)
              PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         } ?: run {
             PendingIntent.getActivity(this, 0, Intent(this, YourStartingActivity::class.java), PendingIntent.FLAG_ONE_SHOT)
@@ -254,7 +253,7 @@ Example (In your firebaseMessagingService class) :
 ```
 ### Use Desk 360
 ```
-       val desk360SDKManager = Desk360SDKManager.Builder()
+       val desk360SDKManager = Desk360SDKManager.Builder(context)
             .setAppKey("app key")
             .setAppVersion("app version")
             .setLanguageCode("your selected ISO 639-1 Code for language: tr, en")
@@ -276,7 +275,7 @@ Example (In your firebaseMessagingService class) :
 ```
 If your app will not use notification then you must set token "" and for targetId ""
 
-       val desk360SDKManager = Desk360SDKManager.Builder()
+       val desk360SDKManager = Desk360SDKManager.Builder(context)
             .setAppKey("app key")
             .setAppVersion("app version")
             .setLanguageCode("your selected ISO 639-1 Code for language: tr, en")
