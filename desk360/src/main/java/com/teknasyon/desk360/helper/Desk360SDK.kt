@@ -146,6 +146,14 @@ object Desk360SDK {
     }
 
     /**
+     * Firebase or HM Push Kit set token
+     * @param token
+     */
+    fun setPushToken(token:String) {
+        client?.notificationToken = token
+    }
+
+    /**
      * Start the Desk360 SDK.
      * The Desk360SDKManager must have been built before.
      * @see Desk360SDKManager
