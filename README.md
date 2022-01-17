@@ -35,7 +35,7 @@ Interactively communicate with related support teams
 
 To integrate Desk360 into your Android project , add below parts to your  build.gradlle
 
-```
+```groovy
 allprojects {
 	repositories {
 		...
@@ -46,7 +46,7 @@ allprojects {
 
 Add the dependency
 
-```
+```groovy
 dependencies {
     implementation 'com.github.Teknasyon-Teknoloji:desk360-android-sdk:latest_release'
 }
@@ -54,7 +54,7 @@ dependencies {
 
 Add Data and View Binding enable script
 
-```
+```groovy
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -68,47 +68,21 @@ android {
 (Please change latest_release with : https://img.shields.io/jitpack/v/github/Teknasyon-Teknoloji/desk360-android-sdk)
 
 
-Or Maven
-
-**Step 1.** Add the JitPack repository to your build file
-
-```markup
-	<repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-```
-
-**Step 2.** Add the dependency
-
-
-
-```markup
-	<dependency>
-	    <groupId>com.github.Teknasyon-Teknoloji</groupId>
-	    <artifactId>desk360-android-sdk</artifactId>
-	    <version>Tag</version>
-	</dependency>
-```
-
-
 
 # Usage
 
 
 ##### Start Desk360 #####
 
-```
+```kotlin
 import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360SDKManager
 import com.teknasyon.desk360.helper.Platform
 import com.teknasyon.desk360.helper.Desk360SDK
 ```
 
-```
-#####  
+```kotlin
+
         val desk360SDKManager = Desk360SDKManager.Builder(context:Context)
             .setAppKey(key:String)
             .setAppVersion(version:String)
@@ -133,10 +107,12 @@ import com.teknasyon.desk360.helper.Desk360SDK
         desk360SDKManager.initialize("firebase notification token", "device id")
 
         Desk360SDK.start()
+```
+
 
 | Parameters   | Description                                                  |
 | ------------ | ------------------------------------------------------------ |
-| token        | your firebase token |
+| token        | your notification token |
 | deviceId     | your Android device id
 | appKey       | desk360 Api Key will provided when you get the license
 | appVersion   | your application's version number
@@ -145,40 +121,11 @@ import com.teknasyon.desk360.helper.Desk360SDK
 | countryCode  | country code: "tr", "us", "de"
 | jsonObject   | for custom datas
 
-```
 
-### Network Security Config
-```
+### Get Notification Token
+If FCM is used as notification service;
 
-Create network security config xml and add it to your application
-
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-    <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">teknasyon.desk360.com</domain>
-    </domain-config>
-</network-security-config>
-
-<application
-	...
-    android:networkSecurityConfig="@xml/network_security_config"
-
- </application>
-
-
-or you can just add this line to your application
-
-<application
-	...
-    android:usesCleartextTraffic="true"
-
- </application>
-
-
-```
-### GetFirebase Token
-```
-
+```kotlin
 FirebaseInstanceId.getInstance().instanceId
 
                 .addOnCompleteListener { task ->
@@ -189,10 +136,35 @@ FirebaseInstanceId.getInstance().instanceId
                 }	
 
 ```
-### Parse "targetId" from Firebase Notification Body (Starting Activity)
+
+If Huawei Push Kit is used as notification service;
+
+```kotlin
+private fun getToken() {   
+    // Create a thread.
+    object : Thread() {
+        override fun run() {
+            try {
+                // Obtain the app ID from the agconnect-services.json file.
+                val appId = "your APP_ID"    
+            
+                // Set tokenScope to HCM.
+                val tokenScope = "HCM"
+                val token = HmsInstanceId.getInstance(this@MainActivity).getToken(appId, tokenScope)                
+                              
+           } catch (e: ApiException) {        
+               Log.e(TAG, "get token failed, $e")               
+           }     
+        }  
+    }.start()
+}
 ```
 
+### Parse "targetId" from Firebase Notification Body (Starting Activity)
+
 When your application is killed the notification body will be in your starting activity's extra.
+
+```kotlin
 
 val bundle = intent.extras
         bundle?.let {
@@ -204,10 +176,12 @@ val bundle = intent.extras
   }
 
 ```
+
 ### Parse "targetId" from Firebase Notification Body (Firebase Notification Service)
-```
 
 When your application is on foreground onMessageReceived will handle notification body.
+
+```kotlin
 
 override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
@@ -219,13 +193,13 @@ override fun onMessageReceived(remoteMessage: RemoteMessage) {
     }
     
 ```
-### Handling "targetId"
-```
 
-"if target_id is not null you must open Desk360SplasActivity if not you must open your starting activity"
+### Handling "targetId"
+If target_id is not null you must open Desk360SplasActivity if not you must open your starting activity.
 
 Example (In your firebaseMessagingService class) :
 
+```kotlin
  val pendingIntent: PendingIntent?
 
         pendingIntent = targetId?.let { targetId ->
@@ -271,10 +245,12 @@ Example (In your firebaseMessagingService class) :
         finish()		
 
 ```
+
 ### Open Desk360 without Notification Service
-```
+
 If your app will not use notification then you must set token "" and for targetId ""
 
+```
        val desk360SDKManager = Desk360SDKManager.Builder(context)
             .setAppKey("app key")
             .setAppVersion("app version")
@@ -293,15 +269,15 @@ If your app will not use notification then you must set token "" and for targetI
         finish()
 ```
 ### Language
-```
 
 If you don't want to use custom language then you must set to "" , desk360 sdk will use your Android device language
 
-```
+
 # ProGuard
-```
 
 If you are using proguard you must add this rules to avoid further compile issues.
+
+```
 
 -keep class com.teknasyon.desk360.model.** { *; }
 -keepnames class com.teknasyon.desk360.model.** { *; }
@@ -323,6 +299,6 @@ If you have any questions or feature requests, please create an issue.
 
 # Licence
 
-Copyright Teknasyon 2019.
+Copyright Teknasyon 2022.
 
 Desk360 is released under the MIT license. See [LICENSE](https://github.com/Teknasyon-Teknoloji/desk360-android-sdk/blob/master/LICENSE)  for more information.
