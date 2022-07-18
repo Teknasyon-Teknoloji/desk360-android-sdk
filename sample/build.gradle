@@ -18,19 +18,14 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "APP_KEY", '"IMVmTejgQKYDGuaMApqDdvV0IQSgNA34"'
-            buildConfigField "String", "DESK360_BASE_URL", '"http://teknasyon.desk360.com/"'
-
-
         }
 
         debug {
             minifyEnabled false
             buildConfigField "String", "APP_KEY", '"IMVmTejgQKYDGuaMApqDdvV0IQSgNA34"'
-            buildConfigField "String", "DESK360_BASE_URL", ' "http://52.59.142.138:10380/"'
-
         }
     }
 
