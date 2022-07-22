@@ -6,7 +6,7 @@ apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'maven-publish'
 def sdkArtifactId = 'desk360-android-sdk'
 def sdkGroupId = 'com.github.Teknasyon-Teknoloji'
-def sdkVersionName = "1.0.6"
+def sdkVersionName = "1.0.7"
 
 android {
     compileSdkVersion 30
@@ -16,7 +16,7 @@ android {
         targetSdkVersion 30
         versionCode 6
         versionName sdkVersionName
-
+        consumerProguardFiles "consumer-rules.pro"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
