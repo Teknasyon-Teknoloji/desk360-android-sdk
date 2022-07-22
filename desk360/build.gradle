@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'org.jetbrains.dokka-android'
-
 apply plugin: 'maven-publish'
 def sdkArtifactId = 'desk360-android-sdk'
 def sdkGroupId = 'com.github.Teknasyon-Teknoloji'
@@ -25,7 +24,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            debuggable true
         }
 
         debug {

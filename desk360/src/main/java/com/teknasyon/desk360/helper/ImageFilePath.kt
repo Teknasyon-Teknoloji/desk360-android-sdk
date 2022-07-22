@@ -29,7 +29,7 @@ class ImageFilePath {
         ctx: Context?,
         uri: Uri?
     ): String {
-        var ret:String? = ""
+        var ret: String? = ""
         if (ctx != null && uri != null) {
             if (isContentUri(uri)) {
                 ret = if (uri.authority?.let { isGooglePhotoDoc(it) } == true) {
@@ -83,7 +83,8 @@ class ImageFilePath {
                         val realDocId = idArr[1]
                         if ("primary".equals(type, ignoreCase = true)) {
                             ret =
-                                Environment.getExternalStorageDirectory().toString() + "/" + realDocId
+                                Environment.getExternalStorageDirectory()
+                                    .toString() + "/" + realDocId
                         }
                     }
                 }
@@ -186,24 +187,48 @@ class ImageFilePath {
         if (cursor != null) {
             val moveToFirst = cursor.moveToFirst()
             if (moveToFirst) { // Get columns name by uri type.
-                var columnName = MediaStore.Images.Media.DATA
+                var columnName = MediaStore.Images.Media._ID
+                var contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 when (uri) {
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI -> {
-                        columnName = MediaStore.Images.Media.DATA
+                        columnName = MediaStore.Images.Media._ID
+                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                     }
                     MediaStore.Audio.Media.EXTERNAL_CONTENT_URI -> {
-                        columnName = MediaStore.Audio.Media.DATA
+                        columnName = MediaStore.Audio.Media._ID
+                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
                     }
                     MediaStore.Video.Media.EXTERNAL_CONTENT_URI -> {
-                        columnName = MediaStore.Video.Media.DATA
+                        columnName = MediaStore.Video.Media._ID
+                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
                     }
                 }
                 // Get column index.
                 val imageColumnIndex = cursor.getColumnIndex(columnName)
-                // Get column value which is the uri related file local path.
-                ret = cursor.getString(imageColumnIndex)
+                val id = cursor.getLong(imageColumnIndex)
+                ret = ContentUris.withAppendedId(contentUri, id).toString()
             }
         }
         return ret
     }
+
+    fun getFileName(
+        contentResolver: ContentResolver,
+        uri: Uri,
+    ): String {
+        var fileName = ""
+        val cursor =
+            contentResolver.query(uri, null, null, null, null)
+        if (cursor != null) {
+            val moveToFirst = cursor.moveToFirst()
+            if (moveToFirst) {
+                val imageNameIndex =
+                    cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)
+                fileName = cursor.getString(imageNameIndex)
+            }
+        }
+        return fileName
+    }
 }
+
+

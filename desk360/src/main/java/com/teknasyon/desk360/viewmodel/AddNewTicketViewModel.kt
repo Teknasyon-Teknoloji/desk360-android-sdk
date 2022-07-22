@@ -1,5 +1,6 @@
 package com.teknasyon.desk360.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
@@ -37,7 +38,6 @@ open class AddNewTicketViewModel : ViewModel() {
                 file.asRequestBody(getFileType(resultLoadFiles).toMediaTypeOrNull())
             )
         }
-
         Desk360RetrofitFactory.instance.desk360Service.addTicket(
             ticketItem = ticketItem,
             attachment = filePart
@@ -49,7 +49,7 @@ open class AddNewTicketViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful && response.body() != null) {
                         addedTicket.value =
-                            response.body()!!.data!! //todo işlem bittiğinde ticket ana sayfasına dönecek
+                            response.body()!!.data!!
                     } else {
                         addedTicket.value = null
                     }
@@ -57,6 +57,7 @@ open class AddNewTicketViewModel : ViewModel() {
 
                 override fun onError(code: String, message: String) {
                     super.onError(code, message)
+                    Log.e("PHOTO","ERROR FAILED")
                     addedTicket.value = null
                     error.value = message
                 }

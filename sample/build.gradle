@@ -20,7 +20,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "APP_KEY", '"IMVmTejgQKYDGuaMApqDdvV0IQSgNA34"'
+            buildConfigField "String", "APP_KEY", '"l59pkeVBzPpezHgnGDHv9c2SzwhbOl6M"'
             buildConfigField "String", "DESK360_BASE_URL", '"http://teknasyon.desk360.com/"'
 
 
@@ -28,7 +28,7 @@ android {
 
         debug {
             minifyEnabled false
-            buildConfigField "String", "APP_KEY", '"IMVmTejgQKYDGuaMApqDdvV0IQSgNA34"'
+            buildConfigField "String", "APP_KEY", '"l59pkeVBzPpezHgnGDHv9c2SzwhbOl6M"'
             buildConfigField "String", "DESK360_BASE_URL", ' "http://52.59.142.138:10380/"'
 
         }
