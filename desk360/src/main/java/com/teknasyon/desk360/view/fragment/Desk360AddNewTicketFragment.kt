@@ -19,7 +19,6 @@ import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.util.Patterns
 import android.view.*
 import android.view.KeyEvent.ACTION_UP
@@ -29,10 +28,8 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
-import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
@@ -40,8 +37,11 @@ import androidx.navigation.fragment.findNavController
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.karumi.dexter.listener.single.PermissionListener
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.*
@@ -58,7 +58,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
-import java.io.FileOutputStream
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * Created by seyfullah on 30,May,2019
@@ -185,6 +187,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         activity.changeMainUI()
 
         activity.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
@@ -195,9 +198,9 @@ open class Desk360AddNewTicketFragment : Fragment(),
         viewModel = AddNewTicketViewModel()
 
         typeList = Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen?.types
-        viewModel?.addedTicket?.observe(requireActivity(), observerAddedTicket)
+        viewModel?.addedTicket?.observe(viewLifecycleOwner, observerAddedTicket)
 
-        viewModel?.error?.observe(requireActivity(), Observer<String> { t ->
+        viewModel?.error?.observe(viewLifecycleOwner,{ t ->
             if (t != null) {
                 Toast.makeText(view.context, t, Toast.LENGTH_LONG).show()
                 viewModel?.error?.value = null
@@ -221,7 +224,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 listOfType
             )
         }
-
 
         binding?.createTicketButton?.setOnClickListener {
             binding?.createTicketButton?.isClickable = false
@@ -351,9 +353,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         )
 
         nameField?.holder?.textInputEditText?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) { //empty function
-            }
-
+            override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             }
 
@@ -379,11 +379,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
             InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 
         eMailField?.holder?.textInputEditText?.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) { // do nothing in here
-
-            }
+            override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                //do nothing in here
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -416,7 +413,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
         subjectTypeSpinner?.holder?.selectBox?.onItemSelectedListener =
             (object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // do nothing in here
 
                 }
 
@@ -501,7 +497,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
             spinnerItem.holder.selectBox?.onItemSelectedListener =
                 (object : AdapterView.OnItemSelectedListener {
                     override fun onNothingSelected(parent: AdapterView<*>?) {
-                        //do nothing in here
                     }
 
                     override fun onItemSelected(
@@ -613,7 +608,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     count: Int,
                     after: Int
                 ) {
-                    //do nothing in here
                 }
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -638,8 +632,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 context!!
             )
 
-            textPathCreateTicketScreen.text =
-                Desk360SDK.config?.data?.general_settings?.add_file_text
+           textPathCreateTicketScreen.text =
+               Desk360SDK.config?.data?.general_settings?.add_file_text
 
             pathIconn.setImageResource(R.drawable.path_icon_desk360)
             pathIconn.setColorFilter(
@@ -691,89 +685,23 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 createScreen?.title
             )
         }, 35)
-        pojoData()
-    }
-
-    private fun pojoData() {
-        nameField?.holder?.textInputEditText?.setText("picture test tugrul")
-        eMailField?.holder?.textInputEditText?.setText("test@test.com")
-        messageField?.holder?.textAreaEditText?.setText("decription")
-        subjectTypeSpinner?.holder?.selectBox?.setSelection(3)
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-
             RESULT_LOAD_FILES -> {
                 val pathUri = data?.data ?: return
-                when (RESULT_LOAD_FILES) {
-                    1221 -> {
-                        pathUri?.let {
-
-                            fileName =
-                                ImageFilePath().getFileName(requireContext().contentResolver, it)
-                            var tempFileName = "tempFileName"
-                            fileName?.let {
-                                tempFileName = it
-                            }
-                            val outputFile = File.createTempFile(tempFileName, "")
-
-                            val outputStream = FileOutputStream(outputFile)
-                            requireContext().contentResolver.openInputStream(it)?.use { input ->
-                                outputStream?.use { output ->
-                                    input.copyTo(output)
-                                }
-                            }
-                            file = outputFile
-                        }
-                    }
-                    1222 -> {
-                        val cacheFile = File(
-                            context!!.cacheDir, DocumentFile.fromSingleUri(
-                                activity,
-                                pathUri
-                            )?.name?.replace(" ", "")
-                        )
-                        try {
-                            val inputStream = DocumentFile.fromSingleUri(
-                                activity,
-                                pathUri
-                            )?.uri?.let {
-                                context!!.contentResolver.openInputStream(
-                                    it
-                                )
-                            }
-                            val outputStream = FileOutputStream(cacheFile)
-                            var read = 0
-                            val maxBufferSize = 1 * 1024 * 1024
-                            val bytesAvailable = inputStream?.available()
-                            //int bufferSize = 1024;
-                            val bufferSize = bytesAvailable?.let { Math.min(it, maxBufferSize) }
-                            val buffers = bufferSize?.let { ByteArray(it) }
-                            while (inputStream?.read(buffers).also {
-                                    if (it != null) {
-                                        read = it
-                                    }
-                                } != -1) {
-                                outputStream.write(buffers, 0, read)
-                            }
-                            inputStream?.close()
-                            outputStream.close()
-                        } catch (e: Exception) {
-                            Log.e("Exception", e.message.toString())
-                        }
-
-                        file = cacheFile
-                        fileName = file?.name
-                    }
-                    1223 -> {
-                        file = File(pathUri.let { ImageFilePath().getUriRealPath(context!!, it) })
-                        fileName = file?.name
-                    }
+                val fileResource = ImageFilePath().createFile(
+                    pathUri,requireContext()
+                )
+                file = fileResource.file
+                fileName = fileResource.fileName
+                if (file?.length() == 0L) {
+                    file = null
+                    fileName = ""
                 }
 
                 file?.let {
@@ -795,7 +723,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     }
                 }
             }
-
         }
     }
 
@@ -1057,26 +984,17 @@ open class Desk360AddNewTicketFragment : Fragment(),
         }
     }
 
-
     override fun onButtonClicked(typeOfAttachment: Int) {
-        val permissions = arrayListOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            permissions.add(Manifest.permission.ACCESS_MEDIA_LOCATION)
-        }
         Dexter.withActivity(activity)
-            .withPermissions(permissions)
-            .withListener(object : MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+            .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(response: PermissionGrantedResponse) {
                     if (typeOfAttachment == 0) {
                         RESULT_LOAD_FILES = 1221
 
                         val intent = Intent(
                             Intent.ACTION_PICK,
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            //MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
                         )
                         startActivityForResult(intent, RESULT_LOAD_FILES)
 
@@ -1089,9 +1007,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         }
                     } else {
                         RESULT_LOAD_FILES = 1223
-                        val intent = Intent()
-                        intent.type = "video/.mp4"
-                        intent.action = Intent.ACTION_GET_CONTENT
+                        val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
                         startActivityForResult(
                             Intent.createChooser(intent, "Select Video"),
                             RESULT_LOAD_FILES
@@ -1099,8 +1015,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     }
                 }
 
+                override fun onPermissionDenied(response: PermissionDeniedResponse) {
+
+                }
+
                 override fun onPermissionRationaleShouldBeShown(
-                    permissions: MutableList<PermissionRequest>?,
+                    permission: PermissionRequest?,
                     token: PermissionToken?
                 ) {
                     token?.continuePermissionRequest()
@@ -1109,5 +1029,4 @@ open class Desk360AddNewTicketFragment : Fragment(),
             })
             .check()
     }
-
 }

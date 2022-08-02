@@ -57,7 +57,6 @@ open class AddNewTicketViewModel : ViewModel() {
 
                 override fun onError(code: String, message: String) {
                     super.onError(code, message)
-                    Log.e("PHOTO","ERROR FAILED")
                     addedTicket.value = null
                     error.value = message
                 }
