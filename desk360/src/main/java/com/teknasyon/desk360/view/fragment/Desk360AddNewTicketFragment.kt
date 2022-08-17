@@ -19,7 +19,6 @@ import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.util.Patterns
 import android.view.*
 import android.view.KeyEvent.ACTION_UP
@@ -31,21 +30,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
-import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
 import com.teknasyon.desk360.helper.*
-import com.teknasyon.desk360.model.CacheTicket
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.modelv2.Desk360CustomFields
@@ -59,7 +58,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
-import java.io.FileOutputStream
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * Created by seyfullah on 30,May,2019
@@ -197,9 +198,9 @@ open class Desk360AddNewTicketFragment : Fragment(),
         viewModel = AddNewTicketViewModel()
 
         typeList = Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen?.types
-        viewModel?.addedTicket?.observe(this, observerAddedTicket)
+        viewModel?.addedTicket?.observe(viewLifecycleOwner, observerAddedTicket)
 
-        viewModel?.error?.observe(this, Observer<String> { t ->
+        viewModel?.error?.observe(viewLifecycleOwner,{ t ->
             if (t != null) {
                 Toast.makeText(view.context, t, Toast.LENGTH_LONG).show()
                 viewModel?.error?.value = null
@@ -691,60 +692,16 @@ open class Desk360AddNewTicketFragment : Fragment(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-
             RESULT_LOAD_FILES -> {
-
                 val pathUri = data?.data ?: return
-
-                when (RESULT_LOAD_FILES) {
-                    1221 -> {
-                        file = File(pathUri.let { ImageFilePath().getUriRealPath(context!!, it) })
-                        fileName = file?.name
-                    }
-                    1222 -> {
-                        //file = File(pathUri?.let { getRealPathFromURI(it) })
-                        val cachFile = File(
-                            context!!.cacheDir, DocumentFile.fromSingleUri(
-                                activity,
-                                pathUri
-                            )?.name?.replace(" ", "")
-                        )
-                        try {
-                            val inputStream = DocumentFile.fromSingleUri(
-                                activity,
-                                pathUri
-                            )?.uri?.let {
-                                context!!.contentResolver.openInputStream(
-                                    it
-                                )
-                            }
-                            val outputStream = FileOutputStream(cachFile)
-                            var read = 0
-                            val maxBufferSize = 1 * 1024 * 1024
-                            val bytesAvailable = inputStream?.available()
-                            //int bufferSize = 1024;
-                            val bufferSize = bytesAvailable?.let { Math.min(it, maxBufferSize) }
-                            val buffers = bufferSize?.let { ByteArray(it) }
-                            while (inputStream?.read(buffers).also {
-                                    if (it != null) {
-                                        read = it
-                                    }
-                                } != -1) {
-                                outputStream.write(buffers, 0, read)
-                            }
-                            inputStream?.close()
-                            outputStream.close()
-                        } catch (e: Exception) {
-                            Log.e("Exception", e.message.toString())
-                        }
-
-                        file = cachFile
-                        fileName = file?.name
-                    }
-                    1223 -> {
-                        file = File(pathUri.let { ImageFilePath().getUriRealPath(context!!, it) })
-                        fileName = file?.name
-                    }
+                val fileResource = ImageFilePath().createFile(
+                    pathUri,requireContext()
+                )
+                file = fileResource.file
+                fileName = fileResource.fileName
+                if (file?.length() == 0L) {
+                    file = null
+                    fileName = ""
                 }
 
                 file?.let {
@@ -763,12 +720,9 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         } else {
                             showAlert()
                         }
-
-
                     }
                 }
             }
-
         }
     }
 
@@ -953,8 +907,9 @@ open class Desk360AddNewTicketFragment : Fragment(),
             }
 
             if (Desk360SDK.config?.data?.create_screen?.form_confirm_is_hidden == true) {
-                params["confirm"] = (if (binding?.formConfirmCheckbox?.isChecked == true) "1" else "0")
-                    .toRequestBody("text/plain".toMediaTypeOrNull())
+                params["confirm"] =
+                    (if (binding?.formConfirmCheckbox?.isChecked == true) "1" else "0")
+                        .toRequestBody("text/plain".toMediaTypeOrNull())
             }
 
             binding?.loadingProgress?.visibility = View.VISIBLE
@@ -1036,12 +991,13 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 override fun onPermissionGranted(response: PermissionGrantedResponse) {
                     if (typeOfAttachment == 0) {
                         RESULT_LOAD_FILES = 1221
-                        startActivityForResult(
-                            Intent(
-                                Intent.ACTION_PICK,
-                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                            ), RESULT_LOAD_FILES
+
+                        val intent = Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         )
+                        startActivityForResult(intent, RESULT_LOAD_FILES)
+
                     } else if (typeOfAttachment == 2) {
                         RESULT_LOAD_FILES = 1222
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -1051,9 +1007,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         }
                     } else {
                         RESULT_LOAD_FILES = 1223
-                        val intent = Intent()
-                        intent.type = "video/.mp4"
-                        intent.action = Intent.ACTION_GET_CONTENT
+                        val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
                         startActivityForResult(
                             Intent.createChooser(intent, "Select Video"),
                             RESULT_LOAD_FILES
@@ -1066,11 +1020,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 }
 
                 override fun onPermissionRationaleShouldBeShown(
-                    permission: PermissionRequest,
-                    token: PermissionToken
+                    permission: PermissionRequest?,
+                    token: PermissionToken?
                 ) {
-                    token.continuePermissionRequest()
+                    token?.continuePermissionRequest()
                 }
+
             })
             .check()
     }
