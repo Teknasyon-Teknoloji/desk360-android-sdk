@@ -157,6 +157,22 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             else -> titleHead.substring(0, 18) + "..."
         }
     }
+    
+    fun goBackButtonClicked(item: MenuItem) {
+
+    }
+    fun goForwardButtonClicked(item: MenuItem) {
+
+    }
+    fun shareButtonClicked(item: MenuItem) {
+
+    }
+    fun reloadButtonClicked(item: MenuItem) {
+
+    }
+    fun closeButtonClicked(item: MenuItem) {
+
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         if (addBtnClicked) {
@@ -256,7 +272,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+    fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val register = menu.findItem(R.id.action_add_new_ticket)
 
         try {
@@ -274,19 +290,5 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             disposable?.dispose()
     }
     
-     fun goBackButtonClicked(item: MenuItem) {
 
-    }
-      fun goForwardButtonClicked(item: MenuItem) {
-
-    }
-      fun shareButtonClicked(item: MenuItem) {
-
-    }
-      fun reloadButtonClicked(item: MenuItem) {
-
-    }
-        fun closeButtonClicked(item: MenuItem) {
-
-    }
 }
