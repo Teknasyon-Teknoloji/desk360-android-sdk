@@ -276,14 +276,12 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val register = menu.findItem(R.id.action_add_new_ticket)
-
+        register.setVisible(true);
         try {
             register.isVisible = currentScreenTicketList && cacheTickets!!.size > 0
         } catch (e: Exception) {
             register.isVisible = true
         }
-        register.setVisible(true);
-
         return true
     }
 
