@@ -273,4 +273,20 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         if (disposable?.isDisposed == false)
             disposable?.dispose()
     }
+    
+     fun goBackButtonClicked(item: MenuItem) {
+
+    }
+      fun goForwardButtonClicked(item: MenuItem) {
+
+    }
+      fun shareButtonClicked(item: MenuItem) {
+
+    }
+      fun reloadButtonClicked(item: MenuItem) {
+
+    }
+        fun closeButtonClicked(item: MenuItem) {
+
+    }
 }
