@@ -132,7 +132,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     fun notifyToolBar(cacheTickets: ArrayList<Desk360TicketResponse>) {
 
         this.cacheTickets = cacheTickets
-        localMenu?.let { onPrepareOptionsMenu(it) }
+        localMenu?.let { true }
     }
 
     fun changeMainUI() {
@@ -272,7 +272,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         }
     }
 
-    fun onPrepareOptionsMenu(menu: Menu): Boolean {
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val register = menu.findItem(R.id.action_add_new_ticket)
 
         try {
