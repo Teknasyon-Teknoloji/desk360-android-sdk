@@ -276,7 +276,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val register = menu.findItem(R.id.action_add_new_ticket)
-        register.isVisible=true;
+
         return true
     }
 
