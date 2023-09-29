@@ -5,11 +5,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    namespace 'com.teknasyon.desk360examp'
+
+    compileSdk 33
     defaultConfig {
         applicationId "com.teknasyon.desk360examp"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -35,7 +37,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = "1.8"
     }
 
     buildFeatures {

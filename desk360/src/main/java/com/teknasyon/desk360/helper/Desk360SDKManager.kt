@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.NonNull
 import com.teknasyon.desk360.helper.Desk360Helper.checkNotEmpty
 import org.json.JSONObject
-import java.util.*
+import java.util.Locale
 
 class Desk360SDKManager internal constructor(builder: Builder) {
 
@@ -158,7 +158,7 @@ class Desk360SDKManager internal constructor(builder: Builder) {
          * @see Desk360SDKManager.Builder
          */
         fun enableHelpMode(enable: Boolean) = apply {
-            this.enableHelpMode = enableHelpMode
+            this.enableHelpMode = enable
         }
 
         /**

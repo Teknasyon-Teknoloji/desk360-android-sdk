@@ -63,7 +63,6 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayout" />
 
     <Spinner
-
         android:id="@+id/select_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

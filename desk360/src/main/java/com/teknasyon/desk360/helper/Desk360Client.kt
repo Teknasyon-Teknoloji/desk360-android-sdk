@@ -6,4 +6,5 @@ package com.teknasyon.desk360.helper
 class Desk360Client {
     var notificationToken: String? = ""
     var deviceId: String? = ""
+    var selectedTopic: String? = ""
 }

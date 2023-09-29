@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.teknasyon.desk360.R
-import com.teknasyon.desk360.helper.Desk360Config
 import com.teknasyon.desk360.helper.Desk360SDK
-import com.teknasyon.desk360.helper.Desk360SDKManager
 
 class Desk360SplashActivity : AppCompatActivity() {
     companion object {
@@ -14,6 +12,7 @@ class Desk360SplashActivity : AppCompatActivity() {
         const val EXTRA_TARGET_ID = "EXTRA_TARGET_ID"
         const val EXTRA_TOKEN = "EXTRA_TOKEN"
         const val EXTRA_DEVICE_TOKEN = "EXTRA_DEVICE_TOKEN"
+        const val SELECTED_TOPIC = "SELECTED_TOPIC"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +25,7 @@ class Desk360SplashActivity : AppCompatActivity() {
                     putExtra(EXTRA_TARGET_ID, bundle.getString(EXTRA_TARGET_ID))
                     putExtra(EXTRA_TOKEN, bundle.getString(EXTRA_TOKEN))
                     putExtra(EXTRA_APP_ID, bundle.getString(EXTRA_APP_ID))
+                    putExtra(SELECTED_TOPIC, bundle.getString(SELECTED_TOPIC))
                 }
 
                 startActivity(intent)

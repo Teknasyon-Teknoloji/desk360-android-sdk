@@ -78,6 +78,10 @@
             app:popUpToInclusive="true"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <argument
+            android:name="selectedQuestion"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment

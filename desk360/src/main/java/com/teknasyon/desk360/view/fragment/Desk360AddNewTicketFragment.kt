@@ -34,13 +34,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
@@ -59,8 +58,6 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 /**
  * Created by seyfullah on 30,May,2019
@@ -76,6 +73,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         private const val NAME_AND_EMAIL_MAX_LENGTH = 100
     }
 
+    private val navArgs: Desk360AddNewTicketFragmentArgs by navArgs()
     private var viewModel: AddNewTicketViewModel? = null
     private var nameField: TextInputViewGroup? = null
     private var eMailField: TextInputViewGroup? = null
@@ -200,14 +198,14 @@ open class Desk360AddNewTicketFragment : Fragment(),
         typeList = Desk360Config.instance.getDesk360Preferences()?.types?.data?.create_screen?.types
         viewModel?.addedTicket?.observe(viewLifecycleOwner, observerAddedTicket)
 
-        viewModel?.error?.observe(viewLifecycleOwner,{ t ->
+        viewModel?.error?.observe(viewLifecycleOwner) { t ->
             if (t != null) {
                 Toast.makeText(view.context, t, Toast.LENGTH_LONG).show()
                 viewModel?.error?.value = null
                 binding?.loadingProgress?.visibility = View.GONE
                 activity.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
-        })
+        }
 
         listOfType.clear()
 
@@ -224,6 +222,9 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 listOfType
             )
         }
+
+        val selectedType = typeList?.find { t -> t.id.toString() == navArgs.selectedQuestion }
+        val selectedTopicIndex = listOfType.indexOfFirst { t -> t == selectedType?.title }
 
         binding?.createTicketButton?.setOnClickListener {
             binding?.createTicketButton?.isClickable = false
@@ -411,7 +412,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
         binding?.createScreenRootView?.addView(subjectTypeSpinner?.createSpinner())
 
         subjectTypeSpinner?.holder?.selectBox?.onItemSelectedListener =
-            (object : AdapterView.OnItemSelectedListener {
+            object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
                 }
@@ -457,14 +458,20 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     }
 
                     selectedItem = true
-                    typeList?.let { it[position - 1].let { it1 -> selectedTypeId = it1.id!! } }
+                    typeList?.let {
+                        it[position - 1].let { it1 ->
+                            selectedTypeId = it1.id!!
+                        }
+                    }
                     (subjectTypeSpinner?.holder?.selectBox?.selectedView as TextView).setTextColor(
                         Color.parseColor(editTextStyleModel.form_input_focus_color)
                     )
                 }
-            })
+            }
 
         subjectTypeSpinner?.holder?.selectBox?.adapter = myAdapter
+        if (selectedTopicIndex >= 0)
+            subjectTypeSpinner?.holder?.selectBox?.setSelection(selectedTopicIndex)
 
         for (i in customSelectBoxField.indices) {
 
@@ -632,8 +639,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 context!!
             )
 
-           textPathCreateTicketScreen.text =
-               Desk360SDK.config?.data?.general_settings?.add_file_text
+            textPathCreateTicketScreen.text =
+                Desk360SDK.config?.data?.general_settings?.add_file_text
 
             pathIconn.setImageResource(R.drawable.path_icon_desk360)
             pathIconn.setColorFilter(
@@ -695,7 +702,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             RESULT_LOAD_FILES -> {
                 val pathUri = data?.data ?: return
                 val fileResource = ImageFilePath().createFile(
-                    pathUri,requireContext()
+                    pathUri, requireContext()
                 )
                 file = fileResource.file
                 fileName = fileResource.fileName
@@ -787,12 +794,14 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 nameField?.holder?.textInputLayout?.isErrorEnabled = true
                 false
             }
+
             s.length < MESSAGE_MIN_LENGTH -> {
                 nameField?.holder?.textInputLayout?.error =
                     "İsim bilgisi 3 karakterden küçük olamaz!"
                 nameField?.holder?.textInputLayout?.isErrorEnabled = true
                 false
             }
+
             else -> {
                 nameField?.holder?.textInputLayout?.isErrorEnabled = false
                 nameField?.holder?.textInputLayout?.error = null
@@ -809,6 +818,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             s.isEmpty() -> {
                 false
             }
+
             !checkEmail(email = s.toString()) -> {
                 invalidEmail = true
                 eMailField?.holder?.textInputLayout?.isErrorEnabled = true
@@ -839,12 +849,14 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = true
                 false
             }
+
             s.length < MESSAGE_MIN_LENGTH -> {
                 messageField?.holder?.textAreaLayout?.error =
                     "Mesaj bilgisi 3 karakterden küçük olamaz!"
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = true
                 false
             }
+
             else -> {
                 messageField?.holder?.textAreaLayout?.isErrorEnabled = false
                 messageField?.holder?.textAreaLayout?.error = null
@@ -928,6 +940,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     nameFieldFill = false
                     observerName()
                 }
+
                 !emailFieldFill -> {
                     if (invalidEmail)
                         eMailField?.holder?.textInputLayout?.error =
@@ -940,10 +953,12 @@ open class Desk360AddNewTicketFragment : Fragment(),
                     emailFieldFill = false
                     observerEMail()
                 }
+
                 !selectedItem -> {
                     selectedItem = false
                     subjectTypeSpinner?.holder?.selectBox?.performClick()
                 }
+
                 messageLength < MESSAGE_MIN_LENGTH -> {
                     messageField?.holder?.textAreaLayout?.error =
                         "Mesaj bilgisi 3 karakterden küçük olamaz!"
@@ -1007,7 +1022,8 @@ open class Desk360AddNewTicketFragment : Fragment(),
                         }
                     } else {
                         RESULT_LOAD_FILES = 1223
-                        val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+                        val intent =
+                            Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
                         startActivityForResult(
                             Intent.createChooser(intent, "Select Video"),
                             RESULT_LOAD_FILES

@@ -26,7 +26,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketDetailBinding
-import com.teknasyon.desk360.helper.*
+import com.teknasyon.desk360.helper.ArrayCreator
+import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.Desk360SDK
+import com.teknasyon.desk360.helper.PreferencesManager
+import com.teknasyon.desk360.helper.RxBus
+import com.teknasyon.desk360.helper.Util
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
@@ -35,7 +40,7 @@ import com.teknasyon.desk360.viewmodel.TicketDetailViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
+import java.util.Date
 
 open class Desk360TicketDetailFragment : Fragment() {
     private val args: Desk360TicketDetailFragmentArgs by navArgs()
@@ -264,7 +269,11 @@ open class Desk360TicketDetailFragment : Fragment() {
 
         binding?.layoutSendNewMessageNormal?.background = gradientDrawable
         binding?.addNewTicketButton?.setOnClickListener {
-            findNavController().navigate(Desk360TicketDetailFragmentDirections.actionTicketDetailFragmentToAddNewTicketFragment())
+            findNavController().navigate(
+                Desk360TicketDetailFragmentDirections.actionTicketDetailFragmentToAddNewTicketFragment(
+                    null
+                )
+            )
         }
         expireControl()
     }

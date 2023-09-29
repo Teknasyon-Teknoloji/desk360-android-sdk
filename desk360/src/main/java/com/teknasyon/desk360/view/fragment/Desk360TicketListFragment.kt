@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,14 +13,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentTicketListBinding
-import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.PreferencesManager
 import com.teknasyon.desk360.helper.RxBus
 import com.teknasyon.desk360.model.CacheTicket
@@ -31,6 +32,7 @@ import com.teknasyon.desk360.viewmodel.TicketListViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import com.teknasyon.desk360.view.fragment.Desk360TicketListFragmentDirections.Companion as Directions
 
 open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.TicketOnClickListener {
     private var desk360BaseActivity: Desk360BaseActivity? = null
@@ -67,6 +69,12 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
         super.onActivityCreated(savedInstanceState)
 
         try {
+            val topic = desk360BaseActivity?.selectedTopic
+            desk360BaseActivity?.selectedTopic = null
+            if (!topic.isNullOrBlank()) {
+                findNavController()
+                    .navigate(Directions.actionTicketListFragmentToAddNewTicketFragment(topic))
+            }
             initUI()
 
             val call = GetTypesViewModel()
@@ -102,10 +110,16 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
             emptysAddNewTicketButtonTicketList.setOnClickListener {
 
                 desk360BaseActivity?.addBtnClicked = true
-                Handler().removeCallbacksAndMessages(null)
-                Handler().postDelayed({ desk360BaseActivity?.addBtnClicked = false }, 800)
+                Handler(Looper.getMainLooper()).removeCallbacksAndMessages(null)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    desk360BaseActivity?.addBtnClicked = false
+                }, 800)
 
-                findNavController().navigate(Desk360TicketListFragmentDirections.actionTicketListFragmentToAddNewTicketFragment())
+                findNavController().navigate(
+                    Directions.actionTicketListFragmentToAddNewTicketFragment(
+                        null
+                    )
+                )
             }
 
             Desk360CustomStyle.setStyle(
@@ -172,7 +186,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
         binding?.currentTicketList?.adapter = ticketAdapter
         ticketAdapter?.clickItem = this
 
-        viewModel = ViewModelProviders.of(requireActivity()).get(TicketListViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity())[TicketListViewModel::class.java]
 
         binding?.apply {
             Desk360CustomStyle.setStyle(
@@ -205,7 +219,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
             }
 
             openMessageformEmptyCurrentList.setOnClickListener {
-                findNavController().navigate(Desk360TicketListFragmentDirections.actionTicketListFragmentToPreNewTicketFragment())
+                findNavController().navigate(Directions.actionTicketListFragmentToPreNewTicketFragment())
             }
         }
 
@@ -220,7 +234,6 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
                 setViews()
 
                 desk360BaseActivity?.ticketId?.let {
-
                     if (!isPushed) {
                         forcePushToTicketDetail()
                         isPushed = true
@@ -273,7 +286,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
             .forEach { ticket ->
                 findNavController().navigate(
                     Desk360SuccessScreenDirections.actionGlobalTicketDetailFragment(
-                        ticket.status.toString(), ticket.id!!
+                        ticket.id!!, ticket.status.toString(),
                     )
                 )
             }
