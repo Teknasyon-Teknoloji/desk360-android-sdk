@@ -7,20 +7,22 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
-import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.binding
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.fragment.Desk360TicketListFragmentDirections
@@ -34,6 +36,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     var notificationToken: String? = null
     var ticketId: String? = null
+    var selectedTopic: String? = null
     private var appId: String? = null
 
     private var currentScreenTicketList = true
@@ -50,6 +53,7 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             appId = bundle.getString(Desk360SplashActivity.EXTRA_APP_ID)
             ticketId = bundle.getString(Desk360SplashActivity.EXTRA_TARGET_ID)
             notificationToken = bundle.getString(Desk360SplashActivity.EXTRA_TOKEN)
+            selectedTopic = bundle.getString(Desk360SplashActivity.SELECTED_TOPIC)
         }
 
         setContentView(binding.root)
@@ -89,18 +93,21 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
                     )
                     isTicketDetailFragment = false
                 }
+
                 R.id.thanksFragment -> {
                     setMainTitle(
                         Desk360SDK.config?.data?.ticket_success_screen?.title
                     )
                     isTicketDetailFragment = false
                 }
+
                 R.id.ticketDetailFragment -> {
                     setMainTitle(
                         Desk360SDK.config?.data?.ticket_detail_screen?.title
                     )
                     isTicketDetailFragment = true
                 }
+
                 R.id.addNewTicketFragment -> {
                     setMainTitle(
                         Desk360SDK.config?.data?.create_screen?.title
@@ -126,11 +133,13 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         }
 
         binding?.logo?.visibility =
-            if (Desk360SDK.config?.data?.general_settings?.copyright_logo_is_show == true) View.VISIBLE else View.GONE
+            if (Desk360SDK.config?.data?.general_settings?.copyright_logo_is_show == true)
+                View.VISIBLE
+            else
+                View.GONE
     }
 
     fun notifyToolBar(cacheTickets: ArrayList<Desk360TicketResponse>) {
-
         this.cacheTickets = cacheTickets
         localMenu?.let { onPrepareOptionsMenu(it) }
     }
@@ -164,8 +173,8 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         }
 
         addBtnClicked = true
-        Handler().removeCallbacksAndMessages(null)
-        Handler().postDelayed({ addBtnClicked = false }, 800)
+        Handler(Looper.getMainLooper()).removeCallbacksAndMessages(null)
+        Handler(Looper.getMainLooper()).postDelayed({ addBtnClicked = false }, 800)
 
         if (cacheTickets?.isNotEmpty() == true) {
             setMainTitle(
@@ -195,8 +204,9 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         menu.findItem(R.id.action_add_new_ticket)?.apply {
             isVisible = true
             isEnabled = true
-            icon = resources.getDrawable(R.drawable.add_new_message_icon_black)
-            icon.setColorFilter(
+            icon =
+                ResourcesCompat.getDrawable(resources, R.drawable.add_new_message_icon_black, null)
+            icon?.setColorFilter(
                 Color.parseColor(Desk360SDK.config?.data?.general_settings?.header_icon_color),
                 PorterDuff.Mode.SRC_ATOP
             )
@@ -219,7 +229,9 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
             findNavController(findViewById(R.id.my_nav_host_fragment)).navigate(
                 when (Desk360SDK.manager?.enableHelpMode) {
                     true -> Desk360TicketListFragmentDirections.actionTicketListFragmentToPreNewTicketFragment()
-                    else -> Desk360TicketListFragmentDirections.actionTicketListFragmentToAddNewTicketFragment()
+                    else -> Desk360TicketListFragmentDirections.actionTicketListFragmentToAddNewTicketFragment(
+                        null
+                    )
                 }
             )
 

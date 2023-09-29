@@ -6,18 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/openContactUs"
-        android:layout_width="0dp"
+    <EditText
+        android:id="@+id/txt_country_code"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/contact_us"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:hint="Country Code"
+        android:text="tr"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txt_language_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Language Code"
+        android:text="tr"
+        app:layout_constraintTop_toBottomOf="@id/txt_country_code" />
+
+    <Button
+        android:id="@+id/btn_open_desk360"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:text="Open Desk360"
+        app:layout_constraintTop_toBottomOf="@id/txt_language_code" />
+
+
+    <EditText
+        android:id="@+id/txt_topic_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:text="5"
+        app:layout_constraintTop_toBottomOf="@id/btn_open_desk360" />
+
+    <Button
+        android:id="@+id/btn_open_desk360_with_topic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Open Desk360 With Topic"
+        app:layout_constraintTop_toBottomOf="@id/txt_topic_id" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

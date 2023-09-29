@@ -14,7 +14,8 @@ import com.teknasyon.desk360.viewmodel.GetTypesViewModel
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 /**
  * Created by Yasin ÇETİN on 15/09/2021.
@@ -145,11 +146,16 @@ object Desk360SDK {
         }
     }
 
+    fun startWithTopic(id: String) {
+        client?.selectedTopic = id
+        start()
+    }
+
     /**
      * Firebase or HM Push Kit set token
      * @param token
      */
-    fun setPushToken(token:String) {
+    fun setPushToken(token: String) {
         client?.notificationToken = token
     }
 
@@ -165,6 +171,7 @@ object Desk360SDK {
                 ticketId
             )
         )
+        client?.selectedTopic = null
     }
 
     /**
@@ -183,6 +190,7 @@ object Desk360SDK {
             putExtra(Desk360SplashActivity.EXTRA_APP_ID, context.applicationInfo.processName)
             putExtra(Desk360SplashActivity.EXTRA_TARGET_ID, ticketId)
             putExtra(Desk360SplashActivity.EXTRA_TOKEN, client?.notificationToken)
+            putExtra(Desk360SplashActivity.SELECTED_TOPIC, client?.selectedTopic)
             putExtra(Desk360SplashActivity.EXTRA_DEVICE_TOKEN, client?.deviceId)
         }
 

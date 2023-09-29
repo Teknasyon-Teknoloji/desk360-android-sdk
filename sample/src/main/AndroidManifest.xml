@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.teknasyon.desk360examp">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -14,6 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
         <activity
+            android:exported="true"
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>

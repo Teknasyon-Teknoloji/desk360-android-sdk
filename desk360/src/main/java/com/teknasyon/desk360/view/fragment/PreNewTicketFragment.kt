@@ -12,8 +12,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.FragmentPreNewTicketBinding
-import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 
 class PreNewTicketFragment : Fragment() {
@@ -38,7 +38,9 @@ class PreNewTicketFragment : Fragment() {
         binding?.apply {
             preScreenButton.setOnClickListener {
                 findNavController().navigate(
-                    PreNewTicketFragmentDirections.actionPreNewTicketFragmentToAddNewTicketFragment(),
+                    PreNewTicketFragmentDirections.actionPreNewTicketFragmentToAddNewTicketFragment(
+                        null
+                    ),
                     NavOptions.Builder().setPopUpTo(R.id.preNewTicketFragment, true).build()
                 )
             }

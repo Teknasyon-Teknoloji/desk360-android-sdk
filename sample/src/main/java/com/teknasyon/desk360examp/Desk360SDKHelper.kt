@@ -6,13 +6,13 @@ import com.teknasyon.desk360.helper.Platform
 import org.json.JSONObject
 
 object Desk360SDKHelper {
-    fun setup(context: Context) {
+    fun setup(context: Context, countryCode: String, languageCode: String) {
         val desk360SDKManager = Desk360SDKManager.Builder(context)
             .setAppKey(BuildConfig.APP_KEY)
             .setAppVersion(BuildConfig.VERSION_NAME)
-            .setLanguageCode("tr")
+            .setLanguageCode(languageCode)
             .setPlatform(Platform.GOOGLE)
-            .setCountryCode("de")
+            .setCountryCode(countryCode)
             .setCustomJsonObject(
                 JSONObject(
                     "{\n" +
@@ -28,6 +28,7 @@ object Desk360SDKHelper {
             )
             .build()
 
-        desk360SDKManager.initialize("", "deskt36012")
+
+        desk360SDKManager.initialize("", "deskt36013")
     }
 }
