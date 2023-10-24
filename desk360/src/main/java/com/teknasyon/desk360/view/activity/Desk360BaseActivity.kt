@@ -27,6 +27,8 @@ import com.teknasyon.desk360.helper.binding
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.fragment.Desk360TicketListFragmentDirections
 import io.reactivex.disposables.Disposable
+import java.util.*
+import kotlin.collections.ArrayList
 
 open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     private var cacheTickets: ArrayList<Desk360TicketResponse>? = null
@@ -167,6 +169,22 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
         }
     }
 
+    fun goBackButtonClicked(item: MenuItem) {
+
+    }
+    fun goForwardButtonClicked(item: MenuItem) {
+
+    }
+    fun shareButtonClicked(item: MenuItem) {
+
+    }
+    fun reloadButtonClicked(item: MenuItem) {
+
+    }
+    fun closeButtonClicked(item: MenuItem) {
+
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         if (addBtnClicked) {
             return false
@@ -270,12 +288,6 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         val register = menu.findItem(R.id.action_add_new_ticket)
-
-        try {
-            register.isVisible = currentScreenTicketList && cacheTickets!!.size > 0
-        } catch (e: Exception) {
-            register.isVisible = true
-        }
 
         return true
     }
