@@ -1,21 +1,21 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'maven-publish'
+
 def sdkArtifactId = 'desk360-android-sdk'
 def sdkGroupId = 'com.github.Teknasyon-Teknoloji'
-def sdkVersionName = "1.0.10"
+def sdkVersionName = "1.0.12"
 
 android {
     namespace 'com.teknasyon.desk360'
 
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         minSdk 16
-        targetSdk 33
+        targetSdk 34
         consumerProguardFiles "consumer-rules.pro"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -48,15 +48,18 @@ android {
         outputDirectory = "$buildDir/javadoc"
     }
 
-    android {
-        lintOptions {
-            abortOnError false
-        }
+    lint {
+        abortOnError false
     }
 
     buildFeatures {
-        dataBinding true
         viewBinding true
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
     }
 }
 
@@ -99,13 +102,8 @@ dependencies {
     api 'com.karumi:dexter:6.2.3'
 
     api 'com.github.bumptech.glide:glide:4.15.1'
-    kapt 'com.github.bumptech.glide:compiler:4.14.2'
 }
 
-tasks.register('sourceJar', Jar) {
-    from android.sourceSets.main.java.srcDirs
-    archiveClassifier.set("sources")
-}
 
 project.afterEvaluate {
     publishing {
@@ -115,7 +113,6 @@ project.afterEvaluate {
                 groupId sdkGroupId
                 artifactId sdkArtifactId
                 version sdkVersionName
-                artifact(sourceJar)
             }
         }
     }

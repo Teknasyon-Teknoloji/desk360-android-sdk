@@ -1,185 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <com.teknasyon.desk360.themev2.Desk360LayoutTicket
+
+        android:id="@+id/fragment_ticket_list_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
-        <com.teknasyon.desk360.themev2.Desk360LayoutTicket
 
-            android:id="@+id/fragment_ticket_list_root"
-            android:visibility="invisible"
+        <com.teknasyon.desk360.themev2.Desk360TicketListRootLayout
+            android:id="@+id/fill_list_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
-            <com.teknasyon.desk360.themev2.Desk360TicketListRootLayout
-                android:id="@+id/fill_list_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
 
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-
-                    android:id="@+id/empty_layout_current"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-
-                        android:id="@+id/image_empty_current"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.13999999" />
-
-                    <com.teknasyon.desk360.themev2.Desk360CurrentEmptyTicketSubTitle
-
-                        android:id="@+id/empty_current_subTitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginLeft="32dp"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginEnd="32dp"
-                        android:layout_marginRight="32dp"
-                        android:gravity="center_horizontal"
-                        android:letterSpacing="0.03"
-                        android:maxLines="4"
-                        android:ellipsize="end"
-                        android:lineSpacingExtra="3sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/image_empty_current"
-                        tools:ignore="MissingConstraints" />
-
-
-                    <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton
-
-                        android:id="@+id/open_messageform_empty_current_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="32dp"
-                        android:gravity="center"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/empty_current_subTitle"
-                        app:layout_constraintVertical_bias="0.85">
-
-
-                        <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonText
-
-                            android:id="@+id/ticket_list_empty_button_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:drawablePadding="16dp"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="MissingConstraints"
-                            tools:text="Bize Yazın" />
-
-
-                        <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonIcon
-
-                            android:id="@+id/ticketListEmptyButtonIcon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="@+id/ticket_list_empty_button_text"
-                            app:layout_constraintEnd_toStartOf="@+id/ticket_list_empty_button_text"
-                            app:layout_constraintTop_toTopOf="@+id/ticket_list_empty_button_text" />
-
-
-                    </com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/current_ticket_list"
-                    android:layout_width="match_parent"
-                    android:visibility="invisible"
-                    android:layout_height="match_parent" />
-
-            </com.teknasyon.desk360.themev2.Desk360TicketListRootLayout>
-
-            <com.teknasyon.desk360.themev2.Desk360MainBackground
-
-                android:id="@+id/empty_list_layout_ticket_list"
+                android:id="@+id/empty_layout_current"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.teknasyon.desk360.themev2.Desk360FirstDescription
-                    android:id="@+id/empty_list_layout_ticket_list_subTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="0dp"
-                    android:gravity="center"
-                    android:maxLines="4"
-                    android:ellipsize="end"
-                    android:padding="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/empty_list_layout_ticket_list_desc"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="MissingConstraints"
-                    tools:text="Henüz hiç bir mesaj yaratmadınız" />
+                <ImageView
 
-                <com.teknasyon.desk360.themev2.Desk360SecondDescription
-                    android:id="@+id/empty_list_layout_ticket_list_desc"
-                    android:layout_width="0dp"
+                    android:id="@+id/image_empty_current"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="64dp"
-                    android:gravity="center"
-                    android:maxLines="6"
-                    android:ellipsize="end"
-                    android:padding="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="İlk yardım mesajını yaratmak ve canlı destek almak için bize ulaşın!" />
+                    app:layout_constraintVertical_bias="0.13999999" />
 
-                <com.teknasyon.desk360.themev2.Desk360CommonButton
-                    android:id="@+id/emptysAddNewTicketButtonTicketList"
+                <com.teknasyon.desk360.themev2.Desk360CurrentEmptyTicketSubTitle
+
+                    android:id="@+id/empty_current_subTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    android:ellipsize="end"
+                    android:gravity="center_horizontal"
+                    android:letterSpacing="0.03"
+                    android:lineSpacingExtra="3sp"
+                    android:maxLines="4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_empty_current"
+                    tools:ignore="MissingConstraints" />
+
+
+                <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton
+
+                    android:id="@+id/open_messageform_empty_current_list"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="32dp"
                     android:gravity="center"
-                    app:layout_constraintBottom_toTopOf="@+id/txtBottomFooterMainTicketList"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/empty_current_subTitle"
+                    app:layout_constraintVertical_bias="0.85">
 
 
-                    <com.teknasyon.desk360.themev2.Desk360FirstScreenButtonIcon
-                        android:id="@+id/firstScreenButtonIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@+id/txtOpenMessageFormTicketList"
-                        app:layout_constraintEnd_toStartOf="@+id/txtOpenMessageFormTicketList"
-                        app:layout_constraintTop_toTopOf="@+id/txtOpenMessageFormTicketList" />
+                    <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonText
 
-                    <com.teknasyon.desk360.themev2.Desk360CommonButtonText
-                        android:id="@+id/txtOpenMessageFormTicketList"
+                        android:id="@+id/ticket_list_empty_button_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -194,37 +94,133 @@
                         tools:text="Bize Yazın" />
 
 
-                </com.teknasyon.desk360.themev2.Desk360CommonButton>
+                    <com.teknasyon.desk360.themev2.Desk360TicketListEmptyButtonIcon
 
-                <com.teknasyon.desk360.themev2.Desk360CommonFooterText
-                    android:id="@+id/txtBottomFooterMainTicketList"
-                    android:layout_width="0dp"
+                        android:id="@+id/ticketListEmptyButtonIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@+id/ticket_list_empty_button_text"
+                        app:layout_constraintEnd_toStartOf="@+id/ticket_list_empty_button_text"
+                        app:layout_constraintTop_toTopOf="@+id/ticket_list_empty_button_text" />
+
+
+                </com.teknasyon.desk360.themev2.Desk360TicketListEmptyButton>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/current_ticket_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+
+        </com.teknasyon.desk360.themev2.Desk360TicketListRootLayout>
+
+        <com.teknasyon.desk360.themev2.Desk360MainBackground
+
+            android:id="@+id/empty_list_layout_ticket_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+            <com.teknasyon.desk360.themev2.Desk360FirstDescription
+                android:id="@+id/empty_list_layout_ticket_list_subTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="0dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="4"
+                android:padding="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/empty_list_layout_ticket_list_desc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:text="Henüz hiç bir mesaj yaratmadınız" />
+
+            <com.teknasyon.desk360.themev2.Desk360SecondDescription
+                android:id="@+id/empty_list_layout_ticket_list_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="64dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="6"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="İlk yardım mesajını yaratmak ve canlı destek almak için bize ulaşın!" />
+
+            <com.teknasyon.desk360.themev2.Desk360CommonButton
+                android:id="@+id/emptysAddNewTicketButtonTicketList"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toTopOf="@+id/txtBottomFooterMainTicketList"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <com.teknasyon.desk360.themev2.Desk360FirstScreenButtonIcon
+                    android:id="@+id/firstScreenButtonIcon"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:maxLines="5"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtOpenMessageFormTicketList"
+                    app:layout_constraintEnd_toStartOf="@+id/txtOpenMessageFormTicketList"
+                    app:layout_constraintTop_toTopOf="@+id/txtOpenMessageFormTicketList" />
+
+                <com.teknasyon.desk360.themev2.Desk360CommonButtonText
+                    android:id="@+id/txtOpenMessageFormTicketList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="16dp"
+                    android:gravity="center"
                     android:padding="8dp"
-                    android:scrollbars="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="MissingConstraints,SmallSp"
-                    tools:text="Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. " />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints"
+                    tools:text="Bize Yazın" />
 
-            </com.teknasyon.desk360.themev2.Desk360MainBackground>
 
-        </com.teknasyon.desk360.themev2.Desk360LayoutTicket>
+            </com.teknasyon.desk360.themev2.Desk360CommonButton>
 
-        <com.teknasyon.desk360.helper.Desk360Loading
+            <com.teknasyon.desk360.themev2.Desk360CommonFooterText
+                android:id="@+id/txtBottomFooterMainTicketList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:maxLines="5"
+                android:padding="8dp"
+                android:scrollbars="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints,SmallSp"
+                tools:text="Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. Buraya buna benzer bir içerik mesajı ve alt kısa açıklama eklenir. Geliştirici istediği mesajı burada verebilir. Kullanılması zorunlu değildir. Destek mesajlarınız mesai saatleri içerisinde yanıtlar. " />
 
-            android:id="@+id/loading_current_ticket"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:visibility="invisible"
-            android:layout_centerInParent="true"
-            tools:ignore="MissingConstraints" />
+        </com.teknasyon.desk360.themev2.Desk360MainBackground>
 
-    </RelativeLayout>
+    </com.teknasyon.desk360.themev2.Desk360LayoutTicket>
 
-</layout>
+    <com.teknasyon.desk360.helper.Desk360Loading
+
+        android:id="@+id/loading_current_ticket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="16dp"
+        android:visibility="invisible"
+        tools:ignore="MissingConstraints" />
+
+</RelativeLayout>

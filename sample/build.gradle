@@ -1,17 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-kapt'
 }
 
 android {
     namespace 'com.teknasyon.desk360examp'
 
-    compileSdk 33
+    compileSdk 35
     defaultConfig {
         applicationId "com.teknasyon.desk360examp"
         minSdkVersion 16
-        targetSdkVersion 33
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -41,7 +40,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding true
         viewBinding true
     }
 }

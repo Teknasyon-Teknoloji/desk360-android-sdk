@@ -4,7 +4,7 @@ import android.os.Build
 import android.text.TextUtils
 import com.teknasyon.desk360.model.Desk360Register
 import com.teknasyon.desk360.modelv2.Desk360ConfigRequestModel
-import java.util.*
+import java.util.Locale
 
 object Desk360Helper {
 
@@ -35,7 +35,7 @@ object Desk360Helper {
 
     private fun getLanguageTag() =
         if (Desk360SDK.manager?.languageCode.isNullOrEmpty() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            Locale.getDefault().toLanguageTag().toLowerCase()
+            Locale.getDefault().toLanguageTag().lowercase(Locale.getDefault())
         else
             null
 

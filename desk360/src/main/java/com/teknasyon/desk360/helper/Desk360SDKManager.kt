@@ -1,7 +1,6 @@
 package com.teknasyon.desk360.helper
 
 import android.content.Context
-import androidx.annotation.NonNull
 import com.teknasyon.desk360.helper.Desk360Helper.checkNotEmpty
 import org.json.JSONObject
 import java.util.Locale
@@ -56,7 +55,6 @@ class Desk360SDKManager internal constructor(builder: Builder) {
          * @return Desk360SDKManager.Builder
          * @see Desk360SDKManager.Builder
          */
-        @NonNull
         fun setAppKey(key: String): Builder {
             require(key.isNotEmpty())
 
@@ -75,7 +73,6 @@ class Desk360SDKManager internal constructor(builder: Builder) {
          * @return Desk360SDKManager.Builder
          * @see Desk360SDKManager.Builder
          */
-        @NonNull
         fun setAppVersion(version: String) = apply {
             this.appVersion = checkNotEmpty(version, "Application version cannot be empty")
         }
@@ -102,7 +99,6 @@ class Desk360SDKManager internal constructor(builder: Builder) {
          * @return Desk360SDKManager.Builder
          * @see Desk360SDKManager.Builder
          */
-        @NonNull
         fun setPlatform(platform: Platform): Builder {
 
             return apply {
