@@ -1,7 +1,6 @@
 package com.teknasyon.desk360.viewmodel
 
 import android.view.View
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.teknasyon.desk360.connection.BaseCallback
@@ -16,24 +15,22 @@ import com.teknasyon.desk360.model.Desk360TicketListResponse
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import retrofit2.Call
 import retrofit2.Response
-import java.util.*
 
 open class TicketListViewModel : ViewModel() {
 
-    var ticketSize: MutableLiveData<Int>? = MutableLiveData()
-    var ticketList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
-    var expiredList: MutableLiveData<ArrayList<Desk360TicketResponse>>? = MutableLiveData()
-    var progress: ObservableInt? = null
+    val ticketSize: MutableLiveData<Int> = MutableLiveData()
+    val ticketList: MutableLiveData<List<Desk360TicketResponse>> = MutableLiveData()
+    val expiredList: MutableLiveData<List<Desk360TicketResponse>> = MutableLiveData()
+    val progress = MutableLiveData(View.GONE)
 
     init {
-        progress = ObservableInt(View.GONE)
         Desk360SDK.getDeviceId()
     }
 
     fun getTicketList(showLoading: Boolean) {
 
         if(showLoading) {
-            progress?.set(View.VISIBLE)
+            progress.value = View.VISIBLE
         }
 
         Desk360RetrofitFactory.instance.desk360Service.getTicket().enqueue(object : BaseCallback<Desk360TicketListResponse>() {
@@ -42,27 +39,29 @@ open class TicketListViewModel : ViewModel() {
 
                 if (response.isSuccessful && response.body() != null) {
 
-                    ticketSize?.value = response.body()?.data?.size
+                    ticketSize.value = response.body()?.data?.size
 
                     val unreadList = response.body()!!.data?.filter { unread -> unread.status == "unread" } as ArrayList<Desk360TicketResponse>
 
                     RxBus.publish(hashMapOf("sizeTicketList" to response.body()!!.data?.size))
                     RxBus.publish(hashMapOf("unReadSizeTicketList" to unreadList.size))
 
-                    ticketList?.value = response.body()!!.data?.filter { it.status != "expired" } as ArrayList<Desk360TicketResponse>
-                    expiredList?.value = response.body()!!.data?.filter { it.status == "expired" } as ArrayList<Desk360TicketResponse>
+                    ticketList.value =
+                        response.body()?.data?.filter { it.status != "expired" } as ArrayList<Desk360TicketResponse>
+                    expiredList.value =
+                        response.body()?.data?.filter { it.status == "expired" } as ArrayList<Desk360TicketResponse>
 
                 } else {
 
-                    ticketList?.value = null
+                    ticketList.value = listOf()
                 }
 
-                progress?.set(View.GONE)
+                progress.value = View.GONE
             }
 
             override fun onFailure(call: Call<Desk360TicketListResponse>, t: Throwable) {
                 super.onFailure(call, t)
-                progress?.set(View.GONE)
+                progress.value = View.GONE
             }
         })
     }
@@ -91,7 +90,7 @@ open class TicketListViewModel : ViewModel() {
 
             override fun onFailure(call: Call<Desk360RegisterResponse>, t: Throwable) {
                 super.onFailure(call, t)
-                progress?.set(View.GONE)
+                progress.value = View.GONE
             }
         })
     }

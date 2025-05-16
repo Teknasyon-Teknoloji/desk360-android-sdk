@@ -15,6 +15,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
@@ -23,7 +27,8 @@ import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360FragmentMainBinding
 import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360SDK
-import com.teknasyon.desk360.helper.binding
+import com.teknasyon.desk360.helper.SystemBarType
+import com.teknasyon.desk360.helper.addPaddingForSystemBar
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.fragment.Desk360TicketListFragmentDirections
 import io.reactivex.disposables.Disposable
@@ -44,10 +49,19 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
     var isMainLoadingShown = false
     var isTicketDetailFragment = false
 
-    val binding: Desk360FragmentMainBinding by binding(R.layout.desk360_fragment_main)
+    val binding: Desk360FragmentMainBinding by lazy {
+        Desk360FragmentMainBinding.inflate(layoutInflater).also {
+            setContentView(it.root)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Enable edge-to-edge display
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        binding.toolbar.addPaddingForSystemBar(SystemBarType.STATUS_BAR)
+        binding.contactUsMainBottomBar.addPaddingForSystemBar(SystemBarType.NAVIGATION_BAR)
 
         intent.extras?.let { bundle ->
             appId = bundle.getString(Desk360SplashActivity.EXTRA_APP_ID)
@@ -62,6 +76,13 @@ open class Desk360BaseActivity : AppCompatActivity(), LifecycleOwner {
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
+        }
+
+        // Apply window insets to the bottom bar
+        ViewCompat.setOnApplyWindowInsetsListener(binding.contactUsMainBottomBar) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(bottom = insets.bottom)
+            windowInsets
         }
 
         navController = findNavController(this, R.id.my_nav_host_fragment)

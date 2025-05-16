@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -223,7 +222,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
             }
         }
 
-        viewModel?.ticketList?.observe(viewLifecycleOwner, Observer {
+        viewModel?.ticketList?.observe(viewLifecycleOwner) {
             it?.let {
                 tickets.clear()
                 tickets.addAll(it)
@@ -240,7 +239,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
                     }
                 }
             }
-        })
+        }
 
         val showLoading = cacheTickets.isEmpty()
         viewModel?.register(showLoading)
@@ -249,7 +248,7 @@ open class Desk360TicketListFragment : Fragment(), Desk360TicketListAdapter.Tick
     private fun setViews() {
 
         viewModel?.let {
-            viewModel?.progress?.set(View.GONE)
+            viewModel?.progress?.value = View.GONE
         }
 
         desk360BaseActivity?.notifyToolBar(cacheTickets)

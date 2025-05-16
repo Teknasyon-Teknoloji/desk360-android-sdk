@@ -31,7 +31,9 @@ import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.PreferencesManager
 import com.teknasyon.desk360.helper.RxBus
+import com.teknasyon.desk360.helper.SystemBarType
 import com.teknasyon.desk360.helper.Util
+import com.teknasyon.desk360.helper.addPaddingForSystemBar
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
@@ -117,6 +119,7 @@ open class Desk360TicketDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = Desk360FragmentTicketDetailBinding.inflate(inflater, container, false)
+        binding?.root?.addPaddingForSystemBar(SystemBarType.NAVIGATION_BAR)
         desk360BaseActivity?.binding?.contactUsMainBottomBar?.visibility = View.GONE
 
         return binding?.root
@@ -171,7 +174,7 @@ open class Desk360TicketDetailFragment : Fragment() {
         Desk360CustomStyle.setStyle(
             Desk360SDK.config?.data?.first_screen?.button_style_id,
             binding!!.addNewTicketButton,
-            context!!
+            requireContext()
         )
 
         binding?.addNewMessageButton?.setOnClickListener {
@@ -207,7 +210,7 @@ open class Desk360TicketDetailFragment : Fragment() {
 
         DrawableCompat.setTint(
             binding!!.messageEditText.background,
-            ContextCompat.getColor(context!!, R.color.colorHintDesk360)
+            ContextCompat.getColor(requireContext(), R.color.colorHintDesk360)
         )
 
         val states = ArrayCreator.createDoubleArray(1, 2)
@@ -321,10 +324,9 @@ open class Desk360TicketDetailFragment : Fragment() {
     private fun hideSoftKeyboard() {
 
         activity?.let {
-            val view = activity!!.currentFocus
+            val view = it.currentFocus
             if (view != null) {
-                val imm =
-                    activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm = it.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(view.windowToken, 0)
             }
         }

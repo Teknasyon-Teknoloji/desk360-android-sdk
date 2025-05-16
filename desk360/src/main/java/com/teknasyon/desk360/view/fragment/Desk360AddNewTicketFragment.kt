@@ -13,6 +13,7 @@ import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.InputFilter
@@ -20,9 +21,13 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.util.Patterns
-import android.view.*
+import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_UP
 import android.view.KeyEvent.KEYCODE_DPAD_CENTER
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.LinearLayout
@@ -43,7 +48,18 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360AddNewTicketLayoutBinding
-import com.teknasyon.desk360.helper.*
+import com.teknasyon.desk360.helper.ArrayCreator
+import com.teknasyon.desk360.helper.Desk360Config
+import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.Desk360SDK
+import com.teknasyon.desk360.helper.ImageFilePath
+import com.teknasyon.desk360.helper.Platform
+import com.teknasyon.desk360.helper.PreferencesManager
+import com.teknasyon.desk360.helper.SelectBoxViewGroup
+import com.teknasyon.desk360.helper.TextAreaViewGroup
+import com.teknasyon.desk360.helper.TextInputViewGroup
+import com.teknasyon.desk360.helper.Util
+import com.teknasyon.desk360.helper.setStroke
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.model.Desk360Type
 import com.teknasyon.desk360.modelv2.Desk360CustomFields
@@ -57,7 +73,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
-import java.util.*
+import java.util.Locale
 
 /**
  * Created by seyfullah on 30,May,2019
@@ -178,7 +194,6 @@ open class Desk360AddNewTicketFragment : Fragment(),
     ): View? {
         Desk360AddNewTicketLayoutBinding.inflate(inflater, container, false).also {
             binding = it
-            binding?.lifecycleOwner = viewLifecycleOwner
             return it.root
         }
     }
@@ -636,7 +651,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             Desk360CustomStyle.setStyle(
                 createScreen?.button_style_id,
                 createTicketButton,
-                context!!
+                requireContext()
             )
 
             textPathCreateTicketScreen.text =
@@ -685,9 +700,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
             customTextAreaViewList.add(customTextAreaViewGroup)
         }
 
-        binding?.viewModel = viewModel
-
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             activity.setMainTitle(
                 createScreen?.title
             )
@@ -899,7 +912,7 @@ open class Desk360AddNewTicketFragment : Fragment(),
                 )
             val settings = Desk360SDK.manager?.jsonObject.toString().toRequestBody(json)
             val countryCode =
-                Desk360SDK.countryCode().toUpperCase()
+                Desk360SDK.countryCode().uppercase(Locale.getDefault())
                     .toRequestBody("text/plain".toMediaTypeOrNull())
             val notificationToken =
                 activity.notificationToken.toString()
