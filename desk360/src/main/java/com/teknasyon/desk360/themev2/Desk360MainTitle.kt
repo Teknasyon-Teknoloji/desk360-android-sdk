@@ -11,7 +11,8 @@ class Desk360MainTitle : AppCompatTextView {
 
     init {
         this.setTextColor(Color.parseColor(Desk360SDK.config?.data?.general_settings?.header_text_color))
-        this.textSize = Desk360SDK.config?.data?.general_settings?.header_text_font_size!!.toFloat()
+        this.textSize =
+            Desk360SDK.config?.data?.general_settings?.header_text_font_size?.toFloat() ?: 14f
     }
 
     constructor(context: Context) : super(context)

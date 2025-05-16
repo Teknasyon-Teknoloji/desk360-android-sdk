@@ -25,7 +25,6 @@ class PreNewTicketFragment : Fragment() {
     ): View {
         FragmentPreNewTicketBinding.inflate(inflater, container, false).also {
             binding = it
-            binding?.lifecycleOwner = viewLifecycleOwner
             return it.root
         }
     }

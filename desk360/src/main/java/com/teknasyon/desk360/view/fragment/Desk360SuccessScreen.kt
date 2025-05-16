@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360SuccessScreenLayoutBinding
-import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
 
 class Desk360SuccessScreen : Fragment() {
@@ -27,7 +27,6 @@ class Desk360SuccessScreen : Fragment() {
     ): View {
         Desk360SuccessScreenLayoutBinding.inflate(inflater, container, false).also {
             binding = it
-            binding?.lifecycleOwner = viewLifecycleOwner
             return it.root
         }
     }

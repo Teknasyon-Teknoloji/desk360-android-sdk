@@ -7,12 +7,11 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.teknasyon.desk360.R
 import com.teknasyon.desk360.databinding.Desk360TicketListItemBinding
-import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.Desk360CustomStyle
+import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.model.Desk360TicketResponse
 
 class Desk360TicketListAdapter(
@@ -38,12 +37,7 @@ class Desk360TicketListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): Holder {
         binding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.desk360_ticket_list_item,
-                parent,
-                false
-            )
+            Desk360TicketListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(binding!!)
     }
 
