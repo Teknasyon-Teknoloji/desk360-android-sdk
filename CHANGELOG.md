@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.13 (2025-12-08)
+
+### Fix
+
+- [fix] Improve background color handling in Desk360MainBackground
+
 ## 1.0.10 (2023-10-09)
 
 ### Fix
