@@ -17,6 +17,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -31,9 +34,7 @@ import com.teknasyon.desk360.helper.Desk360CustomStyle
 import com.teknasyon.desk360.helper.Desk360SDK
 import com.teknasyon.desk360.helper.PreferencesManager
 import com.teknasyon.desk360.helper.RxBus
-import com.teknasyon.desk360.helper.SystemBarType
 import com.teknasyon.desk360.helper.Util
-import com.teknasyon.desk360.helper.addPaddingForSystemBar
 import com.teknasyon.desk360.model.Desk360Message
 import com.teknasyon.desk360.model.Desk360TicketResponse
 import com.teknasyon.desk360.view.activity.Desk360BaseActivity
@@ -119,7 +120,6 @@ open class Desk360TicketDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = Desk360FragmentTicketDetailBinding.inflate(inflater, container, false)
-        binding?.root?.addPaddingForSystemBar(SystemBarType.NAVIGATION_BAR)
         desk360BaseActivity?.binding?.contactUsMainBottomBar?.visibility = View.GONE
 
         return binding?.root
@@ -127,6 +127,21 @@ open class Desk360TicketDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+
+            // Apply padding to the top for the status bar
+            // Apply padding to the bottom, taking the larger of the navigation bar or the keyboard
+            v.updatePadding(
+                top = systemBars.top,
+                bottom = kotlin.comparisons.maxOf(systemBars.bottom, ime.bottom)
+            )
+
+            // Return the insets so that child views can also consume them
+            insets
+        }
 
         desk360BaseActivity?.binding?.contactUsMainBottomBar?.visibility = View.GONE
         desk360BaseActivity?.changeMainUI()

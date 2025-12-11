@@ -35,6 +35,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavOptions
@@ -200,6 +203,22 @@ open class Desk360AddNewTicketFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+
+            // Apply top padding for the status bar
+            v.updatePadding(top = systemBars.top)
+
+            // The root view is a ScrollView. We need to adjust its bottom margin
+            // or padding to account for the navigation bar or the keyboard.
+            // Using padding is generally safer to avoid layout issues.
+            val targetBottomPadding = kotlin.comparisons.maxOf(systemBars.bottom, ime.bottom)
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, targetBottomPadding)
+
+            insets
+        }
 
         activity.changeMainUI()
 
