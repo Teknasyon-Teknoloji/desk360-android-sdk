@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.15 (2025-12-10)
+
+### Fix
+
+- [fix] Initialize data classes to prevent crashes on consumer apps
+
 ## 1.0.14 (2025-12-10)
 
 ### Fix
